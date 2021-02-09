@@ -1,0 +1,291 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Report</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-sm navbar-light" style="background-color: var(--nav-dark-blue); position: relative;">
+    <img class="nav-link navbar-brand" src="img/ProductFocus.png" height="50px" alt="image">
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fa fa-cog fa-2x" style="color:var(--light-gray);"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle avatar" style="color:var(--light-gray);">AS</a>
+          <div class="dropdown-menu list-right">
+            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href="#">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h3 style="text-align: center; margin: 10px;">News Report</h3>
+    <div>
+      <!-- div for menu -->
+      <div style="margin: 10px;">
+        <div class="row" style="padding: 10px 1px 10px 1px;">
+          <div class="col-sm-2 col-4">
+            Start date
+          </div>
+          <div class="col-sm-3 col-8">
+            <input type=date>
+          </div>
+          <div class="col-sm-2 col-4">
+            End date
+          </div>
+          <div class="col-sm-3 col-8">
+            <input type="date">
+          </div>
+          <div class="col-12 col-sm">
+            <select name="report" id="report" class="form-select">
+              <option value="None">None</option>
+              <option value="Module">Module</option>
+              <option value="Developer">Developer</option>
+            </select>
+          </div>
+        </div>
+        <div style="padding: 10px; background-color:var(--light-gray)">
+          <h3 style="font-weight: bold;text-align: center;">Canary</h3>
+          <!-- remove display:none to see the user activity according to None -->
+          <div style="padding: 10px; background-color:var(--dark-gray);">
+            <!-- This is an activity of a user -->
+            <div class="card">
+              <div class="card-body">
+                <img src="http://placehold.it/64x64" class="float-left rounded-circle">
+                <div class="message">
+                  <div class="row">
+                    <div class="col-10">
+                      Completed <b> Signup UX design.</b>
+                    </div>
+                    <div class="col-12 col-sm">
+                      <p class="text-uppercase" style="font-size: smaller; font-weight: bold;">Priyam singh</p>
+                    </div>
+                  </div>
+                  <div class="row" style="font-size: smaller;">
+                    <div class="col-12 col-sm-10" style="font-size: small; font-weight: bold;">
+                      <p>Today at 11:40</p>
+                    </div>
+                    <div class="col">
+                      <b>Medication</b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--The ending of one activity-->
+            <!-- This is an activity of a user -->
+            <div class="card">
+              <div class="card-body">
+                <img src="./img/avtar1.jpg" style="width: 64px; height: 64px;" class="float-left rounded-circle">
+                <div class="message">
+                  <div class="row">
+                    <div class="col-10">
+                      Module completion is set to <b>30%</b>.
+                    </div>
+                    <div class="col-12 col-sm">
+                      <p class="text-uppercase" style="font-size: smaller; font-weight: bold;">monika mishra</p>
+                    </div>
+                  </div>
+                  <div class="row" style="font-size: smaller;">
+                    <div class="col-12 col-sm-10" style="font-size: small; font-weight: bold;">
+                      <p>Yesterday at 12:55</p>
+                    </div>
+                    <div class="col">
+                      <b>Vital</b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--The ending of one activity-->
+            <!-- This is an activity of a user -->
+            <div class="card">
+              <div class="card-body">
+                <img src="http://placehold.it/64x64" class="float-left rounded-circle">
+                <div class="message">
+                  <div class="row">
+                    <div class="col-10">
+                      Task <b>Make login page responsive</b> is assigned to <b>Mrinal paswan</b>.
+                    </div>
+                    <div class="col-12 col-sm">
+                      <p class="text-uppercase" style="font-size: smaller; font-weight: bold;">Joydeep pasi</p>
+                    </div>
+                  </div>
+                  <div class="row" style="font-size: smaller;">
+                    <div class="col-12 col-sm-10" style="font-size: small; font-weight: bold;">
+                      <p>1st Dec at 17:40</p>
+                    </div>
+                    <div class="col">
+                      <b>Medication</b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--The ending of one activity-->
+            <!-- This is an activity of a user -->
+            <div class="card">
+              <div class="card-body">
+                <img src="http://placehold.it/64x64" class="float-left rounded-circle">
+                <div class="message">
+                  <div class="row">
+                    <div class="col-10">
+                      Completed <b>Login api is integrated.</b>
+                    </div>
+                    <div class="col-12 col-sm">
+                      <p class="text-uppercase" style="font-size: smaller; font-weight: bold;">Ruhi Shaw</p>
+                    </div>
+                  </div>
+                  <div class="row" style="font-size: smaller;">
+                    <div class="col-12 col-sm-10" style="font-size: small; font-weight: bold;">
+                      <p>30 Nov at 13:22</p>
+                    </div>
+                    <div class="col">
+                      <b>Medication</b>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--The ending of one activity-->
+          </div>
+          <!-- add display: none in ordered to remove by module-->
+          <div style="padding: 5px; background-color:var(--dark-gray);">
+            <div class="row">
+              <div class="col-sm-10 col-8" style="height: 50px;">
+                <h5><b>Medication</b></h3>
+              </div>
+              <div class="col">
+                <i class="fa fa-clock" style="padding: 4px;">13 Jan</i><br>
+                <i class="fa fa-clock" style="padding: 4px;">30 Nov</i>
+              </div>
+            </div>
+            <div style="padding:10px;background-color:var(--light-gray);">
+              <!-- This is an activity of a user -->
+              <div class="card">
+                <div class="card-body">
+                  <img src="http://placehold.it/64x64" class="float-left rounded-circle">
+                  <div class="message">
+                    <div class="row">
+                      <div class="col-10">
+                        Task <b>Make login page responsive</b> is assigned to <b>Mrinal paswan</b>.
+                      </div>
+                      <div class="col-12 col-sm">
+                        <p class="text-uppercase" style="font-size: smaller; font-weight: bold;">Joydeep pasi</p>
+                      </div>
+                    </div>
+                    <div class="row" style="font-size: smaller;">
+                      <div class="col-12 col-sm-10" style="font-size: small; font-weight: bold;">
+                        <p>30 Nov at 13:22</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--The ending of one activity-->
+              <!-- This is an activity of a user -->
+              <div class="card">
+                <div class="card-body">
+                  <img src="./img/avtar1.jpg" class="float-left rounded-circle" style="width: 64px; height: 64px;">
+                  <div class="message">
+                    <div class="row">
+                      <div class="col-10">
+                        Completed <b>Need to integrate Login api.</b>
+                      </div>
+                      <div class="col-12 col-sm">
+                        <p class="text-uppercase" style="font-size: smaller; font-weight: bold;">Ruhi Shaw</p>
+                      </div>
+                    </div>
+                    <div class="row" style="font-size: smaller;">
+                      <div class="col-12 col-sm-10" style="font-size: small; font-weight: bold;">
+                        <p>30 Nov at 13:22</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--The ending of one activity-->
+            </div>
+            
+            <div class="row">
+              <div class="col-sm-10 col-8" style="height: 50px;">
+                <h5><b>Vital</b></h3>
+              </div>
+              <div class="col">
+                <i class="fa fa-clock" style="padding: 4px;">30 Jan</i><br>
+                <i class="fa fa-clock" style="padding: 4px;">28 Feb</i>
+              </div>
+            </div>
+            <div style="padding:10px;background-color:var(--light-gray);">
+              <!-- This is an activity of a user -->
+              <div class="card">
+                <div class="card-body">
+                  <img src="http://placehold.it/64x64" class="float-left rounded-circle">
+                  <div class="message">
+                    <div class="row">
+                      <div class="col-10">
+                        Task <b>Make login page responsive</b> is assigned to <b>Mrinal paswan</b>.
+                      </div>
+                      <div class="col-12 col-sm">
+                        <p class="text-uppercase" style="font-size: smaller; font-weight: bold;">Joydeep pasi</p>
+                      </div>
+                    </div>
+                    <div class="row" style="font-size: smaller;">
+                      <div class="col-12 col-sm-10" style="font-size: small; font-weight: bold;">
+                        <p>30 Nov at 13:22</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--The ending of one activity-->
+              <!-- This is an activity of a user -->
+              <div class="card">
+                <div class="card-body">
+                  <img src="./img/avtar1.jpg" class="float-left rounded-circle" style="width: 64px; height: 64px;">
+                  <div class="message">
+                    <div class="row">
+                      <div class="col-10">
+                        Completed <b>Need to integrate Login api.</b>
+                      </div>
+                      <div class="col-12 col-sm">
+                        <p class="text-uppercase" style="font-size: smaller; font-weight: bold;">Ruhi Shaw</p>
+                      </div>
+                    </div>
+                    <div class="row" style="font-size: smaller;">
+                      <div class="col-12 col-sm-10" style="font-size: small; font-weight: bold;">
+                        <p>30 Nov at 13:22</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--The ending of one activity-->
+            </div>
+          </div>
+          <!--by developer-->
+          <!--by developer end-->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
