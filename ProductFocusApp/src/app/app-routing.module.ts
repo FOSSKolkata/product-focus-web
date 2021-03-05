@@ -3,11 +3,16 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { MsalGuard } from '@azure/msal-angular';
+import { ProductModulesModule } from './product-modules/product-modules.module';
 
 const routes: Routes = [
   {
-    path: 'profile',
+    path: 'home',
+    component: HomeComponent
+  },{
+    path: 'product-modules',
     component: ProfileComponent,
+    loadChildren: ()=> import('./product-modules/product-modules.module').then(c => c.ProductModulesModule),
     canActivate: [
       MsalGuard,
     ]
@@ -30,6 +35,9 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent
+  },{
+    path: '**',
+    component: ProductModulesModule
   }
 ];
 
@@ -43,4 +51,8 @@ const isIframe = window !== window.parent && !window.opener;
   })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  constructor(){
+    console.log("AppRouting module is loaded.");
+  }
+}
