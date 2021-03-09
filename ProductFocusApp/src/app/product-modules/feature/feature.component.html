@@ -1,4 +1,4 @@
-<div class="card" style="margin: 5px">
+<div class="card" style="margin: 5px" (click)="openFeatureDetailsModal(content)">
     <div class="card-body">
         <div class="card-title">
             <small>{{feature.title}}</small>
@@ -18,3 +18,15 @@
         </small>
     </div>
 </div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Module name should be display here...</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-feature-details [feature]="feature"></app-feature-details>
+    </div>
+</ng-template>

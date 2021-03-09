@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { IPublicClientApplication, PublicClientApplication, InteractionType, BrowserCacheLocation, LogLevel } from '@azure/msal-browser';
@@ -13,6 +12,7 @@ import { MsalGuard, MsalInterceptor, MsalBroadcastService, MsalInterceptorConfig
 import { b2cPolicies, apiConfig } from './b2c-config';
 import { ModuleService } from './_services/module._service';
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
@@ -65,8 +65,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    ProfileComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +73,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    MsalModule
+    MsalModule,
+    NgbModule
   ],
   providers: [
     {

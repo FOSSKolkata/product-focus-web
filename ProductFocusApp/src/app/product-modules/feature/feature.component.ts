@@ -1,12 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Feature } from '../modal';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Subject, Subscription } from 'rxjs';
+import { SubSink } from 'subsink';
+import { Feature } from '../model';
 
 @Component({
   selector: 'app-feature',
   templateUrl: './feature.component.html',
   styleUrls: ['./feature.component.css']
 })
-export class FeatureComponent implements OnInit {
+export class FeatureComponent implements OnInit, OnDestroy {
 
   @Input() feature: Feature = {
     title: '',
@@ -17,9 +20,36 @@ export class FeatureComponent implements OnInit {
     noOfTaskCompleted: 0,
   };
 
-  constructor() { }
+  closeResult = '';
+
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
+
+  }
+  content: any;
+
+  ngOnDestroy(): void{
+    
+  }
+
+  openFeatureDetailsModal(content:any) {
+    console.log(content);
+    this.modalService.open(content, {ariaLabelledBy: 'Feature details', size: 'lg'}).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
 }

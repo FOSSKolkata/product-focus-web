@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { SubSink } from 'subsink';
 import { ModuleService } from '../_services/module._service';
-import { ProductModule } from './modal';
+import { ProductModule } from './model';
 
 @Component({
   selector: 'app-product-modules',
@@ -8,17 +10,25 @@ import { ProductModule } from './modal';
   styleUrls: ['./product-modules.component.css']
 })
 
-export class ProductModulesComponent implements OnInit {
+export class ProductModulesComponent implements OnInit, OnDestroy {
 
   modules: ProductModule[] = [];
+  closeResult = '';
+  moduleServiceSubscriptions: SubSink = new SubSink();
 
   constructor(private moduleService: ModuleService) { }
 
   ngOnInit(): void {
-    this.moduleService.getModules().subscribe(x => {
-      console.log(x);
-      this.modules = x;
-    });
+    this.moduleServiceSubscriptions.add(
+        this.moduleService.getModules().subscribe(x => {
+        console.log(x);
+        this.modules = x;
+      })
+    );
+  }
+
+  ngOnDestroy(): void{
+    this.moduleServiceSubscriptions.unsubscribe();
   }
 
 }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { MsalGuard } from '@azure/msal-angular';
 import { ProductModulesModule } from './product-modules/product-modules.module';
@@ -11,7 +10,6 @@ const routes: Routes = [
     component: HomeComponent
   },{
     path: 'product-modules',
-    component: ProfileComponent,
     loadChildren: ()=> import('./product-modules/product-modules.module').then(c => c.ProductModulesModule),
     canActivate: [
       MsalGuard,

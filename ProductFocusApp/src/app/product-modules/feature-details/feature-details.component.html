@@ -1,0 +1,186 @@
+<div class="row">
+    <div class="col-12 col-lg-8">
+      <div class="row">
+        <div class="col-1" style="padding-top: 2px;">
+          <i class="fa fa-file"></i>
+        </div>
+        <div class="col">
+          {{feature.title}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-1">
+          <i class="fa fa-tasks"></i>
+        </div>
+        <div class="col">
+          <b>Tasks</b>
+        </div>
+      </div>
+      <!-- starting of task -->
+        <div class="row">
+        <div class="col-1">
+          <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
+        </div>
+        <div class="col-8 col-md-9">
+          <label for="task1">Need User information using PNR number</label>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-user-plus"></i>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-window-close" style="color: #ec9488;"></i>
+        </div>
+      </div>
+      <!-- ending of task -->
+      <!-- starting of task -->
+      <div class="row">
+        <div class="col-1">
+          <input type="checkbox" name="task2" id="task2" value="Need User information using PNR number">
+        </div>
+        <div class="col-8 col-md-9">
+          <label for="task2">API integration with the front end.</label>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-user-plus"></i>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-window-close" style="color: #ec9488;"></i>
+        </div>
+      </div>
+      <!-- ending of task -->
+      <!-- starting of task -->
+      <div class="row">
+        <div class="col-1">
+          <input type="checkbox" name="task3" id="task3" value="Need User information using PNR number">
+        </div>
+        <div class="col-8 col-md-9">
+          <label for="task3">On Clicking create it should create a new tab.</label>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-user-plus"></i>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-window-close" style="color: #ec9488;"></i>
+        </div>
+      </div>
+      <!-- ending of task -->
+      <!-- add task button -->
+      <div class="row">
+        <div class="col-1"></div>
+        <div *ngIf="isAddTaskButtonActive" class="col">
+          <button class="btn btn-success" style="font-size: x-small;">Add Task</button>
+        </div>
+      </div>
+      <!-- comment Heading -->
+      <div class="row">
+        <div class="col-1">
+          <i class="fa fa-comments"></i>
+        </div>
+        <div class="col">
+          <b>Comments</b>
+        </div>
+      </div>
+      <!-- comments -->
+      <div class="row">
+        <div class="col-1">
+          <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
+        </div>
+        <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
+          <input type="text" class="form-control" placeholder="Write a comment..." style="border: none;">
+          <button class="btn btn-success" style="margin:3px;"><small>Comment</small></button>
+        </div>
+      </div>
+      <!-- all the comments -->
+      <!-- single comment starting -->
+      <div class="row">
+        <div class="col-1" style="padding-left: 7px;">
+          <div class="avatar" style="padding-top:4px; background-color: #66241c;">KT</div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-5 col-sm-4 h-25"><small><b>Kartik Tiwari </b></small></div>
+            <div class="col-6 col-sm-7"><small class="text-muted">1 minutes ago</small></div>
+          </div>
+          <div class="row">
+            <div class="col h-75">
+              <small>I need an end point of user name, phone no along with medication id.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- single comment ending -->
+      <!-- single comment starting -->
+      <div class="row">
+        <div class="col-1" style="padding-left: 7px;">
+          <div class="avatar" style="padding-top:4px;">AS</div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-5 col-sm-4 h-25"><small><b>Amit Shaw </b></small></div>
+            <div class="col-6 col-sm-7"><small class="text-muted">10 minutes ago</small></div>
+          </div>
+          <div class="row">
+            <div class="col h-75">
+              <small>I need mobile number along with user details.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- single comment ending -->
+      <!-- single comment starting -->
+      <div class="row">
+        <div class="col-1" style="padding-left: 7px;">
+          <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-5 col-sm-4 h-25"><small><b>Rahul Shrivastav </b></small></div>
+            <div class="col-6 col-sm-7"><small class="text-muted">yesterday at 2:33 p.m</small></div>
+          </div>
+          <div class="row">
+            <div class="col h-75">
+              <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- single comment ending -->
+      <!-- single comment starting -->
+      <div class="row">
+        <div class="col-1" style="padding-left: 7px;">
+          <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-5 col-sm-4 h-25"><small><b>Pappu Singh </b></small></div>
+            <div class="col-6 col-sm-7"><small class="text-muted">2nd Jan at 3:45 p.m</small></div>
+          </div>
+          <div class="row">
+            <div class="col h-75">
+              <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- single comment ending -->
+    </div>
+    <div class="col-12 col-lg-3">
+      <div>
+        <label for="startdate">Start date: </label>
+        <input type="date" id="startdate" name="startdate">
+      </div>
+      <div>
+        <label for="enddate">End date:&nbsp;&nbsp;</label>
+        <input type="date" id="enddate" name="enddate">
+      </div>
+      <div>
+        Work progress (15 %)
+      </div>
+      <div>
+        <input type="range" min="1" max="100" value="15" style="width: 190px;">
+      </div>
+      <small>
+        Owner: <b>Ranjan Das</b>
+      </small>
+    </div>
+</div>

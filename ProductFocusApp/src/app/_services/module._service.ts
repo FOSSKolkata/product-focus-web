@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { ProductModule } from '../product-modules/modal';
+import { ProductModule } from '../product-modules/model';
 
 @Injectable({
   providedIn: 'root'

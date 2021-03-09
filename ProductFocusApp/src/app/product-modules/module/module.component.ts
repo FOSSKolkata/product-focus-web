@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ProductModule } from '../modal';
+import { ProductModule } from '../model';
 
 @Component({
   selector: 'app-module',
@@ -12,8 +12,7 @@ export class ModuleComponent implements OnInit {
     title: '',
     features: []
   };
-
-  constructor() { console.log('module component ts'); }
+  constructor() { }
 
   ngOnInit(): void {
     
