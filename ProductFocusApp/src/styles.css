@@ -28,9 +28,20 @@ body{
 }
 
 .btn-class:hover{
-    background-color: #83A8ba;
+    background-color: var(--nav-blue);
     color: var(--white);
     border-color: var(--white);
+}
+
+.add-feature{
+    margin: 5px;
+    padding-top: 5px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.add-feature:hover {
+    background-color: var(--dark-gray);
 }
 
 .input-control{
