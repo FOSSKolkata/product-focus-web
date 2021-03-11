@@ -1,7 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Subject, Subscription } from 'rxjs';
-import { SubSink } from 'subsink';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Feature } from '../model';
 
 @Component({

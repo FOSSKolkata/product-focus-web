@@ -74,7 +74,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     AppRoutingModule,
     HttpClientModule,
     MsalModule,
-    NgbModule
+    // NgbModule
   ],
   providers: [
     {

@@ -1,0 +1,36 @@
+<h3 style="text-align: center; margin: 10px;">News Report</h3>
+    <div>
+      <!-- div for menu -->
+      <div style="margin: 10px;">
+        <div class="row" style="padding: 10px 1px 10px 1px;">
+          <div class="col-sm-2 col-4">
+            Start date
+          </div>
+          <div class="col-sm-3 col-8">
+            <input type=date>
+          </div>
+          <div class="col-sm-2 col-4">
+            End date
+          </div>
+          <div class="col-sm-3 col-8">
+            <input type="date">
+          </div>
+          <div class="col-12 col-sm">
+            <select name="report" id="report" class="form-select">
+              <option value="None">None</option>
+              <option value="Module">Module</option>
+              <option value="Developer">Developer</option>
+            </select>
+          </div>
+        </div>
+        <div style="padding: 10px; background-color:var(--light-gray)">
+          <h3 style="font-weight: bold;text-align: center;">Canary</h3>
+          <!-- remove display:none to see the user activity according to None -->
+          <div style="padding: 10px; background-color:var(--dark-gray);">
+            <!-- This is an activity of a user -->
+            <app-domain-event></app-domain-event>
+            <app-domain-event></app-domain-event>
+            <app-domain-event></app-domain-event>
+        </div>
+    </div>
+</div>

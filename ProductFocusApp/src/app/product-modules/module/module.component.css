@@ -1,0 +1,20 @@
+.add-feature{
+    margin: 5px;
+    padding-top: 5px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.add-feature:hover {
+    background-color: var(--dark-gray);
+}
+
+.infinite-scroll-y-axis{
+    overflow-x:auto;
+    overflow-x: hidden;
+    vertical-align:top;
+    /* max-height:90vh; */
+    width: 280px;
+    background-color: var(--light-gray);
+    display: inline-block;
+}

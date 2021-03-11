@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { SubSink } from 'subsink';
 import { ModuleService } from '../_services/module._service';
 import { ProductModule } from './model';

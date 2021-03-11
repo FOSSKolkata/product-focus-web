@@ -1,0 +1,5 @@
+.infinite-scroll-x-axis{
+    white-space: nowrap;
+    /* overflow: auto; */
+    margin:10px;
+}

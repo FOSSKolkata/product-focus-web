@@ -1,0 +1,10 @@
+.vertical-line{
+    z-index: 1;
+    border-left: 1px solid black;
+    height: 100%;
+    position: absolute;
+}
+
+.vertical-line:hover{
+    border-left: 2px solid black;
+}

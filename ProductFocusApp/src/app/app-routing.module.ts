@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MsalGuard } from '@azure/msal-angular';
-import { ProductModulesModule } from './product-modules/product-modules.module';
 
 const routes: Routes = [
   {
@@ -10,7 +9,19 @@ const routes: Routes = [
     component: HomeComponent
   },{
     path: 'product-modules',
-    loadChildren: ()=> import('./product-modules/product-modules.module').then(c => c.ProductModulesModule),
+    loadChildren: ()=> import('./product-modules/product-modules.module').then(m => m.ProductModulesModule),
+    canActivate: [
+      MsalGuard,
+    ]
+  },{
+    path: 'news-report',
+    loadChildren: ()=> import('./news-report/news-report.module').then(m => m.NewsReportModule),
+    canActivate: [
+      MsalGuard,
+    ]
+  },{
+    path: 'product-roadmap',
+    loadChildren: ()=> import('./product-roadmap/product-roadmap.module').then(m =>m.ProductRoadmapModule),
     canActivate: [
       MsalGuard,
     ]
@@ -33,9 +44,6 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent
-  },{
-    path: '**',
-    component: ProductModulesModule
   }
 ];
 
