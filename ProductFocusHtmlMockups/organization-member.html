@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="javascript/script.js"></script>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-sm navbar-light page-content" id="content" style="background-color: var(--nav-dark-blue);">
+    <img class="nav-link navbar-brand" src="img/ProductFocus.png" height="50px" alt="image">
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="fa fa-cog fa-2x" style="color:var(--light-gray);"></i>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle avatar" style="color:var(--light-gray);">AS</a>
+          <div class="dropdown-menu list-right">
+            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href="#">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="vertical-nav bg-white" id="sidebar">
+    <ul class="nav flex-column bg-white mb-0">
+      <li class="nav-item">
+        <a href="./organization-member.html" class="nav-link text-dark bg-light">
+          Member
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="./roles.html" class="nav-link text-dark">
+          Roles & Permissions
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="page-content" id="content">
+    <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4">
+      <i class="fa fa-arrow-right mr-2"></i>
+    </button>
+    <h2 style="margin: 10px 0px 0px 20px;">Dumanhill Technologies</h2>
+    <div class="m-3" style="background-color: var(--light-gray);">
+        <h6 class="p-3">All Members</h6>
+        <div class="m-3 p-3" style="background-color: var(--white);">
+            <span>Total 3</span><span style="float:right;"><button class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">Add Member</button></span>
+            <div class="m-3 p-3" style="background-color: var(--white);">
+                <div class="table-responsive-sm">
+                    <table class="table">
+                        <thead>
+                            <tr style="color: var(--gray)">
+                                <th scope="col">Name</th>
+                                <th scope="col">Access Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td>
+                                <div class="avatar">M</div>
+                                <div style="margin: -45px 0 0 50px;">Mark</div>
+                                <small style="margin: -10px 0 0 50px;">mark@gmail.com</small>
+                            </td>
+                            <td>Basic + Developer</td>
+                            </tr>
+                            <tr>
+                            <td>
+                                <div class="avatar">J</div>
+                                <div style="margin: -45px 0 0 50px;">Jacob</div>
+                                <small style="margin: -10px 0 0 50px;">jacob@gmail.com</small>
+                            </td>
+                            <td>Basic</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <div class="avatar">L</div>
+                                <div style="margin: -45px 0 0 50px;">Larry</div>
+                                <small style="margin: -10px 0 0 50px;">larry@gmail.com</small>
+                                </td>
+                            <td>Basic + Manager</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addUserModalLabel">Send Invitation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group has-search">
+                <span class="fa fa-search form-control-feedback"></span>
+                <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <div class="btn btn-primary" style="width: 100%;">Send invitation to join</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

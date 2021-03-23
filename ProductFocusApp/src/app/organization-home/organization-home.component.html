@@ -1,48 +1,10 @@
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="css/style.css">
-  <script src="javascript/script.js"></script>
-</head>
-<body>
-
-  <nav class="navbar navbar-expand-sm navbar-light page-content" id="content" style="background-color: var(--nav-dark-blue);">
-    <img class="nav-link navbar-brand" src="img/ProductFocus.png" height="50px" alt="image">
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarMenu">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fa fa-cog fa-2x" style="color:var(--light-gray);"></i>
-          </a>
-        </li>
-        <li class="nav-item dropdown">
-          <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle avatar" style="color:var(--light-gray);">AS</a>
-          <div class="dropdown-menu list-right">
-            <a class="dropdown-item" href="#">Profile</a>
-            <a class="dropdown-item" href="#">Logout</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <div class="vertical-nav bg-white" id="sidebar">
+<div class="vertical-nav bg-white" [class.active]="active"id="sidebar">
     <!-- <p class="text-gray font-weight-bold text-uppercase small px-3 pb-4 mb-0">Dumanhill Technologies</p> -->
     <ul class="nav flex-column bg-white mb-0">
       <li class="nav-item">
-        <a href="#" class="nav-link text-dark bg-light" style="display: inline;">
+        <a href="#" class="nav-link text-dark bg-light">
           Dumanhill Technologies
         </a>
-        <a href="./organization-member.html"><i class="fa fa-cog"></i></a>
       </li>
       <li class="nav-item">
         <a href="#" class="nav-link text-dark">
@@ -59,12 +21,19 @@
           <small>Create an organization</small>
         </a>
       </li>
+      <li>
+        <a href="./add-user.html" class="nav-link text-dark">
+          <i class="fa fa-cog"></i>
+          User Settings
+        </a>
+      </li>
     </ul>
   </div>
 
-  <div class="page-content" id="content">
-    <button id="sidebarCollapse" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4">
-      <i class="fa fa-arrow-right mr-2"></i>
+
+  <div class="page-content" [class.active]="active" id="content">
+    <button id="sidebarCollapse" (click)="active = !active" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4">
+      <i class="fa mr-2" [class.fa-arrow-right]="active" [class.fa-arrow-left]="!active"></i>
     </button>
     <h2 style="margin: 10px 0px 0px 20px;">Products</h2>
     <div class="row" style="background-color:var(--light-gray); margin:20px;">
@@ -135,9 +104,3 @@
       </div>
     </div>
   </div>
-
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html>

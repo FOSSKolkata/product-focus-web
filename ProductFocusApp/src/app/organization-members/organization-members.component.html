@@ -1,0 +1,77 @@
+<div class="vertical-nav bg-white" [class.active]="active" id="sidebar">
+    <ul class="nav flex-column bg-white mb-0">
+      <li class="nav-item">
+        <a href="#" class="nav-link text-dark bg-light">
+          User setting
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="page-content" id="content" [class.active]="active">
+    <button id="sidebarCollapse" (click)="active = !active" type="button" class="btn btn-light bg-white rounded-pill shadow-sm px-4 mb-4">
+      <i class="fa mr-2" [class.fa-arrow-right]="active" [class.fa-arrow-left]="!active"></i>
+    </button>
+    <h2 style="margin: 10px 0px 0px 20px;">Dumanhill Technologies</h2>
+    <div class="m-3" style="background-color: var(--light-gray);">
+        <h6 class="p-3">All User</h6>
+        <div class="m-3 p-3" style="background-color: var(--white);">
+            <span>Total 3</span><span style="float:right;"><button class="btn btn-primary" (click)="open(content)">Add User</button></span>
+            <div class="m-3 p-3" style="background-color: var(--white);">
+                <div class="table-responsive-sm">
+                    <table class="table">
+                        <thead>
+                            <tr style="color: var(--gray)">
+                                <th scope="col">Name</th>
+                                <th scope="col">Access Level</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <td>
+                                <div class="avatar">M</div>
+                                <div style="margin: -45px 0 0 50px;">Mark</div>
+                                <small style="margin: -10px 0 0 50px;">mark@gmail.com</small>
+                            </td>
+                            <td>Basic + Developer</td>
+                            </tr>
+                            <tr>
+                            <td>
+                                <div class="avatar">J</div>
+                                <div style="margin: -45px 0 0 50px;">Jacob</div>
+                                <small style="margin: -10px 0 0 50px;">jacob@gmail.com</small>
+                            </td>
+                            <td>Basic</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <div class="avatar">L</div>
+                                <div style="margin: -45px 0 0 50px;">Larry</div>
+                                <small style="margin: -10px 0 0 50px;">larry@gmail.com</small>
+                                </td>
+                            <td>Basic + Manager</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Send Invitation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group has-search">
+            <span class="fa fa-search form-control-feedback"></span>
+            <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <div class="btn btn-primary" style="width: 100%;">Send invitation to join</div>
+    </div>
+  </ng-template>

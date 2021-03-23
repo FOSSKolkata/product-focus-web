@@ -12,7 +12,8 @@ import { MsalGuard, MsalInterceptor, MsalBroadcastService, MsalInterceptorConfig
 import { b2cPolicies, apiConfig } from './b2c-config';
 import { ModuleService } from './_services/module._service';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { OrganizationHomeComponent } from './organization-home/organization-home.component';
+import { OrganizationMembersComponent } from './organization-members/organization-members.component';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
@@ -65,7 +66,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    OrganizationHomeComponent,
+    OrganizationMembersComponent
   ],
   imports: [
     BrowserModule,

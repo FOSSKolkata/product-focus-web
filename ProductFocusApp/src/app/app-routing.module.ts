@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MsalGuard } from '@azure/msal-angular';
+import { OrganizationHomeComponent } from './organization-home/organization-home.component';
+import { OrganizationMembersComponent } from './organization-members/organization-members.component';
 
 const routes: Routes = [
   {
@@ -25,6 +27,12 @@ const routes: Routes = [
     canActivate: [
       MsalGuard,
     ]
+  },{
+    path: 'organization-home',
+    component: OrganizationHomeComponent
+  },{
+    path: 'organization-members',
+    component: OrganizationMembersComponent
   },
   {
     // Needed for hash routing

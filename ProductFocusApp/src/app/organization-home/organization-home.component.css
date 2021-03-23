@@ -1,0 +1,6 @@
+.column-control{
+    background-color: var(--white);
+    margin: 1px;
+    padding:50px 25px 50px 25px;
+    text-align: center;
+}

@@ -38,8 +38,13 @@
   <div class="vertical-nav bg-white" id="sidebar">
     <ul class="nav flex-column bg-white mb-0">
       <li class="nav-item">
-        <a href="#" class="nav-link text-dark bg-light">
-          User setting
+        <a href="./organization-member.html" class="nav-link text-dark">
+          Member
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="./roles.html" class="nav-link text-dark bg-light">
+          Roles & Permissions
         </a>
       </li>
     </ul>
@@ -51,69 +56,52 @@
     </button>
     <h2 style="margin: 10px 0px 0px 20px;">Dumanhill Technologies</h2>
     <div class="m-3" style="background-color: var(--light-gray);">
-        <h6 class="p-3">All User</h6>
+        <h6 class="p-3">Roles</h6>
         <div class="m-3 p-3" style="background-color: var(--white);">
-            <span>Total 3</span><span style="float:right;"><button class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">Add User</button></span>
+            <span>Total 4</span>
             <div class="m-3 p-3" style="background-color: var(--white);">
                 <div class="table-responsive-sm">
                     <table class="table">
                         <thead>
                             <tr style="color: var(--gray)">
                                 <th scope="col">Name</th>
-                                <th scope="col">Access Level</th>
+                                <th scope="col">Members</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                            <td>
-                                <div class="avatar">M</div>
-                                <div style="margin: -45px 0 0 50px;">Mark</div>
-                                <small style="margin: -10px 0 0 50px;">mark@gmail.com</small>
-                            </td>
-                            <td>Basic + Developer</td>
-                            </tr>
-                            <tr>
-                            <td>
-                                <div class="avatar">J</div>
-                                <div style="margin: -45px 0 0 50px;">Jacob</div>
-                                <small style="margin: -10px 0 0 50px;">jacob@gmail.com</small>
-                            </td>
-                            <td>Basic</td>
+                                <td>
+                                    <div class="avatar">D</div>
+                                    <div style="margin: -32px 0 0 50px;">Developer</div>
+                                </td>
+                                <td>3</td>
                             </tr>
                             <tr>
                                 <td>
-                                <div class="avatar">L</div>
-                                <div style="margin: -45px 0 0 50px;">Larry</div>
-                                <small style="margin: -10px 0 0 50px;">larry@gmail.com</small>
+                                    <div class="avatar">T</div>
+                                    <div style="margin: -32px 0 0 50px;">Tester</div>
                                 </td>
-                            <td>Basic + Manager</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="avatar">PO</div>
+                                    <div style="margin: -32px 0 0 50px;">Product Owner</div>
+                                </td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="avatar">M</div>
+                                    <div style="margin: -32px 0 0 50px;">Manager</div>
+                                </td>
+                                <td>1</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-    </div>
-  </div>
-  
-  <!-- Modal -->
-  <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addUserModalLabel">Send Invitation</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group has-search">
-                <span class="fa fa-search form-control-feedback"></span>
-                <input type="text" class="form-control" placeholder="Search">
-            </div>
-            <div class="btn btn-primary" style="width: 100%;">Send invitation to join</div>
-        </div>
-      </div>
     </div>
   </div>
 
