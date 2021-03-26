@@ -41,203 +41,278 @@
         
           <!-- Modal Header -->
           <div class="modal-header">
-            <h4 class="modal-title">Medications</h4>
+            <h5 class="modal-title w-100 text-center">PNR medication need to transferred to a new tab.</h5>
             <button type="button" class="close" data-dismiss="modal">×</button>
           </div>
           
           <!-- Msodal body -->
           <div class="modal-body">
-            <div class="row">
-              <div class="col-12 col-lg-8">
-                <div class="row">
-                  <div class="col-1" style="padding-top: 2px;">
-                    <i class="fa fa-file"></i>
-                  </div>
-                  <div class="col">
-                    PNR medication need to transferred to  a new tab. PNR medication need to transferred to  a new tab. PNR medication need to transferred to  a new tab.
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-1">
-                    <i class="fa fa-tasks"></i>
-                  </div>
-                  <div class="col">
-                    <b>Tasks</b>
-                  </div>
-                </div>
-                <!-- starting of task -->
-                <div class="row">
-                  <div class="col-1">
-                    <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
-                  </div>
-                  <div class="col-8 col-md-9">
-                    <label for="task1">Need User information using PNR number</label>
-                  </div>
-                  <div class="col-1">
-                    <i class="fa fa-user-plus"></i>
-                  </div>
-                  <div class="col-1">
-                    <i class="fa fa-window-close" style="color: #ec9488;"></i>
-                  </div>
-                </div>
-                <!-- ending of task -->
-                <!-- starting of task -->
-                <div class="row">
-                  <div class="col-1">
-                    <input type="checkbox" name="task2" id="task2" value="Need User information using PNR number">
-                  </div>
-                  <div class="col-8 col-md-9">
-                    <label for="task2">API integration with the front end.</label>
-                  </div>
-                  <div class="col-1">
-                    <i class="fa fa-user-plus"></i>
-                  </div>
-                  <div class="col-1">
-                    <i class="fa fa-window-close" style="color: #ec9488;"></i>
-                  </div>
-                </div>
-                <!-- ending of task -->
-                <!-- starting of task -->
-                <div class="row">
-                  <div class="col-1">
-                    <input type="checkbox" name="task3" id="task3" value="Need User information using PNR number">
-                  </div>
-                  <div class="col-8 col-md-9">
-                    <label for="task3">On Clicking create it should create a new tab.</label>
-                  </div>
-                  <div class="col-1">
-                    <i class="fa fa-user-plus"></i>
-                  </div>
-                  <div class="col-1">
-                    <i class="fa fa-window-close" style="color: #ec9488;"></i>
-                  </div>
-                </div>
-                <!-- ending of task -->
-                <!-- add task button -->
-                <div class="row">
-                  <div class="col-1"></div>
-                  <div class="col">
-                    <button class="btn btn-success" style="font-size: x-small;">Add Task</button>
-                  </div>
-                </div>
-                <!-- comment Heading -->
-                <div class="row">
-                  <div class="col-1">
-                    <i class="fa fa-comments"></i>
-                  </div>
-                  <div class="col">
-                    <b>Comments</b>
-                  </div>
-                </div>
-                <!-- comments -->
-                <div class="row">
-                  <div class="col-1">
-                    <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
-                  </div>
-                  <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
-                    <input type="text" class="form-control" placeholder="Write a comment..." style="border: none;">
-                    <button class="btn btn-success" style="margin:3px;"><small>Comment</small></button>
-                  </div>
-                </div>
-                <!-- all the comments -->
-                <!-- single comment starting -->
-                <div class="row">
-                  <div class="col-1" style="padding-left: 7px;">
-                    <div class="avatar" style="padding-top:4px; background-color: #66241c;">KT</div>
-                  </div>
-                  <div class="col">
-                    <div class="row">
-                      <div class="col-5 col-sm-4 h-25"><small><b>Kartik Tiwari </b></small></div>
-                      <div class="col-6 col-sm-7"><small class="text-muted">1 minutes ago</small></div>
+            <span style="margin-left: 20px;">Switch To</span><button id="toggle-mode">Focus mode</button>
+            <div id="details-mode" style="margin-left: 20px;">
+              <div class="row" style="margin-top: 20px;">
+                <div class="col-12 col-lg-8">
+                  <div class="row">
+                    <div class="col-1" style="padding-top: 2px;">
+                      <i class="fa fa-file"></i>
                     </div>
-                    <div class="row">
-                      <div class="col h-75">
-                        <small>I need an end point of user name, phone no along with medication id.</small>
+                    <div class="col" style="font-size: var(--global-text-size);">
+                      PNR medication need to transferred to  a new tab. PNR medication need to transferred to  a new tab. PNR medication need to transferred to  a new tab.
+                    </div>
+                  </div>
+                  <div class="row" style="margin-top: 20px;">
+                    <div class="col-1">
+                      <i class="fa fa-tasks"></i>
+                    </div>
+                    <div class="col">
+                      <b>Tasks</b>
+                    </div>
+                  </div>
+                  <!-- starting of task -->
+                  <div class="row">
+                    <div class="col-1">
+                      <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
+                    </div>
+                    <div class="col-8 col-md-9">
+                      <label for="task1" style="font-size: var(--global-text-size);">Need User information using PNR number</label>
+                    </div>
+                    <div class="col-1">
+                      <span style="cursor: pointer; height: 36px;display: inline-block;">
+                      <i class="fa fa-user-plus" id="add-user-task-button"></i>
+                      <div class="add-user-outer" id="add-user-task" style="z-index: 1;">
+                        <div class="add-user-inner" style="left: -125px;">
+                          <div class="form-group has-search">
+                            <span class="fa fa-search form-control-feedback"></span>
+                            <input type="text" class="form-control" placeholder="Search">
+                          </div>
+                          <div class="user-search-item">
+                            <div class="avatar">KT</div>
+                            <div style="margin: -35px 0 0 50px;">Kartik tiwari</div>
+                            <small style="margin: -10px 0 0 50px;">kartikkttiwari@gmail.com</small>
+                          </div>
+                          <div class="user-search-item">
+                            <div class="avatar">VS</div>
+                            <div style="margin: -35px 0 0 50px;">Vishal Shrivastav</div>
+                            <small style="margin: -10px 0 0 50px;">vishalshrivastav@gmail.com</small>
+                          </div>
+                        </div>
+                      </div>
+                    </span>
+                    </div>
+                    <div class="col-1">
+                      <i class="fa fa-window-close"></i>
+                    </div>
+                  </div>
+                  <!-- ending of task -->
+                  <!-- starting of task -->
+                  <div class="row">
+                    <div class="col-1">
+                      <input type="checkbox" name="task2" id="task2" value="Need User information using PNR number">
+                    </div>
+                    <div class="col-8 col-md-9">
+                      <label for="task2" style="font-size: var(--global-text-size);">API integration with the front end.</label>
+                    </div>
+                    <div class="col-1">
+                      <i class="fa fa-user-plus"></i>
+                    </div>
+                    <div class="col-1">
+                      <i class="fa fa-window-close"></i>
+                    </div>
+                  </div>
+                  <!-- ending of task -->
+                  <!-- starting of task -->
+                  <div class="row">
+                    <div class="col-1">
+                      <input type="checkbox" name="task3" id="task3" value="Need User information using PNR number">
+                    </div>
+                    <div class="col-8 col-md-9">
+                      <label for="task3" style="font-size: var(--global-text-size);">On Clicking create it should create a new tab.</label>
+                    </div>
+                    <div class="col-1">
+                      <i class="fa fa-user-plus"></i>
+                    </div>
+                    <div class="col-1">
+                      <i class="fa fa-window-close"></i>
+                    </div>
+                  </div>
+                  <!-- ending of task -->
+                  <!-- add task button -->
+                  <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col">
+                      <button class="btn btn-success" style="font-size: x-small;" id="add-task-button">Add Task</button>
+                      <div id="add-task" style="display: none;">
+                        <input type="text" placeholder="Ener task title" style="width: 100%;">
+                        <div>
+                          <button class="btn btn-success" style="font-size: x-small; margin-top: 5px;">Add</button>
+                          <i class="fa fa-times" id="cancel-task"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- comment Heading -->
+                  <div class="row" style="margin-top: 20px;">
+                    <div class="col-1">
+                      <i class="fa fa-comments"></i>
+                    </div>
+                    <div class="col">
+                      <b>Comments</b>
+                    </div>
+                  </div>
+                  <!-- comments -->
+                  <!-- all the comments -->
+                  <!-- single comment starting -->
+                  <div class="row" style="margin-top: 10px;">
+                    <div class="col-1" style="padding-left: 7px;">
+                      <div class="avatar" style="background-color: #66241c;">KT</div>
+                    </div>
+                    <div class="col">
+                      <div class="row">
+                        <div class="col-5 col-sm-4 h-25"><small><b>Kartik Tiwari </b></small></div>
+                        <div class="col-6 col-sm-7"><small class="text-muted">1 minutes ago</small></div>
+                      </div>
+                      <div class="row">
+                        <div class="col h-75">
+                          <small>I need an end point of user name, phone no along with medication id.</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- single comment ending -->
+                  <!-- single comment starting -->
+                  <div class="row" style="margin-top: 10px;">
+                    <div class="col-1" style="padding-left: 7px;">
+                      <div class="avatar" style="padding-top:4px;">AS</div>
+                    </div>
+                    <div class="col">
+                      <div class="row">
+                        <div class="col-5 col-sm-4 h-25"><small><b>Amit Shaw </b></small></div>
+                        <div class="col-6 col-sm-7"><small class="text-muted">10 minutes ago</small></div>
+                      </div>
+                      <div class="row">
+                        <div class="col h-75">
+                          <small>I need mobile number along with user details.</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- single comment ending -->
+                  <!-- single comment starting -->
+                  <div class="row" style="margin-top: 10px;">
+                    <div class="col-1" style="padding-left: 7px;">
+                      <div class="avatar" style="background-color: #1a5021;">RS</div>
+                    </div>
+                    <div class="col">
+                      <div class="row">
+                        <div class="col-5 col-sm-4 h-25"><small><b>Rahul Shrivastav </b></small></div>
+                        <div class="col-6 col-sm-7"><small class="text-muted">yesterday at 2:33 p.m</small></div>
+                      </div>
+                      <div class="row">
+                        <div class="col h-75">
+                          <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- single comment ending -->
+                  <!-- single comment starting -->
+                  <div class="row" style="margin-top: 10px;">
+                    <div class="col-1" style="padding-left: 7px;">
+                      <div class="avatar" style="background-color: #6547d3;">PS</div>
+                    </div>
+                    <div class="col">
+                      <div class="row">
+                        <div class="col-5 col-sm-4 h-25"><small><b>Pappu Singh </b></small></div>
+                        <div class="col-6 col-sm-7"><small class="text-muted">2nd Jan at 3:45 p.m</small></div>
+                      </div>
+                      <div class="row">
+                        <div class="col h-75">
+                          <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- single comment ending -->
+                  <div class="row" style="margin-top: 10px">
+                    <div class="col-1"></div>
+                    <div class="col">
+                      <button class="btn btn-success" style="font-size: x-small;" id="add-comment-button">Add Comment</button>
+                      <div id="add-comment" style="display: none;">
+                        <input type="text" placeholder="Write a comment..." style="width: 100%;">
+                        <div>
+                          <button class="btn btn-success" style="font-size: x-small; margin-top: 5px;">Add</button>
+                          <i class="fa fa-times" id="cancel-comment"></i>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <!-- single comment ending -->
-                <!-- single comment starting -->
-                <div class="row">
-                  <div class="col-1" style="padding-left: 7px;">
-                    <div class="avatar" style="padding-top:4px;">AS</div>
+                <div class="col-12 col-lg-3">
+                  <div style="margin-top: 10px; font-size: var(--global-text-size);">
+                    <label for="startdate">Start date: </label>
+                    <input type="date" id="startdate" name="startdate">
                   </div>
-                  <div class="col">
-                    <div class="row">
-                      <div class="col-5 col-sm-4 h-25"><small><b>Amit Shaw </b></small></div>
-                      <div class="col-6 col-sm-7"><small class="text-muted">10 minutes ago</small></div>
-                    </div>
-                    <div class="row">
-                      <div class="col h-75">
-                        <small>I need mobile number along with user details.</small>
+                  <div style="margin-top: 10px; font-size: var(--global-text-size);">
+                    <label for="enddate">End date:&nbsp&nbsp</label>
+                    <input type="date" id="enddate" name="enddate">
+                  </div>
+                  <div style="margin-top: 10px; font-size: var(--global-text-size);">
+                    Work progress (15 %)
+                  </div>
+                  <div>
+                    <input type="range" min="1" max="100" value="15" style="width: 190px;">
+                  </div>
+                  <small style="margin-top: 10px;">
+                    Owner: <b>Ranjan Das</b>
+                  </small>
+                  <div style="margin-top: 10px;">
+                    <span class="avatar">PK</span>
+                    <span class="avatar">VS</span>
+                    <span class="avatar">GD</span>
+                    <span class="avatar">VT</span>
+                    <span class="avatar">TU</span>
+                    <span class="avatar">US</span>
+                    <span class="avatar user-plus" style="cursor: pointer;">
+                      <i class="fa fa-user-plus" id="add-user-button" style="justify-self: center;"></i>
+                      <div class="add-user-outer" id="add-user">
+                        <div class="add-user-inner" style="left: -125px;">
+                          <div class="form-group has-search">
+                            <span class="fa fa-search form-control-feedback"></span>
+                            <input type="text" class="form-control" placeholder="Search">
+                          </div>
+                          <div class="user-search-item">
+                            <div class="avatar">KT</div>
+                            <div style="margin: -35px 0 0 50px;">Kartik tiwari</div>
+                            <small style="margin: -10px 0 0 50px;">kartikkttiwari@gmail.com</small>
+                          </div>
+                          <div class="user-search-item">
+                            <div class="avatar">VS</div>
+                            <div style="margin: -35px 0 0 50px;">Vishal Shrivastav</div>
+                            <small style="margin: -10px 0 0 50px;">vishalshrivastav@gmail.com</small>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    </span>
                   </div>
                 </div>
-                <!-- single comment ending -->
-                <!-- single comment starting -->
-                <div class="row">
-                  <div class="col-1" style="padding-left: 7px;">
-                    <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
-                  </div>
-                  <div class="col">
-                    <div class="row">
-                      <div class="col-5 col-sm-4 h-25"><small><b>Rahul Shrivastav </b></small></div>
-                      <div class="col-6 col-sm-7"><small class="text-muted">yesterday at 2:33 p.m</small></div>
-                    </div>
-                    <div class="row">
-                      <div class="col h-75">
-                        <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- single comment ending -->
-                <!-- single comment starting -->
-                <div class="row">
-                  <div class="col-1" style="padding-left: 7px;">
-                    <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
-                  </div>
-                  <div class="col">
-                    <div class="row">
-                      <div class="col-5 col-sm-4 h-25"><small><b>Pappu Singh </b></small></div>
-                      <div class="col-6 col-sm-7"><small class="text-muted">2nd Jan at 3:45 p.m</small></div>
-                    </div>
-                    <div class="row">
-                      <div class="col h-75">
-                        <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- single comment ending -->
               </div>
-              <div class="col-12 col-lg-3">
-                <div>
-                  <label for="startdate">Start date: </label>
-                  <input type="date" id="startdate" name="startdate">
+            </div>
+            <div id="focus-mode">
+              <div class="row">
+                <div class="col-8 offset-2">
+                  <div class="slidecontainer">
+                    <h4>15%</h4>
+                    <input type="range" min="1" max="100" value="15" class="slider">
+                    <div style="margin-top: 20px;">
+                      <p style="font-size: 13px;">13 Jan, 2021 - 15 Jan, 2021</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label for="enddate">End date:&nbsp&nbsp</label>
-                  <input type="date" id="enddate" name="enddate">
-                </div>
-                <div>
-                  Work progress (15 %)
-                </div>
-                <div>
-                  <input type="range" min="1" max="100" value="15" style="width: 190px;">
-                </div>
-                <small>
-                  Owner: <b>Ranjan Das</b>
-                </small>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
 
 
   <div class="infinite-scroll-x-axis">
@@ -248,8 +323,8 @@
         </div>
       </div>
       <div class="card" style="margin: 5px">
-        <div class="card-body" data-toggle="modal" data-target="#featurePopup">
-          <div class="card-title">
+        <div class="card-body">
+          <div class="card-title" data-toggle="modal" data-target="#featurePopup">
             <small>PNR medication needs to transfer to a new tab.</small>
           </div>
           <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
@@ -374,5 +449,6 @@
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script src="javascript/script.js"></script>
 </body>
 </html>
