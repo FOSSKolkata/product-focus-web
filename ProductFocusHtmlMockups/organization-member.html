@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects</title>
+  <title>Organization Members</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -19,15 +19,10 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarMenu">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fa fa-cog fa-2x" style="color:var(--light-gray);"></i>
-          </a>
-        </li>
         <li class="nav-item dropdown">
           <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle avatar" style="color:var(--light-gray);">AS</a>
           <div class="dropdown-menu list-right">
-            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href="./profile.html">Profile</a>
             <a class="dropdown-item" href="#">Logout</a>
           </div>
         </li>
@@ -58,7 +53,7 @@
     <div class="m-3" style="background-color: var(--light-gray);">
         <h6 class="p-3">All Members</h6>
         <div class="m-3 p-3" style="background-color: var(--white);">
-            <span>Total 3</span><span style="float:right;"><button class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">Add Member</button></span>
+            <span>Total 3</span><span style="float:right;"><button class="btn good-btn" data-toggle="modal" data-target="#addUserModal">Add Member</button></span>
             <div class="m-3 p-3" style="background-color: var(--white);">
                 <div class="table-responsive-sm">
                     <table class="table">
@@ -79,7 +74,19 @@
                             <td>Basic + Developer</td>
                             <td>
                               <span class="avatar user-plus" style="cursor: pointer;">
-                                <i class="fa fa-key" style="justify-self: center;"></i>
+                                <i class="fa fa-key" id="edit-access-button" style="justify-self: center;"></i>
+                                <div class="add-user-outer" id="edit-access">
+                                  <div class="add-user-inner" style="left: -125px;">
+                                    <input type="checkbox" id="basic" name="basic" value="Basic" checked disabled="disabled">
+                                    <label for="basic"> Basic</label><br>
+                                    <input type="checkbox" id="developer" name="developer" value="Developer" checked>
+                                    <label for="developer"> Developer</label><br>
+                                    <input type="checkbox" id="tester" name="tester" value="Tester">
+                                    <label for="tester"> Tester</label><br>
+                                    <input type="checkbox" id="manager" name="manager" value="Manager">
+                                    <label for="manager"> Manager</label><br>
+                                  </div>
+                                </div>
                               </span>
                               <span class="avatar user-plus" style="cursor: pointer;">
                                 <i class="fa fa-trash" style="justify-self: center;"></i>
@@ -141,7 +148,7 @@
                 <span class="fa fa-search form-control-feedback"></span>
                 <input type="text" class="form-control" placeholder="Search">
             </div>
-            <div class="btn btn-primary" style="width: 100%;">Send invitation to join</div>
+            <div class="btn good-btn" style="width: 100%;">Send invitation to join</div>
         </div>
       </div>
     </div>

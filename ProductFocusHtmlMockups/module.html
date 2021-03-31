@@ -17,16 +17,11 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarMenu">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fa fa-cog fa-2x" style="color: var(--light-gray);"></i>
-          </a>
-        </li>
         <li class="nav-item dropdown">
-          <!-- <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle avatar" style="color: var(--light-gray);">AS</a> -->
-          <img src="http://placehold.it/64x64" class="float-left rounded-circle" style="width: 48px;height: 48px;">
+          <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle avatar" style="color: var(--light-gray);">AS</a>
+          <!-- <img src="http://placehold.it/64x64" class="float-left rounded-circle" style="width: 36px;height: 36px;"> -->
           <div class="dropdown-menu list-right">
-            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href="./profile.html">Profile</a>
             <a class="dropdown-item" href="#">Logout</a>
           </div>
         </li>
@@ -47,7 +42,7 @@
           
           <!-- Msodal body -->
           <div class="modal-body">
-            <span style="margin-left: 20px;">Switch To</span><button id="toggle-mode">Focus mode</button>
+            <span style="margin-left: 20px;">Switch To </span><button id="toggle-mode" class="btn-focus">Focus mode</button>
             <div id="details-mode" style="margin-left: 20px;">
               <div class="row" style="margin-top: 20px;">
                 <div class="col-12 col-lg-8">
@@ -77,26 +72,26 @@
                     </div>
                     <div class="col-1">
                       <span style="cursor: pointer; height: 36px;display: inline-block;">
-                      <i class="fa fa-user-plus" id="add-user-task-button"></i>
-                      <div class="add-user-outer" id="add-user-task" style="z-index: 1;">
-                        <div class="add-user-inner" style="left: -125px;">
-                          <div class="form-group has-search">
-                            <span class="fa fa-search form-control-feedback"></span>
-                            <input type="text" class="form-control" placeholder="Search">
-                          </div>
-                          <div class="user-search-item">
-                            <div class="avatar">KT</div>
-                            <div style="margin: -35px 0 0 50px;">Kartik tiwari</div>
-                            <small style="margin: -10px 0 0 50px;">kartikkttiwari@gmail.com</small>
-                          </div>
-                          <div class="user-search-item">
-                            <div class="avatar">VS</div>
-                            <div style="margin: -35px 0 0 50px;">Vishal Shrivastav</div>
-                            <small style="margin: -10px 0 0 50px;">vishalshrivastav@gmail.com</small>
+                        <i class="fa fa-user-plus" id="add-user-task-button"></i>
+                        <div class="add-user-outer" id="add-user-task" style="z-index: 1;">
+                          <div class="add-user-inner" style="left: -125px;">
+                            <div class="form-group has-search">
+                              <span class="fa fa-search form-control-feedback"></span>
+                              <input type="text" class="form-control" placeholder="Search">
+                            </div>
+                            <div class="user-search-item">
+                              <div class="avatar">KT</div>
+                              <div style="margin: -35px 0 0 50px;">Kartik tiwari</div>
+                              <small style="margin: -10px 0 0 50px;">kartikkttiwari@gmail.com</small>
+                            </div>
+                            <div class="user-search-item">
+                              <div class="avatar">VS</div>
+                              <div style="margin: -35px 0 0 50px;">Vishal Shrivastav</div>
+                              <small style="margin: -10px 0 0 50px;">vishalshrivastav@gmail.com</small>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </span>
+                      </span>
                     </div>
                     <div class="col-1">
                       <i class="fa fa-window-close"></i>
@@ -139,11 +134,11 @@
                   <div class="row">
                     <div class="col-1"></div>
                     <div class="col">
-                      <button class="btn btn-success" style="font-size: x-small;" id="add-task-button">Add Task</button>
+                      <button class= "btn good-btn" id="add-task-button">Add Task</button>
                       <div id="add-task" style="display: none;">
                         <input type="text" placeholder="Ener task title" style="width: 100%;">
                         <div>
-                          <button class="btn btn-success" style="font-size: x-small; margin-top: 5px;">Add</button>
+                          <button class= "btn good-btn" style=" margin-top: 5px;">Add</button>
                           <i class="fa fa-times" id="cancel-task"></i>
                         </div>
                       </div>
@@ -235,11 +230,11 @@
                   <div class="row" style="margin-top: 10px">
                     <div class="col-1"></div>
                     <div class="col">
-                      <button class="btn btn-success" style="font-size: x-small;" id="add-comment-button">Add Comment</button>
+                      <button class= "btn good-btn" id="add-comment-button">Add Comment</button>
                       <div id="add-comment" style="display: none;">
                         <input type="text" placeholder="Write a comment..." style="width: 100%;">
                         <div>
-                          <button class="btn btn-success" style="font-size: x-small; margin-top: 5px;">Add</button>
+                          <button class= "btn good-btn" style=" margin-top: 5px;">Add</button>
                           <i class="fa fa-times" id="cancel-comment"></i>
                         </div>
                       </div>

@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects</title>
+  <title>Products</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -12,22 +12,17 @@
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-sm navbar-light page-content" id="content" style="background-color: var(--nav-dark-blue);">
+  <nav class="navbar navbar-expand-sm navbar-light page-content" id="content" style="background-color: var(--nav-dark-blue);color: var(--white);">
     <img class="nav-link navbar-brand" src="img/ProductFocus.png" height="50px" alt="image">
     <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarMenu">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <i class="fa fa-cog fa-2x" style="color:var(--light-gray);"></i>
-          </a>
-        </li>
         <li class="nav-item dropdown">
           <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle avatar" style="color:var(--light-gray);">AS</a>
           <div class="dropdown-menu list-right">
-            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href="./profile.html">Profile</a>
             <a class="dropdown-item" href="#">Logout</a>
           </div>
         </li>
@@ -38,25 +33,32 @@
   <div class="vertical-nav bg-white" id="sidebar">
     <!-- <p class="text-gray font-weight-bold text-uppercase small px-3 pb-4 mb-0">Dumanhill Technologies</p> -->
     <ul class="nav flex-column bg-white mb-0">
-      <li class="nav-item">
-        <a href="#" class="nav-link text-dark bg-light" style="display: inline;">
+      <li class="nav-item bg-light" style="padding: 5px;">
+        <a href="#" class="nav-link text-dark" style="display: inline;">
           Dumanhill Technologies
         </a>
-        <a href="./organization-member.html"><i class="fa fa-cog"></i></a>
+        <a href="./organization-member.html" class="text-dark"><i class="fa fa-cog"></i></a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" style="padding: 1px 5px 1px 5px;">
         <a href="#" class="nav-link text-dark">
           intelliH
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" style="padding: 1px 5px 1px 5px;">
         <a href="#" class="nav-link text-dark">
           Empty Set Technologies
         </a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" style="padding: 1px 5px 1px 5px;">
         <a href="#" class="nav-link success">
-          <small>Create an organization</small>
+          <div style="font-size: var(--medium-text);" id="add-task-button">Create an organization</div>
+          <div id="add-task" style="display: none;">
+            <input type="text" placeholder="Enter organization name" style="width: 100%;">
+            <div>
+              <button class="btn good-btn" style="margin-top: 5px;">Add</button>
+              <i class="fa fa-times" id="cancel-task"></i>
+            </div>
+          </div>
         </a>
       </li>
     </ul>
@@ -68,68 +70,98 @@
     </button>
     <h2 style="margin: 10px 0px 0px 20px;">Products</h2>
     <div class="row" style="background-color:var(--light-gray); margin:20px;">
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xm-6 margin-top-bottom">
         <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a href="./module.html">Canary</a>
+          <i class="fa fa-ellipsis-h" style="position: absolute; right: 30px; top: 10px"></i>
+          <a href="./product-roadmap.html">
+            <i class="fa fa-road fa-2x avatar" style="position: absolute; bottom: 10px; left: 30px;"></i>
+          </a>
+          <a href="./module.html" style="color: var(--light-black);">Canary</a>
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xm-6 margin-top-bottom">
         <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a href="./news-report.html">Casanava</a> 
+          <i class="fa fa-ellipsis-h" style="position: absolute; right: 30px; top: 10px"></i>
+          <a href="#">
+            <i class="fa fa-road fa-2x" style="position: absolute; bottom: 10px; left: 30px;"></i>
+          </a>
+          <a href="./news-report.html" style="color: var(--light-black);">Casanava</a> 
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xm-6 margin-top-bottom">
         <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a href="">Cascade</a>
+          <i class="fa fa-ellipsis-h" style="position: absolute; right: 30px; top: 10px"></i>
+          <a href="#">
+            <i class="fa fa-road fa-2x" style="position: absolute; bottom: 10px; left: 30px;"></i>
+          </a>
+          <a href="" style="color: var(--light-black);">Cascade</a>
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xm-6 margin-top-bottom">
         <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a href="">Bigfish</a>
+          <i class="fa fa-ellipsis-h" style="position: absolute; right: 30px; top: 10px"></i>
+          <a href="#">
+            <i class="fa fa-road fa-2x" style="position: absolute; bottom: 10px; left: 30px;"></i>
+          </a>
+          <a href="" style="color: var(--light-black);">Bigfish</a>
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xm-6 margin-top-bottom">
         <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a href="">Bigfoot</a>
+          <i class="fa fa-ellipsis-h" style="position: absolute; right: 30px; top: 10px"></i>
+          <a href="#">
+            <i class="fa fa-road fa-2x" style="position: absolute; bottom: 10px; left: 30px;"></i>
+          </a>
+          <a href="" style="color: var(--light-black);">Bigfoot</a>
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xm-6 margin-top-bottom">
         <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a href="">Bigfoot</a>
+          <i class="fa fa-ellipsis-h" style="position: absolute; right: 30px; top: 10px"></i>
+          <a href="#">
+            <i class="fa fa-road fa-2x" style="position: absolute; bottom: 10px; left: 30px;"></i>
+          </a>
+          <a href="" style="color: var(--light-black);">Bigfoot</a>
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xm-6 margin-top-bottom">
         <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a href="">Bigfoot</a>
+          <i class="fa fa-ellipsis-h" style="position: absolute; right: 30px; top: 10px"></i>
+          <a href="#">
+            <i class="fa fa-road fa-2x" style="position: absolute; bottom: 10px; left: 30px;"></i>
+          </a>
+          <a href="" style="color: var(--light-black);">Bigfoot</a>
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xm-6 margin-top-bottom">
         <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a href="">Bigfoot</a>
+          <i class="fa fa-ellipsis-h" style="position: absolute; right: 30px; top: 10px"></i>
+          <a href="#">
+            <i class="fa fa-road fa-2x" style="position: absolute; bottom: 10px; left: 30px;"></i>
+          </a>
+          <a href="" style="color: var(--light-black);">Bigfoot</a>
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
+      <div class="col-lg- col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
         <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a href="">Bigfoot</a>
+          <i class="fa fa-ellipsis-h" style="position: absolute; right: 30px; top: 10px"></i>
+          <a href="#">
+            <i class="fa fa-road fa-2x" style="position: absolute; bottom: 10px; left: 30px;"></i>
+          </a>
+          <a href="" style="color: var(--light-black);">Bigfoot</a>
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xm-6 margin-top-bottom">
         <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a href="">Bigfoot</a>
+          <i class="fa fa-ellipsis-h" style="position: absolute; right: 30px; top: 10px"></i>
+          <a href="#">
+            <i class="fa fa-road fa-2x" style="position: absolute; bottom: 10px; left: 30px;"></i>
+          </a>
+          <a href="" style="color: var(--light-black);">Bigfoot</a>
         </div>
       </div>
-      <div class="col-lg-3 col-md-4 col-sm-6 col-xm-6 margin-top-bottom">
-        <div class="column-control">
+      <div class="col-lg-4 col-md-6 col-sm-6 col-xm-6 margin-top-bottom">
+        <div class="column-control" style="color: var(--light-black);">
           <h6><i class="fa fa-plus">Add</i></h6>
         </div>
       </div>

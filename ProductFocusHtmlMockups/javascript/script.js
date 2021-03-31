@@ -64,3 +64,31 @@ $(document).ready(()=>{
         }
     });
 });
+
+$(document).ready(()=>{
+    $('#edit-access-button').click(()=>{
+        if($('#edit-access').css("opacity") == 0){
+            $('#edit-access').css({"height":"300","opacity":"1"});
+        }else{
+            $('#edit-access').css({"height":"0","opacity":"0"});
+        }
+    });
+});
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        
+        reader.onload = function (e) {
+            $('#image-source').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+$(document).ready(()=>{
+    $('#picture').change((f)=>{
+        readURL(f.target);
+    })
+});

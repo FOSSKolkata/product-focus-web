@@ -3,10 +3,20 @@
 :root{
     --dark-gray: #E5E5E5;
     --light-gray: #EEEEEE;
+    --low-light-gray: #f8f8f8;
     --white: #ffffff;
-    --nav-blue: #83A8ba;
     --nav-dark-blue: #83A8C9;
-    --global-text-size: 14px; 
+    --nav-blue: #7698b6;
+    --global-text-size: 14px;
+    --small-text: 11px;
+    --medium-text: 12px;
+    --light-black: rgb(75, 75, 75);
+}
+
+.good-btn{
+    background-color: var(--nav-dark-blue);
+    color: var(--white);
+    font-size: var(--small-text);
 }
 
 body{
@@ -103,9 +113,28 @@ body{
 .column-control{
     background-color: var(--white);
     margin: 1px;
-    padding:50px 25px 50px 25px;
+    padding:80px 25px 80px 25px;
     text-align: center;
 }
+
+.column-control:hover{
+    background-color: var(--low-light-gray);
+    cursor: pointer;
+}
+
+.good-btn:hover{
+    background-color: var(--nav-blue);
+    cursor: pointer;
+}
+
+.btn-hover:hover{
+    background-color: var(--nav-dark-blue);
+}
+
+/* 
+.column-control > a:hover{
+    background-color: var(--dark-gray);
+} */
 
 .margin-top-bottom{
     margin-top: 15px;
