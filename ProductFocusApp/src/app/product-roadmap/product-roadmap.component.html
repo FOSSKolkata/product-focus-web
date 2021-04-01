@@ -22,8 +22,16 @@
           <div>
             <ul style="list-style-type: none;padding:0;">
               <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:20px;left:calc(100%/365*31); width: calc(100%/365*31); background-color: brown; color:var(--white);">PNR medication needs to be transferred to a new tab</small>
-                <small style="height: 20px; overflow: hidden; position: absolute; top:20px;left:calc(100%/365*70); width: calc(100%/365*40); background-color: rgb(118, 165, 42); color:var(--white);">New medication API integration</small>
+                <!-- <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:20px;left:calc(100%/365*31); width: calc(100%/365*31); background-color: brown; color:var(--white);">PNR medication needs to be transferred to a new tab</small>
+                <small style="height: 20px; overflow: hidden; position: absolute; top:20px;left:calc(100%/365*70); width: calc(100%/365*40); background-color: rgb(118, 165, 42); color:var(--white);">New medication API integration</small> -->
+                <app-test-drag 
+                  [text]="'PNR medication needs to be transferred to a new tab'"
+                  [background-color]="'darkgoldenrod'"
+                  [top]="'20px'"
+                  [left]="'calc(100%/365*120)'"
+                  [width]="'calc(100%/365*31)'"
+                  >
+                </app-test-drag>
               </li>
               <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
                 <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:46px;left:calc(100%/365*5); width: calc(100%/365*80); background-color: rgb(29, 124, 148); color:var(--white);">New medication API integration</small>

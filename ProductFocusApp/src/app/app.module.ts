@@ -68,7 +68,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     AppComponent,
     HomeComponent,
     OrganizationHomeComponent,
-    OrganizationMembersComponent
+    OrganizationMembersComponent,
   ],
   imports: [
     BrowserModule,

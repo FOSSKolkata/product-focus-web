@@ -311,13 +311,13 @@
 
 
   <div class="infinite-scroll-x-axis">
-    <div class="infinite-scroll-y-axis">
+    <div class="infinite-scroll-y-axis" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="card">
         <div class="card-header">
           Medications
         </div>
       </div>
-      <div class="card" style="margin: 5px">
+      <div class="card" style="margin: 5px" draggable="true" ondragstart="drag(event)" id="drag11">
         <div class="card-body">
           <div class="card-title" data-toggle="modal" data-target="#featurePopup">
             <small>PNR medication needs to transfer to a new tab.</small>
@@ -328,7 +328,7 @@
           <small><i class="far fa-check-square"></i> 3/3</small>
         </div>
       </div>
-      <div class="card" style="margin: 5px;">
+      <div class="card" style="margin: 5px;" draggable="true" ondragstart="drag(event)" id="drag12">
         <div class="card-body">
           <div class="card-title">
             <small>New medication API integration</small>
@@ -345,13 +345,13 @@
         </div>
       </div>
     </div>
-    <div class="infinite-scroll-y-axis">
+    <div class="infinite-scroll-y-axis" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="card">
         <div class="card-header">
           Vitals
         </div>
       </div>
-      <div class="card" style="margin: 5px;">
+      <div class="card" style="margin: 5px;" draggable="true" ondragstart="drag(event)" id="drag21">
         <div class="card-body">
           <div class="card-title">
             <small>New medication API integration</small>
@@ -363,7 +363,7 @@
         </div>
       </div>
       
-      <div class="card" style="margin: 5px;">
+      <div class="card" style="margin: 5px;" draggable="true" ondragstart="drag(event)" id="drag22">
         <div class="card-body">
           <div class="card-title">
             <small>A modal popup window is needed to display all the details.</small>
@@ -375,7 +375,7 @@
         </div>
       </div>
       
-      <div class="card" style="margin: 5px;">
+      <div class="card" style="margin: 5px;" draggable="true" ondragstart="drag(event)" id="drag23">
         <div class="card-body">
           <div class="card-title"><small>A form is needed to get all the details of the user.</small></div>
           <small><i class="far fa-clock"></i> 12 feb</small>
@@ -385,7 +385,7 @@
         </div>
       </div>
       
-      <div class="card" style="margin: 5px;">
+      <div class="card" style="margin: 5px;" draggable="true" ondragstart="drag(event)" id="drag24">
         <div class="card-body">
           <div class="card-title"><small>User can print all the necessary details in a pdf file.</small></div>
           <small ><i class="far fa-clock"></i> 13 jan</small>
@@ -400,13 +400,13 @@
         </div>
       </div>
     </div>
-    <div class="infinite-scroll-y-axis">
+    <div class="infinite-scroll-y-axis" ondrop="drop(event)" ondragover="allowDrop(event)">
       <div class="card">
         <div class="card-header">
           Telehealth
         </div>
       </div>
-      <div class="card" style="margin: 5px;">
+      <div class="card" style="margin: 5px;" draggable="true" ondragstart="drag(event)" id="drag31">
         <div class="card-body">
           <div class="card-title"><small>Need a call verification step.</small></div>
           <small ><i class="far fa-clock"></i> 13 jan</small>
@@ -416,7 +416,7 @@
         </div>
       </div>
       
-      <div class="card" style="margin: 5px;">
+      <div class="card" style="margin: 5px;" draggable="true" ondragstart="drag(event)" id="drag32">
         <div class="card-body">
           <div class="card-title"><small>As soon as the meeting get reschedule, a notification must be send to the user side.</small></div>
           <small ><i class="far fa-clock"></i> 13 jan</small>

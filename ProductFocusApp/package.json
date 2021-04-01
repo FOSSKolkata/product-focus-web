@@ -25,6 +25,7 @@
     "@azure/msal-angular": "^2.0.0-alpha.5",
     "@azure/msal-browser": "^2.11.2",
     "@ng-bootstrap/ng-bootstrap": "^9.0.2",
+    "angular-resizable-element": "^3.3.5",
     "bootstrap": "^4.6.0",
     "rxjs": "~6.6.0",
     "subsink": "^1.0.2",
