@@ -2,11 +2,11 @@ import { Component, Input, OnInit, Output } from '@angular/core';
 import { ResizeEvent } from 'angular-resizable-element';
 
 @Component({
-  selector: 'app-test-drag',
-  templateUrl: './test-drag.component.html',
-  styleUrls: ['./test-drag.component.css']
+  selector: 'app-drag',
+  templateUrl: './drag.component.html',
+  styleUrls: ['./drag.component.css']
 })
-export class TestDragComponent implements OnInit {
+export class DragComponent implements OnInit {
   public style: object = {};
   @Input('text') text: string = '';
   @Input('background-color') backgroundColor: string = '';
@@ -18,8 +18,14 @@ export class TestDragComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  tempWidth:Number = 0;
+  tempRight:Number = 0;
+  onResizeStart(event: ResizeEvent): void{
+    console.log(event.rectangle);
+  }
+
   onResizeEnd(event: ResizeEvent): void {
-    console.log('Element was resized', event);
+    console.log(event.rectangle);
     this.style = {
       position: 'fixed',
       left: `${event.rectangle.left}px`,

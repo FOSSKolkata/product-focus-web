@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductRoadmapComponent implements OnInit {
 
+  line:Number = 60;
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  onMoving(event:Object){
+    console.log(event)
+  }
 }

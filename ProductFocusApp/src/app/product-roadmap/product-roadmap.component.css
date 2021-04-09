@@ -8,3 +8,10 @@
 .vertical-line:hover{
     border-left: 2px solid black;
 }
+.ng-draggable {
+    cursor: grab;
+  }
+
+  .ng-dragging {
+    cursor: grabbing;
+  }

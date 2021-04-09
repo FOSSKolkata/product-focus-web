@@ -1,8 +1,5 @@
-<button mat-raised-button *ngIf="!loginDisplay" (click)="login()">Login</button>
-<button mat-raised-button *ngIf="loginDisplay" (click)="logout()">Logout</button>
+<app-layout></app-layout>
 <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
-<button routerLink="/home">Home</button>
-<button routerLink="/product-modules">Modules</button>
-<button routerLink="/news-report">News Report</button>
-<button routerLink="/product-roadmap">Product Roadmap</button>
-<router-outlet *ngIf="!isIframe"></router-outlet>
+<div style="margin: 66px 0 0 60px;">
+    <router-outlet *ngIf="!isIframe"></router-outlet>
+</div>

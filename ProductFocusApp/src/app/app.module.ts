@@ -14,6 +14,8 @@ import { ModuleService } from './_services/module._service';
 import { FormsModule } from '@angular/forms';
 import { OrganizationHomeComponent } from './organization-home/organization-home.component';
 import { OrganizationMembersComponent } from './organization-members/organization-members.component';
+import { LayoutComponent } from './layout/layout.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
@@ -69,6 +71,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     HomeComponent,
     OrganizationHomeComponent,
     OrganizationMembersComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,7 +80,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     AppRoutingModule,
     HttpClientModule,
     MsalModule,
-    // NgbModule
+    NgbModule
   ],
   providers: [
     {

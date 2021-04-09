@@ -1,0 +1,77 @@
+.dropdown-toggle::after {
+    content: none;
+}
+
+.side-nav *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.side-nav{
+    z-index: 2;
+    position: fixed;
+    margin-top:0;
+    width: 60px;
+    height: 100%;
+    background-color: var(--medium-gray);
+    transition: 0.5s;
+    overflow: hidden;
+}
+
+.side-nav:hover{
+    width: 300px;
+}
+
+.side-nav ul{
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 100%;
+}
+
+.side-nav ul li {
+    position: relative;
+    width: 100%;
+    list-style: none;
+    height: 60px;
+}
+
+.side-nav ul li:hover{
+    background-color: var(--dark-gray);
+}
+
+.side-nav ul li a{
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+}
+
+.side-nav ul li a .title{
+    padding: 20px 0;
+}
+
+.side-nav ul li a .icon{
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60%;
+    line-height: 60px;
+    text-align: center;
+}
+
+.side-nav ul li a .icon .fa{
+    font-size: 24px;
+}
+
+.side-nav ul li a .icon{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px;
+    text-align: start;
+    white-space: nowrap;
+}

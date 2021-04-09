@@ -1,9 +1,9 @@
-<div
-      class="rectangle"
+<div class="rectangle"
       [ngStyle]="style"
       mwlResizable
       [enableGhostResize]="true"
       (resizeEnd)="onResizeEnd($event)"
+      (resizeStart)="onResizeStart($event)"
       [style.background-color]="backgroundColor"
       [style.top]="top"
       [style.left]="left"
