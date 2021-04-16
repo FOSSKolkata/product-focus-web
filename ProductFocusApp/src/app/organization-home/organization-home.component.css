@@ -4,3 +4,49 @@
     padding:50px 25px 50px 25px;
     text-align: center;
 }
+
+.page-content{
+    width: calc(100% - 18rem);
+    margin-left: 17rem;
+    transition: all 0.4s;
+}
+
+.module-content{
+    background-color: var(--light-gray);
+    margin:2px;
+}
+
+#sidebar.active{
+    margin-left: -17rem;
+}
+
+#content.active{
+    width: 98%;
+    margin: 0;
+}
+
+@media (max-width: 768px){
+    #sidebar.active{
+        margin-left: -17rem;
+    }
+    #sidebar{
+        margin-left: 0;
+    }
+    #content.active{
+        width: 100%;
+        margin: 0;
+    }
+    #content{
+        margin-left: 17rem;
+        width: calc(100% - 17rem);
+    }
+}
+
+.add-organization .add div button{
+    margin: 5px 5px 5px 0;
+}
+
+.btn-transparent{
+    border: none;
+    background-color: rgba(17, 17, 17, 0.007);
+}

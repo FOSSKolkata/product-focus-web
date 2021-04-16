@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { NewsReportRoutingModule } from './news-report-routing.module';
 import { NewsReportComponent } from './news-report.component';
 import { DomainEventComponent } from './domain-event/domain-event.component';
-
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,9 @@ import { DomainEventComponent } from './domain-event/domain-event.component';
   ],
   imports: [
     CommonModule,
-    NewsReportRoutingModule
+    NewsReportRoutingModule,
+    NgbModule,
+    FormsModule
   ]
 })
 export class NewsReportModule { }

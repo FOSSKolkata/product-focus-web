@@ -4,7 +4,7 @@ import { ProductModulesComponent } from "./product-modules.component";
 
 const routes: Routes = [
 {
-    path: '',
+    path: 'product-modules',
     component: ProductModulesComponent,
 }]
 

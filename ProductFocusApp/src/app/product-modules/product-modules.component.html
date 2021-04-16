@@ -1,4 +1,4 @@
-<div class="infinite-scroll-x-axis">
+<div class="infinite-scroll-x-axis margin-for-navs" [ngStyle]="(styling.sharedStyle$ | async)">
     <span *ngFor="let module of modules">
         <app-module [module]="module"></app-module>
     </span>

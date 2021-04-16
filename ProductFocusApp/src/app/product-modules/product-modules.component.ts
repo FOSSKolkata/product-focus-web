@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SubSink } from 'subsink';
+import { StylingService } from '../side-nav/styling.service';
 import { ModuleService } from '../_services/module._service';
 import { ProductModule } from './model';
 
@@ -15,7 +16,8 @@ export class ProductModulesComponent implements OnInit, OnDestroy {
   closeResult = '';
   moduleServiceSubscriptions: SubSink = new SubSink();
 
-  constructor(private moduleService: ModuleService) { }
+  constructor(private moduleService: ModuleService,
+              public styling: StylingService) { }
 
   ngOnInit(): void {
     this.moduleServiceSubscriptions.add(

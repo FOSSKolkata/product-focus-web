@@ -4,7 +4,7 @@ import { NewsReportComponent } from './news-report.component';
 
 const routes: Routes = [
 {
-    path: '',
+    path: 'news-report',
     component: NewsReportComponent
 }];
 

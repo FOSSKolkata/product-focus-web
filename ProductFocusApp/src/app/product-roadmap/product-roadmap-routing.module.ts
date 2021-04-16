@@ -4,7 +4,7 @@ import { ProductRoadmapComponent } from './product-roadmap.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'product-roadmap',
     component: ProductRoadmapComponent
 }]
 @NgModule({

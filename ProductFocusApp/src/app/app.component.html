@@ -1,5 +1,2 @@
-<app-layout></app-layout>
 <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
-<div style="margin: 66px 0 0 60px;">
-    <router-outlet *ngIf="!isIframe"></router-outlet>
-</div>
+<router-outlet *ngIf="!isIframe"></router-outlet>

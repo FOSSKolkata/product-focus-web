@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { StylingService } from '../side-nav/styling.service';
 
 @Component({
   selector: 'app-product-roadmap',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProductRoadmapComponent implements OnInit {
 
   line:Number = 60;
-  constructor() { }
+  constructor(public styling: StylingService) { }
 
   ngOnInit(): void {
   }

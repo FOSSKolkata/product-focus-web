@@ -16,11 +16,17 @@ import { OrganizationHomeComponent } from './organization-home/organization-home
 import { OrganizationMembersComponent } from './organization-members/organization-members.component';
 import { LayoutComponent } from './layout/layout.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SideNavComponent } from './side-nav/side-nav.component';
+import { TopNavComponent } from './top-nav/top-nav.component';
+import { ProfileComponent } from './profile/profile.component';
+import { OrganizationService } from './_services/organization.service';
+import { StylingService } from './side-nav/styling.service';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
 export function loggerCallback(logLevel: LogLevel, message: string) {
-  console.log(message);
+  console.log("vikram:::",message);
+  console.log("LOg:::",logLevel);
 }
 
 export function MSALInstanceFactory(): IPublicClientApplication {
@@ -72,6 +78,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     OrganizationHomeComponent,
     OrganizationMembersComponent,
     LayoutComponent,
+    SideNavComponent,
+    TopNavComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +112,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalService,
     MsalGuard,
     MsalBroadcastService,
-    ModuleService
+    ModuleService,
+    OrganizationService,
+    StylingService
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]
 })
