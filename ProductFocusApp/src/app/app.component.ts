@@ -89,6 +89,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   setLoginDisplay() {
     this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
+    
   }
 
   login(userFlowRequest?: RedirectRequest | PopupRequest) {
