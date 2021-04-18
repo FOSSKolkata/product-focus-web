@@ -1,8 +1,20 @@
 .column-control{
     background-color: var(--white);
     margin: 1px;
-    padding:50px 25px 50px 25px;
+    padding:65px 25px 65px 25px;
+    height: 150px;
     text-align: center;
+}
+
+.add-product{
+    background-color: var(--white);
+    margin: 1px;
+    padding:40px 25px 40px 25px;
+    height: 150px;
+}
+
+.nav li{
+    cursor: pointer;
 }
 
 .page-content{
@@ -42,7 +54,7 @@
     }
 }
 
-.add-organization .add div button{
+.add div button{
     margin: 5px 5px 5px 0;
 }
 

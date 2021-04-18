@@ -10,15 +10,22 @@ export class OrganizationHomeComponent implements OnInit {
 
   constructor(private organizationService: OrganizationService) { }
   active: boolean = false;
-  addView: boolean = false;
+  organizationAddView: boolean = false;
+  productAddView: boolean = false;
   organizationName: string | undefined;
-  organizationList: any = {};
+  selectedOrganizationId: Number| undefined;
+  productName: string | undefined;
+  organizationList: any = [];
+  productList: any = [];
   ngOnInit(): void {
-    this.fetchOrganizationList();
+    this.setOrganizationList();
   }
-  fetchOrganizationList(){
+  setOrganizationList(){
     this.organizationService.getOrganizationList().subscribe(res => {
       this.organizationList = res;
+      this.selectedOrganizationId = this.organizationList[0].id;
+      if(this.selectedOrganizationId != undefined)
+        this.setProductList(this.selectedOrganizationId);
     })
   }
   addOrganization(){
@@ -27,11 +34,39 @@ export class OrganizationHomeComponent implements OnInit {
     }
     this.organizationService.addOrganization(this.organizationName).subscribe(res => {
       // success
-      this.addView = false;
+      this.organizationAddView = false;
       this.organizationName = '';
-      this.fetchOrganizationList();
+      this.setOrganizationList();
     },err=> {
       alert(err);
     })
+  }
+  setProductList(id: Number){
+    this.organizationService.getProductsByOrganizationId(id).subscribe(res => {
+      this.productList = res;
+      console.log(res);
+    },err => {
+      console.log(err);
+    })
+  }
+  selectOrganization(id: Number){
+    this.selectedOrganizationId = id;
+  }
+  addProduct(){
+    if(this.productName === undefined || this.productName == ''){
+      return;
+    }
+    if(this.selectedOrganizationId == undefined)
+      return;
+    this.organizationService.addProductInOrganization(
+      this.selectedOrganizationId,
+      this.productName).subscribe(res =>{
+        this.productName = '';
+        this.productAddView = false;
+        if(this.selectedOrganizationId != undefined)
+          this.setProductList(this.selectedOrganizationId);
+      },err=>{
+        console.log(err);
+      })
   }
 }

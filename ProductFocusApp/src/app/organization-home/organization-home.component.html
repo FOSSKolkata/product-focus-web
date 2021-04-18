@@ -2,22 +2,24 @@
 <div style="margin-top: 70px;">
   <div class="vertical-nav bg-white" [class.active]="active"id="sidebar" style="top: 66px;">
     <ul class="nav flex-column bg-white mb-0">
-      <li *ngFor="let organization of organizationList" class="nav-item">
-        <a href="#" class="nav-link text-dark bg-light">
+      <li *ngFor="let organization of organizationList"
+        class="nav-item"
+        (click)="setProductList(organization.id); selectOrganization(organization.id)">
+        <div class="nav-link text-dark bg-light">
           {{organization.name}}
-        </a>
+        </div>
       </li>
       <li class="nav-item">
         <a class="nav-link success add-organization">
-          <div *ngIf="!addView" type="button" (click)="addView=true" class="create">Create an organization</div>
-          <div *ngIf="addView" class="add">
+          <div *ngIf="!organizationAddView" type="button" (click)="organizationAddView=true" class="create">Create an organization</div>
+          <div *ngIf="organizationAddView" class="add">
             <input type="text" class="form-control"
               placeholder="Enter Organization Name"
               [(ngModel)]="organizationName"
               (keyup.enter)="addOrganization()">
             <div>
               <button (click)="addOrganization()" class="btn good-btn">Add</button>
-              <i (click)="addView=false" class="fa fa-times" id="cancel-task"></i>
+              <i (click)="organizationAddView=false" class="fa fa-times" id="cancel-task"></i>
             </div>
           </div>
         </a>
@@ -43,129 +45,31 @@
     </div>
     
     <div class="row module-content ml-5">
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
+      <div *ngFor="let product of productList" class="col-lg-4 col-md-6 mt-1 mb-1">
         <div class="column-control">
           <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
           <a routerLink="/product-roadmap">
-            <i class="fa fa-road fa-2x" style="position: absolute; top: 85px; left: 30px;"></i>
+            <i class="fa fa-road fa-2x" style="position: absolute; top: 110px; left: 30px;"></i>
           </a>
           <a routerLink="/news-report">
-            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 85px; left: 70px;"></i>
+            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 110px; left: 70px;"></i>
           </a>
-          <a routerLink="/product-modules">Canary</a>
+          <a routerLink="/product-modules">{{product.name}}</a>
         </div>
       </div>
       <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a routerLink="/product-roadmap">
-            <i class="fa fa-road fa-2x" style="position: absolute; top: 85px; left: 30px;"></i>
-          </a>
-          <a routerLink="/news-report">
-            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 85px; left: 70px;"></i>
-          </a>
-          <a href="./news-report.html">Casanava</a> 
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a routerLink="/product-roadmap">
-            <i class="fa fa-road fa-2x" style="position: absolute; top: 85px; left: 30px;"></i>
-          </a>
-          <a routerLink="/news-report">
-            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 85px; left: 70px;"></i>
-          </a>
-          <a href="">Cascade</a>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a routerLink="/product-roadmap">
-            <i class="fa fa-road fa-2x" style="position: absolute; top: 85px; left: 30px;"></i>
-          </a>
-          <a routerLink="/news-report">
-            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 85px; left: 70px;"></i>
-          </a>
-          <a href="">Bigfish</a>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a routerLink="/product-roadmap">
-            <i class="fa fa-road fa-2x" style="position: absolute; top: 85px; left: 30px;"></i>
-          </a>
-          <a routerLink="/news-report">
-            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 85px; left: 70px;"></i>
-          </a>
-          <a href="">Bigfoot</a>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a routerLink="/product-roadmap">
-            <i class="fa fa-road fa-2x" style="position: absolute; top: 85px; left: 30px;"></i>
-          </a>
-          <a routerLink="/news-report">
-            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 85px; left: 70px;"></i>
-          </a>
-          <a href="">Bigfoot</a>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a routerLink="/product-roadmap">
-            <i class="fa fa-road fa-2x" style="position: absolute; top: 85px; left: 30px;"></i>
-          </a>
-          <a routerLink="/news-report">
-            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 85px; left: 70px;"></i>
-          </a>
-          <a href="">Bigfoot</a>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a routerLink="/product-roadmap">
-            <i class="fa fa-road fa-2x" style="position: absolute; top: 85px; left: 30px;"></i>
-          </a>
-          <a routerLink="/news-report">
-            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 85px; left: 70px;"></i>
-          </a>
-          <a href="">Bigfoot</a>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a routerLink="/product-roadmap">
-            <i class="fa fa-road fa-2x" style="position: absolute; top: 85px; left: 30px;"></i>
-          </a>
-          <a routerLink="/news-report">
-            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 85px; left: 70px;"></i>
-          </a>
-          <a href="">Bigfoot</a>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div class="column-control">
-          <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
-          <a routerLink="/product-roadmap">
-            <i class="fa fa-road fa-2x" style="position: absolute; top: 85px; left: 30px;"></i>
-          </a>
-          <a routerLink="/news-report">
-            <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 85px; left: 70px;"></i>
-          </a>
-          <a href="">Bigfoot</a>
-        </div>
-      </div>
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div class="column-control">
+        <div (click)="productAddView=true" *ngIf="!productAddView" class="column-control">
           <a><i class="fa fa-plus">Add</i></a>
+        </div>
+        <div *ngIf="productAddView" class="add-product add">
+          <input type="text" class="form-control"
+            [(ngModel)]="productName"
+            (keyup.enter)="addProduct()"
+            placeholder="Enter product name">
+          <div>
+            <button (click)="addProduct()" class="btn good-btn">Add</button>
+            <i (click)="productAddView=false" class="fa fa-times" id="cancel-task"></i>
+          </div>
         </div>
       </div>
     </div>
