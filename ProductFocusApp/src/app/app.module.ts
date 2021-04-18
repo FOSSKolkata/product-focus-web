@@ -21,6 +21,7 @@ import { TopNavComponent } from './top-nav/top-nav.component';
 import { ProfileComponent } from './profile/profile.component';
 import { OrganizationService } from './_services/organization.service';
 import { StylingService } from './side-nav/styling.service';
+import { RediectComponent } from './rediect/rediect.component';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
@@ -80,7 +81,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     LayoutComponent,
     SideNavComponent,
     TopNavComponent,
-    ProfileComponent
+    ProfileComponent,
+    RediectComponent
   ],
   imports: [
     BrowserModule,

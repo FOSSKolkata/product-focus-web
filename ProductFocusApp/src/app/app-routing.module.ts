@@ -6,6 +6,7 @@ import { OrganizationMembersComponent } from './organization-members/organizatio
 import { LayoutComponent } from './layout/layout.component';
 import { MsalGuard } from '@azure/msal-angular';
 import { ProfileComponent } from './profile/profile.component';
+import { RediectComponent } from './rediect/rediect.component';
 
 const SECURE_APP_ROUTES: Routes = [
   {
@@ -26,6 +27,11 @@ const SECURE_APP_ROUTES: Routes = [
 const routes: Routes = [
   {
     path: '',
+    component: OrganizationHomeComponent,
+    canActivate: [MsalGuard]
+  },
+  {
+    path: '',
     component: LayoutComponent,
     canActivate: [MsalGuard],
     children: SECURE_APP_ROUTES, runGuardsAndResolvers: 'always',
@@ -40,19 +46,22 @@ const routes: Routes = [
     path: 'organization-members',
     component: OrganizationMembersComponent,
     canActivate: [MsalGuard]
-  },{
+  }
+  ,{
     // Needed for hash routing
     path: 'error',
-    component: HomeComponent
+    component: RediectComponent
   },{
     // Needed for hash routing
     path: 'state',
-    component: HomeComponent
+    component: RediectComponent
   },{
     // Needed for hash routing
     path: 'code',
-    component: HomeComponent
+    component: RediectComponent
   }
+ 
+
 ];
 
 const isIframe = window !== window.parent && !window.opener;
