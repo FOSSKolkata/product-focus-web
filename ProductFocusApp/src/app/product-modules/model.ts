@@ -1,6 +1,6 @@
 export interface ProductModule{
-  title: string;
-  features: Feature[]
+  name: string;
+  // features: Feature[]
 }
 
 export interface Feature {

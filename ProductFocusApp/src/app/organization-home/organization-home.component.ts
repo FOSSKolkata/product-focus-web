@@ -69,4 +69,7 @@ export class OrganizationHomeComponent implements OnInit {
         console.log(err);
       })
   }
+  setLastProductId(id: Number){
+    localStorage.setItem('productId',id.toString());
+  }
 }

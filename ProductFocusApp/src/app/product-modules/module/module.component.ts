@@ -8,14 +8,19 @@ import { ProductModule } from '../model';
 })
 export class ModuleComponent implements OnInit {
 
+  featureAddView: boolean = false;
+  featureName: string = '';
   @Input() module: ProductModule = {
-    title: '',
-    features: []
+    name: '',
+    // features: []
   };
   constructor() { }
 
   ngOnInit(): void {
     
+  }
+  addFeature(){
+
   }
 
 }

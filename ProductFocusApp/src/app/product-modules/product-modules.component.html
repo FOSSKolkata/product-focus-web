@@ -1,5 +1,18 @@
 <div class="infinite-scroll-x-axis margin-for-navs" [ngStyle]="(styling.sharedStyle$ | async)">
-    <span *ngFor="let module of modules">
-        <app-module [module]="module"></app-module>
-    </span>
+  <span *ngFor="let module of modules">
+    <app-module [module]="module"></app-module>
+  </span>
+  <div class="add-module">
+    <i *ngIf="!moduleAddView" (click)="moduleAddView=true" class="fa fa-plus"> Add Module</i>
+    <div *ngIf="moduleAddView" class="add">
+      <input type="text" class="form-control"
+        [(ngModel)]="moduleName"
+        (keyup.enter)="addModule()"
+        placeholder="Enter module name">
+      <div>
+        <button (click)="addModule()" class="btn good-btn">Add</button>
+        <i (click)="moduleAddView=false" class="fa fa-times" id="cancel-task"></i>
+      </div>
+    </div>
+  </div>
 </div>

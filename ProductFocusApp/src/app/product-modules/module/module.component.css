@@ -1,7 +1,6 @@
 .add-feature{
     margin: 5px;
     padding-top: 5px;
-    height: 30px;
     cursor: pointer;
 }
 
@@ -17,4 +16,8 @@
     width: 280px;
     background-color: var(--light-gray);
     display: inline-block;
+}
+
+.add div button {
+    margin: 5px 5px 5px 0;
 }

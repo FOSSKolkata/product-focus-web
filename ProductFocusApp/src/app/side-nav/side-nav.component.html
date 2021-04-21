@@ -1,7 +1,7 @@
 <div class="side-nav" (mouseover)="onHover()" (mouseout)="onOut()">
     <ul>
       <li>
-        <a routerLink="/product-modules">
+        <a [routerLink]="['/product-modules',productId]">
           <span class="icon"><i class="fa fa-list"></i></span>
           <span class="title">Modules</span>
         </a>

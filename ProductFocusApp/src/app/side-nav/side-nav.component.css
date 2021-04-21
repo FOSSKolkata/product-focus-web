@@ -13,7 +13,7 @@
     height: 100%;
     background-color: var(--medium-gray);
     transition: 0.5s;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .side-nav:hover {

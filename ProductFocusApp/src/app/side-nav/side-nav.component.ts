@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { StylingService } from './styling.service';
 
 @Component({
@@ -8,9 +9,15 @@ import { StylingService } from './styling.service';
 })
 export class SideNavComponent implements OnInit {
   
-  constructor(private styling: StylingService) { }
+  constructor(private styling: StylingService,
+              private router: Router) { }
 
+  productId: Number | undefined;
   ngOnInit(): void {
+    if(localStorage.getItem('productId') == null)
+      this.router.navigate(['/organization-home']);
+    else
+      this.productId = Number(localStorage.getItem('productId')) || -1;
   }
 
   onHover(){
