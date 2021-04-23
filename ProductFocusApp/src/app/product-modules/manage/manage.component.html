@@ -1,0 +1,27 @@
+<div class="margin-for-navs" [ngStyle]="(styling.sharedStyle$ | async)">
+  <div class="row">
+    <div class="col-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="card-title">
+            <p>Medication</p>
+          </div>
+            <button [class.active]="isActive" [class.deactive]="!isActive" class="btn" (click)="isActive=!isActive">{{isActive?"Deactivate":"Activate"}}</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-3 add-module">
+      <i *ngIf="!moduleAddView" (click)="moduleAddView=true" class="fa fa-plus"> Add Module</i>
+      <div *ngIf="moduleAddView" class="add">
+          <input type="text" class="form-control"
+          [(ngModel)]="moduleName"
+          (keyup.enter)="addModule()"
+          placeholder="Enter module name">
+        <div>
+        <button (click)="addModule()" class="btn good-btn">Add</button>
+          <i (click)="moduleAddView=false" class="fa fa-times" id="cancel-task"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

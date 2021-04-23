@@ -54,7 +54,7 @@
           <a routerLink="/news-report">
             <i class="fa fa-newspaper fa-2x" style="position: absolute; top: 110px; left: 70px;"></i>
           </a>
-          <a [routerLink]="['/product-modules',product.id]" (click)="setLastProductId(product.id)">{{product.name}}</a>
+          <a [routerLink]="['/products',product.id,'product-modules']" (click)="setLastProductId(product.id)">{{product.name}}</a>
         </div>
       </div>
       <div class="col-lg-4 col-md-6 mt-1 mb-1">

@@ -1,18 +1,208 @@
-<div class="infinite-scroll-x-axis margin-for-navs" [ngStyle]="(styling.sharedStyle$ | async)">
-  <span *ngFor="let module of modules">
-    <app-module [module]="module"></app-module>
-  </span>
-  <div class="add-module">
-    <i *ngIf="!moduleAddView" (click)="moduleAddView=true" class="fa fa-plus"> Add Module</i>
-    <div *ngIf="moduleAddView" class="add">
-      <input type="text" class="form-control"
-        [(ngModel)]="moduleName"
-        (keyup.enter)="addModule()"
-        placeholder="Enter module name">
-      <div>
-        <button (click)="addModule()" class="btn good-btn">Add</button>
-        <i (click)="moduleAddView=false" class="fa fa-times" id="cancel-task"></i>
+<div class="margin-for-navs mid-nav" [ngStyle]="(styling.sharedStyle$ | async)">
+  <div style="display: inline-block; vertical-align: top; margin: 0 10px;">Filters</div>
+  <div style="display: inline-block; vertical-align: top; margin: 0 10px;">
+    <label for="sprint" style="display: block;">Sprint</label>
+    <select name="sprint" id="sprint">
+      <option value="R6 - Sprint1">R6 - Sprint1</option>
+      <option value="R6 - Sprint2">R6 - Sprint2</option>
+      <option value="R6 - Sprint3">R6 - Sprint3</option>
+      <option value="R6 - Sprint4">R6 - Sprint4</option>
+    </select>
+  </div>
+  <div style="display: inline-block; vertical-align: top; margin: 0 10px;">
+    <label for="assignee" style="display: block;">Assigned To</label>
+    <select name="assignee" id="assignee">
+      <option value="tapas">Tapas</option>
+      <option value="vikram">Vikram</option>
+      <option value="ezhar">Ezhar</option>
+      <option value="abhijit">Abhijit</option>
+    </select>
+  </div>
+  <div style="display: inline-block; margin: 10px; position: absolute; right: 100px;">
+    <div ngbDropdown>
+      <i class="fa fa-cog fa-2x" id="dropdownBasic1" ngbDropdownToggle></i>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem [routerLink]="['manage']">Manage Modules</button>
+        <button ngbDropdownItem>Manage Sprint</button>
       </div>
     </div>
   </div>
+</div>
+<div class="infinite-scroll-x-axis margin-for-navs" [ngStyle]="(styling.sharedStyle$ | async)">
+  <div class="state-section">
+    <div class="state-header">
+      <div class="card">
+        <div class="card-header">
+          New
+        </div>
+      </div>
+    </div>
+    <div class="state-header">
+      <div class="card">
+        <div class="card-header">
+          In Progress
+        </div>
+      </div>
+    </div>
+    <div class="state-header">
+      <div class="card">
+        <div class="card-header">
+          Completed
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="module-section" cdkDropListGroup>
+      <div>
+        <div class="module-header">
+          Medications
+        </div>
+        <div class="feature-section" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="newlist">
+          <div class="card" *ngFor="let feature of newlist" cdkDrag>
+            <div class="card-body">
+              <div class="card-title">
+                <p>{{feature.id}}</p>
+                <small>{{feature.title}}</small>
+              </div>
+              <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}}</small>
+              <small><i class="far fa-clock"></i> {{feature.endDate}}</small>
+              <small><i class="far fa-comments"></i> {{feature.noOfTask}}</small>
+              <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
+            </div>
+          </div>
+          <div class="card" style="margin: 5px">
+            <div class="card-footer">
+              <small ><i class="fa fa-plus"> Add Feature</i></small>
+            </div>
+          </div>
+        </div>
+        <div class="feature-section" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="inProgress">
+          <div class="card" *ngFor="let feature of inProgress" cdkDrag>
+            <div class="card-body">
+              <div class="card-title">
+                <p>{{feature.id}}</p>
+                <small>{{feature.title}}</small>
+              </div>
+              <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}}</small>
+              <small><i class="far fa-clock"></i> {{feature.endDate}}</small>
+              <small><i class="far fa-comments"></i> {{feature.noOfTask}}</small>
+              <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
+            </div>
+          </div>
+          <div class="card" style="margin: 5px">
+            <div class="card-footer">
+              <small ><i class="fa fa-plus"> Add Feature</i></small>
+            </div>
+          </div>
+        </div>
+        <div class="feature-section" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="completed">
+          <div class="card" *ngFor="let feature of completed" cdkDrag>
+            <div class="card-body">
+              <div class="card-title">
+                <p>{{feature.id}}</p>
+                <small>{{feature.title}}</small>
+              </div>
+              <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}}</small>
+              <small><i class="far fa-clock"></i> {{feature.endDate}}</small>
+              <small><i class="far fa-comments"></i> {{feature.noOfTask}}</small>
+              <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
+            </div>
+          </div>
+          <div class="card" style="margin: 5px">
+            <div class="card-footer">
+              <small ><i class="fa fa-plus"> Add Feature</i></small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="module-section" style="background-color: burlywood;">
+      <div class="module-header">
+        Vital
+      </div>
+      <div class="feature-section">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">
+              <p>#2021</p>
+              <small>PNR medication needs to transfer to a new tab.</small>
+            </div>
+            <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
+            <small><i class="far fa-clock"></i> 15 jan</small>
+            <small><i class="far fa-comments"></i> 4</small>
+            <small><i class="far fa-check-square"></i> 3/3</small>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">
+              <p>#8923</p>
+              <small>PNR medication needs to transfer to a new tab.</small>
+            </div>
+            <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
+            <small><i class="far fa-clock"></i> 15 jan</small>
+            <small><i class="far fa-comments"></i> 4</small>
+            <small><i class="far fa-check-square"></i> 3/3</small>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">
+              <p>#3289</p>
+              <small>PNR medication needs to transfer to a new tab.</small>
+            </div>
+            <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
+            <small><i class="far fa-clock"></i> 15 jan</small>
+            <small><i class="far fa-comments"></i> 4</small>
+            <small><i class="far fa-check-square"></i> 3/3</small>
+          </div>
+        </div>
+        <div class="card" style="margin: 5px">
+          <div class="card-footer">
+            <small ><i class="fa fa-plus"> Add Feature</i></small>
+          </div>
+        </div>
+      </div>
+      <div class="feature-section">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">
+              <p>#3223</p>
+              <small>PNR medication needs to transfer to a new tab.</small>
+            </div>
+            <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
+            <small><i class="far fa-clock"></i> 15 jan</small>
+            <small><i class="far fa-comments"></i> 4</small>
+            <small><i class="far fa-check-square"></i> 3/3</small>
+          </div>
+        </div>
+        <div class="card" style="margin: 5px">
+          <div class="card-footer">
+            <small ><i class="fa fa-plus"> Add Feature</i></small>
+          </div>
+        </div>
+      </div>
+      <div class="feature-section">
+        <div class="card">
+          <div class="card-body">
+            <div class="card-title">
+              <p>#3232</p>
+              <small>PNR medication needs to transfer to a new tab.</small>
+            </div>
+            <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
+            <small><i class="far fa-clock"></i> 15 jan</small>
+            <small><i class="far fa-comments"></i> 4</small>
+            <small><i class="far fa-check-square"></i> 3/3</small>
+          </div>
+        </div>
+        <div class="card" style="margin: 5px">
+          <div class="card-footer">
+            <small ><i class="fa fa-plus"> Add Feature</i></small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 </div>

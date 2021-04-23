@@ -11,9 +11,9 @@
     top: 66px;
     width: 60px;
     height: 100%;
+    overflow-x: hidden;
     background-color: var(--medium-gray);
     transition: 0.5s;
-    overflow: auto;
 }
 
 .side-nav:hover {

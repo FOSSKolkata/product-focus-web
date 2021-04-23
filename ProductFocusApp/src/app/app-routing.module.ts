@@ -10,7 +10,7 @@ import { RediectComponent } from './rediect/rediect.component';
 
 const SECURE_APP_ROUTES: Routes = [
   {
-    path: '',
+    path: 'products/:id',
     loadChildren: ()=> import('./product-modules/product-modules.module').then(m => m.ProductModulesModule)
   },{
     path: '',
