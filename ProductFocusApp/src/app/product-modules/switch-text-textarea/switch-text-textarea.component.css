@@ -1,0 +1,11 @@
+.switch-area {
+    width: 100%;
+}
+
+.switch-area:hover{
+    background-color: var(--light-gray);
+}
+
+.switch-area label {
+    cursor: pointer;
+}

@@ -20,9 +20,9 @@
   </div>
   <div style="display: inline-block; margin: 10px; position: absolute; right: 100px;">
     <div ngbDropdown>
-      <i class="fa fa-cog fa-2x" id="dropdownBasic1" ngbDropdownToggle></i>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button ngbDropdownItem [routerLink]="['manage']">Manage Modules</button>
+      <i class="fa fa-cog fa-2x" id="manageModuleDropDown" ngbDropdownToggle></i>
+      <div ngbDropdownMenu aria-labelledby="manageModuleDropDown">
+        <button ngbDropdownItem (click)="openSmallPopup(manageModuleContent)">Manage Modules</button>
         <button ngbDropdownItem>Manage Sprint</button>
       </div>
     </div>
@@ -59,59 +59,117 @@
           Medications
         </div>
         <div class="feature-section" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="newlist">
-          <div class="card" *ngFor="let feature of newlist" cdkDrag>
+          <div class="card" style="white-space: normal;" *ngFor="let feature of newlist" cdkDrag (click)="openLargePopup(featureContent)">
             <div class="card-body">
               <div class="card-title">
-                <p>{{feature.id}}</p>
+                <p><i class="fa fa-life-ring" style="color: blue; padding: 0 5px 0 0"></i>{{feature.id}}</p>
                 <small>{{feature.title}}</small>
               </div>
-              <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}}</small>
-              <small><i class="far fa-clock"></i> {{feature.endDate}}</small>
-              <small><i class="far fa-comments"></i> {{feature.noOfTask}}</small>
-              <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
+              <div class="row">
+                <div class="col">
+                  <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}} - {{feature.endDate}}</small>
+                </div>
+                <div class="col">
+                  <small><i class="far fa-comments"></i> {{feature.noOfChat}}</small>
+                </div>
+                <div class="col">
+                  <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card" (click)="openLargePopup(bugContent)">
+            <div class="card-body">
+              <div class="card-title">
+                <p><i class="fa fa-bug" style="color: red; padding: 0 5px 0 0"></i>#3223</p>
+                <small>Login button is not aligned properly.</small>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <small class="completed"><i class="far fa-clock"></i> 30 Apr - 05 May</small>
+                </div>
+                <div class="col">
+                  <small><i class="far fa-comments"></i> 4</small>
+                </div>
+              </div>
             </div>
           </div>
           <div class="card" style="margin: 5px">
             <div class="card-footer">
-              <small ><i class="fa fa-plus"> Add Feature</i></small>
+              <small *ngIf="addFeatureOrBugStep == 0" (click)="addFeatureOrBugStep = 1"><i class="fa fa-plus"> Add Feature/Bug</i></small>
+              <div class="add" *ngIf="addFeatureOrBugStep == 1">
+                <button class="btn good-btn" style="margin: 5px;" (click)="addType('feature'); addFeatureOrBugStep = 2;">Feature</button>
+                <button class="btn good-btn" style="margin: 5px;" (click)="addType('bug'); addFeatureOrBugStep = 2;">Bug</button>
+                <div>
+                  <span style="margin: 5px;">Choose type</span>
+                  <i (click)="addFeatureOrBugStep = 0" class="fa fa-times" id="cancel-task"></i>
+                </div>
+              </div>
+              <div *ngIf="addFeatureOrBugStep == 2" class="add">
+                <i class="fa"
+                  [class.fa-bug]="cardType=='bug'"
+                  [class.fa-life-ring]="cardType=='feature'"
+                  [style.color]="cardType=='bug'?'red':'blue'"
+                  ></i>
+                <textarea type="text" class="form-control"
+                placeholder="Enter title" rows="2"></textarea>
+                <div>
+                  <button class="btn good-btn">Add</button>
+                  <i class="fa fa-times" id="cancel-task" (click)="addFeatureOrBugStep = 0;"></i>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="feature-section" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="inProgress">
-          <div class="card" *ngFor="let feature of inProgress" cdkDrag>
+          <div class="card" style="white-space: normal;" *ngFor="let feature of inProgress" cdkDrag (click)="openLargePopup(featureContent)">
             <div class="card-body">
               <div class="card-title">
-                <p>{{feature.id}}</p>
+                <p><i class="fa fa-life-ring" style="color: blue; padding: 0 5px 0 0"></i>{{feature.id}}</p>
                 <small>{{feature.title}}</small>
               </div>
-              <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}}</small>
-              <small><i class="far fa-clock"></i> {{feature.endDate}}</small>
-              <small><i class="far fa-comments"></i> {{feature.noOfTask}}</small>
-              <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
+              <div class="row">
+                <div class="col">
+                  <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}} - {{feature.endDate}}</small>
+                </div>
+                <div class="col">
+                  <small><i class="far fa-comments"></i> {{feature.noOfChat}}</small>
+                </div>
+                <div class="col">
+                  <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
+                </div>
+              </div>
             </div>
           </div>
           <div class="card" style="margin: 5px">
             <div class="card-footer">
-              <small ><i class="fa fa-plus"> Add Feature</i></small>
+              <small ><i class="fa fa-plus"> Add Feature/Bug</i></small>
             </div>
           </div>
         </div>
         <div class="feature-section" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="completed">
-          <div class="card" *ngFor="let feature of completed" cdkDrag>
+          <div class="card" style="white-space: normal;" *ngFor="let feature of completed" cdkDrag (click)="openLargePopup(featureContent)">
             <div class="card-body">
               <div class="card-title">
-                <p>{{feature.id}}</p>
+                <p><i class="fa fa-life-ring" style="color: blue; padding: 0 5px 0 0"></i>{{feature.id}}</p>
                 <small>{{feature.title}}</small>
               </div>
-              <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}}</small>
-              <small><i class="far fa-clock"></i> {{feature.endDate}}</small>
-              <small><i class="far fa-comments"></i> {{feature.noOfTask}}</small>
-              <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
+              <div class="row">
+                <div class="col">
+                  <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}} - {{feature.endDate}}</small>
+                </div>
+                <div class="col">
+                  <small><i class="far fa-comments"></i> {{feature.noOfChat}}</small>
+                </div>
+                <div class="col">
+                  <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
+                </div>
+              </div>
             </div>
           </div>
           <div class="card" style="margin: 5px">
             <div class="card-footer">
-              <small ><i class="fa fa-plus"> Add Feature</i></small>
+              <small ><i class="fa fa-plus"> Add Feature/Bug</i></small>
             </div>
           </div>
         </div>
@@ -122,14 +180,13 @@
         Vital
       </div>
       <div class="feature-section">
-        <div class="card">
+        <div class="card" style="white-space: normal;">
           <div class="card-body">
             <div class="card-title">
               <p>#2021</p>
               <small>PNR medication needs to transfer to a new tab.</small>
             </div>
-            <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
-            <small><i class="far fa-clock"></i> 15 jan</small>
+            <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
             <small><i class="far fa-comments"></i> 4</small>
             <small><i class="far fa-check-square"></i> 3/3</small>
           </div>
@@ -140,8 +197,7 @@
               <p>#8923</p>
               <small>PNR medication needs to transfer to a new tab.</small>
             </div>
-            <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
-            <small><i class="far fa-clock"></i> 15 jan</small>
+            <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
             <small><i class="far fa-comments"></i> 4</small>
             <small><i class="far fa-check-square"></i> 3/3</small>
           </div>
@@ -152,57 +208,544 @@
               <p>#3289</p>
               <small>PNR medication needs to transfer to a new tab.</small>
             </div>
-            <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
-            <small><i class="far fa-clock"></i> 15 jan</small>
+            <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
             <small><i class="far fa-comments"></i> 4</small>
             <small><i class="far fa-check-square"></i> 3/3</small>
           </div>
         </div>
         <div class="card" style="margin: 5px">
           <div class="card-footer">
-            <small ><i class="fa fa-plus"> Add Feature</i></small>
+            <small ><i class="fa fa-plus"> Add Feature/Bug</i></small>
           </div>
         </div>
       </div>
       <div class="feature-section">
-        <div class="card">
+        <div class="card" style="white-space: normal;">
           <div class="card-body">
             <div class="card-title">
               <p>#3223</p>
               <small>PNR medication needs to transfer to a new tab.</small>
             </div>
-            <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
-            <small><i class="far fa-clock"></i> 15 jan</small>
+            <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
             <small><i class="far fa-comments"></i> 4</small>
             <small><i class="far fa-check-square"></i> 3/3</small>
           </div>
         </div>
         <div class="card" style="margin: 5px">
           <div class="card-footer">
-            <small ><i class="fa fa-plus"> Add Feature</i></small>
+            <small ><i class="fa fa-plus"> Add Feature/Bug</i></small>
           </div>
         </div>
       </div>
       <div class="feature-section">
-        <div class="card">
+        <div class="card" style="white-space: normal;">
           <div class="card-body">
             <div class="card-title">
               <p>#3232</p>
               <small>PNR medication needs to transfer to a new tab.</small>
             </div>
-            <small class="completed"><i class="far fa-clock"></i> 13 jan</small>
-            <small><i class="far fa-clock"></i> 15 jan</small>
+            <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
             <small><i class="far fa-comments"></i> 4</small>
             <small><i class="far fa-check-square"></i> 3/3</small>
           </div>
         </div>
         <div class="card" style="margin: 5px">
           <div class="card-footer">
-            <small ><i class="fa fa-plus"> Add Feature</i></small>
+            <small ><i class="fa fa-plus"> Add Feature/Bug</i></small>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+
+  <ng-template #manageModuleContent let-modal>
+    <div class="modal-header">
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <div style="display: inline; vertical-align: bottom;">Medications</div>
+          <i class="fa fa-sync float-right" data-toggle="tooltip" data-placement="top" title="Restart"></i>
+        </li>
+        <li class="list-group-item">
+          <div style="display: inline-block; vertical-align: bottom;">Vital</div>
+          <i class="fa fa-stop-circle float-right" data-toggle="tooltip" data-placement="top" title="Discontinue"></i>
+        </li>
+        <li class="list-group-item">
+          <div class="add-module">
+            <i *ngIf="!moduleAddView" (click)="moduleAddView=true" class="fa fa-plus"> Add Module</i>
+            <div *ngIf="moduleAddView">
+              <input type="text" class="form-control" style="display: inline-block; vertical-align: middle;"
+                [(ngModel)]="moduleName"
+                (keyup.enter)="addModule()"
+                placeholder="Enter module name">
+              <button (click)="addModule()" class="btn good-btn" style="display: inline-block; vertical-align: middle;">Add</button>
+              <i (click)="moduleAddView=false" class="fa fa-times" id="cancel-task" style="display: inline-block; vertical-align: middle;"></i>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </ng-template>
+
+  <ng-template #bugContent let-modal>
+    <div class="modal-header">
+      <i class="fa fa-bug fa-2x" style="color: red;"></i>
+      <h4 class="modal-title w-100" id="modal-basic-title"><app-switch-text-textarea [title]="'Login button is not aligned properly'"></app-switch-text-textarea></h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row" style="margin-left: 10px; margin-top: 20px;">
+        <div class="col-12 col-lg-8">
+          <div class="row">
+            <div class="col-1" style="padding-top: 2px;">
+              <i class="fa fa-file"></i>
+            </div>
+            <div class="col">
+              <b>Description</b>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+            <div class="col-1"></div>
+            <div class="col" style="font-size: var(--global-text-size);">
+              <app-switch-text-textarea [title]="'The login button is not aligned center. It moves here and there on different screen sizes.'"></app-switch-text-textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col" style="font-size: var(--global-text-size);">
+              <label for="acceptanceCriteria">Acceptance Criteria</label>
+              <div class="form-group">
+                <app-switch-text-textarea></app-switch-text-textarea>
+              </div>
+            </div>
+          </div>
+          <!-- comment Heading -->
+          <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+            <div class="col-1">
+              <i class="fa fa-comments"></i>
+            </div>
+            <div class="col">
+              <b>Comments</b>
+            </div>
+          </div>
+          <!-- comments -->
+          <!-- all the comments -->
+          <!-- single comment starting -->
+          <div class="row">
+            <div class="col-1" style="padding-left: 7px;">
+              <div class="avatar" style="padding-top:4px; background-color: #66241c;">KT</div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-5 col-sm-4 h-25"><small><b>Kartik Tiwari </b></small></div>
+                <div class="col-6 col-sm-7"><small class="text-muted">1 minutes ago</small></div>
+              </div>
+              <div class="row">
+                <div class="col h-75">
+                  <small>I need an end point of user name, phone no along with medication id.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single comment ending -->
+          <!-- single comment starting -->
+          <div class="row">
+            <div class="col-1" style="padding-left: 7px;">
+              <div class="avatar" style="padding-top:4px;">AS</div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-5 col-sm-4 h-25"><small><b>Amit Shaw </b></small></div>
+                <div class="col-6 col-sm-7"><small class="text-muted">10 minutes ago</small></div>
+              </div>
+              <div class="row">
+                <div class="col h-75">
+                  <small>I need mobile number along with user details.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single comment ending -->
+          <!-- single comment starting -->
+          <div class="row">
+            <div class="col-1" style="padding-left: 7px;">
+              <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-5 col-sm-4 h-25"><small><b>Rahul Shrivastav </b></small></div>
+                <div class="col-6 col-sm-7"><small class="text-muted">yesterday at 2:33 p.m</small></div>
+              </div>
+              <div class="row">
+                <div class="col h-75">
+                  <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single comment ending -->
+          <!-- single comment starting -->
+          <div class="row">
+            <div class="col-1" style="padding-left: 7px;">
+              <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-5 col-sm-4 h-25"><small><b>Pappu Singh </b></small></div>
+                <div class="col-6 col-sm-7"><small class="text-muted">2nd Jan at 3:45 p.m</small></div>
+              </div>
+              <div class="row">
+                <div class="col h-75">
+                  <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single comment ending -->
+          <div class="row">
+            <div class="col-1">
+              <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
+            </div>
+            <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
+              <input type="text" class="form-control" placeholder="Write a comment..." style="border: none;">
+              <button class="btn good-btn" style="margin:3px;"><small>Comment</small></button>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-3">
+          <div style="margin-top: 10px;">
+            <label for="startdate">Start date: </label>
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd"
+                name="sd" ngbDatepicker #startDate="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="startDate.toggle()" type="button">
+                  <i class="fa fa-calendar-alt"></i>
+                </button>
+              </div>
+            </div>
+            <!-- <input type="date" id="startdate" name="startdate"> -->
+          </div>
+          <div style="margin-top: 10px;">
+            <label for="enddate">End date:&nbsp;&nbsp;</label>
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd"
+                name="ed" ngbDatepicker #endDate="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="endDate.toggle()" type="button">
+                  <i class="fa fa-calendar-alt"></i>
+                </button>
+              </div>
+            </div>
+            <!-- <input type="date" id="enddate" name="enddate"> -->
+          </div>
+          <div style="margin-top: 10px;">
+            Work progress (15 %)
+          </div>
+          <div>
+            <input type="range" min="1" max="100" value="15" style="width: 165px;">
+          </div>
+          <div>
+            <app-tag></app-tag>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #featureContent let-modal>
+    <div class="modal-header">
+      <!-- <i class="fa fa-binoculars"></i> -->
+      <i class="fa fa-life-ring fa-2x" style="color: blue;"></i>
+      <div class="modal-title w-100" id="modal-basic-title"><app-switch-text-textarea [title]="'PNR medications need to be transfer to a new tab.'"></app-switch-text-textarea>
+        <span style="margin-left: 5px;">
+          Switch To {{isFocusMode?'Normal ':'Focus '}} Mode
+        </span>
+        <div class="fa pointer"
+        [class.fa-bullseye]="!isFocusMode"
+        [class.fa-ban]="isFocusMode"
+        (click)="isFocusMode = !isFocusMode"
+      ></div>
+      </div>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="!isFocusMode" class="row" style="margin-left: 10px; margin-top: 20px;">
+        <div class="col-12 col-lg-8">
+          <div class="row">
+            <div class="col-1" style="padding-top: 2px;">
+              <i class="fa fa-file"></i>
+            </div>
+            <div class="col" style="font-size: var(--global-text-size);">
+              <app-switch-text-textarea [title]="'PNR medications need to be transfer to a new tab. This is the details of the feature.'"></app-switch-text-textarea>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+            <div class="col-1">
+              <i class="fa fa-tasks"></i>
+            </div>
+            <div class="col">
+              <b>Developers Tasks</b>
+            </div>
+          </div>
+          <!-- starting of task -->
+            <div class="row">
+            <div class="col-1">
+              <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
+            </div>
+            <div class="col-8 col-md-9">
+              <label for="task1">Need User information using PNR number</label>
+            </div>
+            <div class="col-1">
+              <i class="fa fa-user-plus"></i>
+            </div>
+            <div class="col-1">
+              <i class="fa fa-window-close"></i>
+            </div>
+          </div>
+          <!-- ending of task -->
+          <!-- starting of task -->
+          <div class="row">
+            <div class="col-1">
+              <input type="checkbox" name="task2" id="task2" value="Need User information using PNR number">
+            </div>
+            <div class="col-8 col-md-9">
+              <label for="task2">API integration with the front end.</label>
+            </div>
+            <div class="col-1">
+              <i class="fa fa-user-plus"></i>
+            </div>
+            <div class="col-1">
+              <i class="fa fa-window-close"></i>
+            </div>
+          </div>
+          <!-- ending of task -->
+          <!-- starting of task -->
+          <div class="row">
+            <div class="col-1">
+              <input type="checkbox" name="task3" id="task3" value="Need User information using PNR number">
+            </div>
+            <div class="col-8 col-md-9">
+              <label for="task3">On Clicking create it should create a new tab.</label>
+            </div>
+            <div class="col-1">
+              <i class="fa fa-user-plus"></i>
+            </div>
+            <div class="col-1">
+              <i class="fa fa-window-close"></i>
+            </div>
+          </div>
+          <!-- ending of task -->
+          <!-- add task button -->
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col">
+              <button class="btn good-btn" style="font-size: x-small;">Add Task</button>
+            </div>
+          </div>
+          <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+            <div class="col-1">
+              <i class="fa fa-tasks"></i>
+            </div>
+            <div class="col">
+              <b>QA Tasks</b>
+            </div>
+          </div>
+          <!-- starting of task -->
+            <div class="row">
+            <div class="col-1">
+              <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
+            </div>
+            <div class="col-8 col-md-9">
+              <label for="task1">Need User information using PNR number</label>
+            </div>
+            <div class="col-1">
+              <i class="fa fa-user-plus"></i>
+            </div>
+            <div class="col-1">
+              <i class="fa fa-window-close"></i>
+            </div>
+          </div>
+          <!-- ending of task -->
+          <!-- add task button -->
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col">
+              <button class="btn good-btn" style="font-size: x-small;">Add Task</button>
+            </div>
+          </div>
+          <!-- comment Heading -->
+          <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+            <div class="col-1">
+              <i class="fa fa-comments"></i>
+            </div>
+            <div class="col">
+              <b>Comments</b>
+            </div>
+          </div>
+          <!-- comments -->
+          <!-- all the comments -->
+          <!-- single comment starting -->
+          <div class="row">
+            <div class="col-1" style="padding-left: 7px;">
+              <div class="avatar" style="padding-top:4px; background-color: #66241c;">KT</div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-5 col-sm-4 h-25"><small><b>Kartik Tiwari </b></small></div>
+                <div class="col-6 col-sm-7"><small class="text-muted">1 minutes ago</small></div>
+              </div>
+              <div class="row">
+                <div class="col h-75">
+                  <small>I need an end point of user name, phone no along with medication id.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single comment ending -->
+          <!-- single comment starting -->
+          <div class="row">
+            <div class="col-1" style="padding-left: 7px;">
+              <div class="avatar" style="padding-top:4px;">AS</div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-5 col-sm-4 h-25"><small><b>Amit Shaw </b></small></div>
+                <div class="col-6 col-sm-7"><small class="text-muted">10 minutes ago</small></div>
+              </div>
+              <div class="row">
+                <div class="col h-75">
+                  <small>I need mobile number along with user details.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single comment ending -->
+          <!-- single comment starting -->
+          <div class="row">
+            <div class="col-1" style="padding-left: 7px;">
+              <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-5 col-sm-4 h-25"><small><b>Rahul Shrivastav </b></small></div>
+                <div class="col-6 col-sm-7"><small class="text-muted">yesterday at 2:33 p.m</small></div>
+              </div>
+              <div class="row">
+                <div class="col h-75">
+                  <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single comment ending -->
+          <!-- single comment starting -->
+          <div class="row">
+            <div class="col-1" style="padding-left: 7px;">
+              <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
+            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-5 col-sm-4 h-25"><small><b>Pappu Singh </b></small></div>
+                <div class="col-6 col-sm-7"><small class="text-muted">2nd Jan at 3:45 p.m</small></div>
+              </div>
+              <div class="row">
+                <div class="col h-75">
+                  <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- single comment ending -->
+          <div class="row">
+            <div class="col-1">
+              <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
+            </div>
+            <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
+              <input type="text" class="form-control" placeholder="Write a comment..." style="border: none;">
+              <button class="btn good-btn" style="margin:3px;"><small>Comment</small></button>
+            </div>
+          </div>
+          <!--Everything completed for comments-->
+          <!--History UI Start-->
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col">
+              
+            </div>
+          </div>
+          <!--HIstory UI End-->
+        </div>
+        <div class="col-12 col-lg-3">
+          <div style="margin-top: 10px;">
+            <label for="startdate">Start date: </label>
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd"
+                name="sd" ngbDatepicker #startDate="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="startDate.toggle()" type="button">
+                  <i class="fa fa-calendar-alt"></i>
+                </button>
+              </div>
+            </div>
+            <!-- <input type="date" id="startdate" name="startdate"> -->
+          </div>
+          <div style="margin-top: 10px;">
+            <label for="enddate">End date:&nbsp;&nbsp;</label>
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd"
+                name="ed" ngbDatepicker #endDate="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="endDate.toggle()" type="button">
+                  <i class="fa fa-calendar-alt"></i>
+                </button>
+              </div>
+            </div>
+            <!-- <input type="date" id="enddate" name="enddate"> -->
+          </div>
+          <div style="margin-top: 10px;">
+            Work progress (15 %)
+          </div>
+          <div>
+            <input type="range" min="1" max="100" value="15" style="width: 165px;">
+          </div>
+          <div ngbDropdown [autoClose]="'outside'" style="margin-top: 10px;">
+            <div id="checklistDropDown" class="lists" ngbDropdownToggle>
+              <i class="fa fa-check-circle"></i>
+              Checklist
+            </div>
+            <div ngbDropdownMenu style="width: 250px;" aria-labelledby="checklistDropDown">
+              <div ngbDropdownItem class="remove-hover-effect">
+                <input type="text" class="form-control"
+                placeholder="Enter checklist title">
+              </div>
+              <div ngbDropdownItem class="remove-hover-effect">
+                <button class="btn good-btn">Add</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isFocusMode" class="row" style="margin-left: 10px; margin-top: 20px;">
+        <div class="col-8 offset-2">
+          <div style="width: 100%; text-align: center;">
+            <h4>{{data.value}}%</h4>
+            <input style="width: 100%;" type="range" min="1" max="100" value="15" class="slider" #data>
+            <div style="margin-top: 20px;">
+              <p style="font-size: 13px;">13 Jan, 2021 - 15 Jan, 2021</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
 </div>

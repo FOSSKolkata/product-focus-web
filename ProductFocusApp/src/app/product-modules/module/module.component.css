@@ -8,7 +8,7 @@
     background-color: var(--dark-gray);
 }
 
-.infinite-scroll-y-axis{
+.infinite-scroll-y-axis {
     overflow-x:auto;
     overflow-x: hidden;
     vertical-align:top;

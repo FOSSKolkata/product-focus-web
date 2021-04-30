@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ManageComponent } from './manage/manage.component';
+import { SwitchTextTextareaComponent } from './switch-text-textarea/switch-text-textarea.component';
+import { TagComponent } from './tag/tag.component';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 @NgModule({
   imports: [
@@ -16,14 +19,17 @@ import { ManageComponent } from './manage/manage.component';
     ProductModulesRoutingModule,
     FormsModule,
     NgbModule,
-    DragDropModule
+    DragDropModule,
+    AutocompleteLibModule
   ],
   declarations: [
     ProductModulesComponent,
     FeatureComponent,
     ModuleComponent,
     FeatureDetailsComponent,
-    ManageComponent
+    ManageComponent,
+    SwitchTextTextareaComponent,
+    TagComponent
   ]
 })
 

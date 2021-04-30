@@ -51,7 +51,7 @@
     background-color: var(--light-gray);
 }
 
-i::after {
+i::after, #checklistDropDown::after {
     display: none;
 }
 
@@ -63,7 +63,70 @@ i::after {
     width: 100%;
     padding: 5px 0px;
 }
-
-.cdk-drag-animating {
+  
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+  
+.feature-section.cdk-drop-list-dragging .card:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+.add-module {
+    /* background-color: var(--light-gray); */
+    cursor: pointer;
+}
+
+.add-module * {
+    margin: 2px;
+}
+
+.add-module input {
+    width: 80%;
+    display: inline;
+}
+
+.add div button {
+    margin: 5px 5px 5px 0;
+}
+
+.lists {
+    padding: 5px;
+    background-color: var(--light-gray);
+    cursor: pointer;
+}
+
+.lists:hover {
+    background-color: var(--medium-gray);
+}
+
+.remove-hover-effect:hover {
+    background-color: #fff !important;
+}
+
+
+div[ngbDropdownMenu] {
+    max-height: 200px;
+    overflow:auto;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.effect:hover {
+    background-color: cyan;
+    cursor: pointer;
+}
+

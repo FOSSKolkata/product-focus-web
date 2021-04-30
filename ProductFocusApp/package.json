@@ -25,6 +25,7 @@
     "@azure/msal-angular": "^2.0.0-alpha.5",
     "@azure/msal-browser": "^2.11.2",
     "@ng-bootstrap/ng-bootstrap": "^9.0.2",
+    "angular-ng-autocomplete": "^2.0.5",
     "angular-resizable-element": "^3.3.5",
     "angular2-draggable": "^2.3.2",
     "bootstrap": "^4.6.0",

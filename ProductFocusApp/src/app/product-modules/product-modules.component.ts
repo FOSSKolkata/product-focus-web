@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubSink } from 'subsink';
 import { StylingService } from '../side-nav/styling.service';
 import { ProductService } from '../_services/product.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-product-modules',
@@ -12,18 +13,18 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 })
 
 export class ProductModulesComponent implements OnInit, OnDestroy {
-
+  
   modules: any = [];
   closeResult = '';
   moduleServiceSubscriptions: SubSink = new SubSink();
   moduleAddView: boolean = false;
   moduleName: string | undefined;
   productId: Number | undefined;
-
   constructor(
               private productService: ProductService,
               private activatedRoute: ActivatedRoute,
-              public styling: StylingService) { }
+              public styling: StylingService,
+              private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.productId = this.activatedRoute.snapshot.params.id;
@@ -56,7 +57,7 @@ export class ProductModulesComponent implements OnInit, OnDestroy {
   newlist = [
     {
       id: '#2021',
-      title: 'PNR medication needs to transfer to a new tab.',
+      title: 'PNR medication needs to transfer to a new tab.PNR medication needs to transfer to a new tab.PNR medication needs to transfer to a new tab.PNR medication needs to transfer to a new tab.',
       startDate: '13 Jan',
       endDate: '15 Jan',
       noOfChat: 4,
@@ -67,7 +68,7 @@ export class ProductModulesComponent implements OnInit, OnDestroy {
       title: 'PNR medication needs to transfer to a new tab.',
       startDate: '14 Feb',
       endDate: '29 Mar',
-      noOfTask: 7,
+      noOfChat: 7,
       completedTask: 4,
       totalTask: 4
     }
@@ -76,8 +77,8 @@ export class ProductModulesComponent implements OnInit, OnDestroy {
     {
       id: '#20232',
       title: 'Title in progress 1',
-      startDate: '23 April',
-      endDate: '15 Jan',
+      startDate: '23 Apr',
+      endDate: '15 Apr',
       noOfChat: 4,
       completedTask: 3,
       totalTask: 4
@@ -86,7 +87,7 @@ export class ProductModulesComponent implements OnInit, OnDestroy {
       title: 'Title in progress 2',
       startDate: '14 Feb',
       endDate: '29 Mar',
-      noOfTask: 7,
+      noOfChat: 7,
       completedTask: 4,
       totalTask: 4
     },{
@@ -94,7 +95,7 @@ export class ProductModulesComponent implements OnInit, OnDestroy {
       title: 'Title in progress 3',
       startDate: '14 Feb',
       endDate: '29 Mar',
-      noOfTask: 7,
+      noOfChat: 7,
       completedTask: 4,
       totalTask: 4
     }
@@ -103,8 +104,8 @@ export class ProductModulesComponent implements OnInit, OnDestroy {
     {
       id: '#20232',
       title: 'Title in completed 1',
-      startDate: '23 April',
-      endDate: '15 Jan',
+      startDate: '23 Apr',
+      endDate: '1 May',
       noOfChat: 4,
       completedTask: 3,
       totalTask: 4
@@ -113,7 +114,7 @@ export class ProductModulesComponent implements OnInit, OnDestroy {
       title: 'Title in completed 2',
       startDate: '14 Feb',
       endDate: '29 Mar',
-      noOfTask: 7,
+      noOfChat: 7,
       completedTask: 4,
       totalTask: 4
     }
@@ -131,4 +132,23 @@ export class ProductModulesComponent implements OnInit, OnDestroy {
     }
   }
 
+  openSmallPopup(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'manage-module'}).result.then((result) => {
+      
+    });
+  }
+
+  openLargePopup(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'manage-module', size: 'lg'}).result.then((result) => {
+      
+    });
+  }
+
+  addFeatureOrBugStep: Number = 0;
+  cardType:string = '';
+  addType(cardType: string) {
+    this.cardType = cardType;
+  }
+  isFocusMode: boolean = false;
+  
 }
