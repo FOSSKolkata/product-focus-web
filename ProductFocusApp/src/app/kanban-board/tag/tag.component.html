@@ -1,37 +1,30 @@
 <small *ngFor="let tag of taglist; index as i"
     style="background-color: lightcyan;padding: 2px; margin: 2px;"
-    >{{tag.name}}
+    >{{tag}}
     <i style="margin-left: 2px;" 
     class="fa fa-times effect"
     (click)="removeTag(tag)"
     ></i>
 </small>
 <small *ngIf="!isAddTagActive && taglist.length == 0"
-    (click)="isAddTagActive = true; focus(auto)"
+    (click)="isAddTagActive = true; inputTextFocus(inputText)"
     style="background-color: lightcyan;padding: 2px; cursor: pointer; margin: 2px"
     >Add tag
 </small>
-<div class="ng-autocomplete" [style.display]="isAddTagActive?'inline-block':'none'">
-    <ng-autocomplete #auto
-        (closed)="isAddTagActive = false"
-        [data]="data"
-        [searchKeyword]="keyword"
-        (selected)="addTag($event)"
-        [itemTemplate]="itemTemplate"
-        placeholder = "search"
-        [(ngModel)] = "tagName"
-        [notFoundTemplate]="notFoundTemplate">
-    </ng-autocomplete>
-    <ng-template #itemTemplate let-item>
-        <a [innerHTML]="item.name" style="font-size: 11px;"></a>
-    </ng-template>
-
-    <ng-template #notFoundTemplate let-notFound>
-        <div [innerHTML]="notFound" style="font-size: 11px;"></div>
-    </ng-template>
-</div>
+<input #inputText 
+    [style.display]="isAddTagActive?'inline':'none'"
+    class="good-border"
+    [(ngModel)]="tagName"
+    (focusout)="isAddTagActive = false;"
+    (focus)="focus$.next($any($event).target.value);"
+    (click)="click$.next($any($event).target.value)"
+    (selectItem)="addTag($event)"
+    [ngbTypeahead]="search"
+    style="font-size: 11px; display: inline;"
+    #instance="ngbTypeahead"
+    size="10">
 <small *ngIf="taglist.length != 0 && !isAddTagActive"
     style="background-color: lightcyan; padding: 2px;"
-    (click)="isAddTagActive = true; focus(auto)">
+    (click)="isAddTagActive = true; inputTextFocus(inputText)">
     <i class="fa fa-plus effect"></i>
 </small>
