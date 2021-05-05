@@ -1,14 +1,14 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { ManageComponent } from "./manage/manage.component";
-import { ProductModulesComponent } from "./product-modules.component";
+import { KanbanBoardComponent } from "./kanban-board.component";
 
 const routes: Routes = [
   {
-    path: 'product-modules',
-    component: ProductModulesComponent,
+    path: 'kanban-board',
+    component: KanbanBoardComponent,
   },{
-    path: 'product-modules/manage',
+    path: 'kanban-board/manage',
     component: ManageComponent
   }
 ]

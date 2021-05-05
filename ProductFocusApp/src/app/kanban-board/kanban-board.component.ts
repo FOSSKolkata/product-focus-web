@@ -1,18 +1,18 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubSink } from 'subsink';
 import { StylingService } from '../side-nav/styling.service';
 import { ProductService } from '../_services/product.service';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop'
+import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop'
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-product-modules',
-  templateUrl: './product-modules.component.html',
-  styleUrls: ['./product-modules.component.css']
+  selector: 'app-kanban-board-component',
+  templateUrl: './kanban-board.component.html',
+  styleUrls: ['./kanban-board.component.css']
 })
 
-export class ProductModulesComponent implements OnInit, OnDestroy {
+export class KanbanBoardComponent implements OnInit, OnDestroy {
   
   modules: any = [];
   closeResult = '';
@@ -150,5 +150,21 @@ export class ProductModulesComponent implements OnInit, OnDestroy {
     this.cardType = cardType;
   }
   isFocusMode: boolean = false;
+  data: any[] = [
+    {
+      name: 'amit shaw'
+    },{
+      name: 'pritam'
+    },{
+      name: 'vikram'
+    }
+  ]
+  addUserActive:boolean = false;
   
+  @ViewChild('auto') auto: any;
+  focus(e:any): void {
+    setTimeout(()=>{
+      this.auto.focus();
+    },100);
+  } 
 }

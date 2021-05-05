@@ -28,6 +28,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background-color: blueviolet;
     color:var(--white) !important;
     cursor: pointer;
+    vertical-align: middle;
+    display: table-cell;
 }
 
 .vertical-nav{

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-tag',
@@ -8,11 +8,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 export class TagComponent implements OnInit {
 
   constructor() { }
-  // @ViewChild("inputText") set inputTextRef(ref: ElementRef) {
-  //   if (ref) {
-  //     ref.nativeElement.focus();
-  //   }
-  // }
+  @ViewChild('auto') auto: any;
+  focus(e:any): void {
+    setTimeout(()=>{
+      this.auto.focus();
+    },0);
+  }
+  
   ngOnInit(): void {
   }
   keyword = 'name';
@@ -54,4 +56,5 @@ export class TagComponent implements OnInit {
   activeAddTag(){
     setTimeout(()=>this.isAddTagActive=true,0);
   }
+
 }

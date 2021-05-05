@@ -7,20 +7,13 @@
     ></i>
 </small>
 <small *ngIf="!isAddTagActive && taglist.length == 0"
-    (click)="isAddTagActive = true;"
+    (click)="isAddTagActive = true; focus(auto)"
     style="background-color: lightcyan;padding: 2px; cursor: pointer; margin: 2px"
     >Add tag
 </small>
-<!-- <input #inputText 
-    *ngIf="isAddTagActive"
-    class="good-border"
-    [(ngModel)]="tagName"
-    (keyup.enter)="addTag(); isAddTagActive = false;"
-    (focusout)="isAddTagActive = false;"
-    style="font-size: 11px; display: inline;"
-    size="10"> -->
 <div class="ng-autocomplete" [style.display]="isAddTagActive?'inline-block':'none'">
-    <ng-autocomplete
+    <ng-autocomplete #auto
+        (closed)="isAddTagActive = false"
         [data]="data"
         [searchKeyword]="keyword"
         (selected)="addTag($event)"
@@ -39,6 +32,6 @@
 </div>
 <small *ngIf="taglist.length != 0 && !isAddTagActive"
     style="background-color: lightcyan; padding: 2px;"
-    (click)="activeAddTag()">
+    (click)="isAddTagActive = true; focus(auto)">
     <i class="fa fa-plus effect"></i>
 </small>

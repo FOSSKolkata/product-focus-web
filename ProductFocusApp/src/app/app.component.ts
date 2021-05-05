@@ -1,15 +1,14 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { MsalService, MsalBroadcastService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
-import { EventMessage, EventType, InteractionType, InteractionStatus, PopupRequest, RedirectRequest, AuthenticationResult, AuthError } from '@azure/msal-browser';
+import { MsalService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
+import { InteractionType, PopupRequest, RedirectRequest, AuthenticationResult } from '@azure/msal-browser';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
 import { b2cPolicies } from './b2c-config';
 
-interface IdTokenClaims extends AuthenticationResult {
-  idTokenClaims: {
-    acr?: string
-  }
-}
+// interface IdTokenClaims extends AuthenticationResult {
+//   idTokenClaims: {
+//     acr?: string
+//   }
+// }
 
 @Component({
   selector: 'app-root',
@@ -24,8 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
-    private authService: MsalService,
-    private msalBroadcastService: MsalBroadcastService
+    private authService: MsalService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy {
     //   takeUntil(this._destroying$)
     // )
     // .subscribe(() => {
-    //   this.setLoginDisplay();
+    //   this.registerUser();
     // });
 
     // this.msalBroadcastService.msalSubject$
@@ -87,10 +85,13 @@ export class AppComponent implements OnInit, OnDestroy {
     //  });
   }
 
-  setLoginDisplay() {
-    this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
-    
-  }
+  // registerUser() {
+  //   var userInfo:any = this.authService.instance.getAllAccounts();
+  //   console.log("Outside",userInfo);
+  //   if(userInfo[0].idTokenClaims.newUser){
+  //     console.log("Inside",userInfo);
+  //   }
+  // }
 
   login(userFlowRequest?: RedirectRequest | PopupRequest) {
     if (this.msalGuardConfig.interactionType === InteractionType.Popup) {

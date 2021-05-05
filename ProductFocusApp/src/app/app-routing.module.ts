@@ -11,7 +11,7 @@ import { RediectComponent } from './rediect/rediect.component';
 const SECURE_APP_ROUTES: Routes = [
   {
     path: 'products/:id',
-    loadChildren: ()=> import('./product-modules/product-modules.module').then(m => m.ProductModulesModule)
+    loadChildren: ()=> import('./kanban-board/kanban-board.module').then(m => m.KanbanBoardModule)
   },{
     path: '',
     loadChildren: ()=> import('./product-roadmap/product-roadmap.module').then(m => m.ProductRoadmapModule)

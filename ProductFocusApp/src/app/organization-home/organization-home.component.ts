@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AddOrganizationInput, AddProductInOrganizationInput } from '../kanban-board/models';
 import { OrganizationService } from '../_services/organization.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class OrganizationHomeComponent implements OnInit {
   organizationAddView: boolean = false;
   productAddView: boolean = false;
   organizationName: string | undefined;
-  selectedOrganizationId: Number| undefined;
+  selectedOrganizationId: number| undefined;
   productName: string | undefined;
   organizationList: any = [];
   productList: any = [];
@@ -32,7 +33,10 @@ export class OrganizationHomeComponent implements OnInit {
     if(this.organizationName === undefined || this.organizationName == ''){
       return;
     }
-    this.organizationService.addOrganization(this.organizationName).subscribe(res => {
+    var addOrganizationInput: AddOrganizationInput = {
+      name: this.organizationName
+    }
+    this.organizationService.addOrganization(addOrganizationInput).subscribe(res => {
       // success
       this.organizationAddView = false;
       this.organizationName = '';
@@ -41,7 +45,7 @@ export class OrganizationHomeComponent implements OnInit {
       alert(err);
     })
   }
-  setProductList(id: Number){
+  setProductList(id: number){
     this.organizationService.getProductsByOrganizationId(id).subscribe(res => {
       this.productList = res;
       console.log(res);
@@ -49,7 +53,7 @@ export class OrganizationHomeComponent implements OnInit {
       console.log(err);
     })
   }
-  selectOrganization(id: Number){
+  selectOrganization(id: number){
     this.selectedOrganizationId = id;
   }
   addProduct(){
@@ -58,9 +62,12 @@ export class OrganizationHomeComponent implements OnInit {
     }
     if(this.selectedOrganizationId == undefined)
       return;
+    var addProductInOrganizationInput: AddProductInOrganizationInput = {
+      name: this.productName
+    }
     this.organizationService.addProductInOrganization(
       this.selectedOrganizationId,
-      this.productName).subscribe(res =>{
+      addProductInOrganizationInput).subscribe(res =>{
         this.productName = '';
         this.productAddView = false;
         if(this.selectedOrganizationId != undefined)
@@ -69,7 +76,7 @@ export class OrganizationHomeComponent implements OnInit {
         console.log(err);
       })
   }
-  setLastProductId(id: Number){
+  setLastProductId(id: number){
     localStorage.setItem('productId',id.toString());
   }
 }

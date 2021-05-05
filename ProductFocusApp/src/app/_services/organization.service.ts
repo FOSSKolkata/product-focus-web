@@ -1,27 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { apiConfig } from '../b2c-config';
+import { AddOrganizationInput, AddProductInOrganizationInput } from '../kanban-board/models';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class OrganizationService {
 
   constructor(private http: HttpClient) { }
 
-  addOrganization(name: string){
-    return this.http.post(apiConfig.uri+"/Organization/AddOrganization",{name});
+  addOrganization(data: AddOrganizationInput){
+    return this.http.post(apiConfig.uri+"/Organization/AddOrganization",data);
   }
 
   getOrganizationList(){
     return this.http.get(apiConfig.uri+"/Organization/GetOrganizationList");
   }
 
-  getProductsByOrganizationId(id: Number){
+  getProductsByOrganizationId(id: number){
     return this.http.get(apiConfig.uri+`/Organization/GetProductsById/${id}`);
   }
 
-  addProductInOrganization(id: Number, name: string){
-    return this.http.post(apiConfig.uri+`/Organization/AddProduct/${id}/AddProduct`,{name});
+  addProductInOrganization(id: number, addProductInOrganizationInput: AddProductInOrganizationInput){
+    return this.http.post(apiConfig.uri+`/Organization/AddProduct/${id}/AddProduct`,addProductInOrganizationInput);
   }
 }

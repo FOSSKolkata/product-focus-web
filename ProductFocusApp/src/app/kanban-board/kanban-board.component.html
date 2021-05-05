@@ -66,7 +66,7 @@
                 <small>{{feature.title}}</small>
               </div>
               <div class="row">
-                <div class="col">
+                <div class="col-6">
                   <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}} - {{feature.endDate}}</small>
                 </div>
                 <div class="col">
@@ -85,7 +85,7 @@
                 <small>Login button is not aligned properly.</small>
               </div>
               <div class="row">
-                <div class="col">
+                <div class="col-6">
                   <small class="completed"><i class="far fa-clock"></i> 30 Apr - 05 May</small>
                 </div>
                 <div class="col">
@@ -129,7 +129,7 @@
                 <small>{{feature.title}}</small>
               </div>
               <div class="row">
-                <div class="col">
+                <div class="col-6">
                   <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}} - {{feature.endDate}}</small>
                 </div>
                 <div class="col">
@@ -139,11 +139,6 @@
                   <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="card" style="margin: 5px">
-            <div class="card-footer">
-              <small ><i class="fa fa-plus"> Add Feature/Bug</i></small>
             </div>
           </div>
         </div>
@@ -155,7 +150,7 @@
                 <small>{{feature.title}}</small>
               </div>
               <div class="row">
-                <div class="col">
+                <div class="col-6">
                   <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}} - {{feature.endDate}}</small>
                 </div>
                 <div class="col">
@@ -165,11 +160,6 @@
                   <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="card" style="margin: 5px">
-            <div class="card-footer">
-              <small ><i class="fa fa-plus"> Add Feature/Bug</i></small>
             </div>
           </div>
         </div>
@@ -231,11 +221,6 @@
             <small><i class="far fa-check-square"></i> 3/3</small>
           </div>
         </div>
-        <div class="card" style="margin: 5px">
-          <div class="card-footer">
-            <small ><i class="fa fa-plus"> Add Feature/Bug</i></small>
-          </div>
-        </div>
       </div>
       <div class="feature-section">
         <div class="card" style="white-space: normal;">
@@ -247,11 +232,6 @@
             <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
             <small><i class="far fa-comments"></i> 4</small>
             <small><i class="far fa-check-square"></i> 3/3</small>
-          </div>
-        </div>
-        <div class="card" style="margin: 5px">
-          <div class="card-footer">
-            <small ><i class="fa fa-plus"> Add Feature/Bug</i></small>
           </div>
         </div>
       </div>
@@ -266,12 +246,12 @@
     </div>
     <div class="modal-body">
       <ul class="list-group">
-        <li class="list-group-item">
-          <div style="display: inline; vertical-align: bottom;">Medications</div>
+        <!-- <li class="list-group-item">
+          <div class="module">Medications</div>
           <i class="fa fa-sync float-right" data-toggle="tooltip" data-placement="top" title="Restart"></i>
-        </li>
-        <li class="list-group-item">
-          <div style="display: inline-block; vertical-align: bottom;">Vital</div>
+        </li> -->
+        <li class="list-group-item" *ngFor="let module of modules">
+          <div class="module">{{module.name}}</div>
           <i class="fa fa-stop-circle float-right" data-toggle="tooltip" data-placement="top" title="Discontinue"></i>
         </li>
         <li class="list-group-item">
@@ -338,8 +318,8 @@
           <!-- all the comments -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1" style="padding-left: 7px;">
-              <div class="avatar" style="padding-top:4px; background-color: #66241c;">KT</div>
+            <div class="col-1 p-0">
+              <div class="avatar" style="background-color: #66241c;">KT</div>
             </div>
             <div class="col">
               <div class="row">
@@ -356,7 +336,7 @@
           <!-- single comment ending -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1" style="padding-left: 7px;">
+            <div class="col-1 p-0" style="padding-left: 7px;">
               <div class="avatar" style="padding-top:4px;">AS</div>
             </div>
             <div class="col">
@@ -374,7 +354,7 @@
           <!-- single comment ending -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1" style="padding-left: 7px;">
+            <div class="col-1 p-0" style="padding-left: 7px;">
               <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
             </div>
             <div class="col">
@@ -392,7 +372,7 @@
           <!-- single comment ending -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1" style="padding-left: 7px;">
+            <div class="col-1 p-0" style="padding-left: 7px;">
               <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
             </div>
             <div class="col">
@@ -409,7 +389,7 @@
           </div>
           <!-- single comment ending -->
           <div class="row">
-            <div class="col-1">
+            <div class="col-1 p-0">
               <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
             </div>
             <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
@@ -465,11 +445,11 @@
       <i class="fa fa-life-ring fa-2x" style="color: blue;"></i>
       <div class="modal-title w-100" id="modal-basic-title"><app-switch-text-textarea [title]="'PNR medications need to be transfer to a new tab.'"></app-switch-text-textarea>
         <span style="margin-left: 5px;">
-          Switch To {{isFocusMode?'Normal ':'Focus '}} Mode
+          Focus Mode
         </span>
         <div class="fa pointer"
-        [class.fa-bullseye]="!isFocusMode"
-        [class.fa-ban]="isFocusMode"
+        [class.fa-toggle-off]="!isFocusMode"
+        [class.fa-toggle-on]="isFocusMode"
         (click)="isFocusMode = !isFocusMode"
       ></div>
       </div>
@@ -484,8 +464,24 @@
             <div class="col-1" style="padding-top: 2px;">
               <i class="fa fa-file"></i>
             </div>
+            <div class="col">
+              <b>Description</b>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-1" style="padding-top: 2px;">
+            </div>
             <div class="col" style="font-size: var(--global-text-size);">
               <app-switch-text-textarea [title]="'PNR medications need to be transfer to a new tab. This is the details of the feature.'"></app-switch-text-textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-1"></div>
+            <div class="col" style="font-size: var(--global-text-size);">
+              <label for="acceptanceCriteria">Acceptance Criteria</label>
+              <div class="form-group">
+                <app-switch-text-textarea></app-switch-text-textarea>
+              </div>
             </div>
           </div>
           <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
@@ -595,7 +591,7 @@
           <!-- all the comments -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1" style="padding-left: 7px;">
+            <div class="col-1 p-0">
               <div class="avatar" style="padding-top:4px; background-color: #66241c;">KT</div>
             </div>
             <div class="col">
@@ -613,7 +609,7 @@
           <!-- single comment ending -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1" style="padding-left: 7px;">
+            <div class="col-1 p-0">
               <div class="avatar" style="padding-top:4px;">AS</div>
             </div>
             <div class="col">
@@ -631,7 +627,7 @@
           <!-- single comment ending -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1" style="padding-left: 7px;">
+            <div class="col-1 p-0">
               <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
             </div>
             <div class="col">
@@ -649,7 +645,7 @@
           <!-- single comment ending -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1" style="padding-left: 7px;">
+            <div class="col-1 p-0">
               <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
             </div>
             <div class="col">
@@ -666,7 +662,7 @@
           </div>
           <!-- single comment ending -->
           <div class="row">
-            <div class="col-1">
+            <div class="col-1 p-0">
               <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
             </div>
             <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
@@ -676,12 +672,31 @@
           </div>
           <!--Everything completed for comments-->
           <!--History UI Start-->
-          <div class="row">
+          <!-- <div class="row">
             <div class="col-1"></div>
             <div class="col">
-              
+              <div *ngFor="let i of [1,2,3,4]">
+                    
+                  <div class="arrow-container">
+                    <div class="check">
+                      <div class="arrow-tail"></div>
+                      <div class="arrow-head"></div>
+                      <div class="reason">
+                        Reactivated
+                      </div>
+                      <div class="change-into">
+                        <div class="change-info-user">
+                          Vikram Shaw
+                        </div>
+                        <div class="change-info-date">
+                          30/04/21
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
             </div>
-          </div>
+          </div> -->
           <!--HIstory UI End-->
         </div>
         <div class="col-12 col-lg-3">
@@ -732,6 +747,36 @@
               </div>
             </div>
           </div>
+          <div style="margin-top: 10px;">
+            <div>
+              <small>Developers Owner</small>
+            </div>
+            <div class="avatar">VS</div>
+            <div class="avatar">AG</div>
+            <div style="display: table-cell;">
+              <div *ngIf="!addUserActive" (click)="addUserActive = true;focus($event)" class="avatar add-user"><i class="fa fa-user-plus remove-caret"></i></div>
+              <div>
+                  <ng-autocomplete #auto
+                    (closed)="addUserActive = false"
+                    [data]="data"
+                    [searchKeyword]="'name'"
+                    [itemTemplate]="itemTemplate"
+                    [notFoundTemplate]="notFoundTemplate">                                 
+                  </ng-autocomplete>
+                  <ng-template #itemTemplate let-item>
+                    <a [innerHTML]="item.name"></a>
+                  </ng-template>
+
+                  <ng-template #notFoundTemplate let-notFound>
+                    <div [innerHTML]="notFound"></div>
+                  </ng-template>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top: 10px;">
+            <small>Q/A Owner</small>
+          </div>
+          
         </div>
       </div>
       <div *ngIf="isFocusMode" class="row" style="margin-left: 10px; margin-top: 20px;">

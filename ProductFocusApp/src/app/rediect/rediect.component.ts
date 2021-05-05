@@ -6,6 +6,8 @@ import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { b2cPolicies } from '../b2c-config';
 import { Router } from '@angular/router';
+import { RegisterUserService } from '../_services/register-user.service';
+import { RegisterUserInput } from './../kanban-board/models';
 
 interface IdTokenClaims extends AuthenticationResult {
   idTokenClaims: {
@@ -30,7 +32,8 @@ export class RediectComponent implements OnInit, OnDestroy {
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService,
     private msalBroadcastService: MsalBroadcastService,
-    private router: Router
+    private router: Router,
+    private registerUserService: RegisterUserService
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +47,7 @@ export class RediectComponent implements OnInit, OnDestroy {
     // .subscribe(() => {
 
     // });
+
 
     this.msalBroadcastService.msalSubject$
       .pipe(
@@ -64,6 +68,10 @@ export class RediectComponent implements OnInit, OnDestroy {
         } else if (payload.idTokenClaims['acr'] === b2cPolicies.names.editProfile) {
           window.alert('Profile has been updated successfully. \nPlease sign-in again.');
           return this.authService.logout();
+        }
+        
+        if(this.isNewUser()) {
+          this.registerUser();
         }
 
         this.router.navigate(['organization-home']);
@@ -93,6 +101,21 @@ export class RediectComponent implements OnInit, OnDestroy {
       });
   }
 
+  isNewUser(): boolean{
+    var userInfo:any = this.authService.instance.getAllAccounts();
+    return !!userInfo[0].idTokenClaims.newUser;
+  }
+
+  registerUser() {
+    var userInfo:any = this.authService.instance.getAllAccounts();
+    var user: RegisterUserInput = {
+      name: userInfo[0].idTokenClaims.given_name + " " + userInfo[0].idTokenClaims.family_name,
+      email: userInfo[0].username
+    };
+    this.registerUserService.registerUser(user).subscribe(x => {
+      console.log(x);
+    });
+  }
 
   login(userFlowRequest?: RedirectRequest | PopupRequest) {
     if (this.msalGuardConfig.interactionType === InteractionType.Popup) {

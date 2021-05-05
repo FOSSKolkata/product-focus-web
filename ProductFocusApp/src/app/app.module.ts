@@ -22,12 +22,12 @@ import { ProfileComponent } from './profile/profile.component';
 import { OrganizationService } from './_services/organization.service';
 import { StylingService } from './side-nav/styling.service';
 import { RediectComponent } from './rediect/rediect.component';
+import { RegisterUserService } from './_services/register-user.service';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
 export function loggerCallback(logLevel: LogLevel, message: string) {
-  console.log("vikram:::",message);
-  console.log("LOg:::",logLevel);
+  // console.log("LOg:::",logLevel);
 }
 
 export function MSALInstanceFactory(): IPublicClientApplication {
@@ -116,6 +116,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalBroadcastService,
     ModuleService,
     OrganizationService,
+    RegisterUserService,
     StylingService
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]
