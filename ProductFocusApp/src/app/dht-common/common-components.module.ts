@@ -25,4 +25,4 @@ import { AddUserComponent } from './add-user/add-user.component';
     AddUserComponent
   ]
 })
-export class CommonComponentsModule { }
+export class DhtCommonModule { }

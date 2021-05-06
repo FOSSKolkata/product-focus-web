@@ -10,7 +10,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ManageComponent } from './manage/manage.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { CommonComponentsModule } from '../common-components/common-components.module';
+import { DhtCommonModule } from '../dht-common/common-components.module';
 
 @NgModule({
   imports: [
@@ -20,7 +20,7 @@ import { CommonComponentsModule } from '../common-components/common-components.m
     NgbModule,
     DragDropModule,
     AutocompleteLibModule,
-    CommonComponentsModule
+    DhtCommonModule
   ],
   declarations: [
     KanbanBoardComponent,
