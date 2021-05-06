@@ -1,0 +1,20 @@
+<div style="display: table-cell;"
+    class="avatar"
+    *ngFor="let shortName of shortNameList; index as i">
+    {{shortName}}
+</div>
+<i *ngIf="!isAddUserActive" class="avatar add-user fa fa-user-plus"
+    (click)="isAddUserActive = true; inputTextFocus(inputText)">
+</i>
+<input #inputText
+    [style.display]="isAddUserActive?'inline':'none'"
+    class="good-border"
+    [(ngModel)]="fullUserName"
+    (focusout)="isAddUserActive = false;"
+    (focus)="focus$.next($any($event).target.value);"
+    (click)="click$.next($any($event).target.value)"
+    (selectItem)="addTag($event)"
+    [ngbTypeahead]="search"
+    #instance="ngbTypeahead"
+    size="10"
+>

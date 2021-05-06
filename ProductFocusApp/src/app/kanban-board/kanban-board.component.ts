@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SubSink } from 'subsink';
 import { StylingService } from '../side-nav/styling.service';
@@ -150,21 +150,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.cardType = cardType;
   }
   isFocusMode: boolean = false;
-  data: any[] = [
-    {
-      name: 'amit shaw'
-    },{
-      name: 'pritam'
-    },{
-      name: 'vikram'
-    }
-  ]
-  addUserActive:boolean = false;
   
-  @ViewChild('auto') auto: any;
-  focus(e:any): void {
-    setTimeout(()=>{
-      this.auto.focus();
-    },100);
-  } 
+  
 }

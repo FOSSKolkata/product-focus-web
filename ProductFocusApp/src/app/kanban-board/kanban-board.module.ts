@@ -12,6 +12,7 @@ import { ManageComponent } from './manage/manage.component';
 import { SwitchTextTextareaComponent } from './switch-text-textarea/switch-text-textarea.component';
 import { TagComponent } from './tag/tag.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+import { AddUserComponent } from './add-user/add-user.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
     FeatureDetailsComponent,
     ManageComponent,
     SwitchTextTextareaComponent,
-    TagComponent
+    TagComponent,
+    AddUserComponent
   ]
 })
 

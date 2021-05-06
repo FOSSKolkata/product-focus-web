@@ -732,6 +732,9 @@
           <div>
             <input type="range" min="1" max="100" value="15" style="width: 165px;">
           </div>
+          <div>
+            <app-tag></app-tag>
+          </div>
           <div ngbDropdown [autoClose]="'outside'" style="margin-top: 10px;">
             <div id="checklistDropDown" class="lists" ngbDropdownToggle>
               <i class="fa fa-check-circle"></i>
@@ -749,34 +752,17 @@
           </div>
           <div style="margin-top: 10px;">
             <div>
-              <small>Developers Owner</small>
+              <small>Developer Owners</small>
             </div>
-            <div class="avatar">VS</div>
-            <div class="avatar">AG</div>
-            <div style="display: table-cell;">
-              <div *ngIf="!addUserActive" (click)="addUserActive = true;focus($event)" class="avatar add-user"><i class="fa fa-user-plus remove-caret"></i></div>
-              <div>
-                  <ng-autocomplete #auto
-                    (closed)="addUserActive = false"
-                    [data]="data"
-                    [searchKeyword]="'name'"
-                    [itemTemplate]="itemTemplate"
-                    [notFoundTemplate]="notFoundTemplate">                                 
-                  </ng-autocomplete>
-                  <ng-template #itemTemplate let-item>
-                    <a [innerHTML]="item.name"></a>
-                  </ng-template>
-
-                  <ng-template #notFoundTemplate let-notFound>
-                    <div [innerHTML]="notFound"></div>
-                  </ng-template>
-              </div>
-            </div>
+            <app-add-user></app-add-user>
           </div>
           <div style="margin-top: 10px;">
-            <small>Q/A Owner</small>
+            <div>
+              <small>Q/A Owners</small>
+            </div>
+            <app-add-user></app-add-user>
           </div>
-          
+
         </div>
       </div>
       <div *ngIf="isFocusMode" class="row" style="margin-left: 10px; margin-top: 20px;">
