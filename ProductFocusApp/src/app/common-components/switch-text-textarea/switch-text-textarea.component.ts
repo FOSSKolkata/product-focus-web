@@ -11,7 +11,7 @@ export class SwitchTextTextareaComponent implements OnInit {
 
   @Input('title') title:string = '';
   @ViewChild("textArea") set textAreaRef(ref: ElementRef) {
-    if (ref) {
+    if (!!ref) {
       ref.nativeElement.focus();
     }
   }

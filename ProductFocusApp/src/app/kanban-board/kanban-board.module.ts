@@ -9,10 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ManageComponent } from './manage/manage.component';
-import { SwitchTextTextareaComponent } from './switch-text-textarea/switch-text-textarea.component';
-import { TagComponent } from './tag/tag.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
-import { AddUserComponent } from './add-user/add-user.component';
+import { CommonComponentsModule } from '../common-components/common-components.module';
 
 @NgModule({
   imports: [
@@ -21,17 +19,15 @@ import { AddUserComponent } from './add-user/add-user.component';
     FormsModule,
     NgbModule,
     DragDropModule,
-    AutocompleteLibModule
+    AutocompleteLibModule,
+    CommonComponentsModule
   ],
   declarations: [
     KanbanBoardComponent,
     FeatureComponent,
     ModuleComponent,
     FeatureDetailsComponent,
-    ManageComponent,
-    SwitchTextTextareaComponent,
-    TagComponent,
-    AddUserComponent
+    ManageComponent
   ]
 })
 
