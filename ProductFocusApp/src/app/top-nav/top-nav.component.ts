@@ -11,18 +11,20 @@ export class TopNavComponent implements OnInit {
 
   isNavbarCollapsed=true;
   loginDisplay = false;
+  currentUserName!:string;
 
   constructor(
     private authService: MsalService
   ) { }
 
   ngOnInit(): void {
-    this.setLoginDisplay();
+    this.authService.handleRedirectObservable().subscribe(x => console.log(x));
+    if(this.authService.instance.getAllAccounts().length > 0) {
+      var userInfo:any = this.authService.instance.getAllAccounts()[0].idTokenClaims;
+      this.currentUserName = userInfo.given_name.concat(" ").concat(userInfo.family_name);
+    }
   }
 
-  setLoginDisplay() {
-    this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
-  }
 
   logout() {
     this.authService.logout();

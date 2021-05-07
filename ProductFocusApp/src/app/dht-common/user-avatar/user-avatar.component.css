@@ -1,0 +1,11 @@
+.avatar{
+    text-align: center;
+    margin-top: 5px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color:var(--white) !important;
+    cursor: pointer;
+    vertical-align: middle;
+    display: table-cell;
+}

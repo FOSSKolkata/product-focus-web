@@ -1,7 +1,7 @@
 <div style="display: table-cell;"
     class="avatar"
-    *ngFor="let shortName of shortNameList; index as i">
-    {{shortName}}
+    *ngFor="let username of usernameList; index as i">
+    {{username | shortname}}
 </div>
 <i *ngIf="!isAddUserActive" class="avatar add-user fa fa-user-plus"
     (click)="isAddUserActive = true; inputTextFocus(inputText)">

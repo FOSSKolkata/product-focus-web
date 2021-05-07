@@ -7,6 +7,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { MsalGuard } from '@azure/msal-angular';
 import { ProfileComponent } from './profile/profile.component';
 import { RediectComponent } from './rediect/rediect.component';
+import { InvitationComponent } from './invitation/invitation.component';
 
 const SECURE_APP_ROUTES: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
   },{
     path: 'organization-members',
     component: OrganizationMembersComponent,
+    canActivate: [MsalGuard]
+  },{
+    path: 'invitation',
+    component: InvitationComponent,
     canActivate: [MsalGuard]
   }
   ,{

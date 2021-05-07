@@ -14,8 +14,7 @@ export class AddUserComponent implements OnInit {
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   fullUserName: any;
-  userList: Array<string> = [];
-  shortNameList: Array<string> = [];
+  usernameList: Array<string> = [];
   isAddUserActive:boolean = false;
   
   userData = ["Vikram Shaw","Pritam Shaw","Amit Shaw","Ankit Shaw","Ankit Singh","Akhilesh Chaudhary","Dipak Prasad","Raju"];
@@ -43,19 +42,16 @@ export class AddUserComponent implements OnInit {
 
   addTag(event: any){
     setTimeout(()=>this.fullUserName = '',0);
-    var index = this.userList.indexOf(event.item);
+    var index = this.usernameList.indexOf(event.item);
     if(index != -1) {
       console.log(event.item + " is already added");
       return;
     }
-    this.userList.push(event.item);
-    var userName: string[] = event.item.split(' ');
-    var shortName: string = userName[0].charAt(0).toString().concat(userName[1]?userName[1].charAt(0):'');
-    this.shortNameList.push(shortName);
+    this.usernameList.push(event.item);
   }
 
   removeTag(name: string){
-    var index = this.userList.indexOf(name);
-    this.userList.splice(index,1);
+    var index = this.usernameList.indexOf(name);
+    this.usernameList.splice(index,1);
   }
 }

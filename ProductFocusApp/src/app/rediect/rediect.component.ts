@@ -39,14 +39,14 @@ export class RediectComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isIframe = window !== window.parent && !window.opener;
 
-    // this.msalBroadcastService.inProgress$
-    // .pipe(
-    //   filter((status: InteractionStatus) => status === InteractionStatus.None),
-    //   takeUntil(this._destroying$)
-    // )
-    // .subscribe(() => {
+    this.msalBroadcastService.inProgress$
+    .pipe(
+      filter((status: InteractionStatus) => status === InteractionStatus.None),
+      takeUntil(this._destroying$)
+    )
+    .subscribe(() => {
 
-    // });
+    });
 
 
     this.msalBroadcastService.msalSubject$
@@ -74,7 +74,7 @@ export class RediectComponent implements OnInit, OnDestroy {
           this.registerUser();
         }
 
-        this.router.navigate(['organization-home']);
+        // this.router.navigate(['organization-home']);
         return result;
       });
 

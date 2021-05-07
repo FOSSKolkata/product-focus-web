@@ -23,7 +23,8 @@ import { OrganizationService } from './_services/organization.service';
 import { StylingService } from './side-nav/styling.service';
 import { RediectComponent } from './rediect/rediect.component';
 import { RegisterUserService } from './_services/register-user.service';
-import { DhtCommonModule } from './dht-common/common-components.module';
+import { DhtCommonModule } from './dht-common/dht-common.module';
+import { InvitationComponent } from './invitation/invitation.component';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
@@ -83,7 +84,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     SideNavComponent,
     TopNavComponent,
     ProfileComponent,
-    RediectComponent
+    RediectComponent,
+    InvitationComponent
   ],
   imports: [
     BrowserModule,

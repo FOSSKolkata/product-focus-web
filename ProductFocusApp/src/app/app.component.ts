@@ -1,14 +1,15 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { MsalService, MSAL_GUARD_CONFIG, MsalGuardConfiguration } from '@azure/msal-angular';
-import { InteractionType, PopupRequest, RedirectRequest, AuthenticationResult } from '@azure/msal-browser';
+import { MsalService, MSAL_GUARD_CONFIG, MsalGuardConfiguration, MsalBroadcastService } from '@azure/msal-angular';
+import { InteractionType, PopupRequest, RedirectRequest, AuthenticationResult, InteractionStatus, EventMessage, EventType, AuthError } from '@azure/msal-browser';
 import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 import { b2cPolicies } from './b2c-config';
 
-// interface IdTokenClaims extends AuthenticationResult {
-//   idTokenClaims: {
-//     acr?: string
-//   }
-// }
+interface IdTokenClaims extends AuthenticationResult {
+  idTokenClaims: {
+    acr?: string
+  }
+}
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
-    private authService: MsalService
+    private authService: MsalService,
+    private msalBroadcastService: MsalBroadcastService
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
     //   takeUntil(this._destroying$)
     // )
     // .subscribe(() => {
-    //   this.registerUser();
+
     // });
 
     // this.msalBroadcastService.msalSubject$

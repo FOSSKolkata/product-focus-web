@@ -1,10 +1,12 @@
 <div class="switch-area">
     <label style="width: 100%; min-height: 20px; padding: 5px;"
+        [ngStyle]="labelStyle"
         *ngIf="isTextVisible"
         (click)="onLabelClick()">
         {{title}}
     </label>
     <textarea #textArea class="form-control"
+        [ngStyle]="inputStyle"
         style="width:inherit"
         *ngIf="!isTextVisible"
         [(ngModel)]="title"

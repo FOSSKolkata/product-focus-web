@@ -4,15 +4,15 @@ import { TagComponent } from './tag/tag.component';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SwitchTextTextareaComponent } from './switch-text-textarea/switch-text-textarea.component';
-import { AddUserComponent } from './add-user/add-user.component';
-
-
+import { UserAvatarComponent } from './user-avatar/user-avatar.component';
+import { ShortnamePipe } from './shortname.pipe';
 
 @NgModule({
   declarations: [
     TagComponent,
     SwitchTextTextareaComponent,
-    AddUserComponent
+    UserAvatarComponent,
+    ShortnamePipe
   ],
   imports: [
     CommonModule,
@@ -22,7 +22,8 @@ import { AddUserComponent } from './add-user/add-user.component';
   exports: [
     TagComponent,
     SwitchTextTextareaComponent,
-    AddUserComponent
+    UserAvatarComponent,
+    ShortnamePipe
   ]
 })
 export class DhtCommonModule { }
