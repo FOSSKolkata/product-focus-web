@@ -146,7 +146,10 @@
           <div class="card" style="white-space: normal;" *ngFor="let feature of completed" cdkDrag (click)="openLargePopup(featureContent)">
             <div class="card-body">
               <div class="card-title">
-                <p><i class="fa fa-life-ring" style="color: blue; padding: 0 5px 0 0"></i>{{feature.id}}</p>
+                <p>
+                  <i class="fa fa-life-ring" style="color: blue; padding: 0 5px 0 0"></i>{{feature.id}}
+                  <span style="background-color: var(--blocked); padding: 2px; color: white;">blocked</span>
+                </p>
                 <small>{{feature.title}}</small>
               </div>
               <div class="row">
@@ -246,13 +249,9 @@
     </div>
     <div class="modal-body">
       <ul class="list-group">
-        <!-- <li class="list-group-item">
-          <div class="module">Medications</div>
-          <i class="fa fa-sync float-right" data-toggle="tooltip" data-placement="top" title="Restart"></i>
-        </li> -->
         <li class="list-group-item" *ngFor="let module of modules">
           <div class="module">{{module.name}}</div>
-          <i class="fa fa-stop-circle float-right" data-toggle="tooltip" data-placement="top" title="Discontinue"></i>
+          <!-- <i class="fa fa-stop-circle float-right" data-toggle="tooltip" data-placement="top" title="Discontinue"></i> -->
         </li>
         <li class="list-group-item">
           <div class="add-module">
@@ -448,14 +447,15 @@
           [title]="'PNR medications need to be transfer to a new tab.'"
           [label-style]="{ 'font-weight': 'bold' }">
         </app-switch-text-textarea>
-        <span style="margin-left: 5px;">
+        <span *ngIf="isBlocked" style="background-color: var(--blocked);margin-left: 5px;padding:2px;color:white;">blocked</span>
+        <!-- <span style="margin-left: 5px;">
           Focus Mode
         </span>
         <div class="fa pointer"
         [class.fa-toggle-off]="!isFocusMode"
         [class.fa-toggle-on]="isFocusMode"
         (click)="isFocusMode = !isFocusMode"
-      ></div>
+      ></div> -->
       </div>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
         <span aria-hidden="true">&times;</span>
@@ -752,6 +752,27 @@
               <div ngbDropdownItem class="remove-hover-effect">
                 <button class="btn good-btn">Add</button>
               </div>
+            </div>
+          </div>
+          <div *ngIf="!isBlocked" ngbDropdown [autoClose]="'outside'" style="margin-top: 10px;">
+            <div id="checklistDropDown" class="lists" ngbDropdownToggle>
+              <i class="fa fa-ban"></i>
+              Mark as block
+            </div>
+            <div ngbDropdownMenu style="width: 250px;" aria-labelledby="checklistDropDown">
+              <div ngbDropdownItem class="remove-hover-effect">
+                <input type="text" class="form-control"
+                placeholder="Enter Reason">
+              </div>
+              <div ngbDropdownItem class="remove-hover-effect">
+                <button class="btn good-btn" (click)="isBlocked = true">Block</button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="isBlocked" (click)="isBlocked = false;" style="margin-top: 10px;">
+            <div class="lists">
+              <i class="fa fa-unlock"></i>
+              Unblock
             </div>
           </div>
           <div style="margin-top: 10px;">

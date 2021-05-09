@@ -150,6 +150,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.cardType = cardType;
   }
   isFocusMode: boolean = false;
-  
+  isBlocked = false;
   
 }
