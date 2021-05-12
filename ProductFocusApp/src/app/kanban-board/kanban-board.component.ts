@@ -15,11 +15,12 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class KanbanBoardComponent implements OnInit, OnDestroy {
   
   modules: any = [];
+  kanbanBoard: any = [];
   closeResult = '';
   moduleServiceSubscriptions: SubSink = new SubSink();
   moduleAddView: boolean = false;
   moduleName: string | undefined;
-  productId: Number | undefined;
+  productId: number | undefined;
   constructor(
               private productService: ProductService,
               private activatedRoute: ActivatedRoute,
@@ -30,10 +31,20 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.productId = this.activatedRoute.snapshot.params.id;
     console.log(this.productId);
     this.setModules();
+    this.setKanbanBoard();
+  }
+
+  setKanbanBoard(){
+    if(this.productId === undefined)
+      return;
+    this.productService.getKanbanViewByProductId(this.productId).subscribe((x)=>{
+      this.kanbanBoard = x;
+      console.log("hello",x);
+    });
   }
 
   setModules(){
-    if(this.productId == undefined)
+    if(this.productId === undefined)
       return;
     this.productService.getModulesByProductId(this.productId).subscribe(x=>{
       this.modules = x;
@@ -144,12 +155,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     });
   }
 
-  addFeatureOrBugStep: Number = 0;
-  cardType:string = '';
-  addType(cardType: string) {
-    this.cardType = cardType;
-  }
   isFocusMode: boolean = false;
   isBlocked = false;
-  
 }

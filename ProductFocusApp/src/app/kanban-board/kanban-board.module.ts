@@ -12,6 +12,7 @@ import { ManageComponent } from './manage/manage.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { DhtCommonModule } from '../dht-common/dht-common.module';
 import { AddUserComponent } from './add-user/add-user.component';
+import { AddFeatureComponent } from './add-feature/add-feature.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { AddUserComponent } from './add-user/add-user.component';
     ModuleComponent,
     FeatureDetailsComponent,
     ManageComponent,
-    AddUserComponent
+    AddUserComponent,
+    AddFeatureComponent
   ]
 })
 

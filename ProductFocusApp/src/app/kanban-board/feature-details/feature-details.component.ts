@@ -10,12 +10,9 @@ import { Feature } from '../models';
 export class FeatureDetailsComponent implements OnInit {
 
   @Input() feature: Feature = {
-    title: '',
-    startDate: '',
-    endDate: '',
-    noOfComments: 0,
-    noOfTask: 0,
-    noOfTaskCompleted: 0
+    id: -1,
+    moduleId: -1,
+    title: ''
   };
   isAddTaskButtonActive: boolean = true;
 

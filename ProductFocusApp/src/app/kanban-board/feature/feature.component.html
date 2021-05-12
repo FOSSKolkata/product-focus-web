@@ -1,23 +1,13 @@
-<div class="card" style="margin: 5px" (click)="openFeatureDetailsModal(content)">
-    <div class="card-body">
-        <div class="card-title">
-            <small>{{feature.title}}</small>
-        </div>
-        <small *ngIf="feature.startDate != ''"
-            [class.completed]="feature.noOfTaskCompleted == feature.noOfTask">
-            <i class="far fa-clock"></i>{{feature.startDate}}
-        </small>
-        <small *ngIf="feature.endDate != ''">
-            <i class="far fa-clock"></i>{{feature.endDate}}
-        </small>
-        <small *ngIf="feature.noOfComments != 0">
-            <i class="far fa-comments"></i>{{feature.noOfComments}}
-        </small>
-        <small *ngIf="feature.noOfTask != 0">
-            <i class="far fa-check-square"></i>{{feature.noOfTaskCompleted}} / {{feature.noOfTask}}
-        </small>
+<div class="card" style="margin: 5px;" (click)="openFeatureDetailsModal(content)">
+  <div class="card-body">
+    <div class="card-title">
+      <p><i class="fa fa-life-ring" style="color: blue; padding: 0 5px 0 0"></i>{{feature.id}}</p>
+      <small>{{feature.title}}</small>
     </div>
+  </div>
 </div>
+
+
 
 <ng-template #content let-modal>
     <div class="modal-header">

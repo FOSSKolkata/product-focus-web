@@ -16,4 +16,8 @@ export class ProductService {
   getModulesByProductId(id: Number){
     return this.http.get(apiConfig.uri+`/Product/GetModulesByProductId/${id}`);
   }
+
+  getKanbanViewByProductId(id: number){
+    return this.http.get(apiConfig.uri+`/Product/GetKanbanViewByProductId/${id}`);
+  }
 }

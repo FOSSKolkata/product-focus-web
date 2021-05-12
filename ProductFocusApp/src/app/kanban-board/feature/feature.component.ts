@@ -10,12 +10,9 @@ import { Feature } from '../models';
 export class FeatureComponent implements OnInit, OnDestroy {
 
   @Input() feature: Feature = {
-    title: '',
-    startDate: '',
-    endDate: '',
-    noOfComments: 0,
-    noOfTask: 0,
-    noOfTaskCompleted: 0,
+    id: -1,
+    moduleId: -1,
+    title: ''
   };
 
   closeResult = '';

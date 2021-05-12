@@ -4,12 +4,9 @@ export interface ProductModule{
 }
 
 export interface Feature {
-    title: string;
-    startDate: string;
-    endDate: string;
-    noOfComments: Number;
-    noOfTaskCompleted: Number;
-    noOfTask: Number;
+    id: number,
+    moduleId: number,
+    title: string
 }
 
 export interface AddOrganizationInput {
@@ -23,4 +20,9 @@ export interface AddProductInOrganizationInput {
 export interface RegisterUserInput {
   name: string,
   email: string
+}
+
+export interface FeatureInput {
+  title: string,
+  workItemType: string
 }

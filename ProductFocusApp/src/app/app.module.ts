@@ -10,7 +10,6 @@ import { IPublicClientApplication, PublicClientApplication, InteractionType, Bro
 import { MsalGuard, MsalInterceptor, MsalBroadcastService, MsalInterceptorConfiguration, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MSAL_INTERCEPTOR_CONFIG, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
 
 import { b2cPolicies, apiConfig } from './b2c-config';
-import { ModuleService } from './_services/module._service';
 import { FormsModule } from '@angular/forms';
 import { OrganizationHomeComponent } from './organization-home/organization-home.component';
 import { OrganizationMembersComponent } from './organization-members/organization-members.component';
@@ -118,7 +117,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalService,
     MsalGuard,
     MsalBroadcastService,
-    ModuleService,
     OrganizationService,
     RegisterUserService,
     StylingService
