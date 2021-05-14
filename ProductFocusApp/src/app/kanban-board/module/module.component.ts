@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ProductModule } from '../models';
+import { ProductModule } from '../../dht-common/models';
 
 @Component({
   selector: 'app-module',

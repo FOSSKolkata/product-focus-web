@@ -21,6 +21,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   moduleAddView: boolean = false;
   moduleName: string | undefined;
   productId: number | undefined;
+  kanbanBoardSpinner: boolean = false;
   constructor(
               private productService: ProductService,
               private activatedRoute: ActivatedRoute,
@@ -37,7 +38,9 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   setKanbanBoard(){
     if(this.productId === undefined)
       return;
+      this.kanbanBoardSpinner = true;
     this.productService.getKanbanViewByProductId(this.productId).subscribe((x)=>{
+      this.kanbanBoardSpinner = false;
       this.kanbanBoard = x;
       console.log("hello",x);
     });

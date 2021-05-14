@@ -1,54 +1,44 @@
-<app-top-nav></app-top-nav>
-<div class="page-content" id="content" [class.active]="active" style="margin-top: 75px;">
-  <h2 style="margin: 10px 0px 0px 20px;">Dumanhill Technologies</h2>
-  <div class="m-3" style="background-color: var(--light-gray);">
-      <h6 class="p-3">All User</h6>
-      <div class="m-3 p-3" style="background-color: var(--white);">
-          <span>Total 3</span><span style="float:right;"><button class="btn btn-primary" (click)="open(content)">Add User</button></span>
-          <div class="m-3 p-3" style="background-color: var(--white);">
-              <div class="table-responsive-sm">
-                  <table class="table">
-                      <thead>
-                          <tr style="color: var(--gray)">
-                              <th scope="col">Name</th>
-                              <th scope="col">Access Level</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                          <tr>
-                          <td>
-                              <div class="avatar">M</div>
-                              <div style="margin: -45px 0 0 50px;">Mark</div>
-                              <small style="margin: -10px 0 0 50px;">mark@gmail.com</small>
-                          </td>
-                          <td>Basic + Developer</td>
-                          </tr>
-                          <tr>
-                          <td>
-                              <div class="avatar">J</div>
-                              <div style="margin: -45px 0 0 50px;">Jacob</div>
-                              <small style="margin: -10px 0 0 50px;">jacob@gmail.com</small>
-                          </td>
-                          <td>Basic</td>
-                          </tr>
-                          <tr>
-                              <td>
-                              <div class="avatar">L</div>
-                              <div style="margin: -45px 0 0 50px;">Larry</div>
-                              <small style="margin: -10px 0 0 50px;">larry@gmail.com</small>
-                              </td>
-                          <td>Basic + Manager</td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-          </div>
-      </div>
-  </div>
+<span>Total 3</span><span style="float:right;"><button class="btn btn-primary" (click)="open(content)">Invite Member</button></span>
+<div class="m-3 p-3" style="background-color: var(--white);">
+    <div class="table-responsive-sm">
+        <table class="table">
+            <thead>
+                <tr style="color: var(--gray)">
+                    <th scope="col">Name</th>
+                    <th scope="col">Access Level</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>
+                    <div class="avatar">M</div>
+                    <div style="margin: -45px 0 0 50px;">Mark</div>
+                    <small style="margin: -10px 0 0 50px;">mark@gmail.com</small>
+                </td>
+                <td>Basic + Developer</td>
+                </tr>
+                <tr>
+                <td>
+                    <div class="avatar">J</div>
+                    <div style="margin: -45px 0 0 50px;">Jacob</div>
+                    <small style="margin: -10px 0 0 50px;">jacob@gmail.com</small>
+                </td>
+                <td>Basic</td>
+                </tr>
+                <tr>
+                    <td>
+                    <div class="avatar">L</div>
+                    <div style="margin: -45px 0 0 50px;">Larry</div>
+                    <small style="margin: -10px 0 0 50px;">larry@gmail.com</small>
+                    </td>
+                <td>Basic + Manager</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-  
-  <ng-template #content let-modal>
+<ng-template #content let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Send Invitation</h4>
       <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">

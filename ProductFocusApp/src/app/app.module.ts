@@ -12,7 +12,7 @@ import { MsalGuard, MsalInterceptor, MsalBroadcastService, MsalInterceptorConfig
 import { b2cPolicies, apiConfig } from './b2c-config';
 import { FormsModule } from '@angular/forms';
 import { OrganizationHomeComponent } from './organization-home/organization-home.component';
-import { OrganizationMembersComponent } from './organization-members/organization-members.component';
+import { OrganizationComponent } from './organization/organization.component';
 import { LayoutComponent } from './layout/layout.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SideNavComponent } from './side-nav/side-nav.component';
@@ -21,14 +21,20 @@ import { ProfileComponent } from './profile/profile.component';
 import { OrganizationService } from './_services/organization.service';
 import { StylingService } from './side-nav/styling.service';
 import { RediectComponent } from './rediect/rediect.component';
-import { RegisterUserService } from './_services/register-user.service';
+import { UserService } from './_services/user.service';
 import { DhtCommonModule } from './dht-common/dht-common.module';
 import { InvitationComponent } from './invitation/invitation.component';
+import { OrganizationMembersComponent } from './organization-members/organization-members.component';
+import { PendingInvitationsComponent } from './pending-invitations/pending-invitations.component';
+import { StateComponent } from './garbage/state/state.component';
+import { ErrorComponent } from './garbage/error/error.component';
+import { CodeComponent } from './garbage/code/code.component';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
 export function loggerCallback(logLevel: LogLevel, message: string) {
-  // console.log("LOg:::",logLevel);
+  console.log("LOg:::",logLevel);
+  console.log("MEss:::",message);
 }
 
 export function MSALInstanceFactory(): IPublicClientApplication {
@@ -78,13 +84,18 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     AppComponent,
     HomeComponent,
     OrganizationHomeComponent,
-    OrganizationMembersComponent,
+    OrganizationComponent,
     LayoutComponent,
     SideNavComponent,
     TopNavComponent,
     ProfileComponent,
     RediectComponent,
-    InvitationComponent
+    InvitationComponent,
+    OrganizationMembersComponent,
+    PendingInvitationsComponent,
+    StateComponent,
+    ErrorComponent,
+    CodeComponent
   ],
   imports: [
     BrowserModule,
@@ -118,7 +129,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalGuard,
     MsalBroadcastService,
     OrganizationService,
-    RegisterUserService,
+    UserService,
     StylingService
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]

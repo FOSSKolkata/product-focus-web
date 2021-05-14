@@ -52,7 +52,8 @@
       </div>
     </div>
   </div>
-  <div *ngFor="let moduleSection of kanbanBoard">
+  <app-spinner [is-spinner-active]="kanbanBoardSpinner"></app-spinner>
+  <div [style.display]="!kanbanBoardSpinner" *ngFor="let moduleSection of kanbanBoard">
     <div class="module-section" cdkDropListGroup>
       <div>
         <div class="module-header">

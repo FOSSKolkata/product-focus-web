@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ModuleService } from 'src/app/_services/module.service';
-import { FeatureInput } from '../models';
+import { FeatureInput } from '../../dht-common/models';
 
 @Component({
   selector: 'app-add-feature',

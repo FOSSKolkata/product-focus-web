@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { apiConfig } from '../b2c-config';
-import { FeatureInput } from '../kanban-board/models';
+import { FeatureInput } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root'

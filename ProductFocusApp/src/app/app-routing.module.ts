@@ -2,12 +2,17 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { OrganizationHomeComponent } from './organization-home/organization-home.component';
-import { OrganizationMembersComponent } from './organization-members/organization-members.component';
+import { OrganizationComponent } from './organization/organization.component';
 import { LayoutComponent } from './layout/layout.component';
 import { MsalGuard } from '@azure/msal-angular';
 import { ProfileComponent } from './profile/profile.component';
 import { RediectComponent } from './rediect/rediect.component';
 import { InvitationComponent } from './invitation/invitation.component';
+import { OrganizationMembersComponent } from './organization-members/organization-members.component';
+import { PendingInvitationsComponent } from './pending-invitations/pending-invitations.component';
+import { ErrorComponent } from './garbage/error/error.component';
+import { StateComponent } from './garbage/state/state.component';
+import { CodeComponent } from './garbage/code/code.component';
 
 const SECURE_APP_ROUTES: Routes = [
   {
@@ -44,8 +49,21 @@ const routes: Routes = [
     component: OrganizationHomeComponent,
     canActivate: [MsalGuard]
   },{
-    path: 'organization-members',
-    component: OrganizationMembersComponent,
+    path: 'organization',
+    component: OrganizationComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'members',
+        pathMatch: 'full'
+      },{
+        path: 'members',
+        component: OrganizationMembersComponent
+      },{
+        path: 'pending-invitations',
+        component: PendingInvitationsComponent
+      }
+    ],
     canActivate: [MsalGuard]
   },{
     path: 'invitation',
@@ -55,15 +73,16 @@ const routes: Routes = [
   ,{
     // Needed for hash routing
     path: 'error',
-    component: RediectComponent
+    component: ErrorComponent
   },{
     // Needed for hash routing
     path: 'state',
     component: RediectComponent
+    
   },{
     // Needed for hash routing
     path: 'code',
-    component: RediectComponent
+    component: CodeComponent
   }
  
 

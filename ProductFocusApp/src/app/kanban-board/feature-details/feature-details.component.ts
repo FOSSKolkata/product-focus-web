@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
-import { Feature } from '../models';
+import { Feature } from '../../dht-common/models';
 
 @Component({
   selector: 'app-feature-details',

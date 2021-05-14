@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AddOrganizationInput, AddProductInOrganizationInput } from '../kanban-board/models';
+import { AddOrganizationInput, AddProductInOrganizationInput } from '../dht-common/models';
 import { OrganizationService } from '../_services/organization.service';
 
 @Component({
@@ -18,11 +18,15 @@ export class OrganizationHomeComponent implements OnInit {
   productName: string | undefined;
   organizationList: any = [];
   productList: any = [];
+  organizationSpinner = false;
+  productSpinner = false;
   ngOnInit(): void {
     this.setOrganizationList();
   }
   setOrganizationList(){
+    this.organizationSpinner = true
     this.organizationService.getOrganizationList().subscribe(res => {
+      this.organizationSpinner = false;
       this.organizationList = res;
       this.selectedOrganizationId = this.organizationList[0].id;
       if(this.selectedOrganizationId != undefined)
@@ -46,7 +50,9 @@ export class OrganizationHomeComponent implements OnInit {
     })
   }
   setProductList(id: number){
+    this.productSpinner = true;
     this.organizationService.getProductsByOrganizationId(id).subscribe(res => {
+      this.productSpinner = false;
       this.productList = res;
       console.log(res);
     },err => {

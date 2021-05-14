@@ -1,7 +1,8 @@
 <app-top-nav></app-top-nav>
 <div style="margin-top: 70px;">
   <div class="vertical-nav bg-white" [class.active]="active"id="sidebar" style="top: 66px;">
-    <ul class="nav flex-column bg-white mb-0">
+    <app-spinner [is-spinner-active]="organizationSpinner"></app-spinner>
+    <ul *ngIf="!organizationSpinner" class="nav flex-column bg-white mb-0">
       <li *ngFor="let organization of organizationList"
         class="nav-item"
         (click)="setProductList(organization.id); selectOrganization(organization.id)">
@@ -37,14 +38,15 @@
       </button>
       </div>
       <div class="col">
-        <a routerLink="/organization-members" class="nav-link text-dark float-right">
+        <a routerLink="/organization" class="nav-link text-dark float-right">
           <i class="fa fa-cog"></i>
           User Settings
         </a>
       </div>
     </div>
-    
-    <div *ngIf="selectedOrganizationId != undefined" class="row module-content ml-5">
+
+    <app-spinner [is-spinner-active]="productSpinner"></app-spinner>
+    <div [style.display]="!productSpinner" *ngIf="selectedOrganizationId != undefined" class="row module-content ml-5">
       <div *ngFor="let product of productList" class="col-lg-4 col-md-6 mt-1 mb-1">
         <div class="column-control">
           <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>

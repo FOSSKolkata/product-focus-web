@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { apiConfig } from '../b2c-config';
-import { RegisterUserInput } from '../kanban-board/models';
+import { RegisterUserInput } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RegisterUserService {
+export class UserService {
 
   constructor(private http: HttpClient) { }
 

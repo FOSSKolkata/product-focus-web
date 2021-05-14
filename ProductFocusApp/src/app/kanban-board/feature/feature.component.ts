@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Feature } from '../models';
+import { Feature } from '../../dht-common/models';
 
 @Component({
   selector: 'app-feature',

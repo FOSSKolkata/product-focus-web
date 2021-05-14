@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-organization-members',
@@ -8,11 +8,11 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 })
 export class OrganizationMembersComponent implements OnInit {
 
-  active: boolean = false;
   closeResult = '';
+  constructor(private modalService: NgbModal) { }
 
-  constructor(private modalService: NgbModal) {}
-
+  ngOnInit(): void {
+  }
   open(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -30,8 +30,4 @@ export class OrganizationMembersComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-
-  ngOnInit(): void {
-  }
-
 }
