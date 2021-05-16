@@ -10,7 +10,8 @@ export interface Feature {
 }
 
 export interface AddOrganizationInput {
-  name: string;
+  organizationName: string;
+  email: string;
 }
 
 export interface AddProductInOrganizationInput {

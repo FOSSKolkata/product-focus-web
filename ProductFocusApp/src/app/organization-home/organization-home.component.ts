@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
 import { AddOrganizationInput, AddProductInOrganizationInput } from '../dht-common/models';
 import { OrganizationService } from '../_services/organization.service';
 
@@ -9,12 +10,13 @@ import { OrganizationService } from '../_services/organization.service';
 })
 export class OrganizationHomeComponent implements OnInit {
 
-  constructor(private organizationService: OrganizationService) { }
+  constructor(private organizationService: OrganizationService,
+              private authService: MsalService) { }
   active: boolean = false;
   organizationAddView: boolean = false;
   productAddView: boolean = false;
   organizationName: string | undefined;
-  selectedOrganizationId: number| undefined;
+  selectedOrganization: any;
   productName: string | undefined;
   organizationList: any = [];
   productList: any = [];
@@ -28,9 +30,9 @@ export class OrganizationHomeComponent implements OnInit {
     this.organizationService.getOrganizationList().subscribe(res => {
       this.organizationSpinner = false;
       this.organizationList = res;
-      this.selectedOrganizationId = this.organizationList[0].id;
-      if(this.selectedOrganizationId != undefined)
-        this.setProductList(this.selectedOrganizationId);
+      this.selectedOrganization = this.organizationList[0];
+      if(this.selectedOrganization != undefined)
+        this.setProductList(this.selectedOrganization.id);
     })
   }
   addOrganization(){
@@ -38,7 +40,8 @@ export class OrganizationHomeComponent implements OnInit {
       return;
     }
     var addOrganizationInput: AddOrganizationInput = {
-      name: this.organizationName
+      organizationName: this.organizationName,
+      email: this.authService.instance.getAllAccounts()[0].username
     }
     this.organizationService.addOrganization(addOrganizationInput).subscribe(res => {
       // success
@@ -59,25 +62,25 @@ export class OrganizationHomeComponent implements OnInit {
       console.log(err);
     })
   }
-  selectOrganization(id: number){
-    this.selectedOrganizationId = id;
+  selectOrganization(organization: any){
+    this.selectedOrganization = organization;
   }
   addProduct(){
     if(this.productName === undefined || this.productName == ''){
       return;
     }
-    if(this.selectedOrganizationId == undefined)
+    if(this.selectedOrganization == undefined)
       return;
     var addProductInOrganizationInput: AddProductInOrganizationInput = {
       name: this.productName
     }
     this.organizationService.addProductInOrganization(
-      this.selectedOrganizationId,
+      this.selectedOrganization.id,
       addProductInOrganizationInput).subscribe(res =>{
         this.productName = '';
         this.productAddView = false;
-        if(this.selectedOrganizationId != undefined)
-          this.setProductList(this.selectedOrganizationId);
+        if(this.selectedOrganization != undefined)
+          this.setProductList(this.selectedOrganization.id);
       },err=>{
         console.log(err);
       })

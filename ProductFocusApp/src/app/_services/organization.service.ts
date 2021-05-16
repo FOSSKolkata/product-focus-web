@@ -28,6 +28,6 @@ export class OrganizationService {
   }
 
   addProductInOrganization(id: number, addProductInOrganizationInput: AddProductInOrganizationInput){
-    return this.http.post(apiConfig.uri+`/Organization/AddProduct/${id}/AddProduct`,addProductInOrganizationInput);
+    return this.http.post(apiConfig.uri+`/Organization/AddProduct/${id}`,addProductInOrganizationInput);
   }
 }
