@@ -13,6 +13,7 @@ import { PendingInvitationsComponent } from './pending-invitations/pending-invit
 import { ErrorComponent } from './garbage/error/error.component';
 import { StateComponent } from './garbage/state/state.component';
 import { CodeComponent } from './garbage/code/code.component';
+import { InvitationHistoryComponent } from './invitation-history/invitation-history.component';
 
 const SECURE_APP_ROUTES: Routes = [
   {
@@ -62,6 +63,9 @@ const routes: Routes = [
       },{
         path: 'pending-invitations',
         component: PendingInvitationsComponent
+      },{
+        path: 'invitations-history',
+        component: InvitationHistoryComponent
       }
     ],
     canActivate: [MsalGuard]

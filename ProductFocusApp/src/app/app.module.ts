@@ -29,6 +29,8 @@ import { PendingInvitationsComponent } from './pending-invitations/pending-invit
 import { StateComponent } from './garbage/state/state.component';
 import { ErrorComponent } from './garbage/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
+import { MatSortModule } from '@angular/material/sort';
+import { InvitationHistoryComponent } from './invitation-history/invitation-history.component';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
@@ -95,7 +97,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     PendingInvitationsComponent,
     StateComponent,
     ErrorComponent,
-    CodeComponent
+    CodeComponent,
+    InvitationHistoryComponent
   ],
   imports: [
     BrowserModule,
@@ -105,7 +108,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     HttpClientModule,
     MsalModule,
     NgbModule,
-    DhtCommonModule
+    DhtCommonModule,
+    MatSortModule
   ],
   providers: [
     {
