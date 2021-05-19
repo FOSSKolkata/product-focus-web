@@ -42,7 +42,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.productService.getKanbanViewByProductId(this.productId).subscribe((x)=>{
       this.kanbanBoardSpinner = false;
       this.kanbanBoard = x;
-      console.log("hello",x);
+      // console.log("hello",x);
     });
   }
 
@@ -65,6 +65,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       this.moduleName = '';
       this.moduleAddView = false;
       this.setModules();
+      this.setKanbanBoard();
     },err => console.log(err));
   }
   
@@ -149,12 +150,16 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   openSmallPopup(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'manage-module'}).result.then((result) => {
       
+    },(reason)=>{
+
     });
   }
 
   openLargePopup(content: any) {
     this.modalService.open(content, {ariaLabelledBy: 'manage-module', size: 'lg'}).result.then((result) => {
       
+    },(reason)=>{
+
     });
   }
 

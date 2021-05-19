@@ -27,12 +27,14 @@ export class OrganizationHomeComponent implements OnInit {
   }
   setOrganizationList(){
     this.organizationSpinner = true
-    this.organizationService.getOrganizationList().subscribe(res => {
+    this.organizationService.getOrganizationListByUser().subscribe(res => {
       this.organizationSpinner = false;
       this.organizationList = res;
       this.selectedOrganization = this.organizationList[0];
       if(this.selectedOrganization != undefined)
         this.setProductList(this.selectedOrganization.id);
+    },err=>{
+      this.organizationSpinner = false;
     })
   }
   addOrganization(){
@@ -54,6 +56,7 @@ export class OrganizationHomeComponent implements OnInit {
   }
   setProductList(id: number){
     this.productSpinner = true;
+    this.productList = [];
     this.organizationService.getProductsByOrganizationId(id).subscribe(res => {
       this.productSpinner = false;
       this.productList = res;

@@ -34,10 +34,10 @@
     <div class="row">
       <div class="col">
         <button id="sidebarCollapse"
-        class="btn-transparent"
-        (click)="active = !active">
-        <i class="fa m-2 ml-5" [class.fa-arrow-right]="active" [class.fa-arrow-left]="!active"></i>
-      </button>
+          class="btn-transparent screen"
+          (click)="active = !active">
+          <i class="fa m-2 ml-5" [class.fa-arrow-right]="active" [class.fa-arrow-left]="!active"></i>
+        </button>
       </div>
       <div class="col">
         <a routerLink="/organization" class="nav-link text-dark float-right">
@@ -49,7 +49,7 @@
 
     <app-spinner [is-spinner-active]="productSpinner"></app-spinner>
     <div [style.display]="!productSpinner" *ngIf="selectedOrganization" class="row module-content ml-5">
-      <div *ngFor="let product of productList" class="col-lg-4 col-md-6 mt-1 mb-1">
+      <div *ngFor="let product of productList" class="col-lg-4 col-md-6 mt-3 mb-3">
         <div class="column-control">
           <i class="fa fa-ellipsis-h" style="position: absolute; right: 20px; top: 0px"></i>
           <a routerLink="/product-roadmap">
@@ -61,8 +61,8 @@
           <a [routerLink]="['/products',product.id,'kanban-board']" (click)="setLastProductId(product.id)">{{product.name}}</a>
         </div>
       </div>
-      <div class="col-lg-4 col-md-6 mt-1 mb-1">
-        <div (click)="productAddView=true" *ngIf="!productAddView" class="column-control">
+      <div class="col-lg-4 col-md-6 mt-3 mb-3" *ngIf="!productAddView && !productSpinner">
+        <div (click)="productAddView=true" class="column-control">
           <a><i class="fa fa-plus">Add</i></a>
         </div>
         <div *ngIf="productAddView" class="add-product add">

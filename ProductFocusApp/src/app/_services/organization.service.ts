@@ -23,8 +23,8 @@ export class OrganizationService {
     return this.http.get(apiConfig.uri+`/Organization/GetProductsById/${id}`);
   }
 
-  getOrganizationByUserid(id: number){
-    return this.http.get(apiConfig.uri+`/Organization/GetOrganizationListByUser/${id}`);
+  getOrganizationListByUser(){
+    return this.http.get(apiConfig.uri+"/Organization/GetOrganizationListByUser");
   }
 
   addProductInOrganization(id: number, addProductInOrganizationInput: AddProductInOrganizationInput){

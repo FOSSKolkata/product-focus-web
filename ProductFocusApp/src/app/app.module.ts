@@ -24,19 +24,19 @@ import { RediectComponent } from './rediect/rediect.component';
 import { UserService } from './_services/user.service';
 import { DhtCommonModule } from './dht-common/dht-common.module';
 import { InvitationComponent } from './invitation/invitation.component';
-import { OrganizationMembersComponent } from './organization-members/organization-members.component';
-import { PendingInvitationsComponent } from './pending-invitations/pending-invitations.component';
+import { OrganizationMembersComponent } from './organization/organization-members/organization-members.component';
+import { PendingInvitationsComponent } from './organization/pending-invitations/pending-invitations.component';
 import { StateComponent } from './garbage/state/state.component';
 import { ErrorComponent } from './garbage/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { MatSortModule } from '@angular/material/sort';
-import { InvitationHistoryComponent } from './invitation-history/invitation-history.component';
+import { ClosedInvitationsComponent } from './organization/closed-invitations/closed-invitations.component';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
 export function loggerCallback(logLevel: LogLevel, message: string) {
-  console.log("LOg:::",logLevel);
-  console.log("MEss:::",message);
+  // console.log("LOg:::",logLevel);
+  // console.log("MEss:::",message);
 }
 
 export function MSALInstanceFactory(): IPublicClientApplication {
@@ -98,7 +98,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     StateComponent,
     ErrorComponent,
     CodeComponent,
-    InvitationHistoryComponent
+    ClosedInvitationsComponent
   ],
   imports: [
     BrowserModule,

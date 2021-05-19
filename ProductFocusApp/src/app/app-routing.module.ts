@@ -8,12 +8,11 @@ import { MsalGuard } from '@azure/msal-angular';
 import { ProfileComponent } from './profile/profile.component';
 import { RediectComponent } from './rediect/rediect.component';
 import { InvitationComponent } from './invitation/invitation.component';
-import { OrganizationMembersComponent } from './organization-members/organization-members.component';
-import { PendingInvitationsComponent } from './pending-invitations/pending-invitations.component';
+import { OrganizationMembersComponent } from './organization/organization-members/organization-members.component';
+import { PendingInvitationsComponent } from './organization/pending-invitations/pending-invitations.component';
 import { ErrorComponent } from './garbage/error/error.component';
-import { StateComponent } from './garbage/state/state.component';
 import { CodeComponent } from './garbage/code/code.component';
-import { InvitationHistoryComponent } from './invitation-history/invitation-history.component';
+import { ClosedInvitationsComponent } from './organization/closed-invitations/closed-invitations.component';
 
 const SECURE_APP_ROUTES: Routes = [
   {
@@ -34,10 +33,15 @@ const SECURE_APP_ROUTES: Routes = [
 const routes: Routes = [
   {
     path: '',
-    component: OrganizationHomeComponent,
-    canActivate: [MsalGuard]
-  },
-  {
+    // component: OrganizationHomeComponent,
+    // canActivate: [MsalGuard],
+    redirectTo: 'organization-home',
+    pathMatch: 'full'
+  },{
+    path: 'id_token',
+    redirectTo: 'organization-home',
+    pathMatch: 'full'
+  },{
     path: '',
     component: LayoutComponent,
     canActivate: [MsalGuard],
@@ -56,7 +60,7 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'members',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },{
         path: 'members',
         component: OrganizationMembersComponent
@@ -64,8 +68,8 @@ const routes: Routes = [
         path: 'pending-invitations',
         component: PendingInvitationsComponent
       },{
-        path: 'invitations-history',
-        component: InvitationHistoryComponent
+        path: 'closed-invitations',
+        component: ClosedInvitationsComponent
       }
     ],
     canActivate: [MsalGuard]
@@ -82,14 +86,11 @@ const routes: Routes = [
     // Needed for hash routing
     path: 'state',
     component: RediectComponent
-    
   },{
     // Needed for hash routing
     path: 'code',
     component: CodeComponent
   }
- 
-
 ];
 
 const isIframe = window !== window.parent && !window.opener;

@@ -9,11 +9,11 @@ export interface ClosedAction {
 }
 
 @Component({
-  selector: 'app-invitation-history',
-  templateUrl: './invitation-history.component.html',
-  styleUrls: ['./invitation-history.component.css']
+  selector: 'app-closed-invitations',
+  templateUrl: './closed-invitations.component.html',
+  styleUrls: ['./closed-invitations.component.css']
 })
-export class InvitationHistoryComponent implements OnInit {
+export class ClosedInvitationsComponent implements OnInit {
   desserts: ClosedAction[] = [
     {name: 'Chandan Prajapati', invitedOn: '24 Apr 4:00pm', status: 'Accepted', actionedOn: '13 May 7:00pm'},
     {name: 'Rahul Dubey', invitedOn: '24 Apr 4:00pm', status: 'Declined', actionedOn: '14 May 6:02pm'},

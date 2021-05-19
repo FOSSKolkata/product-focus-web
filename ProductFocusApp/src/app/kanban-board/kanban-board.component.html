@@ -256,6 +256,10 @@
       </div>
     </div> -->
   </div>
+  <div *ngIf="!kanbanBoard.length && !kanbanBoardSpinner"
+    style="text-align: center; margin-top: 10px;">
+    No module found!!
+  </div>
 
   <ng-template #manageModuleContent let-modal>
     <div class="modal-header">

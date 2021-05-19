@@ -66,3 +66,9 @@
 .active-item, .nav-item:hover {
     background-color: var(--dark-gray);
 }
+
+@media (min-width: 600px){
+    .screen {
+        display: none;
+    }
+}
