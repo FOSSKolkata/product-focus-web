@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Feature } from '../../dht-common/models';
 
@@ -9,11 +9,12 @@ import { Feature } from '../../dht-common/models';
 })
 export class FeatureComponent implements OnInit, OnDestroy {
 
-  @Input() feature: Feature = {
+  @Input('feature') feature: Feature = {
     id: -1,
     moduleId: -1,
     title: ''
   };
+  @Output('modal-closed') modalClosed = new EventEmitter<boolean>();
 
   closeResult = '';
 
@@ -34,6 +35,8 @@ export class FeatureComponent implements OnInit, OnDestroy {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      console.log(this.closeResult);
+      this.modalClosed.emit(true);
     });
   }
 

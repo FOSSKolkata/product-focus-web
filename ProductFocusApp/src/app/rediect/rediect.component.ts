@@ -27,6 +27,7 @@ export class RediectComponent implements OnInit {
       takeUntil(this._destroying$)
     )
     .subscribe(() => {
+      console.log(this.authService.instance.getActiveAccount());
       if(this.isNewUser()) {
         this.registerUser();
       }

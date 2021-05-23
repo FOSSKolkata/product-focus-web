@@ -1,9 +1,0 @@
-.reject-btn {
-    display: inline-block;
-    background-color: var(--medium-gray);
-}
-
-.reject-btn:hover {
-    background-color: var(--dark-gray);
-    color: gray;
-}

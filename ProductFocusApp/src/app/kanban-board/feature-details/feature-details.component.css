@@ -1,0 +1,14 @@
+
+i::after, #checklistDropDown::after {
+    display: none;
+}
+
+.lists {
+    padding: 5px;
+    background-color: var(--light-gray);
+    cursor: pointer;
+}
+
+.lists:hover {
+    background-color: var(--medium-gray);
+}

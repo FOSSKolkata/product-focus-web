@@ -1,186 +1,350 @@
 <div class="row">
-    <div class="col-12 col-lg-8">
-      <div class="row">
-        <div class="col-1" style="padding-top: 2px;">
-          <i class="fa fa-file"></i>
-        </div>
-        <div class="col">
-          {{feature.title}}
+  <div class="col-1">
+    <i class="fa fa-life-ring fa-2x" style="color: blue;"></i>
+  </div>
+  <div class="col">
+    <div class="modal-title w-100" id="modal-basic-title">
+      <app-switch-text-textarea *ngIf="featureDetails"
+        [title]="featureDetails.title"
+        [label-style]="{ 'font-weight': 'bold' }"
+        (is-text-changed)="modifyFeature(1,$event)">
+      </app-switch-text-textarea>
+      <span *ngIf="featureDetails && featureDetails.isBlocked" style="background-color: var(--blocked);margin-left: 5px;padding:2px;color:white;">blocked</span>
+    </div>
+  </div>
+</div>
+<div class="row" style="margin-left: 10px; margin-top: 20px;">
+  <div class="col-12 col-lg-8">
+    <div class="row">
+      <div class="col-1" style="padding-top: 2px;">
+        <i class="fa fa-file"></i>
+      </div>
+      <div class="col">
+        <b>Description</b>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-1" style="padding-top: 2px;">
+      </div>
+      <div class="col" style="font-size: var(--global-text-size);">
+        <app-switch-text-textarea
+          *ngIf="featureDetails"
+          [title]="featureDetails.description"
+          (is-text-changed)="modifyFeature(2,$event)">
+        </app-switch-text-textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col" style="font-size: var(--global-text-size);">
+        <label for="acceptanceCriteria">Acceptance Criteria</label>
+        <div class="form-group">
+          <app-switch-text-textarea></app-switch-text-textarea>
         </div>
       </div>
-      <div class="row">
-        <div class="col-1">
-          <i class="fa fa-tasks"></i>
-        </div>
-        <div class="col">
-          <b>Tasks</b>
-        </div>
+    </div>
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+      <div class="col-1">
+        <i class="fa fa-tasks"></i>
       </div>
-      <!-- starting of task -->
+      <div class="col">
+        <b>Developers Tasks</b>
+      </div>
+    </div>
+    <!-- starting of task -->
+      <div class="row">
+      <div class="col-1">
+        <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
+      </div>
+      <div class="col-8 col-md-9">
+        <label for="task1">Need User information using PNR number</label>
+      </div>
+      <div class="col-1">
+        <i class="fa fa-user-plus"></i>
+      </div>
+      <div class="col-1">
+        <i class="fa fa-window-close"></i>
+      </div>
+    </div>
+    <!-- ending of task -->
+    <!-- starting of task -->
+    <div class="row">
+      <div class="col-1">
+        <input type="checkbox" name="task2" id="task2" value="Need User information using PNR number">
+      </div>
+      <div class="col-8 col-md-9">
+        <label for="task2">API integration with the front end.</label>
+      </div>
+      <div class="col-1">
+        <i class="fa fa-user-plus"></i>
+      </div>
+      <div class="col-1">
+        <i class="fa fa-window-close"></i>
+      </div>
+    </div>
+    <!-- ending of task -->
+    <!-- starting of task -->
+    <div class="row">
+      <div class="col-1">
+        <input type="checkbox" name="task3" id="task3" value="Need User information using PNR number">
+      </div>
+      <div class="col-8 col-md-9">
+        <label for="task3">On Clicking create it should create a new tab.</label>
+      </div>
+      <div class="col-1">
+        <i class="fa fa-user-plus"></i>
+      </div>
+      <div class="col-1">
+        <i class="fa fa-window-close"></i>
+      </div>
+    </div>
+    <!-- ending of task -->
+    <!-- add task button -->
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col">
+        <button class="btn good-btn" style="font-size: x-small;">Add Task</button>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+      <div class="col-1">
+        <i class="fa fa-tasks"></i>
+      </div>
+      <div class="col">
+        <b>QA Tasks</b>
+      </div>
+    </div>
+    <!-- starting of task -->
+      <div class="row">
+      <div class="col-1">
+        <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
+      </div>
+      <div class="col-8 col-md-9">
+        <label for="task1">Need User information using PNR number</label>
+      </div>
+      <div class="col-1">
+        <i class="fa fa-user-plus"></i>
+      </div>
+      <div class="col-1">
+        <i class="fa fa-window-close"></i>
+      </div>
+    </div>
+    <!-- ending of task -->
+    <!-- add task button -->
+    <div class="row">
+      <div class="col-1"></div>
+      <div class="col">
+        <button class="btn good-btn" style="font-size: x-small;">Add Task</button>
+      </div>
+    </div>
+    <!-- comment Heading -->
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+      <div class="col-1">
+        <i class="fa fa-comments"></i>
+      </div>
+      <div class="col">
+        <b>Comments</b>
+      </div>
+    </div>
+    <!-- comments -->
+    <!-- all the comments -->
+    <!-- single comment starting -->
+    <div class="row">
+      <div class="col-1 p-0">
+        <div class="avatar" style="padding-top:4px; background-color: #66241c;">KT</div>
+      </div>
+      <div class="col">
         <div class="row">
-        <div class="col-1">
-          <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
+          <div class="col-5 col-sm-4 h-25"><small><b>Kartik Tiwari </b></small></div>
+          <div class="col-6 col-sm-7"><small class="text-muted">1 minutes ago</small></div>
         </div>
-        <div class="col-8 col-md-9">
-          <label for="task1">Need User information using PNR number</label>
-        </div>
-        <div class="col-1">
-          <i class="fa fa-user-plus"></i>
-        </div>
-        <div class="col-1">
-          <i class="fa fa-window-close" style="color: #ec9488;"></i>
-        </div>
-      </div>
-      <!-- ending of task -->
-      <!-- starting of task -->
-      <div class="row">
-        <div class="col-1">
-          <input type="checkbox" name="task2" id="task2" value="Need User information using PNR number">
-        </div>
-        <div class="col-8 col-md-9">
-          <label for="task2">API integration with the front end.</label>
-        </div>
-        <div class="col-1">
-          <i class="fa fa-user-plus"></i>
-        </div>
-        <div class="col-1">
-          <i class="fa fa-window-close" style="color: #ec9488;"></i>
-        </div>
-      </div>
-      <!-- ending of task -->
-      <!-- starting of task -->
-      <div class="row">
-        <div class="col-1">
-          <input type="checkbox" name="task3" id="task3" value="Need User information using PNR number">
-        </div>
-        <div class="col-8 col-md-9">
-          <label for="task3">On Clicking create it should create a new tab.</label>
-        </div>
-        <div class="col-1">
-          <i class="fa fa-user-plus"></i>
-        </div>
-        <div class="col-1">
-          <i class="fa fa-window-close" style="color: #ec9488;"></i>
-        </div>
-      </div>
-      <!-- ending of task -->
-      <!-- add task button -->
-      <div class="row">
-        <div class="col-1"></div>
-        <div *ngIf="isAddTaskButtonActive" class="col">
-          <button class="btn btn-success" style="font-size: x-small;">Add Task</button>
-        </div>
-      </div>
-      <!-- comment Heading -->
-      <div class="row">
-        <div class="col-1">
-          <i class="fa fa-comments"></i>
-        </div>
-        <div class="col">
-          <b>Comments</b>
-        </div>
-      </div>
-      <!-- comments -->
-      <div class="row">
-        <div class="col-1">
-          <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
-        </div>
-        <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
-          <input type="text" class="form-control" placeholder="Write a comment..." style="border: none;">
-          <button class="btn btn-success" style="margin:3px;"><small>Comment</small></button>
-        </div>
-      </div>
-      <!-- all the comments -->
-      <!-- single comment starting -->
-      <div class="row">
-        <div class="col-1" style="padding-left: 7px;">
-          <div class="avatar" style="padding-top:4px; background-color: #66241c;">KT</div>
-        </div>
-        <div class="col">
-          <div class="row">
-            <div class="col-5 col-sm-4 h-25"><small><b>Kartik Tiwari </b></small></div>
-            <div class="col-6 col-sm-7"><small class="text-muted">1 minutes ago</small></div>
-          </div>
-          <div class="row">
-            <div class="col h-75">
-              <small>I need an end point of user name, phone no along with medication id.</small>
-            </div>
+        <div class="row">
+          <div class="col h-75">
+            <small>I need an end point of user name, phone no along with medication id.</small>
           </div>
         </div>
       </div>
-      <!-- single comment ending -->
-      <!-- single comment starting -->
-      <div class="row">
-        <div class="col-1" style="padding-left: 7px;">
-          <div class="avatar" style="padding-top:4px;">AS</div>
-        </div>
-        <div class="col">
-          <div class="row">
-            <div class="col-5 col-sm-4 h-25"><small><b>Amit Shaw </b></small></div>
-            <div class="col-6 col-sm-7"><small class="text-muted">10 minutes ago</small></div>
-          </div>
-          <div class="row">
-            <div class="col h-75">
-              <small>I need mobile number along with user details.</small>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- single comment ending -->
-      <!-- single comment starting -->
-      <div class="row">
-        <div class="col-1" style="padding-left: 7px;">
-          <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
-        </div>
-        <div class="col">
-          <div class="row">
-            <div class="col-5 col-sm-4 h-25"><small><b>Rahul Shrivastav </b></small></div>
-            <div class="col-6 col-sm-7"><small class="text-muted">yesterday at 2:33 p.m</small></div>
-          </div>
-          <div class="row">
-            <div class="col h-75">
-              <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- single comment ending -->
-      <!-- single comment starting -->
-      <div class="row">
-        <div class="col-1" style="padding-left: 7px;">
-          <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
-        </div>
-        <div class="col">
-          <div class="row">
-            <div class="col-5 col-sm-4 h-25"><small><b>Pappu Singh </b></small></div>
-            <div class="col-6 col-sm-7"><small class="text-muted">2nd Jan at 3:45 p.m</small></div>
-          </div>
-          <div class="row">
-            <div class="col h-75">
-              <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- single comment ending -->
     </div>
-    <div class="col-12 col-lg-3">
-      <div>
-        <label for="startdate">Start date: </label>
-        <input type="date" id="startdate" name="startdate">
+    <!-- single comment ending -->
+    <!-- single comment starting -->
+    <div class="row">
+      <div class="col-1 p-0">
+        <div class="avatar" style="padding-top:4px;">AS</div>
       </div>
-      <div>
-        <label for="enddate">End date:&nbsp;&nbsp;</label>
-        <input type="date" id="enddate" name="enddate">
+      <div class="col">
+        <div class="row">
+          <div class="col-5 col-sm-4 h-25"><small><b>Amit Shaw </b></small></div>
+          <div class="col-6 col-sm-7"><small class="text-muted">10 minutes ago</small></div>
+        </div>
+        <div class="row">
+          <div class="col h-75">
+            <small>I need mobile number along with user details.</small>
+          </div>
+        </div>
       </div>
-      <div>
-        Work progress (15 %)
-      </div>
-      <div>
-        <input type="range" min="1" max="100" value="15" style="width: 190px;">
-      </div>
-      <small>
-        Owner: <b>Ranjan Das</b>
-      </small>
     </div>
+    <!-- single comment ending -->
+    <!-- single comment starting -->
+    <div class="row">
+      <div class="col-1 p-0">
+        <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-5 col-sm-4 h-25"><small><b>Rahul Shrivastav </b></small></div>
+          <div class="col-6 col-sm-7"><small class="text-muted">yesterday at 2:33 p.m</small></div>
+        </div>
+        <div class="row">
+          <div class="col h-75">
+            <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- single comment ending -->
+    <!-- single comment starting -->
+    <div class="row">
+      <div class="col-1 p-0">
+        <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
+      </div>
+      <div class="col">
+        <div class="row">
+          <div class="col-5 col-sm-4 h-25"><small><b>Pappu Singh </b></small></div>
+          <div class="col-6 col-sm-7"><small class="text-muted">2nd Jan at 3:45 p.m</small></div>
+        </div>
+        <div class="row">
+          <div class="col h-75">
+            <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- single comment ending -->
+    <div class="row">
+      <div class="col-1 p-0">
+        <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
+      </div>
+      <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
+        <input type="text" class="form-control" placeholder="Write a comment..." style="border: none;">
+        <button class="btn good-btn" style="margin:3px;"><small>Comment</small></button>
+      </div>
+    </div>
+    <!--Everything completed for comments-->
+    <!--History UI Start-->
+    <!-- <div class="row">
+      <div class="col-1"></div>
+      <div class="col">
+        <div *ngFor="let i of [1,2,3,4]">
+              
+            <div class="arrow-container">
+              <div class="check">
+                <div class="arrow-tail"></div>
+                <div class="arrow-head"></div>
+                <div class="reason">
+                  Reactivated
+                </div>
+                <div class="change-into">
+                  <div class="change-info-user">
+                    Vikram Shaw
+                  </div>
+                  <div class="change-info-date">
+                    30/04/21
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div> -->
+    <!--HIstory UI End-->
+  </div>
+  <div class="col-12 col-lg-3">
+    <div style="margin-top: 10px;">
+      <label for="startdate">Start date: </label>
+      <div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd"
+          (dateSelect)="onDateSelect($event)"
+          name="sd" ngbDatepicker #startDate="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="startDate.toggle()" type="button">
+            <i class="fa fa-calendar-alt"></i>
+          </button>
+        </div>
+      </div>
+      <!-- <input type="date" id="startdate" name="startdate"> -->
+    </div>
+    <div style="margin-top: 10px;">
+      <label for="enddate">End date:&nbsp;&nbsp;</label>
+      <div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd"
+          name="ed" ngbDatepicker #endDate="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" (click)="endDate.toggle()" type="button">
+            <i class="fa fa-calendar-alt"></i>
+          </button>
+        </div>
+      </div>
+      <!-- <input type="date" id="enddate" name="enddate"> -->
+    </div>
+    <div style="margin-top: 10px;">
+      Work progress ({{featureDetails.workCompletionPercentage}} %)
+    </div>
+    <div>
+      <input type="range" min="1" max="100"
+        [(ngModel)]="featureDetails.workCompletionPercentage"
+        (change) = "modifyFeature(3,featureDetails.workCompletionPercentage);"
+        style="width: 165px;">
+    </div>
+    <div>
+      <app-tag></app-tag>
+    </div>
+    <div ngbDropdown [autoClose]="'outside'" style="margin-top: 10px;">
+      <div id="checklistDropDown" class="lists" ngbDropdownToggle>
+        <i class="fa fa-check-circle"></i>
+        Checklist
+      </div>
+      <div ngbDropdownMenu style="width: 250px;" aria-labelledby="checklistDropDown">
+        <div ngbDropdownItem class="remove-hover-effect">
+          <input type="text" class="form-control"
+          placeholder="Enter checklist title">
+        </div>
+        <div ngbDropdownItem class="remove-hover-effect">
+          <button class="btn good-btn">Add</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!isBlocked" ngbDropdown [autoClose]="'outside'" style="margin-top: 10px;">
+      <div id="checklistDropDown" class="lists" ngbDropdownToggle>
+        <i class="fa fa-ban"></i>
+        Mark as block
+      </div>
+      <div ngbDropdownMenu style="width: 250px;" aria-labelledby="checklistDropDown">
+        <div ngbDropdownItem class="remove-hover-effect">
+          <input type="text" class="form-control"
+          placeholder="Enter Reason">
+        </div>
+        <div ngbDropdownItem class="remove-hover-effect">
+          <button class="btn good-btn" (click)="isBlocked = true">Block</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isBlocked" (click)="isBlocked = false;" style="margin-top: 10px;">
+      <div class="lists">
+        <i class="fa fa-unlock"></i>
+        Unblock
+      </div>
+    </div>
+    <div style="margin-top: 10px;">
+      <div>
+        <small>Developer Owners</small>
+      </div>
+      <app-add-user></app-add-user>
+    </div>
+    <div style="margin-top: 10px;">
+      <div>
+        <small>Q/A Owners</small>
+      </div>
+      <app-add-user></app-add-user>
+    </div>
+  </div>
 </div>

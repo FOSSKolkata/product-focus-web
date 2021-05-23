@@ -4,7 +4,7 @@ import { SubSink } from 'subsink';
 import { StylingService } from '../side-nav/styling.service';
 import { ProductService } from '../_services/product.service';
 import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop'
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -14,19 +14,28 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 export class KanbanBoardComponent implements OnInit, OnDestroy {
   
+  hoveredDate: NgbDate | null = null;
+  fromDate: NgbDate;
+  toDate: NgbDate | null = null;
   modules: any = [];
   kanbanBoard: any = [];
   closeResult = '';
   moduleServiceSubscriptions: SubSink = new SubSink();
   moduleAddView: boolean = false;
+  sprintAddView: boolean = false;
   moduleName: string | undefined;
+  sprintName: string | undefined;
   productId: number | undefined;
   kanbanBoardSpinner: boolean = false;
   constructor(
               private productService: ProductService,
               private activatedRoute: ActivatedRoute,
               public styling: StylingService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal,
+              calendar: NgbCalendar) {
+                this.fromDate = calendar.getToday();
+                this.toDate = calendar.getNext(calendar.getToday(), 'd', 14);
+              }
 
   ngOnInit(): void {
     this.productId = this.activatedRoute.snapshot.params.id;
@@ -42,7 +51,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.productService.getKanbanViewByProductId(this.productId).subscribe((x)=>{
       this.kanbanBoardSpinner = false;
       this.kanbanBoard = x;
-      // console.log("hello",x);
+      console.log("hello",x);
     });
   }
 
@@ -164,5 +173,26 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   }
 
   isFocusMode: boolean = false;
-  isBlocked = false;
+  onDateSelection(date: NgbDate) {
+    if (!this.fromDate && !this.toDate) {
+      this.fromDate = date;
+    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
+      this.toDate = date;
+    } else {
+      this.toDate = null;
+      this.fromDate = date;
+    }
+  }
+
+  isHovered(date: NgbDate) {
+    return this.fromDate && !this.toDate && this.hoveredDate && date.after(this.fromDate) && date.before(this.hoveredDate);
+  }
+
+  isInside(date: NgbDate) {
+    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
+  }
+
+  isRange(date: NgbDate) {
+    return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+  }
 }

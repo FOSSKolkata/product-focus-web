@@ -31,6 +31,7 @@ import { ErrorComponent } from './garbage/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { MatSortModule } from '@angular/material/sort';
 import { ClosedInvitationsComponent } from './organization/closed-invitations/closed-invitations.component';
+import { SprintService } from './_services/sprint.service';
 
 const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
 
@@ -134,6 +135,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalBroadcastService,
     OrganizationService,
     UserService,
+    SprintService,
     StylingService
   ],
   bootstrap: [AppComponent, MsalRedirectComponent]

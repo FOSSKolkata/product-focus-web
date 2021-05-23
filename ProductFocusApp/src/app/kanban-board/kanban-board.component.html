@@ -20,10 +20,10 @@
   </div>
   <div style="display: inline-block; margin: 10px; position: absolute; right: 100px;">
     <div ngbDropdown>
-      <i class="fa fa-cog fa-2x" id="manageModuleDropDown" ngbDropdownToggle></i>
-      <div ngbDropdownMenu aria-labelledby="manageModuleDropDown">
+      <i class="fa fa-cog fa-2x" id="settingsDropDown" ngbDropdownToggle></i>
+      <div ngbDropdownMenu aria-labelledby="settingsDropDown">
         <button ngbDropdownItem (click)="openSmallPopup(manageModuleContent)">Manage Modules</button>
-        <button ngbDropdownItem (click)="openSmallPopup(manageSprintContent)">Manage Sprint</button>
+        <button ngbDropdownItem (click)="openLargePopup(manageSprintContent)">Manage Sprint</button>
       </div>
     </div>
   </div>
@@ -61,7 +61,11 @@
         </div>
         <div class="feature-section">
           <div *ngFor="let feature of moduleSection.featureDetails; let i = index" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="moduleSection.featureDetails[i]">
-            <app-feature [feature]='feature' cdkDrag></app-feature>
+            <app-feature
+              [feature]='feature'
+              (modal-closed) = "setKanbanBoard()"
+              cdkDrag>
+            </app-feature>
           </div>
           <div class="card" style="margin: 5px">
             <div class="card-footer">
@@ -297,17 +301,87 @@
       </button>
     </div>
     <div class="modal-body">
-      <div *ngFor="let item of [1,2,3]">
-        <app-switch-text-textarea [title]="'R6-Sprint'"></app-switch-text-textarea>
+      <!-- <div *ngFor="let item of [1,2,3]">
+        <app-switch-text-textarea [title]="'R6-Sprint '+item"></app-switch-text-textarea>
+      </div> -->
+      <div class="add-sprint">
+        <i *ngIf="!sprintAddView" (click)="sprintAddView=true" class="fa fa-plus" style="cursor: pointer;"> Add Sprint</i>
+        <div style="text-align: center;">
+          <div *ngIf="sprintAddView">
+            <div style="font-size: large; transform: translateX(-185px); margin-bottom: 20px;">
+              <i class="fa fa-bolt"></i>
+              New Sprint
+            </div>
+            <div style="transform: translateX(-213px);">
+              Name<span style="color: red">*</span>
+            </div>
+            <input type="text" class="form-control" style="display: inline-block; width: 475px;"
+              [(ngModel)]="sprintName"
+              placeholder="Enter Sprint Name">
+              
+            <div style="transform: translateX(-195px);">
+              <div style="display: inline-block;">
+                Start<span style="color: red">*</span>
+              </div>
+              <div style="display: inline-block; transform: translateX(190px);">
+                End<span style="color: red">*</span>
+              </div>
+            </div>
+            <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+            </ngb-datepicker>
+            
+            <ng-template #t let-date let-focused="focused">
+              <span class="custom-day"
+                [class.focused]="focused"
+                [class.range]="isRange(date)"
+                [class.faded]="isHovered(date) || isInside(date)"
+                (mouseenter)="hoveredDate = date"
+                (mouseleave)="hoveredDate = null">
+                {{ date.day }}
+              </span>
+            </ng-template>
+            <div style="transform: translateX(170px);">
+              <button  class="btn good-btn">Add</button>
+              <button class="btn reject-btn" (click)="sprintAddView=false" id="cancel-task">Cancel</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="add-module">
-        <i *ngIf="!moduleAddView" (click)="moduleAddView=true" class="fa fa-plus"> Add Sprint</i>
-        <div *ngIf="moduleAddView">
-          <input type="text" class="form-control" style="display: inline-block; vertical-align: middle;"
-            [(ngModel)]="moduleName"
-            placeholder="Enter sprint title">
-          <button  class="btn good-btn" style="display: inline-block; vertical-align: middle;">Add</button>
-          <i (click)="moduleAddView=false" class="fa fa-times" id="cancel-task" style="display: inline-block; vertical-align: middle;"></i>
+      <div class="mb-2">
+        <div class="table-responsive-sm">
+          <table class="table">
+            <thead>
+              <tr style="color: var(--gray)">
+                <th scope="col">Name</th>
+                <th scope="col">Sprint Dates</th>
+                <th scope="col">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <span>R6-Sprint 2</span>
+                </td>
+                <td>
+                  <span>21 Mar - 29 Mar</span>
+                </td>
+                <td>
+                  <i class="fa fa-edit"></i>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span>R6-Sprint 1</span>
+                </td>
+                <td>
+                  <span>12 Mar - 20 Mar</span>
+                </td>
+                <td>
+                  <i class="fa fa-edit"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -481,369 +555,5 @@
     </div>
   </ng-template>
 
-  <ng-template #featureContent let-modal>
-    <div class="modal-header">
-      <!-- <i class="fa fa-binoculars"></i> -->
-      <i class="fa fa-life-ring fa-2x" style="color: blue;"></i>
-      <div class="modal-title w-100" id="modal-basic-title">
-        <app-switch-text-textarea
-          [title]="'PNR medications need to be transfer to a new tab.'"
-          [label-style]="{ 'font-weight': 'bold' }">
-        </app-switch-text-textarea>
-        <span *ngIf="isBlocked" style="background-color: var(--blocked);margin-left: 5px;padding:2px;color:white;">blocked</span>
-        <!-- <span style="margin-left: 5px;">
-          Focus Mode
-        </span>
-        <div class="fa pointer"
-        [class.fa-toggle-off]="!isFocusMode"
-        [class.fa-toggle-on]="isFocusMode"
-        (click)="isFocusMode = !isFocusMode"
-      ></div> -->
-      </div>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div *ngIf="!isFocusMode" class="row" style="margin-left: 10px; margin-top: 20px;">
-        <div class="col-12 col-lg-8">
-          <div class="row">
-            <div class="col-1" style="padding-top: 2px;">
-              <i class="fa fa-file"></i>
-            </div>
-            <div class="col">
-              <b>Description</b>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-1" style="padding-top: 2px;">
-            </div>
-            <div class="col" style="font-size: var(--global-text-size);">
-              <app-switch-text-textarea [title]="'PNR medications need to be transfer to a new tab. This is the details of the feature.'"></app-switch-text-textarea>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-1"></div>
-            <div class="col" style="font-size: var(--global-text-size);">
-              <label for="acceptanceCriteria">Acceptance Criteria</label>
-              <div class="form-group">
-                <app-switch-text-textarea></app-switch-text-textarea>
-              </div>
-            </div>
-          </div>
-          <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
-            <div class="col-1">
-              <i class="fa fa-tasks"></i>
-            </div>
-            <div class="col">
-              <b>Developers Tasks</b>
-            </div>
-          </div>
-          <!-- starting of task -->
-            <div class="row">
-            <div class="col-1">
-              <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
-            </div>
-            <div class="col-8 col-md-9">
-              <label for="task1">Need User information using PNR number</label>
-            </div>
-            <div class="col-1">
-              <i class="fa fa-user-plus"></i>
-            </div>
-            <div class="col-1">
-              <i class="fa fa-window-close"></i>
-            </div>
-          </div>
-          <!-- ending of task -->
-          <!-- starting of task -->
-          <div class="row">
-            <div class="col-1">
-              <input type="checkbox" name="task2" id="task2" value="Need User information using PNR number">
-            </div>
-            <div class="col-8 col-md-9">
-              <label for="task2">API integration with the front end.</label>
-            </div>
-            <div class="col-1">
-              <i class="fa fa-user-plus"></i>
-            </div>
-            <div class="col-1">
-              <i class="fa fa-window-close"></i>
-            </div>
-          </div>
-          <!-- ending of task -->
-          <!-- starting of task -->
-          <div class="row">
-            <div class="col-1">
-              <input type="checkbox" name="task3" id="task3" value="Need User information using PNR number">
-            </div>
-            <div class="col-8 col-md-9">
-              <label for="task3">On Clicking create it should create a new tab.</label>
-            </div>
-            <div class="col-1">
-              <i class="fa fa-user-plus"></i>
-            </div>
-            <div class="col-1">
-              <i class="fa fa-window-close"></i>
-            </div>
-          </div>
-          <!-- ending of task -->
-          <!-- add task button -->
-          <div class="row">
-            <div class="col-1"></div>
-            <div class="col">
-              <button class="btn good-btn" style="font-size: x-small;">Add Task</button>
-            </div>
-          </div>
-          <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
-            <div class="col-1">
-              <i class="fa fa-tasks"></i>
-            </div>
-            <div class="col">
-              <b>QA Tasks</b>
-            </div>
-          </div>
-          <!-- starting of task -->
-            <div class="row">
-            <div class="col-1">
-              <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
-            </div>
-            <div class="col-8 col-md-9">
-              <label for="task1">Need User information using PNR number</label>
-            </div>
-            <div class="col-1">
-              <i class="fa fa-user-plus"></i>
-            </div>
-            <div class="col-1">
-              <i class="fa fa-window-close"></i>
-            </div>
-          </div>
-          <!-- ending of task -->
-          <!-- add task button -->
-          <div class="row">
-            <div class="col-1"></div>
-            <div class="col">
-              <button class="btn good-btn" style="font-size: x-small;">Add Task</button>
-            </div>
-          </div>
-          <!-- comment Heading -->
-          <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
-            <div class="col-1">
-              <i class="fa fa-comments"></i>
-            </div>
-            <div class="col">
-              <b>Comments</b>
-            </div>
-          </div>
-          <!-- comments -->
-          <!-- all the comments -->
-          <!-- single comment starting -->
-          <div class="row">
-            <div class="col-1 p-0">
-              <div class="avatar" style="padding-top:4px; background-color: #66241c;">KT</div>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-5 col-sm-4 h-25"><small><b>Kartik Tiwari </b></small></div>
-                <div class="col-6 col-sm-7"><small class="text-muted">1 minutes ago</small></div>
-              </div>
-              <div class="row">
-                <div class="col h-75">
-                  <small>I need an end point of user name, phone no along with medication id.</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single comment ending -->
-          <!-- single comment starting -->
-          <div class="row">
-            <div class="col-1 p-0">
-              <div class="avatar" style="padding-top:4px;">AS</div>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-5 col-sm-4 h-25"><small><b>Amit Shaw </b></small></div>
-                <div class="col-6 col-sm-7"><small class="text-muted">10 minutes ago</small></div>
-              </div>
-              <div class="row">
-                <div class="col h-75">
-                  <small>I need mobile number along with user details.</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single comment ending -->
-          <!-- single comment starting -->
-          <div class="row">
-            <div class="col-1 p-0">
-              <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-5 col-sm-4 h-25"><small><b>Rahul Shrivastav </b></small></div>
-                <div class="col-6 col-sm-7"><small class="text-muted">yesterday at 2:33 p.m</small></div>
-              </div>
-              <div class="row">
-                <div class="col h-75">
-                  <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single comment ending -->
-          <!-- single comment starting -->
-          <div class="row">
-            <div class="col-1 p-0">
-              <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-5 col-sm-4 h-25"><small><b>Pappu Singh </b></small></div>
-                <div class="col-6 col-sm-7"><small class="text-muted">2nd Jan at 3:45 p.m</small></div>
-              </div>
-              <div class="row">
-                <div class="col h-75">
-                  <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single comment ending -->
-          <div class="row">
-            <div class="col-1 p-0">
-              <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
-            </div>
-            <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
-              <input type="text" class="form-control" placeholder="Write a comment..." style="border: none;">
-              <button class="btn good-btn" style="margin:3px;"><small>Comment</small></button>
-            </div>
-          </div>
-          <!--Everything completed for comments-->
-          <!--History UI Start-->
-          <!-- <div class="row">
-            <div class="col-1"></div>
-            <div class="col">
-              <div *ngFor="let i of [1,2,3,4]">
-                    
-                  <div class="arrow-container">
-                    <div class="check">
-                      <div class="arrow-tail"></div>
-                      <div class="arrow-head"></div>
-                      <div class="reason">
-                        Reactivated
-                      </div>
-                      <div class="change-into">
-                        <div class="change-info-user">
-                          Vikram Shaw
-                        </div>
-                        <div class="change-info-date">
-                          30/04/21
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-            </div>
-          </div> -->
-          <!--HIstory UI End-->
-        </div>
-        <div class="col-12 col-lg-3">
-          <div style="margin-top: 10px;">
-            <label for="startdate">Start date: </label>
-            <div class="input-group">
-              <input class="form-control" placeholder="yyyy-mm-dd"
-                name="sd" ngbDatepicker #startDate="ngbDatepicker">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="startDate.toggle()" type="button">
-                  <i class="fa fa-calendar-alt"></i>
-                </button>
-              </div>
-            </div>
-            <!-- <input type="date" id="startdate" name="startdate"> -->
-          </div>
-          <div style="margin-top: 10px;">
-            <label for="enddate">End date:&nbsp;&nbsp;</label>
-            <div class="input-group">
-              <input class="form-control" placeholder="yyyy-mm-dd"
-                name="ed" ngbDatepicker #endDate="ngbDatepicker">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="endDate.toggle()" type="button">
-                  <i class="fa fa-calendar-alt"></i>
-                </button>
-              </div>
-            </div>
-            <!-- <input type="date" id="enddate" name="enddate"> -->
-          </div>
-          <div style="margin-top: 10px;">
-            Work progress (15 %)
-          </div>
-          <div>
-            <input type="range" min="1" max="100" value="15" style="width: 165px;">
-          </div>
-          <div>
-            <app-tag></app-tag>
-          </div>
-          <div ngbDropdown [autoClose]="'outside'" style="margin-top: 10px;">
-            <div id="checklistDropDown" class="lists" ngbDropdownToggle>
-              <i class="fa fa-check-circle"></i>
-              Checklist
-            </div>
-            <div ngbDropdownMenu style="width: 250px;" aria-labelledby="checklistDropDown">
-              <div ngbDropdownItem class="remove-hover-effect">
-                <input type="text" class="form-control"
-                placeholder="Enter checklist title">
-              </div>
-              <div ngbDropdownItem class="remove-hover-effect">
-                <button class="btn good-btn">Add</button>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="!isBlocked" ngbDropdown [autoClose]="'outside'" style="margin-top: 10px;">
-            <div id="checklistDropDown" class="lists" ngbDropdownToggle>
-              <i class="fa fa-ban"></i>
-              Mark as block
-            </div>
-            <div ngbDropdownMenu style="width: 250px;" aria-labelledby="checklistDropDown">
-              <div ngbDropdownItem class="remove-hover-effect">
-                <input type="text" class="form-control"
-                placeholder="Enter Reason">
-              </div>
-              <div ngbDropdownItem class="remove-hover-effect">
-                <button class="btn good-btn" (click)="isBlocked = true">Block</button>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="isBlocked" (click)="isBlocked = false;" style="margin-top: 10px;">
-            <div class="lists">
-              <i class="fa fa-unlock"></i>
-              Unblock
-            </div>
-          </div>
-          <div style="margin-top: 10px;">
-            <div>
-              <small>Developer Owners</small>
-            </div>
-            <app-add-user></app-add-user>
-          </div>
-          <div style="margin-top: 10px;">
-            <div>
-              <small>Q/A Owners</small>
-            </div>
-            <app-add-user></app-add-user>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="isFocusMode" class="row" style="margin-left: 10px; margin-top: 20px;">
-        <div class="col-8 offset-2">
-          <div style="width: 100%; text-align: center;">
-            <h4>{{data.value}}%</h4>
-            <input style="width: 100%;" type="range" min="1" max="100" value="15" class="slider" #data>
-            <div style="margin-top: 20px;">
-              <p style="font-size: 13px;">13 Jan, 2021 - 15 Jan, 2021</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </ng-template>
 
 </div>

@@ -54,6 +54,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     cursor: pointer;
 }
 
+.reject-btn {
+    display: inline-block;
+    background-color: var(--medium-gray);
+}
+
+.reject-btn:hover {
+    background-color: var(--dark-gray);
+    color: gray;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
 .content{
     margin:8px;
     background-color: var(--white);

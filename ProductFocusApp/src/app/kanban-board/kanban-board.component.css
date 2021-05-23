@@ -82,27 +82,17 @@ i::after, #checklistDropDown::after {
     cursor: pointer;
 }
 
-.add-module * {
+.add-module, .add-sprint * {
     margin: 2px;
 }
 
-.add-module input {
+.add-module input, .add-sprint input {
     width: 80%;
     display: inline;
 }
 
 .add div button {
     margin: 5px 5px 5px 0;
-}
-
-.lists {
-    padding: 5px;
-    background-color: var(--light-gray);
-    cursor: pointer;
-}
-
-.lists:hover {
-    background-color: var(--medium-gray);
 }
 
 .remove-hover-effect:hover {
@@ -191,4 +181,22 @@ div[ngbDropdownMenu] {
     font-size: 11px;
     width: 80px;
     text-align: center;
+}
+
+.custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+}
+.custom-day.focused {
+    background-color: #e6e6e6;
+}
+.custom-day.range, .custom-day:hover {
+    background-color: rgb(2, 117, 216);
+    color: white;
+}
+.custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5);
 }
