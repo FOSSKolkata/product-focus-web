@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, OperatorFunction, Observable, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { Assignee } from 'src/app/dht-common/models';
 
 @Component({
   selector: 'app-add-user',
@@ -14,7 +15,7 @@ export class AddUserComponent implements OnInit {
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
   fullUserName: any;
-  usernameList: Array<string> = [];
+  @Input('users')userList: Array<Assignee> = [];
   isAddUserActive:boolean = false;
   
   userData = ["Vikram Shaw","Pritam Shaw","Amit Shaw","Ankit Shaw","Ankit Singh","Akhilesh Chaudhary","Dipak Prasad","Raju"];
@@ -42,16 +43,16 @@ export class AddUserComponent implements OnInit {
 
   addTag(event: any){
     setTimeout(()=>this.fullUserName = '',0);
-    var index = this.usernameList.indexOf(event.item);
+    var index = this.userList.indexOf(event.item);
     if(index != -1) {
       console.log(event.item + " is already added");
       return;
     }
-    this.usernameList.push(event.item);
+    this.userList.push(event.item);
   }
 
   removeTag(name: string){
-    var index = this.usernameList.indexOf(name);
-    this.usernameList.splice(index,1);
+    // var index = this.userList.indexOf(name);
+    // this.userList.splice(index,1);
   }
 }

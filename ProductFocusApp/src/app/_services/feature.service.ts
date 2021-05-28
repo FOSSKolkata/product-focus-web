@@ -10,7 +10,7 @@ export class FeatureService {
 
   constructor(private http: HttpClient) { }
 
-  modifyFeatureElement(modifyFeatureInput: ModifyFeatureInput){
+  modifyFeatureElement(modifyFeatureInput: any){
     return this.http.put(apiConfig.uri+"/Feature/ModifyFeatureElement",modifyFeatureInput);
   }
 

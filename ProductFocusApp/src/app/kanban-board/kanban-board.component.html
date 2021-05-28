@@ -47,220 +47,80 @@
     <div class="state-header">
       <div class="card">
         <div class="card-header">
+          Hold
+        </div>
+      </div>
+    </div>
+    <div class="state-header">
+      <div class="card">
+        <div class="card-header">
           Completed
         </div>
       </div>
     </div>
   </div>
   <app-spinner [is-spinner-active]="kanbanBoardSpinner"></app-spinner>
-  <div [style.display]="!kanbanBoardSpinner" *ngFor="let moduleSection of kanbanBoard">
-    <div class="module-section" cdkDropListGroup>
-      <div>
-        <div class="module-header">
-          {{moduleSection.name}}
+  <div [style.display]="!kanbanBoardSpinner"
+    *ngFor="let module of board; let i = index">
+    <div class="module-section">
+      <div cdkDropListGroup>
+        <div *ngIf="module" class="module-header">
+         {{module.name}}
         </div>
-        <div class="feature-section">
-          <div *ngFor="let feature of moduleSection.featureDetails; let i = index" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="moduleSection.featureDetails[i]">
+        <div class="feature-section"
+        cdkDropList
+        [cdkDropListData]="module[0]"
+        (cdkDropListDropped)="drop($event,featureStatus.new)"
+        [id]="module.id">
+          <div *ngFor="let feature of module[0];" cdkDrag>
             <app-feature
-              [feature]='feature'
-              (modal-closed) = "setKanbanBoard()"
-              cdkDrag>
+              [feature]="feature">
             </app-feature>
           </div>
           <div class="card" style="margin: 5px">
             <div class="card-footer">
-              <app-add-feature [module-id]="moduleSection.id" (is-feature-added)="setKanbanBoard()"></app-add-feature>
+              <app-add-feature *ngIf="board" [module-id]="module.id" (is-feature-added)="setKanbanBoard()"></app-add-feature>
             </div>
           </div>
         </div>
-        <div class="feature-section">
-        </div>
-        <div class="feature-section">
-        </div>
-        
-        <!-- <div class="feature-section" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="newlist">
-          <div class="card" style="white-space: normal;" *ngFor="let feature of moduleSection.featureDetails" cdkDrag (click)="openLargePopup(featureContent)">
-            <div class="card-body">
-              <div class="card-title">
-                <p><i class="fa fa-life-ring" style="color: blue; padding: 0 5px 0 0"></i>{{feature.id}}</p>
-                <small>{{feature.title}}</small>
-              </div>
-              <div class="row">
-                <div class="col-6">
-                  <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}} - {{feature.endDate}}</small>
-                </div>
-                <div class="col">
-                  <small><i class="far fa-comments"></i> {{feature.noOfChat}}</small>
-                </div>
-                <div class="col">
-                  <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card" (click)="openLargePopup(bugContent)">
-            <div class="card-body">
-              <div class="card-title">
-                <p><i class="fa fa-bug" style="color: red; padding: 0 5px 0 0"></i>#3223</p>
-                <small>Login button is not aligned properly.</small>
-              </div>
-              <div class="row">
-                <div class="col-6">
-                  <small class="completed"><i class="far fa-clock"></i> 30 Apr - 05 May</small>
-                </div>
-                <div class="col">
-                  <small><i class="far fa-comments"></i> 4</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card" style="margin: 5px">
-            <div class="card-footer">
-              <small *ngIf="addFeatureOrBugStep == 0" (click)="addFeatureOrBugStep = 1"><i class="fa fa-plus"> Add Feature/Bug</i></small>
-              <div class="add" *ngIf="addFeatureOrBugStep == 1">
-                <button class="btn good-btn" style="margin: 5px;" (click)="addType('feature'); addFeatureOrBugStep = 2;">Feature</button>
-                <button class="btn good-btn" style="margin: 5px;" (click)="addType('bug'); addFeatureOrBugStep = 2;">Bug</button>
-                <div>
-                  <span style="margin: 5px;">Choose type</span>
-                  <i (click)="addFeatureOrBugStep = 0" class="fa fa-times" id="cancel-task"></i>
-                </div>
-              </div>
-              <div *ngIf="addFeatureOrBugStep == 2" class="add">
-                <i class="fa"
-                  [class.fa-bug]="workItemType=='bug'"
-                  [class.fa-life-ring]="workItemType=='feature'"
-                  [style.color]="workItemType=='bug'?'red':'blue'"
-                  ></i>
-                <textarea type="text" class="form-control"
-                placeholder="Enter title" rows="2"></textarea>
-                <div>
-                  <button class="btn good-btn">Add</button>
-                  <i class="fa fa-times" id="cancel-task" (click)="addFeatureOrBugStep = 0;"></i>
-                </div>
-              </div>
-            </div>
+        <div class="feature-section"
+        cdkDropList
+        [cdkDropListData]="module[1]"
+        (cdkDropListDropped)="drop($event,featureStatus.inProgress)"
+        [id]="module.id">
+          <div *ngFor="let feature of module[1];" cdkDrag>
+            <app-feature
+              [feature]="feature">
+            </app-feature>
           </div>
         </div>
-        <div class="feature-section" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="inProgress">
-          <div class="card" style="white-space: normal;" *ngFor="let feature of inProgress" cdkDrag (click)="openLargePopup(featureContent)">
-            <div class="card-body">
-              <div class="card-title">
-                <p><i class="fa fa-life-ring" style="color: blue; padding: 0 5px 0 0"></i>{{feature.id}}</p>
-                <small>{{feature.title}}</small>
-              </div>
-              <div class="row">
-                <div class="col-6">
-                  <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}} - {{feature.endDate}}</small>
-                </div>
-                <div class="col">
-                  <small><i class="far fa-comments"></i> {{feature.noOfChat}}</small>
-                </div>
-                <div class="col">
-                  <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
-                </div>
-              </div>
-            </div>
+        <div class="feature-section"
+        cdkDropList
+        [cdkDropListData]="module[2]"
+        (cdkDropListDropped)="drop($event,featureStatus.hold)"
+        [id]="module.id">
+          <div *ngFor="let feature of module[2];" cdkDrag>
+            <app-feature
+              [feature]="feature">
+            </app-feature>
           </div>
         </div>
-        <div class="feature-section" cdkDropList (cdkDropListDropped)="drop($event)" [cdkDropListData]="completed">
-          <div class="card" style="white-space: normal;" *ngFor="let feature of completed" cdkDrag (click)="openLargePopup(featureContent)">
-            <div class="card-body">
-              <div class="card-title">
-                <p>
-                  <i class="fa fa-life-ring" style="color: blue; padding: 0 5px 0 0"></i>{{feature.id}}
-                  <span style="background-color: var(--blocked); padding: 2px; color: white;">blocked</span>
-                </p>
-                <small>{{feature.title}}</small>
-              </div>
-              <div class="row">
-                <div class="col-6">
-                  <small class="completed"><i class="far fa-clock"></i> {{feature.startDate}} - {{feature.endDate}}</small>
-                </div>
-                <div class="col">
-                  <small><i class="far fa-comments"></i> {{feature.noOfChat}}</small>
-                </div>
-                <div class="col">
-                  <small><i class="far fa-check-square"></i> {{feature.completedTask}}/{{feature.totalTask}}</small>
-                </div>
-              </div>
-            </div>
+        <div class="feature-section"
+        cdkDropList
+        [cdkDropListData]="module[3]"
+        (cdkDropListDropped)="drop($event,featureStatus.completed)"
+        [id]="module.id">
+          <div *ngFor="let feature of module[3];" cdkDrag>
+            <app-feature
+            [feature]="feature">
+            </app-feature>
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
-    <!-- <div class="module-section" style="background-color: burlywood;">
-      <div class="module-header">
-        Vital
-      </div>
-      <div class="feature-section">
-        <div class="card" style="white-space: normal;">
-          <div class="card-body">
-            <div class="card-title">
-              <p>#2021</p>
-              <small>PNR medication needs to transfer to a new tab.</small>
-            </div>
-            <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
-            <small><i class="far fa-comments"></i> 4</small>
-            <small><i class="far fa-check-square"></i> 3/3</small>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="card-title">
-              <p>#8923</p>
-              <small>PNR medication needs to transfer to a new tab.</small>
-            </div>
-            <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
-            <small><i class="far fa-comments"></i> 4</small>
-            <small><i class="far fa-check-square"></i> 3/3</small>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-body">
-            <div class="card-title">
-              <p>#3289</p>
-              <small>PNR medication needs to transfer to a new tab.</small>
-            </div>
-            <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
-            <small><i class="far fa-comments"></i> 4</small>
-            <small><i class="far fa-check-square"></i> 3/3</small>
-          </div>
-        </div>
-        <div class="card" style="margin: 5px">
-          <div class="card-footer">
-            <small ><i class="fa fa-plus"> Add Feature/Bug</i></small>
-          </div>
-        </div>
-      </div>
-      <div class="feature-section">
-        <div class="card" style="white-space: normal;">
-          <div class="card-body">
-            <div class="card-title">
-              <p>#3223</p>
-              <small>PNR medication needs to transfer to a new tab.</small>
-            </div>
-            <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
-            <small><i class="far fa-comments"></i> 4</small>
-            <small><i class="far fa-check-square"></i> 3/3</small>
-          </div>
-        </div>
-      </div>
-      <div class="feature-section">
-        <div class="card" style="white-space: normal;">
-          <div class="card-body">
-            <div class="card-title">
-              <p>#3232</p>
-              <small>PNR medication needs to transfer to a new tab.</small>
-            </div>
-            <small class="completed"><i class="far fa-clock"></i> 13 jan - 15 jan</small>
-            <small><i class="far fa-comments"></i> 4</small>
-            <small><i class="far fa-check-square"></i> 3/3</small>
-          </div>
-        </div>
-      </div>
-    </div> -->
   </div>
-  <div *ngIf="!kanbanBoard.length && !kanbanBoardSpinner"
+
+  <div *ngIf="!board.length && !kanbanBoardSpinner"
     style="text-align: center; margin-top: 10px;">
     No module found!!
   </div>

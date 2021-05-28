@@ -1,17 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FeatureService } from 'src/app/_services/feature.service';
-import { Feature, FeatureDetails, ModifyFeatureInput } from '../../dht-common/models';
+import { Feature, FeatureDetails } from '../../dht-common/models';
 
-export enum UpdateColumnIdentifier {
+export enum ModifyColumnIdentifier {
   title = 1,
   description = 2,
   workCompletionPercentage = 3,
   status = 4,
   sprint = 5,
   storyPoint = 6,
-  assignees = 7,
-  isBlocked = 8
+  isBlocked = 7,
+  includeAssignee = 8,
+  excludeAssignee = 9,
+  acceptanceCriteria = 10,
+  plannedStartDate = 11,
+  plannedEndDate = 12,
+  actualStartDate = 13,
+  actualEndDate = 14
 }
 
 @Component({
@@ -22,32 +28,21 @@ export enum UpdateColumnIdentifier {
 
 export class FeatureDetailsComponent implements OnInit {
 
-  modifyFeatureInput: ModifyFeatureInput = {
-    id: -1,
-    description: '',
-    fieldName: 0,
-    isBlocked: false,
-    sprint: {
-      createdBy: '',
-      createdOn: new Date(),
-      endDate: new Date(),
-      lastModifiedBy: '',
-      lastModifiedOn: new Date(),
-      name: '',
-      startDate: new Date()
-    },
-    status: 0,
-    storyPoint: 0,
-    title: '',
-    workCompletionPercentage: 0
-  };
-
+  @Output('any-changes') anyChanges = new EventEmitter<boolean>();
   isBlocked = false;
-  startDate: string = '';
+  startDate!: NgbDateStruct;
+  endDate!: NgbDateStruct;
   @Input() feature: Feature = {
     id: -1,
     moduleId: -1,
-    title: ''
+    title: '',
+    status: 0,
+    isBlocked: false,
+    workItemType: 0,
+    plannedStartDate: new Date(),
+    plannedEndDate: new Date(),
+    actualStartDate: new Date(),
+    actualEndDate: new Date()
   };
 
   featureDetails: FeatureDetails = {
@@ -57,7 +52,13 @@ export class FeatureDetailsComponent implements OnInit {
     status: 0,
     storyPoint: 0,
     workCompletionPercentage: 0,
-    title: ''
+    title: '',
+    assignees: [],
+    acceptanceCriteria: '',
+    actualEndDate: new Date(),
+    actualStartDate: new Date(),
+    plannedEndDate: new Date(),
+    plannedStartDate: new Date()
   };
 
   isAddTaskButtonActive: boolean = true;
@@ -66,17 +67,13 @@ export class FeatureDetailsComponent implements OnInit {
               private featureService: FeatureService) { }
 
   ngOnInit(): void {
-    console.log(this.feature);
+    var date = this.featureDetails.actualStartDate;
+    console.log(this.featureDetails.plannedStartDate);
     this.featureService.getFeatureDetailsById(this.feature.id).subscribe(x => {
+      console.log(x);
       this.featureDetails = x as FeatureDetails;
-      this.modifyFeatureInput = this.featureDetails as ModifyFeatureInput;
-      // this.modifyFeatureInput.title = this.featureDetails.title;
-      // this.modifyFeatureInput.description = this.featureDetails.description;
-      // this.modifyFeatureInput.id = this.featureDetails.id;
-      // this.modifyFeatureInput.isBlocked = this.featureDetails.isBlocked;
-      // this.modifyFeatureInput.status = this.featureDetails.status
-      // this.modifyFeatureInput.storyPoint = this.featureDetails.storyPoint;
-      // this.modifyFeatureInput.workCompletionPercentage = this.featureDetails.workCompletionPercentage;
+      this.startDate = this.dateToNgbDate(new Date(this.featureDetails.plannedStartDate));
+      this.endDate = this.dateToNgbDate(new Date(this.featureDetails.plannedEndDate));
     })
     // console.log(this.getTiming(new Date("Mar 5, 2021 21:13:00")));
     // console.log(this.getTiming(new Date("Mar 7, 2021 21:13:00")));
@@ -104,22 +101,49 @@ export class FeatureDetailsComponent implements OnInit {
   //     return minDiff + " min ago.";
   //   return hrDiff + " hr " + minDiff + " min ago."
   // }
-  modifyFeature(key : number, value : string | any) {
-    this.modifyFeatureInput.fieldName = key;
-    if(key == UpdateColumnIdentifier.title) {
-      this.modifyFeatureInput.title = value;
+  modifyFeature(key : number, value : any) {
+    this.anyChanges.emit(true);
+    var object: any = {}
+    object.id = this.feature.id;
+    object.fieldName = key;
+    if(key == ModifyColumnIdentifier.title) {
+      object.title = value;
     }
-    if(key == UpdateColumnIdentifier.description){
-      this.modifyFeatureInput.description = value;
+    else if(key == ModifyColumnIdentifier.description){
+      object.description = value;
     }
-    if(key == UpdateColumnIdentifier.workCompletionPercentage){
-      this.modifyFeatureInput.workCompletionPercentage = +value;
+    else if(key == ModifyColumnIdentifier.workCompletionPercentage){
+      object.workCompletionPercentage = value;
     }
-    this.featureService.modifyFeatureElement(this.modifyFeatureInput).subscribe(x => {
+    else if(key == ModifyColumnIdentifier.acceptanceCriteria){
+      object.acceptanceCriteria = value;
+    }
+    else if(key == ModifyColumnIdentifier.plannedStartDate){
+      object.plannedStartDate = this.ngbDateToDate(value);
+    }
+    else if(key == ModifyColumnIdentifier.plannedEndDate){
+      object.plannedEndDate = this.ngbDateToDate(value);
+    }
+    else if(key == ModifyColumnIdentifier.isBlocked){
+      object.isBlocked = value;
+      this.featureDetails.isBlocked = value; // do not need to call api again
+    }
+    this.featureService.modifyFeatureElement(object).subscribe(x => {
       console.log(x);
     })
   }
-  onDateSelect(event: any){
-    console.log(event);
+
+  dateToNgbDate(date: Date): NgbDateStruct {
+    return { day: date.getUTCDate(),
+      month: date.getUTCMonth() + 1,
+      year: date.getUTCFullYear()
+    };
+  }
+  ngbDateToDate(ngbDate: NgbDateStruct){
+    return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day + 1);
+  }
+
+  public get modifyColumnIdentifier(): typeof ModifyColumnIdentifier {
+    return ModifyColumnIdentifier;
   }
 }

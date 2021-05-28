@@ -12,10 +12,19 @@ export class FeatureComponent implements OnInit, OnDestroy {
   @Input('feature') feature: Feature = {
     id: -1,
     moduleId: -1,
-    title: ''
+    title: '',
+    status: 0,
+    workItemType: 0,
+    isBlocked: false,
+    plannedStartDate: new Date(),
+    plannedEndDate: new Date(),
+    actualStartDate: new Date(),
+    actualEndDate: new Date()
   };
+
   @Output('modal-closed') modalClosed = new EventEmitter<boolean>();
 
+  detailsChanged: boolean = false;
   closeResult = '';
 
   constructor(private modalService: NgbModal) { }
@@ -36,7 +45,8 @@ export class FeatureComponent implements OnInit, OnDestroy {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       console.log(this.closeResult);
-      this.modalClosed.emit(true);
+      if(this.detailsChanged)
+        this.modalClosed.emit(true);
     });
   }
 

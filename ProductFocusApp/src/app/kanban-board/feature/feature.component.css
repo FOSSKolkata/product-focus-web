@@ -16,3 +16,11 @@
     cursor: pointer;
     white-space: normal;
 }
+
+.bug {
+    border-left: 5px solid red;
+}
+
+.feature {
+    border-left: 5px solid blue;
+}

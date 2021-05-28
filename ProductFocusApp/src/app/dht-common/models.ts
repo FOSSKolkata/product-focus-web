@@ -4,9 +4,16 @@ export interface ProductModule{
 }
 
 export interface Feature {
-    id: number,
-    moduleId: number,
-    title: string
+    id: number;
+    moduleId: number;
+    title: string;
+    status: number;
+    isBlocked: boolean;
+    workItemType: number;
+    plannedStartDate: Date;
+    plannedEndDate: Date;
+    actualStartDate: Date;
+    actualEndDate: Date;
 }
 
 export interface AddOrganizationInput {
@@ -15,63 +22,81 @@ export interface AddOrganizationInput {
 }
 
 export interface AddProductInOrganizationInput {
-  name: string
+  name: string;
 }
 
 export interface RegisterUserInput {
-  name: string,
-  email: string
+  name: string;
+  email: string;
 }
 
 export interface FeatureInput {
-  title: string,
-  workItemType: string
+  title: string;
+  workItemType: string;
 }
 
 export interface SprintInput {
-  name: string,
-  startDate: Date,
-  endDate: Date
+  name: string;
+  startDate: Date;
+  endDate: Date;
 }
 
 export interface ModifyFeatureInput {
-  id: number,
-  title: string,
-  description: string,
-  workCompletionPercentage: number,
-  status: number,
+  id: number;
+  title: string;
+  description: string;
+  workCompletionPercentage: number;
+  status: number;
+  storyPoint: number;
+  isBlocked: boolean;
+  acceptanceCriteria: string;
+  plannedStartDate: Date;
+  plannedEndDate: Date;
+  actualStartDate: Date;
+  actualEndDate: Date;
   sprint: {
-    createdOn: Date,
-    createdBy: string,
-    lastModifiedOn: Date,
-    lastModifiedBy: string,
-    name: string,
-    startDate: Date,
-    endDate: Date
-  },
-  storyPoint: number,
-  isBlocked: boolean,
-  fieldName: number
+    createdOn: Date;
+    createdBy: string;
+    lastModifiedOn: Date;
+    lastModifiedBy: string;
+    name: string;
+    startDate: Date;
+    endDate: Date;
+  };
+  fieldName: number;
 }
 
 export interface FeatureDetails {
-  description: string,
-  id: number,
-  isBlocked: boolean,
-  status: number,
-  storyPoint: number,
-  title: string,
-  workCompletionPercentage: number
+  description: string;
+  id: number;
+  isBlocked: boolean;
+  status: number;
+  storyPoint: number;
+  title: string;
+  assignees: Assignee[];
+  workCompletionPercentage: number;
+  acceptanceCriteria: string;
+  plannedStartDate: Date;
+  plannedEndDate: Date;
+  actualStartDate: Date;
+  actualEndDate: Date;
 }
 
 /*export interface Status {
-  new : number,
-  inProgress : number,
-  onHold : number,
+  new : number;
+  inProgress : number;
+  onHold : number;
   completed: number
 }
 
 export interface WorkItemType {
-  feature : number,
+  feature : number;
   bug : number
 }*/
+
+export interface Assignee {
+  id: number,
+  objectId: string,
+  email: string,
+  name: string
+}

@@ -3,8 +3,18 @@ import { ActivatedRoute } from '@angular/router';
 import { SubSink } from 'subsink';
 import { StylingService } from '../side-nav/styling.service';
 import { ProductService } from '../_services/product.service';
-import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop'
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop'
 import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FeatureService } from '../_services/feature.service';
+import { ModifyColumnIdentifier } from './feature-details/feature-details.component';
+import { HighlightSpanKind } from 'typescript';
+
+enum FeatureStatus {
+  new = 0,
+  inProgress = 1,
+  hold = 2,
+  completed = 3
+};
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -13,7 +23,7 @@ import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 
 export class KanbanBoardComponent implements OnInit, OnDestroy {
-  
+
   hoveredDate: NgbDate | null = null;
   fromDate: NgbDate;
   toDate: NgbDate | null = null;
@@ -27,12 +37,16 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   sprintName: string | undefined;
   productId: number | undefined;
   kanbanBoardSpinner: boolean = false;
+
+  board:any = [];
+
   constructor(
               private productService: ProductService,
               private activatedRoute: ActivatedRoute,
               public styling: StylingService,
               private modalService: NgbModal,
-              calendar: NgbCalendar) {
+              calendar: NgbCalendar,
+              private featureService: FeatureService) {
                 this.fromDate = calendar.getToday();
                 this.toDate = calendar.getNext(calendar.getToday(), 'd', 14);
               }
@@ -47,11 +61,26 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   setKanbanBoard(){
     if(this.productId === undefined)
       return;
-      this.kanbanBoardSpinner = true;
+    this.kanbanBoardSpinner = true;
+    this.board = []
     this.productService.getKanbanViewByProductId(this.productId).subscribe((x)=>{
       this.kanbanBoardSpinner = false;
       this.kanbanBoard = x;
+      for(var module of this.kanbanBoard){
+        this.board.push([])
+        this.board[this.board.length-1].name = module.name;
+        this.board[this.board.length-1].id = module.id;
+        for(var feature of module.featureDetails){
+          if(this.board[this.board.length-1].length == 0) {
+            for(var i=0;i<4;i++){
+              this.board[this.board.length-1].push([]);
+            }
+          }
+          this.board[this.board.length-1][feature.status].push(feature);
+        }
+      }
       console.log("hello",x);
+      console.log(this.board);
     });
   }
 
@@ -77,75 +106,9 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       this.setKanbanBoard();
     },err => console.log(err));
   }
-  
-  newlist = [
-    {
-      id: '#2021',
-      title: 'PNR medication needs to transfer to a new tab.PNR medication needs to transfer to a new tab.PNR medication needs to transfer to a new tab.PNR medication needs to transfer to a new tab.',
-      startDate: '13 Jan',
-      endDate: '15 Jan',
-      noOfChat: 4,
-      completedTask: 3,
-      totalTask: 4
-    },{
-      id: '#3223',
-      title: 'PNR medication needs to transfer to a new tab.',
-      startDate: '14 Feb',
-      endDate: '29 Mar',
-      noOfChat: 7,
-      completedTask: 4,
-      totalTask: 4
-    }
-  ];
-  inProgress = [
-    {
-      id: '#20232',
-      title: 'Title in progress 1',
-      startDate: '23 Apr',
-      endDate: '15 Apr',
-      noOfChat: 4,
-      completedTask: 3,
-      totalTask: 4
-    },{
-      id: '#32323',
-      title: 'Title in progress 2',
-      startDate: '14 Feb',
-      endDate: '29 Mar',
-      noOfChat: 7,
-      completedTask: 4,
-      totalTask: 4
-    },{
-      id: '#3323',
-      title: 'Title in progress 3',
-      startDate: '14 Feb',
-      endDate: '29 Mar',
-      noOfChat: 7,
-      completedTask: 4,
-      totalTask: 4
-    }
-  ];
-  completed = [
-    {
-      id: '#20232',
-      title: 'Title in completed 1',
-      startDate: '23 Apr',
-      endDate: '1 May',
-      noOfChat: 4,
-      completedTask: 3,
-      totalTask: 4
-    },{
-      id: '#32323',
-      title: 'Title in completed 2',
-      startDate: '14 Feb',
-      endDate: '29 Mar',
-      noOfChat: 7,
-      completedTask: 4,
-      totalTask: 4
-    }
-  ];
 
-  drop(event: any) {
-    console.log(event);
+  drop(event: CdkDragDrop<any[]>, status: FeatureStatus) {
+    console.log(event,status);
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
@@ -153,6 +116,15 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
                         event.container.data,
                         event.previousIndex,
                         event.currentIndex);
+    }
+    // Iterate on every features where featureElement is dropped
+    for(var feature of event.container.data){
+      if(feature.status != status){ // Since the status of element where it is dropped is not equal to the status of that column
+        feature.status = status;
+        this.featureService.modifyFeatureElement({id: feature.id, status : status, fieldName: ModifyColumnIdentifier.status}).subscribe(x =>{
+          console.log(x);
+        })
+      }
     }
   }
 
@@ -194,5 +166,9 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
   isRange(date: NgbDate) {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+  }
+
+  public get featureStatus(): typeof FeatureStatus {
+    return FeatureStatus;
   }
 }
