@@ -37,8 +37,8 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   sprintName: string | undefined;
   productId: number | undefined;
   kanbanBoardSpinner: boolean = false;
-
   board:any = [];
+  enabledAdding: boolean = true;
 
   constructor(
               private productService: ProductService,
@@ -99,12 +99,17 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   addModule(){
     if(this.productId == undefined || this.moduleName == undefined)
       return;
+    this.enabledAdding = false;
     this.productService.addModule(this.productId,this.moduleName).subscribe(x => {
       this.moduleName = '';
       this.moduleAddView = false;
+      this.enabledAdding = true;
       this.setModules();
       this.setKanbanBoard();
-    },err => console.log(err));
+    },err => {
+      this.enabledAdding = true;
+      alert(err);
+    });
   }
 
   drop(event: CdkDragDrop<any[]>, status: FeatureStatus) {
@@ -128,16 +133,8 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     }
   }
 
-  openSmallPopup(content: any) {
-    this.modalService.open(content, {ariaLabelledBy: 'manage-module'}).result.then((result) => {
-      
-    },(reason)=>{
-
-    });
-  }
-
-  openLargePopup(content: any) {
-    this.modalService.open(content, {ariaLabelledBy: 'manage-module', size: 'lg'}).result.then((result) => {
+  openPopup(content: any, size: string = 'md') {
+    this.modalService.open(content, {ariaLabelledBy: 'generic modal', size: size}).result.then((result) => {
       
     },(reason)=>{
 
@@ -146,6 +143,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
   isFocusMode: boolean = false;
   onDateSelection(date: NgbDate) {
+    // console.log(date);
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
@@ -166,6 +164,17 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
   isRange(date: NgbDate) {
     return date.equals(this.fromDate) || (this.toDate && date.equals(this.toDate)) || this.isInside(date) || this.isHovered(date);
+  }
+
+  addSprint(){
+    if(this.toDate == null || this.fromDate == null) {
+      alert("Please select proper date");
+      return;
+    }else if(this.sprintName == undefined || this.sprintName.trim.length == 0) {
+      alert("Sprint name cannot be empty");
+      return;
+    }
+    console.log(this.sprintName, this.fromDate, this.toDate);
   }
 
   public get featureStatus(): typeof FeatureStatus {

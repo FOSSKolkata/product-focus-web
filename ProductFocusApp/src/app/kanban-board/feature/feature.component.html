@@ -12,8 +12,15 @@
         <i *ngIf="feature.workItemType == 2" class="fa fa-bug" style = "color: red; padding: 0 5px 0 0"></i>
         #{{feature.id}}
       </div>
-      <small>{{feature.title}}</small>
-      <!-- <div>{{feature | json }}</div> -->
+      <div>{{feature.title}}</div>
+      <div class="row">
+        <div class="col-12">
+          <i class="far fa-clock"></i> {{ feature.plannedStartDate | date: 'mediumDate' }} - {{ feature.plannedEndDate | date: 'mediumDate' }}
+        </div>
+        <div class="col">
+        </div>
+      </div>
+      <!-- {{feature | json}} -->
     </div>
   </div>
 </div>

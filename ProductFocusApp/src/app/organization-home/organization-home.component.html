@@ -20,7 +20,7 @@
               [(ngModel)]="organizationName"
               (keyup.enter)="addOrganization()">
             <div>
-              <button (click)="addOrganization()" class="btn good-btn">Add</button>
+              <button [disabled]="!enabledAdding" (click)="addOrganization()" class="btn good-btn">Add</button>
               <i (click)="organizationAddView=false" class="fa fa-times" id="cancel-task"></i>
             </div>
           </div>
@@ -61,8 +61,8 @@
           <a [routerLink]="['/products',product.id,'kanban-board']" (click)="setLastProductId(product.id)">{{product.name}}</a>
         </div>
       </div>
-      <div class="col-lg-4 col-md-6 mt-3 mb-3" *ngIf="!productAddView && !productSpinner">
-        <div (click)="productAddView=true" class="column-control">
+      <div class="col-lg-4 col-md-6 mt-3 mb-3 pointer" *ngIf="!productAddView || !productSpinner">
+        <div *ngIf="!productAddView" (click)="productAddView=true" class="column-control">
           <a><i class="fa fa-plus">Add</i></a>
         </div>
         <div *ngIf="productAddView" class="add-product add">
@@ -71,7 +71,7 @@
             (keyup.enter)="addProduct()"
             placeholder="Enter product name">
           <div>
-            <button (click)="addProduct()" class="btn good-btn">Add</button>
+            <button [disabled]="!enabledAdding" (click)="addProduct()" class="btn good-btn">Add</button>
             <i (click)="productAddView=false" class="fa fa-times" id="cancel-task"></i>
           </div>
         </div>

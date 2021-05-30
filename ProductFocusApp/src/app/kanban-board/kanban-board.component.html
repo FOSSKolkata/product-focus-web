@@ -22,8 +22,8 @@
     <div ngbDropdown>
       <i class="fa fa-cog fa-2x" id="settingsDropDown" ngbDropdownToggle></i>
       <div ngbDropdownMenu aria-labelledby="settingsDropDown">
-        <button ngbDropdownItem (click)="openSmallPopup(manageModuleContent)">Manage Modules</button>
-        <button ngbDropdownItem (click)="openLargePopup(manageSprintContent)">Manage Sprint</button>
+        <button ngbDropdownItem (click)="openPopup(manageModuleContent)">Manage Modules</button>
+        <button ngbDropdownItem (click)="openPopup(manageSprintContent,'lg')">Manage Sprint</button>
       </div>
     </div>
   </div>
@@ -145,7 +145,7 @@
                 [(ngModel)]="moduleName"
                 (keyup.enter)="addModule()"
                 placeholder="Enter module name">
-              <button (click)="addModule()" class="btn good-btn" style="display: inline-block; vertical-align: middle;">Add</button>
+              <button [disabled]="!enabledAdding" (click)="addModule()" class="btn good-btn" style="display: inline-block; vertical-align: middle;">Add</button>
               <i (click)="moduleAddView=false" class="fa fa-times" id="cancel-task" style="display: inline-block; vertical-align: middle;"></i>
             </div>
           </div>
@@ -201,7 +201,7 @@
               </span>
             </ng-template>
             <div style="transform: translateX(170px);">
-              <button  class="btn good-btn">Add</button>
+              <button [disabled]="!enabledAdding" class="btn good-btn" (click)="addSprint()">Add</button>
               <button class="btn reject-btn" (click)="sprintAddView=false" id="cancel-task">Cancel</button>
             </div>
           </div>

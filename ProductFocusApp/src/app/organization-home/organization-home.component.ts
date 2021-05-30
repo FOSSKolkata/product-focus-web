@@ -22,6 +22,7 @@ export class OrganizationHomeComponent implements OnInit {
   productList: any = [];
   organizationSpinner = false;
   productSpinner = false;
+  enabledAdding: boolean = true;
   ngOnInit(): void {
     this.setOrganizationList();
   }
@@ -41,6 +42,7 @@ export class OrganizationHomeComponent implements OnInit {
     if(this.organizationName === undefined || this.organizationName == ''){
       return;
     }
+    this.enabledAdding = false;
     var addOrganizationInput: AddOrganizationInput = {
       organizationName: this.organizationName,
       email: this.authService.instance.getAllAccounts()[0].username
@@ -50,8 +52,10 @@ export class OrganizationHomeComponent implements OnInit {
       this.organizationAddView = false;
       this.organizationName = '';
       this.setOrganizationList();
+      this.enabledAdding = true;
     },err=> {
       alert(err);
+      this.enabledAdding = true;
     })
   }
   setProductList(id: number){
@@ -74,6 +78,7 @@ export class OrganizationHomeComponent implements OnInit {
     }
     if(this.selectedOrganization == undefined)
       return;
+    this.enabledAdding = false;
     var addProductInOrganizationInput: AddProductInOrganizationInput = {
       name: this.productName
     }
@@ -82,10 +87,12 @@ export class OrganizationHomeComponent implements OnInit {
       addProductInOrganizationInput).subscribe(res =>{
         this.productName = '';
         this.productAddView = false;
+        this.enabledAdding = true;
         if(this.selectedOrganization != undefined)
           this.setProductList(this.selectedOrganization.id);
       },err=>{
-        console.log(err);
+        alert(err);
+        this.enabledAdding = true;
       })
   }
   setLastProductId(id: number){
