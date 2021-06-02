@@ -37,7 +37,12 @@ export class AppComponent implements OnInit, OnDestroy {
       takeUntil(this._destroying$)
     )
     .subscribe(() => {
-
+      // var account = this.authService.instance.getAllAccounts()[0];
+      // var claims: any = account.idTokenClaims;
+      // var key = account.homeAccountId + "-dumanhillb2c.b2clogin.com-refreshtoken-" + claims.aud + "--";
+      // var client: any = localStorage.getItem(key)
+      // var clientJSON: any = JSON.parse(client);
+      // console.log(clientJSON.secret);
     });
 
     this.msalBroadcastService.msalSubject$

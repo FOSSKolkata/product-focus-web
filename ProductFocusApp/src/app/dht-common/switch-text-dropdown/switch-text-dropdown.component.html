@@ -1,0 +1,19 @@
+<div style="width: initial;">
+  <div [style.display]="!isTextVisible?'none':'inline'">
+    <div class="text-item" (click)="onLabelClick()">
+      {{title}}
+    </div>
+  </div>
+  <div class="dropdown-item" [style.display]="isTextVisible?'none':'inline'">
+    <div #dropdown (openChange)="onDropDownToggle($event)" ngbDropdown class="d-inline-block">
+      <div id="dropdownBasic1" ngbDropdownToggle>{{title}}</div>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <div *ngFor="let item of listData">
+          <button *ngIf="item.name != title" ngbDropdownItem (click)="select(item)">{{item.name}}
+            <!-- <small *ngIf="item.name == title">current</small> -->
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

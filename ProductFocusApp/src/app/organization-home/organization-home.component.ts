@@ -31,11 +31,12 @@ export class OrganizationHomeComponent implements OnInit {
     this.organizationService.getOrganizationListByUser().subscribe(res => {
       this.organizationSpinner = false;
       this.organizationList = res;
-      this.selectedOrganization = this.organizationList[0];
+      this.selectOrganization(this.organizationList[0]);
       if(this.selectedOrganization != undefined)
         this.setProductList(this.selectedOrganization.id);
     },err=>{
       this.organizationSpinner = false;
+      console.log(err.message);
     })
   }
   addOrganization(){
@@ -71,6 +72,7 @@ export class OrganizationHomeComponent implements OnInit {
   }
   selectOrganization(organization: any){
     this.selectedOrganization = organization;
+    localStorage.setItem("lastSelctedOrganizationId",this.selectedOrganization.id);
   }
   addProduct(){
     if(this.productName === undefined || this.productName == ''){

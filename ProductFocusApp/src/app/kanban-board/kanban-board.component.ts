@@ -4,10 +4,12 @@ import { SubSink } from 'subsink';
 import { StylingService } from '../side-nav/styling.service';
 import { ProductService } from '../_services/product.service';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop'
-import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDate, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FeatureService } from '../_services/feature.service';
 import { ModifyColumnIdentifier } from './feature-details/feature-details.component';
 import { HighlightSpanKind } from 'typescript';
+import { SprintService } from '../_services/sprint.service';
+import { SprintInput } from '../dht-common/models';
 
 enum FeatureStatus {
   new = 0,
@@ -35,7 +37,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   sprintAddView: boolean = false;
   moduleName: string | undefined;
   sprintName: string | undefined;
-  productId: number | undefined;
+  productId!: number;
   kanbanBoardSpinner: boolean = false;
   board:any = [];
   enabledAdding: boolean = true;
@@ -45,6 +47,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute,
               public styling: StylingService,
               private modalService: NgbModal,
+              private sprintService: SprintService,
               calendar: NgbCalendar,
               private featureService: FeatureService) {
                 this.fromDate = calendar.getToday();
@@ -79,8 +82,8 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
           this.board[this.board.length-1][feature.status].push(feature);
         }
       }
-      console.log("hello",x);
-      console.log(this.board);
+      console.log("kanban board response",x);
+      console.log("formated data",this.board);
     });
   }
 
@@ -89,7 +92,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       return;
     this.productService.getModulesByProductId(this.productId).subscribe(x=>{
       this.modules = x;
-    })
+    });
   }
 
   ngOnDestroy(): void{
@@ -170,11 +173,26 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     if(this.toDate == null || this.fromDate == null) {
       alert("Please select proper date");
       return;
-    }else if(this.sprintName == undefined || this.sprintName.trim.length == 0) {
+    }else if(this.sprintName == undefined || this.sprintName.trim().length == 0) {
       alert("Sprint name cannot be empty");
       return;
     }
-    console.log(this.sprintName, this.fromDate, this.toDate);
+    var input: SprintInput = {
+      productId: this.productId,
+      name: this.sprintName,
+      startDate: this.ngbDateToDate(this.fromDate),
+      endDate: this.ngbDateToDate(this.toDate)
+    };
+    this.sprintService.addSprint(input).subscribe(x => {
+      console.log(x);
+      this.sprintAddView = false;
+    },err =>{
+      alert(err);
+    })
+  }
+  
+  ngbDateToDate(ngbDate: NgbDateStruct) {
+    return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day + 1);
   }
 
   public get featureStatus(): typeof FeatureStatus {

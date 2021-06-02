@@ -36,33 +36,27 @@ export interface FeatureInput {
 }
 
 export interface SprintInput {
+  productId: number;
   name: string;
   startDate: Date;
   endDate: Date;
 }
 
-export interface ModifyFeatureInput {
+export interface UpdateFeatureInput {
   id: number;
   title: string;
   description: string;
   workCompletionPercentage: number;
   status: number;
+  sprintName: string;
   storyPoint: number;
   isBlocked: boolean;
+  emailOfAssignee: string;
   acceptanceCriteria: string;
   plannedStartDate: Date;
   plannedEndDate: Date;
   actualStartDate: Date;
   actualEndDate: Date;
-  sprint: {
-    createdOn: Date;
-    createdBy: string;
-    lastModifiedOn: Date;
-    lastModifiedBy: string;
-    name: string;
-    startDate: Date;
-    endDate: Date;
-  };
   fieldName: number;
 }
 
@@ -74,6 +68,7 @@ export interface FeatureDetails {
   storyPoint: number;
   title: string;
   assignees: Assignee[];
+  members: Member[];
   workCompletionPercentage: number;
   acceptanceCriteria: string;
   plannedStartDate: Date;
@@ -99,4 +94,17 @@ export interface Assignee {
   objectId: string,
   email: string,
   name: string
+}
+
+export interface Sprint {
+  id: number,
+  name: string,
+  startDate: Date,
+  endDate: Date
+}
+
+export interface Member {
+  name: string;
+  email: string;
+  objectId: string;
 }

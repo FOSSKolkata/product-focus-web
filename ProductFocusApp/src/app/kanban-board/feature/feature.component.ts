@@ -1,4 +1,6 @@
+import { unsupported } from '@angular/compiler/src/render3/view/util';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Feature } from '../../dht-common/models';
 
@@ -27,10 +29,13 @@ export class FeatureComponent implements OnInit, OnDestroy {
   detailsChanged: boolean = false;
   closeResult = '';
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal,
+              private router: Router) { }
 
   ngOnInit(): void {
-
+    var lastSelectedOrgId = localStorage.getItem("lastSelctedOrganizationId");
+    if(lastSelectedOrgId == null || lastSelectedOrgId == undefined)
+      this.router.navigate(["organization-home"])
   }
   content: any;
 

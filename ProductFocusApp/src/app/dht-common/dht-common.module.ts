@@ -8,14 +8,17 @@ import { SwitchTextTextareaComponent } from './switch-text-textarea/switch-text-
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { ShortnamePipe } from './shortname.pipe';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { SwitchTextDropdownComponent } from './switch-text-dropdown/switch-text-dropdown.component';
 
 @NgModule({
   declarations: [
     TagComponent,
     SwitchTextTextareaComponent,
+    SwitchTextDropdownComponent,
     UserAvatarComponent,
     ShortnamePipe,
-    SpinnerComponent
+    SpinnerComponent,
+    SwitchTextDropdownComponent
   ],
   imports: [
     CommonModule,
@@ -26,6 +29,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
   exports: [
     TagComponent,
     SwitchTextTextareaComponent,
+    SwitchTextDropdownComponent,
     UserAvatarComponent,
     ShortnamePipe,
     SpinnerComponent

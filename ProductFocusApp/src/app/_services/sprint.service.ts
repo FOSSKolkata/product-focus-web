@@ -13,4 +13,8 @@ export class SprintService {
   addSprint(sprintInput: SprintInput){
     return this.http.post(apiConfig.uri+"/Sprint/AddSprint",sprintInput);
   }
+
+  getSprintByProductId(id: number){
+    return this.http.get(apiConfig.uri+`/Sprint/GetSprintsByProductId/${id}`);
+  }
 }

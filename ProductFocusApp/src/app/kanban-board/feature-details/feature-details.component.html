@@ -271,6 +271,10 @@
     <!--HIstory UI End-->
   </div>
   <div class="col-12 col-lg-3">
+    <div style="margin-top: 10px">
+      Sprint
+      <app-switch-text-dropdown [list-data]="allSprint"></app-switch-text-dropdown>
+    </div>
     <div style="margin-top: 10px;">
       <label for="startdate">Start date: </label>
       <div *ngIf="featureDetails" class="input-group">
@@ -360,7 +364,9 @@
       <div>
         <small>Developer Owners</small>
       </div>
-      <app-add-user [users]="featureDetails.assignees"></app-add-user>
+      <app-add-user [added-users]="featureDetails.assignees"
+        [other-users]="featureDetails.members"
+        (is-added)="modifyFeature(modifyColumnIdentifier.includeAssignee,$event)"></app-add-user>
     </div>
     <div style="margin-top: 10px;">
       <div>

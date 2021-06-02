@@ -1,6 +1,6 @@
 <div style="display: table-cell;"
     class="avatar"
-    *ngFor="let user of userList; index as i">
+    *ngFor="let user of addedUsers; index as i">
     {{user.name | shortname}}
 </div>
 <i *ngIf="!isAddUserActive" class="avatar add-user fa fa-user-plus"
@@ -13,8 +13,10 @@
     (focusout)="isAddUserActive = false;"
     (focus)="focus$.next($any($event).target.value);"
     (click)="click$.next($any($event).target.value)"
-    (selectItem)="addTag($event)"
+    (selectItem)="addUser($event)"
     [ngbTypeahead]="search"
     #instance="ngbTypeahead"
+    [inputFormatter]="formatter"
+    [resultFormatter]="formatter"
     size="10"
 >

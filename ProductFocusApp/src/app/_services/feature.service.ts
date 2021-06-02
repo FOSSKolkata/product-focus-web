@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { apiConfig } from '../b2c-config';
-import { ModifyFeatureInput } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,7 @@ export class FeatureService {
     return this.http.put(apiConfig.uri+"/Feature/ModifyFeatureElement",modifyFeatureInput);
   }
 
-  getFeatureDetailsById(id: number){
-    return this.http.get(apiConfig.uri+`/Feature/GetFeatureDetailsById/${id}`);
+  getFeatureDetailsById(orgId: number, id: number){
+    return this.http.get(apiConfig.uri+`/Feature/GetFeatureDetailsById/${orgId}/${id}`);
   }
 }

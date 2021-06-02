@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbCalendar, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FeatureService } from 'src/app/_services/feature.service';
-import { Feature, FeatureDetails } from '../../dht-common/models';
+import { SprintService } from 'src/app/_services/sprint.service';
+import { Feature, FeatureDetails, Sprint } from '../../dht-common/models';
 
 export enum ModifyColumnIdentifier {
   title = 1,
@@ -29,6 +31,8 @@ export enum ModifyColumnIdentifier {
 export class FeatureDetailsComponent implements OnInit {
 
   @Output('any-changes') anyChanges = new EventEmitter<boolean>();
+  productId!: number;
+  allSprint!: Sprint[];
   isBlocked = false;
   startDate!: NgbDateStruct;
   endDate!: NgbDateStruct;
@@ -54,6 +58,7 @@ export class FeatureDetailsComponent implements OnInit {
     workCompletionPercentage: 0,
     title: '',
     assignees: [],
+    members: [],
     acceptanceCriteria: '',
     actualEndDate: new Date(),
     actualStartDate: new Date(),
@@ -64,17 +69,31 @@ export class FeatureDetailsComponent implements OnInit {
   isAddTaskButtonActive: boolean = true;
 
   constructor(private calendar: NgbCalendar,
-              private featureService: FeatureService) { }
+              private featureService: FeatureService,
+              private sprintService: SprintService,
+              private router: Router) { }
 
   ngOnInit(): void {
     var date = this.featureDetails.actualStartDate;
     console.log(this.featureDetails.plannedStartDate);
-    this.featureService.getFeatureDetailsById(this.feature.id).subscribe(x => {
+    var lastProductId: any = localStorage.getItem("productId");
+    var lastSelectedOrgId = localStorage.getItem("lastSelctedOrganizationId")!!;
+    this.productId = lastProductId;
+    if(lastSelectedOrgId == undefined || lastSelectedOrgId == null || lastProductId == undefined || lastProductId == null){
+      this.router.navigate(["organization-home"]);
+    }
+
+    this.featureService.getFeatureDetailsById(parseInt(lastSelectedOrgId),this.feature.id).subscribe(x => {
       console.log(x);
       this.featureDetails = x as FeatureDetails;
       this.startDate = this.dateToNgbDate(new Date(this.featureDetails.plannedStartDate));
       this.endDate = this.dateToNgbDate(new Date(this.featureDetails.plannedEndDate));
-    })
+    });
+
+    this.sprintService.getSprintByProductId(this.productId).subscribe(x => {
+      console.log("Sprints response",x);
+      this.allSprint = x as Sprint[];
+    });
     // console.log(this.getTiming(new Date("Mar 5, 2021 21:13:00")));
     // console.log(this.getTiming(new Date("Mar 7, 2021 21:13:00")));
     // console.log(this.getEventTiming(new Date("Mar 8, 2021 18:13:00")));
@@ -127,6 +146,10 @@ export class FeatureDetailsComponent implements OnInit {
     else if(key == ModifyColumnIdentifier.isBlocked){
       object.isBlocked = value;
       this.featureDetails.isBlocked = value; // do not need to call api again
+    }
+    else if(key == ModifyColumnIdentifier.includeAssignee){
+      object.emailOfAssignee = value.email;
+      this.featureDetails.assignees.push(value);
     }
     this.featureService.modifyFeatureElement(object).subscribe(x => {
       console.log(x);
