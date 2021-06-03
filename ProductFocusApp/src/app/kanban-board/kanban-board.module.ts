@@ -13,6 +13,7 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { DhtCommonModule } from '../dht-common/dht-common.module';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AddFeatureComponent } from './add-feature/add-feature.component';
+import { MatSelectModule } from '@angular/material/select'
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { AddFeatureComponent } from './add-feature/add-feature.component';
     DragDropModule,
     AutocompleteLibModule,
     DhtCommonModule,
+    MatSelectModule
   ],
   declarations: [
     KanbanBoardComponent,

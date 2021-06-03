@@ -1,22 +1,24 @@
 <div class="margin-for-navs mid-nav" [ngStyle]="(styling.sharedStyle$ | async)">
-  <div style="display: inline-block; vertical-align: top; margin: 0 10px;">Filters</div>
+  <div style="display: inline-block; vertical-align: top; margin: 0 10px; padding-top: 15px;">Filters</div>
   <div style="display: inline-block; vertical-align: top; margin: 0 10px;">
-    <label for="sprint" style="display: block;">Sprint</label>
-    <select name="sprint" id="sprint">
-      <option value="R6 - Sprint1">R6 - Sprint1</option>
-      <option value="R6 - Sprint2">R6 - Sprint2</option>
-      <option value="R6 - Sprint3">R6 - Sprint3</option>
-      <option value="R6 - Sprint4">R6 - Sprint4</option>
-    </select>
+    <mat-form-field>
+      <mat-label>Sprint</mat-label>
+      <mat-select>
+        <mat-option>None</mat-option>
+        <mat-option *ngFor="let sprint of allSprint" (click)="filterSprint(sprint)" [value]="sprint.name">{{sprint.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div style="display: inline-block; vertical-align: top; margin: 0 10px;">
-    <label for="assignee" style="display: block;">Assigned To</label>
-    <select name="assignee" id="assignee">
-      <option value="tapas">Tapas</option>
-      <option value="vikram">Vikram</option>
-      <option value="ezhar">Ezhar</option>
-      <option value="abhijit">Abhijit</option>
-    </select>
+    <mat-form-field>
+      <mat-label>Assigned To</mat-label>
+      <mat-select>
+        <mat-option>None</mat-option>
+        <mat-option [value]="'Tapas'">Tapas</mat-option>
+        <mat-option [value]="'Vikram'">Vikram</mat-option>
+        <mat-option [value]="'Amit'">Amit</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div style="display: inline-block; margin: 10px; position: absolute; right: 100px;">
     <div ngbDropdown>

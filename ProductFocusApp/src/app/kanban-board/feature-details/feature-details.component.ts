@@ -36,6 +36,7 @@ export class FeatureDetailsComponent implements OnInit {
   isBlocked = false;
   startDate!: NgbDateStruct;
   endDate!: NgbDateStruct;
+  allStoryPoints:number[] = [];
   @Input() feature: Feature = {
     id: -1,
     moduleId: -1,
@@ -63,7 +64,13 @@ export class FeatureDetailsComponent implements OnInit {
     actualEndDate: new Date(),
     actualStartDate: new Date(),
     plannedEndDate: new Date(),
-    plannedStartDate: new Date()
+    plannedStartDate: new Date(),
+    sprint: {
+      id: -1,
+      startDate: new Date(),
+      endDate: new Date(),
+      name: ''
+    }
   };
 
   isAddTaskButtonActive: boolean = true;
@@ -74,6 +81,7 @@ export class FeatureDetailsComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    this.generateStoryPoints();
     var date = this.featureDetails.actualStartDate;
     console.log(this.featureDetails.plannedStartDate);
     var lastProductId: any = localStorage.getItem("productId");
@@ -151,6 +159,13 @@ export class FeatureDetailsComponent implements OnInit {
       object.emailOfAssignee = value.email;
       this.featureDetails.assignees.push(value);
     }
+    else if(key == ModifyColumnIdentifier.storyPoint){
+      object.storyPoint = value.target.value;
+      this.featureDetails.storyPoint = value.target.value;
+    }
+    else if(key == ModifyColumnIdentifier.sprint){
+      object.sprintName = value.name;
+    }
     this.featureService.modifyFeatureElement(object).subscribe(x => {
       console.log(x);
     })
@@ -169,4 +184,11 @@ export class FeatureDetailsComponent implements OnInit {
   public get modifyColumnIdentifier(): typeof ModifyColumnIdentifier {
     return ModifyColumnIdentifier;
   }
+  
+  generateStoryPoints() {
+    for(var i=1;i<100;i++){
+      this.allStoryPoints.push(i);
+    }
+  }
 }
+

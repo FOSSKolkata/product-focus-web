@@ -63,8 +63,8 @@ export class AddUserComponent implements OnInit, OnChanges {
     this.addedUsers = this.removeHelper(this.addedUsers, this.otherUsers);
     console.log("after other",this.otherUsers,"added",this.addedUsers);
   }
-  
-  removeHelper(a: Member[], b: Member[]): Member[] {//a = a-b
+
+  removeHelper(a: Member[], b: Member[]): Member[] {//a-b
     var tempMember: Member[] = [];
     a.forEach((aUser) => {
       var found = false;

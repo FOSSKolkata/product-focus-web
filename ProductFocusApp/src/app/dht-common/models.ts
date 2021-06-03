@@ -61,20 +61,21 @@ export interface UpdateFeatureInput {
 }
 
 export interface FeatureDetails {
-  description: string;
   id: number;
-  isBlocked: boolean;
+  title: string;
+  description: string;
+  workCompletionPercentage: number;
   status: number;
   storyPoint: number;
-  title: string;
-  assignees: Assignee[];
-  members: Member[];
-  workCompletionPercentage: number;
+  isBlocked: boolean;
   acceptanceCriteria: string;
   plannedStartDate: Date;
   plannedEndDate: Date;
   actualStartDate: Date;
   actualEndDate: Date;
+  members: Member[];
+  assignees: Assignee[];
+  sprint: Sprint;
 }
 
 /*export interface Status {

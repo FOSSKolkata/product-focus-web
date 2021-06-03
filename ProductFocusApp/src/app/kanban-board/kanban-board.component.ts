@@ -7,9 +7,8 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { NgbCalendar, NgbDate, NgbDateStruct, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FeatureService } from '../_services/feature.service';
 import { ModifyColumnIdentifier } from './feature-details/feature-details.component';
-import { HighlightSpanKind } from 'typescript';
 import { SprintService } from '../_services/sprint.service';
-import { SprintInput } from '../dht-common/models';
+import { Sprint, SprintInput } from '../dht-common/models';
 
 enum FeatureStatus {
   new = 0,
@@ -41,6 +40,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   kanbanBoardSpinner: boolean = false;
   board:any = [];
   enabledAdding: boolean = true;
+  allSprint: Sprint[] = [];
 
   constructor(
               private productService: ProductService,
@@ -58,7 +58,18 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.productId = this.activatedRoute.snapshot.params.id;
     console.log(this.productId);
     this.setModules();
+    this.setSprint();
     this.setKanbanBoard();
+  }
+
+  setSprint(){
+    this.sprintService.getSprintByProductId(this.productId).subscribe(x => {
+      this.allSprint = x as Sprint[];
+    });
+  }
+
+  filterSprint(sprint: any){
+    console.log(sprint);
   }
 
   setKanbanBoard(){

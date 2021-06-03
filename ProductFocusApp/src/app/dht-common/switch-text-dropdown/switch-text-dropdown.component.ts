@@ -1,4 +1,4 @@
-import { Input, ViewChild } from '@angular/core';
+import { EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { Sprint } from '../models';
@@ -9,11 +9,16 @@ import { Sprint } from '../models';
   styleUrls: ['./switch-text-dropdown.component.css']
 })
 export class SwitchTextDropdownComponent implements OnInit {
-  @ViewChild(NgbDropdown)
-  private dropdown!: NgbDropdown;
-  @Input('text-data') title: string = "R1 - Sprint 1";
-  isTextVisible: boolean = true;
+  @ViewChild(NgbDropdown) private dropdown!: NgbDropdown;
+  @Input('text-data') textData: Sprint = {
+    id: -1,
+    name: '',
+    startDate: new Date(),
+    endDate: new Date()
+  };
   @Input('list-data') listData: Sprint[] = [];
+  @Output('select') selection = new EventEmitter<Sprint>();
+  isTextVisible: boolean = true;
 
   constructor() { }
   ngOnInit(): void {
@@ -30,6 +35,7 @@ export class SwitchTextDropdownComponent implements OnInit {
   }
   
   select(current: Sprint) {
-    this.title = current.name;
+    this.textData = current;
+    this.selection.emit(current);
   }
 }
