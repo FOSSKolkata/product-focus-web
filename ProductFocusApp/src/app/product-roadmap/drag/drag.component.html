@@ -1,19 +1,22 @@
-<div class="rectangle"
-    [ngStyle]="style"
-    mwlResizable
-    [enableGhostResize]="true"
-    (resizeEnd)="onResizeEnd($event)"
-    (resizeStart)="onResizeStart($event)"
-    [style.background-color]="backgroundColor"
-    [style.top]="top"
-    [style.left]="left"
-    [style.width]="width"
-  ><small>{{text}}</small> <!--This should be input(done)-->
-    <div
-      class="resize-handle-left"
-      mwlResizeHandle
-      [resizeEdges]="{ left: true }"
-    ></div>
+<div
+  class="rectangle"
+  [ngStyle]="style"
+  mwlResizable
+  [enableGhostResize]="true"
+  (resizeEnd)="onResizeEnd($event)"
+  (resizeStart)="onResizeStart($event)"
+  [style.background-color]="backgroundColor"
+  [style.top]="top"
+  [style.left]="left"
+  [style.width]="width"
+>
+  <small>{{ text }}</small>
+  <!--This should be input(done)-->
+  <div
+    class="resize-handle-left"
+    mwlResizeHandle
+    [resizeEdges]="{ left: true }"
+  ></div>
   <div
     class="resize-handle-right"
     mwlResizeHandle

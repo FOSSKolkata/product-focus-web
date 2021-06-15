@@ -1,55 +1,75 @@
-<div class="margin-for-navs"
-  style="background-color: var(--light-gray);"
-  [ngStyle]="(styling.sharedStyle$ | async)">
+<div
+  class="margin-for-navs"
+  style="background-color: var(--light-gray)"
+  [ngStyle]="styling.sharedStyle$ | async"
+>
   <h3 class="text-center">News Report</h3>
-    <div>
-      <!-- div for menu -->
-      <div style="margin: 10px;">
-        <div class="row">
-          <div class="col-sm-2 col-4">
-            Start date
-          </div>
-          <div class="col-sm-3 col-8">
-            <form class="form-inline">
-              <div class="form-group">
-                <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd"
-                    [(ngModel)]="startDate" ngbDatepicker #start="ngbDatepicker">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" (click)="start.toggle()" type="button"><i class="fa fa-calendar" aria-hidden="true"></i></button>
-                  </div>
+  <div>
+    <!-- div for menu -->
+    <div style="margin: 10px">
+      <div class="row">
+        <div class="col-sm-2 col-4">Start date</div>
+        <div class="col-sm-3 col-8">
+          <form class="form-inline">
+            <div class="form-group">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="yyyy-mm-dd"
+                  [(ngModel)]="startDate"
+                  ngbDatepicker
+                  #start="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    (click)="start.toggle()"
+                    type="button"
+                  >
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
                 </div>
               </div>
-            </form>
-          </div>
-          <div class="col-sm-2 col-4">
-            End date
-          </div>
-          <div class="col-sm-3 col-8">
-            <form class="form-inline">
-              <div class="form-group">
-                <div class="input-group">
-                  <input class="form-control" placeholder="yyyy-mm-dd"
-                    [(ngModel)]="endDate" ngbDatepicker #end="ngbDatepicker">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" (click)="end.toggle()" type="button"><i class="fa fa-calendar" aria-hidden="true"></i></button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div class="col-12 col-sm">
-            <select name="report" id="report" class="form-select">
-              <option value="None">None</option>
-              <option value="Module" selected>Module</option>
-              <option value="Developer">Developer</option>
-            </select>
-          </div>
+            </div>
+          </form>
         </div>
-      <div style="padding: 10px; background-color:var(--light-gray)">
-        <h3 style="font-weight: bold;text-align: center;">Canary</h3>
+        <div class="col-sm-2 col-4">End date</div>
+        <div class="col-sm-3 col-8">
+          <form class="form-inline">
+            <div class="form-group">
+              <div class="input-group">
+                <input
+                  class="form-control"
+                  placeholder="yyyy-mm-dd"
+                  [(ngModel)]="endDate"
+                  ngbDatepicker
+                  #end="ngbDatepicker"
+                />
+                <div class="input-group-append">
+                  <button
+                    class="btn btn-outline-secondary"
+                    (click)="end.toggle()"
+                    type="button"
+                  >
+                    <i class="fa fa-calendar" aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-12 col-sm">
+          <select name="report" id="report" class="form-select">
+            <option value="None">None</option>
+            <option value="Module" selected>Module</option>
+            <option value="Developer">Developer</option>
+          </select>
+        </div>
+      </div>
+      <div style="padding: 10px; background-color: var(--light-gray)">
+        <h3 style="font-weight: bold; text-align: center">Canary</h3>
         <!-- remove display:none to see the user activity according to None -->
-        <div style="padding: 10px; background-color:var(--dark-gray);">
+        <div style="padding: 10px; background-color: var(--dark-gray)">
           <!-- This is an activity of a user -->
           <app-domain-event></app-domain-event>
           <app-domain-event></app-domain-event>

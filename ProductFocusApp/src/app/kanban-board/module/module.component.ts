@@ -1,26 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ProductModule } from '../../dht-common/models';
+import { IProductModule } from '../../dht-common/models';
 
 @Component({
   selector: 'app-module',
   templateUrl: './module.component.html',
-  styleUrls: ['./module.component.css']
+  styleUrls: ['./module.component.css'],
 })
 export class ModuleComponent implements OnInit {
-
   featureAddView: boolean = false;
   featureName: string = '';
-  @Input() module: ProductModule = {
+  @Input() module: IProductModule = {
     name: '',
     // features: []
   };
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-    
-  }
-  addFeature(){
-
-  }
-
+  ngOnInit(): void {}
+  addFeature() {}
 }

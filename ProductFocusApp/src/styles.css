@@ -1,81 +1,87 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-:root{
-    --dark-gray: #E5E5E5;
-    --medium-gray: #e9e9e9;
-    --light-gray: #EEEEEE;
-    --white: #ffffff;
-    --nav-blue: #83A8ba;
-    --nav-dark-blue: #83A8C9;
-    --blocked: #ffacac;
+:root {
+  --dark-gray: #e5e5e5;
+  --medium-gray: #e9e9e9;
+  --light-gray: #eeeeee;
+  --white: #ffffff;
+  --nav-blue: #83a8ba;
+  --nav-dark-blue: #83a8c9;
+  --blocked: #ffacac;
 }
 
-body{
-    font-family: 'Poppins', sans-serif;
+body {
+  font-family: "Poppins", sans-serif;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-.avatar{
-    text-align: center;
-    margin-top: 5px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: blueviolet;
-    color:var(--white) !important;
-    cursor: pointer;
-    vertical-align: middle;
-    display: table-cell;
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.vertical-nav{
-    min-width: 17rem;
-    width: 17rem;
-    height: 100vh;
-    top: 0;
-    position:fixed;
-    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.4s;
+.avatar {
+  text-align: center;
+  margin-top: 5px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: blueviolet;
+  color: var(--white) !important;
+  cursor: pointer;
+  vertical-align: middle;
+  display: table-cell;
 }
 
-.good-btn{
-    background-color: var(--nav-dark-blue);
-    color: var(--white);
-    font-size: var(--small-text);
+.vertical-nav {
+  min-width: 17rem;
+  width: 17rem;
+  height: 100vh;
+  top: 0;
+  position: fixed;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
 }
 
-.good-btn:hover{
-    background-color: var(--nav-blue);
-    cursor: pointer;
+.good-btn {
+  background-color: var(--nav-dark-blue);
+  color: var(--white);
+  font-size: var(--small-text);
+}
+
+.good-btn:hover {
+  background-color: var(--nav-blue);
+  cursor: pointer;
 }
 
 .reject-btn {
-    display: inline-block;
-    background-color: var(--medium-gray);
+  display: inline-block;
+  background-color: var(--medium-gray);
 }
 
 .reject-btn:hover {
-    background-color: var(--dark-gray);
-    color: gray;
+  background-color: var(--dark-gray);
+  color: gray;
 }
 
 .pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
-.content{
-    margin:8px;
-    background-color: var(--white);
-    padding: 4rem 2rem 4rem 2rem;
-    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.05);
+.content {
+  margin: 8px;
+  background-color: var(--white);
+  padding: 4rem 2rem 4rem 2rem;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.05);
 }
 
-.margin-for-navs{
-    margin-left: 70px;
-    margin-top: 66px;
+.margin-for-navs {
+  margin-left: 70px;
+  margin-top: 60px;
 }

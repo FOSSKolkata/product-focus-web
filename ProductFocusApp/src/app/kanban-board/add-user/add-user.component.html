@@ -1,25 +1,31 @@
-<div style="display: inline-block;">
-    <div style="display: table-cell;"
-        class="avatar"
-        *ngFor="let user of addedUsers; index as i">
-        {{user.name | shortname}}
-    </div>
-    <i *ngIf="!isAddUserActive" class="avatar add-user fa fa-user-plus"
-        (click)="isAddUserActive = true; inputTextFocus(inputText)">
-    </i>
+<div style="display: inline-block">
+  <div
+    style="display: table-cell"
+    class="avatar"
+    *ngFor="let user of addedUsers; index as i"
+  >
+    {{ user.name | shortname }}
+  </div>
+  <i
+    *ngIf="!isAddUserActive"
+    class="avatar add-user fa fa-user-plus"
+    (click)="isAddUserActive = true; inputTextFocus(inputText)"
+  >
+  </i>
 
-    <input #inputText
-        [style.display]="isAddUserActive?'inline':'none'"
-        class="good-border"
-        [(ngModel)]="fullUserName"
-        (focusout)="isAddUserActive = false;"
-        (focus)="focus$.next($any($event).target.value);"
-        (click)="click$.next($any($event).target.value)"
-        (selectItem)="addUser($event)"
-        [ngbTypeahead]="search"
-        #instance="ngbTypeahead"
-        [inputFormatter]="formatter"
-        [resultFormatter]="formatter"
-        size="10"
-    >
+  <input
+    #inputText
+    [style.display]="isAddUserActive ? 'inline' : 'none'"
+    class="good-border"
+    [(ngModel)]="fullUserName"
+    (focusout)="isAddUserActive = false"
+    (focus)="focus$.next($any($event).target.value)"
+    (click)="click$.next($any($event).target.value)"
+    (selectItem)="addUser($event)"
+    [ngbTypeahead]="search"
+    #instance="ngbTypeahead"
+    [inputFormatter]="formatter"
+    [resultFormatter]="formatter"
+    size="10"
+  />
 </div>

@@ -7,7 +7,7 @@ export class StylingService {
   sharedStyleSource = new ReplaySubject<any>(1);
   public sharedStyle$ = this.sharedStyleSource.asObservable();
 
-  constructor() { }
+  constructor() {}
 
   newStyle(value: any) {
     this.sharedStyleSource.next(value);

@@ -1,35 +1,34 @@
 .card {
-    height: 105px;
+  height: 105px;
 }
 
 .modules-section {
-    height: 100px;
+  height: 100px;
 }
 
 .active {
-    background-color: red;
-    color: white;
+  background-color: red;
+  color: white;
 }
 
 .deactive {
-    background-color: green;
-    color: white;
+  background-color: green;
+  color: white;
 }
 
-
 .add-module {
-    padding: 10px;
-    /* width: 280px; */
-    width: 200px;
-    /* background-color: var(--light-gray); */
-    cursor: pointer;
-    display: inline-block;
+  padding: 10px;
+  /* width: 280px; */
+  width: 200px;
+  /* background-color: var(--light-gray); */
+  cursor: pointer;
+  display: inline-block;
 }
 
 .add-module:hover {
-    background-color: var(--light-gray);
+  background-color: var(--light-gray);
 }
 
 .add div button {
-    margin: 5px 5px 5px 0;
+  margin: 5px 5px 5px 0;
 }

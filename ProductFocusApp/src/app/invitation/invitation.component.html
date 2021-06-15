@@ -1,17 +1,59 @@
 <app-top-nav></app-top-nav>
 <div class="h-100" style="display: grid; place-items: center">
-  <div style="width: 600px; height: 300px; border: 2px solid var(--dark-gray);">
-    <div style="text-align: center;margin-top: 20px;">
-      <div style="margin-top: 10px;">
+  <div style="width: 600px; height: 300px; border: 2px solid var(--dark-gray)">
+    <div style="text-align: center; margin-top: 20px">
+      <div style="margin-top: 10px">
         <app-user-avatar [name]="'Amit Shaw'"></app-user-avatar>
       </div>
-      <div style="margin-top: 10px;">
+      <div style="margin-top: 10px">
         <b>Amit Shaw</b> invited you to join <b>Dumanhill Technologies</b>
       </div>
-      <div style="margin-top: 20px;">
-        <div class="btn good-btn" style="display: inline-block; margin-right: 10px;">Accept Invitation</div>
-        <div class="btn reject-btn">Decline</div>
+      <div style="margin-top: 20px">
+        <div
+          class="btn good-btn"
+          style="display: inline-block; margin-right: 10px"
+          (click)="acceptInvitation()"
+        >
+          <div
+            *ngIf="accepting"
+            class="spinner-border spinner-border-sm"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          Accept Invitation
+        </div>
+        <div class="btn reject-btn"
+        (click)="openRejectInvitation(content)"
+        >Decline</div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <div>Do you really want to reject the invitation?</div>
+    <div
+      type="button"
+      class="btn btn-outline-dark float-right m-1"
+      (click)="modal.close()"
+    >
+      No
+    </div>
+    <div
+      type="button"
+      class="btn btn-outline-danger float-right m-1"
+      (click)="rejectInvitation(modal)"
+    >
+      <div
+        *ngIf="rejecting"
+        class="spinner-border spinner-border-sm"
+        role="status"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+      Yes
+    </div>
+  </div>
+</ng-template>

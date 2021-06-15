@@ -4,17 +4,15 @@ import { StylingService } from '../side-nav/styling.service';
 @Component({
   selector: 'app-product-roadmap',
   templateUrl: './product-roadmap.component.html',
-  styleUrls: ['./product-roadmap.component.css']
+  styleUrls: ['./product-roadmap.component.css'],
 })
 export class ProductRoadmapComponent implements OnInit {
+  line: Number = 60;
+  constructor(public styling: StylingService) {}
 
-  line:Number = 60;
-  constructor(public styling: StylingService) { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-  }
-
-  onMoving(event:Object){
-    console.log(event)
+  onMoving(event: Object) {
+    console.log(event);
   }
 }

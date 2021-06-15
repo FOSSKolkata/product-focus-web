@@ -4,10 +4,30 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { IPublicClientApplication, PublicClientApplication, InteractionType, BrowserCacheLocation, LogLevel } from '@azure/msal-browser';
-import { MsalGuard, MsalInterceptor, MsalBroadcastService, MsalInterceptorConfiguration, MsalModule, MsalService, MSAL_GUARD_CONFIG, MSAL_INSTANCE, MSAL_INTERCEPTOR_CONFIG, MsalGuardConfiguration, MsalRedirectComponent } from '@azure/msal-angular';
+import {
+  IPublicClientApplication,
+  PublicClientApplication,
+  InteractionType,
+  BrowserCacheLocation,
+  LogLevel,
+} from '@azure/msal-browser';
+import {
+  MsalGuard,
+  MsalInterceptor,
+  MsalBroadcastService,
+  MsalInterceptorConfiguration,
+  MsalModule,
+  MsalService,
+  MSAL_GUARD_CONFIG,
+  MSAL_INSTANCE,
+  MSAL_INTERCEPTOR_CONFIG,
+  MsalGuardConfiguration,
+  MsalRedirectComponent,
+} from '@azure/msal-angular';
 
 import { b2cPolicies, apiConfig } from './b2c-config';
 import { FormsModule } from '@angular/forms';
@@ -25,15 +45,16 @@ import { UserService } from './_services/user.service';
 import { DhtCommonModule } from './dht-common/dht-common.module';
 import { InvitationComponent } from './invitation/invitation.component';
 import { OrganizationMembersComponent } from './organization/organization-members/organization-members.component';
-import { PendingInvitationsComponent } from './organization/pending-invitations/pending-invitations.component';
 import { StateComponent } from './garbage/state/state.component';
 import { ErrorComponent } from './garbage/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { MatSortModule } from '@angular/material/sort';
-import { ClosedInvitationsComponent } from './organization/closed-invitations/closed-invitations.component';
 import { SprintService } from './_services/sprint.service';
+import { InvitationsComponent } from './organization/invitations/invitations.component';
 
-const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1;
+const isIE =
+  window.navigator.userAgent.indexOf('MSIE ') > -1 ||
+  window.navigator.userAgent.indexOf('Trident/') > -1;
 
 export function loggerCallback(logLevel: LogLevel, message: string) {
   // console.log("LOg:::",logLevel);
@@ -47,7 +68,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       authority: b2cPolicies.authorities.signUpSignIn.authority,
       redirectUri: '/',
       postLogoutRedirectUri: '/',
-      knownAuthorities: [b2cPolicies.authorityDomain]
+      knownAuthorities: [b2cPolicies.authorityDomain],
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage,
@@ -57,9 +78,9 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       loggerOptions: {
         loggerCallback,
         logLevel: LogLevel.Info,
-        piiLoggingEnabled: false
-      }
-    }
+        piiLoggingEnabled: false,
+      },
+    },
   });
 }
 
@@ -95,11 +116,10 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     RediectComponent,
     InvitationComponent,
     OrganizationMembersComponent,
-    PendingInvitationsComponent,
     StateComponent,
     ErrorComponent,
     CodeComponent,
-    ClosedInvitationsComponent
+    InvitationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,25 +130,27 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     MsalModule,
     NgbModule,
     DhtCommonModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule,
+    MatPaginatorModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MsalInterceptor,
-      multi: true
+      multi: true,
     },
     {
       provide: MSAL_INSTANCE,
-      useFactory: MSALInstanceFactory
+      useFactory: MSALInstanceFactory,
     },
     {
       provide: MSAL_GUARD_CONFIG,
-      useFactory: MSALGuardConfigFactory
+      useFactory: MSALGuardConfigFactory,
     },
     {
       provide: MSAL_INTERCEPTOR_CONFIG,
-      useFactory: MSALInterceptorConfigFactory
+      useFactory: MSALInterceptorConfigFactory,
     },
     MsalService,
     MsalGuard,
@@ -136,8 +158,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     OrganizationService,
     UserService,
     SprintService,
-    StylingService
+    StylingService,
   ],
-  bootstrap: [AppComponent, MsalRedirectComponent]
+  bootstrap: [AppComponent, MsalRedirectComponent],
 })
-export class AppModule { }
+export class AppModule {}

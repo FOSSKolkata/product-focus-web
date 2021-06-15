@@ -1,34 +1,50 @@
-<div class="card" style="margin: 5px;"
+<div
+  class="card"
+  style="margin: 5px"
   [class.feature]="feature.workItemType == 1"
   [class.bug]="feature.workItemType == 2"
-  (click)="openFeatureDetailsModal(content)">
+  (click)="openFeatureDetailsModal(content)"
+>
   <div class="card-body">
-    <div class="card-title">
-      <span *ngIf="feature.isBlocked" style="background-color: var(--blocked); color: white">
+    <div class="card-text">
+      <span
+        *ngIf="feature.isBlocked"
+        style="background-color: var(--blocked); color: white"
+      >
         Blocked
       </span>
       <div>
-        <i *ngIf="feature.workItemType == 1" class="fa fa-life-ring" style="color: blue; padding: 0 5px 0 0"></i>
-        <i *ngIf="feature.workItemType == 2" class="fa fa-bug" style = "color: red; padding: 0 5px 0 0"></i>
-        #{{feature.id}}
+        <i
+          *ngIf="feature.workItemType == 1"
+          class="fa fa-life-ring"
+          style="color: blue; padding: 0 5px 0 0"
+        ></i>
+        <i
+          *ngIf="feature.workItemType == 2"
+          class="fa fa-bug"
+          style="color: red; padding: 0 5px 0 0"
+        ></i>
+        <div style="display: inline-block; color: gray">#{{ feature.id }}</div>
       </div>
-      <div>{{feature.title}}</div>
+      <div style="font-weight: bold">{{ feature.title | titlecase }}</div>
       <div class="row">
         <div class="col-12">
-          <i class="far fa-clock"></i> {{ feature.plannedStartDate | date: 'mediumDate' }} - {{ feature.plannedEndDate | date: 'mediumDate' }}
+          <i class="far fa-clock"></i>
+          {{ feature.plannedStartDate | date: "mediumDate" }} -
+          {{ feature.plannedEndDate | date: "mediumDate" }}
         </div>
-        <div class="col">
-        </div>
+        <div class="col"></div>
       </div>
       <!-- {{feature | json}} -->
     </div>
   </div>
 </div>
 
-
-
 <ng-template #content let-modal>
-    <div class="modal-body">
-        <app-feature-details [feature]="feature" (any-changes)="detailsChanged = true"></app-feature-details>
-    </div>
+  <div class="modal-body">
+    <app-feature-details
+      [feature]="feature"
+      (any-changes)="detailsChanged = true"
+    ></app-feature-details>
+  </div>
 </ng-template>

@@ -1,28 +1,48 @@
 <div class="row">
   <div class="col-1">
-    <i *ngIf="feature.workItemType == 1" class="fa fa-life-ring fa-2x" style="color: blue;"></i>
-    <i *ngIf="feature.workItemType == 2" class="fa fa-bug fa-2x" style="color: red;"></i>
+    <i
+      *ngIf="feature.workItemType == 1"
+      class="fa fa-life-ring fa-2x"
+      style="color: blue"
+    ></i>
+    <i
+      *ngIf="feature.workItemType == 2"
+      class="fa fa-bug fa-2x"
+      style="color: red"
+    ></i>
   </div>
   <div class="col">
     <div class="modal-title w-100" id="modal-basic-title">
-      <app-switch-text-textarea *ngIf="featureDetails"
+      <app-switch-text-textarea
+        *ngIf="featureDetails"
         [title]="featureDetails.title"
         [label-style]="{ 'font-weight': 'bold' }"
-        (is-text-changed)="modifyFeature(modifyColumnIdentifier.title,$event)">
+        (is-text-changed)="modifyFeature(modifyColumnIdentifier.title, $event)"
+      >
       </app-switch-text-textarea>
-      <span data-toggle="tooltip" data-placement="top" title="Unblock"
+      <span
+        data-toggle="tooltip"
+        data-placement="top"
+        title="Unblock"
         *ngIf="featureDetails && featureDetails.isBlocked"
-        style="background-color: var(--blocked);margin-left: 5px;padding:2px;color:white; cursor: pointer;"
-        (click)="modifyFeature(7,false)">
+        style="
+          background-color: var(--blocked);
+          margin-left: 5px;
+          padding: 2px;
+          color: white;
+          cursor: pointer;
+        "
+        (click)="modifyFeature(7, false)"
+      >
         blocked
       </span>
     </div>
   </div>
 </div>
-<div class="row" style="margin-left: 10px; margin-top: 20px;">
+<div class="row" style="margin-left: 10px; margin-top: 20px">
   <div class="col-12 col-lg-8">
     <div class="row">
-      <div class="col-1" style="padding-top: 2px;">
+      <div class="col-1" style="padding-top: 2px">
         <i class="fa fa-file"></i>
       </div>
       <div class="col">
@@ -30,13 +50,15 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-1" style="padding-top: 2px;">
-      </div>
-      <div class="col" style="font-size: var(--global-text-size);">
+      <div class="col-1" style="padding-top: 2px"></div>
+      <div class="col" style="font-size: var(--global-text-size)">
         <app-switch-text-textarea
           *ngIf="featureDetails"
           [title]="featureDetails.description"
-          (is-text-changed)="modifyFeature(modifyColumnIdentifier.description,$event)">
+          (is-text-changed)="
+            modifyFeature(modifyColumnIdentifier.description, $event)
+          "
+        >
         </app-switch-text-textarea>
       </div>
     </div>
@@ -44,18 +66,21 @@
       <div class="col-1">
         <i class="fa fa-clipboard-list-check"></i>
       </div>
-      <div class="col" style="font-size: var(--global-text-size);">
+      <div class="col" style="font-size: var(--global-text-size)">
         <b>Acceptance Criteria</b>
         <div class="form-group">
           <app-switch-text-textarea
             *ngIf="featureDetails"
             [title]="featureDetails.acceptanceCriteria"
-            (is-text-changed)="modifyFeature(modifyColumnIdentifier.acceptanceCriteria,$event)">
+            (is-text-changed)="
+              modifyFeature(modifyColumnIdentifier.acceptanceCriteria, $event)
+            "
+          >
           </app-switch-text-textarea>
         </div>
       </div>
     </div>
-    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px">
       <div class="col-1">
         <i class="fa fa-tasks"></i>
       </div>
@@ -64,9 +89,14 @@
       </div>
     </div>
     <!-- starting of task -->
-      <div class="row">
+    <div class="row">
       <div class="col-1">
-        <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
+        <input
+          type="checkbox"
+          name="task1"
+          id="task1"
+          value="Need User information using PNR number"
+        />
       </div>
       <div class="col-8 col-md-9">
         <label for="task1">Need User information using PNR number</label>
@@ -82,7 +112,12 @@
     <!-- starting of task -->
     <div class="row">
       <div class="col-1">
-        <input type="checkbox" name="task2" id="task2" value="Need User information using PNR number">
+        <input
+          type="checkbox"
+          name="task2"
+          id="task2"
+          value="Need User information using PNR number"
+        />
       </div>
       <div class="col-8 col-md-9">
         <label for="task2">API integration with the front end.</label>
@@ -98,10 +133,17 @@
     <!-- starting of task -->
     <div class="row">
       <div class="col-1">
-        <input type="checkbox" name="task3" id="task3" value="Need User information using PNR number">
+        <input
+          type="checkbox"
+          name="task3"
+          id="task3"
+          value="Need User information using PNR number"
+        />
       </div>
       <div class="col-8 col-md-9">
-        <label for="task3">On Clicking create it should create a new tab.</label>
+        <label for="task3"
+          >On Clicking create it should create a new tab.</label
+        >
       </div>
       <div class="col-1">
         <i class="fa fa-user-plus"></i>
@@ -115,10 +157,12 @@
     <div class="row">
       <div class="col-1"></div>
       <div class="col">
-        <button class="btn good-btn" style="font-size: x-small;">Add Task</button>
+        <button class="btn good-btn" style="font-size: x-small">
+          Add Task
+        </button>
       </div>
     </div>
-    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px">
       <div class="col-1">
         <i class="fa fa-tasks"></i>
       </div>
@@ -127,9 +171,14 @@
       </div>
     </div>
     <!-- starting of task -->
-      <div class="row">
+    <div class="row">
       <div class="col-1">
-        <input type="checkbox" name="task1" id="task1" value="Need User information using PNR number">
+        <input
+          type="checkbox"
+          name="task1"
+          id="task1"
+          value="Need User information using PNR number"
+        />
       </div>
       <div class="col-8 col-md-9">
         <label for="task1">Need User information using PNR number</label>
@@ -146,11 +195,13 @@
     <div class="row">
       <div class="col-1"></div>
       <div class="col">
-        <button class="btn good-btn" style="font-size: x-small;">Add Task</button>
+        <button class="btn good-btn" style="font-size: x-small">
+          Add Task
+        </button>
       </div>
     </div>
     <!-- comment Heading -->
-    <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+    <div class="row" style="margin-top: 20px; margin-bottom: 10px">
       <div class="col-1">
         <i class="fa fa-comments"></i>
       </div>
@@ -163,16 +214,25 @@
     <!-- single comment starting -->
     <div class="row">
       <div class="col-1 p-0">
-        <div class="avatar" style="padding-top:4px; background-color: #66241c;">KT</div>
+        <div class="avatar" style="padding-top: 4px; background-color: #66241c">
+          KT
+        </div>
       </div>
       <div class="col">
         <div class="row">
-          <div class="col-5 col-sm-4 h-25"><small><b>Kartik Tiwari </b></small></div>
-          <div class="col-6 col-sm-7"><small class="text-muted">1 minutes ago</small></div>
+          <div class="col-5 col-sm-4 h-25">
+            <small><b>Kartik Tiwari </b></small>
+          </div>
+          <div class="col-6 col-sm-7">
+            <small class="text-muted">1 minutes ago</small>
+          </div>
         </div>
         <div class="row">
           <div class="col h-75">
-            <small>I need an end point of user name, phone no along with medication id.</small>
+            <small
+              >I need an end point of user name, phone no along with medication
+              id.</small
+            >
           </div>
         </div>
       </div>
@@ -181,12 +241,16 @@
     <!-- single comment starting -->
     <div class="row">
       <div class="col-1 p-0">
-        <div class="avatar" style="padding-top:4px;">AS</div>
+        <div class="avatar" style="padding-top: 4px">AS</div>
       </div>
       <div class="col">
         <div class="row">
-          <div class="col-5 col-sm-4 h-25"><small><b>Amit Shaw </b></small></div>
-          <div class="col-6 col-sm-7"><small class="text-muted">10 minutes ago</small></div>
+          <div class="col-5 col-sm-4 h-25">
+            <small><b>Amit Shaw </b></small>
+          </div>
+          <div class="col-6 col-sm-7">
+            <small class="text-muted">10 minutes ago</small>
+          </div>
         </div>
         <div class="row">
           <div class="col h-75">
@@ -199,16 +263,27 @@
     <!-- single comment starting -->
     <div class="row">
       <div class="col-1 p-0">
-        <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
+        <div class="avatar" style="padding-top: 4px; background-color: #1a5021">
+          R.S
+        </div>
       </div>
       <div class="col">
         <div class="row">
-          <div class="col-5 col-sm-4 h-25"><small><b>Rahul Shrivastav </b></small></div>
-          <div class="col-6 col-sm-7"><small class="text-muted">yesterday at 2:33 p.m</small></div>
+          <div class="col-5 col-sm-4 h-25">
+            <small><b>Rahul Shrivastav </b></small>
+          </div>
+          <div class="col-6 col-sm-7">
+            <small class="text-muted">yesterday at 2:33 p.m</small>
+          </div>
         </div>
         <div class="row">
           <div class="col h-75">
-            <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+            <small
+              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+              ex, iste amet, pariatur ea odit dolores a illo adipisci
+              consectetur itaque ad consequuntur provident excepturi aut
+              quibusdam? Fuga, animi non.</small
+            >
           </div>
         </div>
       </div>
@@ -217,16 +292,27 @@
     <!-- single comment starting -->
     <div class="row">
       <div class="col-1 p-0">
-        <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
+        <div class="avatar" style="padding-top: 4px; background-color: #6547d3">
+          PS
+        </div>
       </div>
       <div class="col">
         <div class="row">
-          <div class="col-5 col-sm-4 h-25"><small><b>Pappu Singh </b></small></div>
-          <div class="col-6 col-sm-7"><small class="text-muted">2nd Jan at 3:45 p.m</small></div>
+          <div class="col-5 col-sm-4 h-25">
+            <small><b>Pappu Singh </b></small>
+          </div>
+          <div class="col-6 col-sm-7">
+            <small class="text-muted">2nd Jan at 3:45 p.m</small>
+          </div>
         </div>
         <div class="row">
           <div class="col h-75">
-            <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+            <small
+              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+              ex, iste amet, pariatur ea odit dolores a illo adipisci
+              consectetur itaque ad consequuntur provident excepturi aut
+              quibusdam? Fuga, animi non.</small
+            >
           </div>
         </div>
       </div>
@@ -236,12 +322,41 @@
       <div class="col-1 p-0">
         <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
       </div>
-      <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
-        <input type="text" class="form-control" placeholder="Write a comment..." style="border: none;">
-        <button class="btn good-btn" style="margin:3px;"><small>Comment</small></button>
+      <div
+        class="col-10 col-md-10"
+        style="
+          height: 74px;
+          background-color: white;
+          padding: 0px;
+          margin: 10px;
+        "
+      >
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Write a comment..."
+          style="border: none"
+        />
+        <button class="btn good-btn" style="margin: 3px">
+          <small>Comment</small>
+        </button>
       </div>
     </div>
-    <div style="font-size: 70px; transform: rotate(-60deg); position: absolute; bottom:300px; left:-30px; padding-top: 15px; height: 100px; width: 600px; color: rgba(0,0,0,0.3);">Not Implemented</div>
+    <div
+      style="
+        font-size: 70px;
+        transform: rotate(-60deg);
+        position: absolute;
+        bottom: 300px;
+        left: -30px;
+        padding-top: 15px;
+        height: 100px;
+        width: 600px;
+        color: rgba(0, 0, 0, 0.3);
+      "
+    >
+      Not Implemented
+    </div>
     <!--Everything completed for comments-->
     <!--History UI Start-->
     <!-- <div class="row">
@@ -272,72 +387,116 @@
     <!--HIstory UI End-->
   </div>
   <div class="col-12 col-lg-3">
-    <div style="margin-top: 10px;">
-      <label style="display: block;" for="storyPoint">Story Point</label>
-      <input style="width: 100%;"
+    <div style="margin-top: 10px">
+      <label style="display: block" for="storyPoint">Story Point</label>
+      <input
+        style="width: 100%"
         type="number"
         [value]="featureDetails.storyPoint"
         id="storyPoint"
-        min="1" max="99" (focusout)="modifyFeature(modifyColumnIdentifier.storyPoint,$event)">
+        min="1"
+        max="99"
+        (focusout)="modifyFeature(modifyColumnIdentifier.storyPoint, $event)"
+      />
     </div>
     <div style="margin-top: 10px">
       Sprint
-      <app-switch-text-dropdown 
+      <app-switch-text-dropdown
         [list-data]="allSprint"
         [text-data]="featureDetails.sprint"
-        (select)="modifyFeature(modifyColumnIdentifier.sprint,$event)"></app-switch-text-dropdown>
+        (select)="modifyFeature(modifyColumnIdentifier.sprint, $event)"
+      ></app-switch-text-dropdown>
     </div>
-    <div style="margin-top: 10px;">
+    <div style="margin-top: 10px">
       <label for="startdate">Start date: </label>
       <div *ngIf="featureDetails" class="input-group">
-        <input class="form-control" placeholder="yyyy-mm-dd"
-          name="sd" [(ngModel)]="startDate"
-          ngbDatepicker #sDate="ngbDatepicker"
-          (dateSelect)="modifyFeature(modifyColumnIdentifier.plannedStartDate,$event)">
+        <input
+          class="form-control"
+          placeholder="yyyy-mm-dd"
+          name="sd"
+          [(ngModel)]="startDate"
+          ngbDatepicker
+          #sDate="ngbDatepicker"
+          (dateSelect)="
+            modifyFeature(modifyColumnIdentifier.plannedStartDate, $event)
+          "
+        />
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" (click)="sDate.toggle()" type="button">
+          <button
+            class="btn btn-outline-secondary"
+            (click)="sDate.toggle()"
+            type="button"
+          >
             <i class="fa fa-calendar-alt"></i>
           </button>
         </div>
       </div>
       <!-- <input type="date" id="startdate" name="startdate"> -->
     </div>
-    <div style="margin-top: 10px;">
+    <div style="margin-top: 10px">
       <label for="enddate">End date:&nbsp;&nbsp;</label>
       <div class="input-group">
-        <input class="form-control" placeholder="yyyy-mm-dd"
-          name="ed" [(ngModel)]="endDate"
-          ngbDatepicker #eDate="ngbDatepicker"
-          (dateSelect)="modifyFeature(modifyColumnIdentifier.plannedEndDate,$event)">
+        <input
+          class="form-control"
+          placeholder="yyyy-mm-dd"
+          name="ed"
+          [(ngModel)]="endDate"
+          ngbDatepicker
+          #eDate="ngbDatepicker"
+          (dateSelect)="
+            modifyFeature(modifyColumnIdentifier.plannedEndDate, $event)
+          "
+        />
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" (click)="eDate.toggle()" type="button">
+          <button
+            class="btn btn-outline-secondary"
+            (click)="eDate.toggle()"
+            type="button"
+          >
             <i class="fa fa-calendar-alt"></i>
           </button>
         </div>
       </div>
       <!-- <input type="date" id="enddate" name="enddate"> -->
     </div>
-    <div style="margin-top: 10px;">
-      Work progress ({{featureDetails.workCompletionPercentage}} %)
+    <div style="margin-top: 10px">
+      Work progress ({{ featureDetails.workCompletionPercentage }} %)
     </div>
     <div>
-      <input type="range" min="1" max="100"
+      <input
+        type="range"
+        min="1"
+        max="100"
         [(ngModel)]="featureDetails.workCompletionPercentage"
-        (change) = "modifyFeature(modifyColumnIdentifier.workCompletionPercentage,featureDetails.workCompletionPercentage);"
-        style="width: 165px;">
+        (change)="
+          modifyFeature(
+            modifyColumnIdentifier.workCompletionPercentage,
+            featureDetails.workCompletionPercentage
+          )
+        "
+        style="width: 165px"
+      />
+      <mat-slider></mat-slider>
     </div>
     <div>
       <app-tag></app-tag>
     </div>
-    <div ngbDropdown [autoClose]="'outside'" style="margin-top: 10px;">
+    <div ngbDropdown [autoClose]="'outside'" style="margin-top: 10px">
       <div id="checklistDropDown" class="lists" ngbDropdownToggle>
         <i class="fa fa-check-circle"></i>
         Checklist
       </div>
-      <div ngbDropdownMenu style="width: 250px;" aria-labelledby="checklistDropDown">
+      <div
+        ngbDropdownMenu
+        style="width: 250px"
+        aria-labelledby="checklistDropDown"
+      >
         <div ngbDropdownItem class="remove-hover-effect">
-          <input type="text" class="form-control"
-          placeholder="Enter checklist title">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter checklist title"
+          />
         </div>
         <div ngbDropdownItem class="remove-hover-effect">
           <button class="btn good-btn">Add</button>
@@ -362,23 +521,28 @@
     <div
       *ngIf="!featureDetails.isBlocked"
       class="lists"
-      (click)="modifyFeature(modifyColumnIdentifier.isBlocked,true)">
+      (click)="modifyFeature(modifyColumnIdentifier.isBlocked, true)"
+    >
       <i class="fa fa-ban"></i>
       Mark as block
     </div>
-    <div *ngIf="isBlocked" (click)="isBlocked = false;" style="margin-top: 10px;">
+    <div *ngIf="isBlocked" (click)="isBlocked = false" style="margin-top: 10px">
       <div class="lists">
         <i class="fa fa-unlock"></i>
         Unblock
       </div>
     </div>
-    <div style="margin-top: 10px;">
+    <div style="margin-top: 10px">
       <div>
         <small>Owners</small>
       </div>
-      <app-add-user [added-users]="featureDetails.assignees"
+      <app-add-user
+        [added-users]="featureDetails.assignees"
         [other-users]="featureDetails.members"
-        (is-added)="modifyFeature(modifyColumnIdentifier.includeAssignee,$event)"></app-add-user>
+        (is-added)="
+          modifyFeature(modifyColumnIdentifier.includeAssignee, $event)
+        "
+      ></app-add-user>
     </div>
   </div>
 </div>

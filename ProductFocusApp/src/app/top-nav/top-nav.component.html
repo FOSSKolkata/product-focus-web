@@ -1,25 +1,47 @@
 <nav class="navbar navbar-expand-sm navbar-light top-nav">
-  <img style="cursor: pointer;" [routerLink]="['/']" class="nav-link navbar-brand" src="../../assets/ProductFocus.png" alt="image">
-  <button class="navbar-toggler hidden-sm-up"
+  <img
+    style="cursor: pointer"
+    [routerLink]="['/']"
+    class="nav-link navbar-brand"
+    src="../../assets/ProductFocus.png"
+    alt="image"
+  />
+  <button
+    class="navbar-toggler hidden-sm-up"
     type="button"
     (click)="isNavbarCollapsed = !isNavbarCollapsed"
     data-target="#navbarsDefault"
     aria-controls="navbarsDefault"
     aria-expanded="false"
     aria-label="Toggle navigation"
-    *ngIf="loginDisplay">
+    *ngIf="loginDisplay"
+  >
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div [ngbCollapse]="isNavbarCollapsed"
+  <div
+    [ngbCollapse]="isNavbarCollapsed"
     class="collapse navbar-collapse"
-    id="navbarsDefault">
+    id="navbarsDefault"
+  >
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown" ngbDropdown>
-        <a class="nav-link dropdown-toggle" id="id01" ngbDropdownToggle>
+        <a
+          class="nav-link dropdown-toggle"
+          style="margin-top: 5px"
+          id="id01"
+          ngbDropdownToggle
+        >
           <app-user-avatar [name]="currentUserName"></app-user-avatar>
         </a>
-        <div class="dropdown-menu" style="right: 0; left: auto;" aria-labelledby="id01" ngbDropdownMenu>
-          <a class="dropdown-item" type="button" routerLink="/profile">Profile</a>
+        <div
+          class="dropdown-menu"
+          style="right: 0; left: auto"
+          aria-labelledby="id01"
+          ngbDropdownMenu
+        >
+          <a class="dropdown-item" type="button" routerLink="/profile"
+            >Profile</a
+          >
           <a class="dropdown-item" type="button" (click)="logout()">Logout</a>
         </div>
       </li>

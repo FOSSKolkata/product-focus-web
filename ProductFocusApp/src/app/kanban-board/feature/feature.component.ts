@@ -1,17 +1,22 @@
-import { unsupported } from '@angular/compiler/src/render3/view/util';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Feature } from '../../dht-common/models';
+import { IFeature } from '../../dht-common/models';
 
 @Component({
   selector: 'app-feature',
   templateUrl: './feature.component.html',
-  styleUrls: ['./feature.component.css']
+  styleUrls: ['./feature.component.css'],
 })
 export class FeatureComponent implements OnInit, OnDestroy {
-
-  @Input('feature') feature: Feature = {
+  @Input('feature') feature: IFeature = {
     id: -1,
     moduleId: -1,
     title: '',
@@ -21,7 +26,7 @@ export class FeatureComponent implements OnInit, OnDestroy {
     plannedStartDate: new Date(),
     plannedEndDate: new Date(),
     actualStartDate: new Date(),
-    actualEndDate: new Date()
+    actualEndDate: new Date(),
   };
 
   @Output('modal-closed') modalClosed = new EventEmitter<boolean>();
@@ -29,30 +34,31 @@ export class FeatureComponent implements OnInit, OnDestroy {
   detailsChanged: boolean = false;
   closeResult = '';
 
-  constructor(private modalService: NgbModal,
-              private router: Router) { }
+  constructor(private modalService: NgbModal, private router: Router) {}
 
   ngOnInit(): void {
-    var lastSelectedOrgId = localStorage.getItem("lastSelctedOrganizationId");
-    if(lastSelectedOrgId == null || lastSelectedOrgId == undefined)
-      this.router.navigate(["organization-home"])
+    var lastSelectedOrgId = localStorage.lastSelctedOrganizationId;
+    if (lastSelectedOrgId == null || lastSelectedOrgId == undefined)
+      this.router.navigate(['/']);
   }
   content: any;
 
-  ngOnDestroy(): void{
-    
-  }
+  ngOnDestroy(): void {}
 
-  openFeatureDetailsModal(content:any) {
+  openFeatureDetailsModal(content: any) {
     console.log(content);
-    this.modalService.open(content, {ariaLabelledBy: 'Feature details', size: 'lg'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      console.log(this.closeResult);
-      if(this.detailsChanged)
-        this.modalClosed.emit(true);
-    });
+    this.modalService
+      .open(content, { ariaLabelledBy: 'Feature details', size: 'lg' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+          console.log(this.closeResult);
+          if (this.detailsChanged) this.modalClosed.emit(true);
+        }
+      );
   }
 
   private getDismissReason(reason: any): string {
@@ -64,5 +70,4 @@ export class FeatureComponent implements OnInit, OnDestroy {
       return `with: ${reason}`;
     }
   }
-
 }

@@ -1,15 +1,29 @@
-<div class="margin-for-navs mid-nav" [ngStyle]="(styling.sharedStyle$ | async)">
-  <div style="display: inline-block; vertical-align: top; margin: 0 10px; padding-top: 15px;">Filters</div>
-  <div style="display: inline-block; vertical-align: top; margin: 0 10px;">
+<div class="margin-for-navs mid-nav" [ngStyle]="styling.sharedStyle$ | async">
+  <div
+    style="
+      display: inline-block;
+      vertical-align: top;
+      margin: 0 10px;
+      padding-top: 15px;
+    "
+  >
+    Filters
+  </div>
+  <div style="display: inline-block; vertical-align: top; margin: 0 10px">
     <mat-form-field>
       <mat-label>Sprint</mat-label>
       <mat-select>
         <mat-option>None</mat-option>
-        <mat-option *ngFor="let sprint of allSprint" (click)="filterSprint(sprint)" [value]="sprint.name">{{sprint.name}}</mat-option>
+        <mat-option
+          *ngFor="let sprint of allSprint"
+          (click)="filterSprint(sprint)"
+          [value]="sprint.name"
+          >{{ sprint.name }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
   </div>
-  <div style="display: inline-block; vertical-align: top; margin: 0 10px;">
+  <div style="display: inline-block; vertical-align: top; margin: 0 10px">
     <mat-form-field>
       <mat-label>Assigned To</mat-label>
       <mat-select>
@@ -20,135 +34,172 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <div style="display: inline-block; margin: 10px; position: absolute; right: 100px;">
-    <div ngbDropdown>
+  <div style="display: inline-block; position: absolute; right: 100px">
+    <div ngbDropdown style="margin-top: 15px">
       <i class="fa fa-cog fa-2x" id="settingsDropDown" ngbDropdownToggle></i>
       <div ngbDropdownMenu aria-labelledby="settingsDropDown">
-        <button ngbDropdownItem (click)="openPopup(manageModuleContent)">Manage Modules</button>
-        <button ngbDropdownItem (click)="openPopup(manageSprintContent,'lg')">Manage Sprint</button>
+        <button ngbDropdownItem (click)="openPopup(manageModuleContent)">
+          Manage Modules
+        </button>
+        <button ngbDropdownItem (click)="openPopup(manageSprintContent, 'lg')">
+          Manage Sprint
+        </button>
       </div>
     </div>
   </div>
 </div>
-<div class="infinite-scroll-x-axis margin-for-navs" [ngStyle]="(styling.sharedStyle$ | async)">
+<div
+  class="infinite-scroll-x-axis margin-for-navs"
+  [ngStyle]="styling.sharedStyle$ | async"
+>
   <div class="state-section">
     <div class="state-header">
       <div class="card">
-        <div class="card-header">
-          New
-        </div>
+        <div class="card-header">New</div>
       </div>
     </div>
     <div class="state-header">
       <div class="card">
-        <div class="card-header">
-          In Progress
-        </div>
+        <div class="card-header">In Progress</div>
       </div>
     </div>
     <div class="state-header">
       <div class="card">
-        <div class="card-header">
-          Hold
-        </div>
+        <div class="card-header">Hold</div>
       </div>
     </div>
     <div class="state-header">
       <div class="card">
-        <div class="card-header">
-          Completed
-        </div>
+        <div class="card-header">Completed</div>
       </div>
     </div>
   </div>
   <app-spinner [is-spinner-active]="kanbanBoardSpinner"></app-spinner>
-  <div [style.display]="!kanbanBoardSpinner"
-    *ngFor="let module of board; let i = index">
+  <div
+    [style.display]="!kanbanBoardSpinner"
+    *ngFor="let module of board; let i = index"
+  >
     <div class="module-section">
       <div cdkDropListGroup>
         <div *ngIf="module" class="module-header">
-         {{module.name}}
+          {{ module.name }}
         </div>
-        <div class="feature-section"
-        cdkDropList
-        [cdkDropListData]="module[0]"
-        (cdkDropListDropped)="drop($event,featureStatus.new)"
-        [id]="module.id">
-          <div *ngFor="let feature of module[0];" cdkDrag>
-            <app-feature
-              [feature]="feature">
+        <div
+          class="feature-section"
+          cdkDropList
+          (cdkDropListDropped)="drop($event, featureStatus.new)"
+          [cdkDropListData]="module[0]"
+          [id]="module.id"
+        >
+          <div *ngFor="let feature of module[0]" cdkDrag>
+            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
             </app-feature>
           </div>
           <div class="card" style="margin: 5px">
             <div class="card-footer">
-              <app-add-feature *ngIf="board" [module-id]="module.id" (is-feature-added)="setKanbanBoard()"></app-add-feature>
+              <app-add-feature
+                *ngIf="board"
+                [module-id]="module.id"
+                (is-feature-added)="setKanbanBoard()"
+              ></app-add-feature>
             </div>
           </div>
         </div>
-        <div class="feature-section"
-        cdkDropList
-        [cdkDropListData]="module[1]"
-        (cdkDropListDropped)="drop($event,featureStatus.inProgress)"
-        [id]="module.id">
-          <div *ngFor="let feature of module[1];" cdkDrag>
-            <app-feature
-              [feature]="feature">
+        <div
+          class="feature-section"
+          cdkDropList
+          [cdkDropListData]="module[1]"
+          (cdkDropListDropped)="drop($event, featureStatus.inProgress)"
+          [id]="module.id"
+        >
+          <div *ngFor="let feature of module[1]" cdkDrag>
+            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
             </app-feature>
           </div>
         </div>
-        <div class="feature-section"
-        cdkDropList
-        [cdkDropListData]="module[2]"
-        (cdkDropListDropped)="drop($event,featureStatus.hold)"
-        [id]="module.id">
-          <div *ngFor="let feature of module[2];" cdkDrag>
-            <app-feature
-              [feature]="feature">
+        <div
+          class="feature-section"
+          cdkDropList
+          [cdkDropListData]="module[2]"
+          (cdkDropListDropped)="drop($event, featureStatus.hold)"
+          [id]="module.id"
+        >
+          <div *ngFor="let feature of module[2]" cdkDrag>
+            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
             </app-feature>
           </div>
         </div>
-        <div class="feature-section"
-        cdkDropList
-        [cdkDropListData]="module[3]"
-        (cdkDropListDropped)="drop($event,featureStatus.completed)"
-        [id]="module.id">
-          <div *ngFor="let feature of module[3];" cdkDrag>
-            <app-feature
-            [feature]="feature">
-            </app-feature>
+        <div
+          class="feature-section"
+          cdkDropList
+          [cdkDropListData]="module[3]"
+          (cdkDropListDropped)="drop($event, featureStatus.completed)"
+          [id]="module.id"
+        >
+          <div *ngFor="let feature of module[3]" cdkDrag>
+            <app-feature [feature]="feature"> </app-feature>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="!board.length && !kanbanBoardSpinner"
-    style="text-align: center; margin-top: 10px;">
+  <div
+    *ngIf="!board.length && !kanbanBoardSpinner"
+    style="text-align: center; margin-top: 10px"
+  >
     No module found!!
   </div>
 
   <ng-template #manageModuleContent let-modal>
     <div class="modal-header">
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let module of modules">
-          <div class="module">{{module.name}}</div>
+          <div class="module">{{ module.name }}</div>
           <!-- <i class="fa fa-stop-circle float-right" data-toggle="tooltip" data-placement="top" title="Discontinue"></i> -->
         </li>
         <li class="list-group-item">
           <div class="add-module">
-            <i *ngIf="!moduleAddView" (click)="moduleAddView=true" class="fa fa-plus"> Add Module</i>
+            <i
+              *ngIf="!moduleAddView"
+              (click)="moduleAddView = true"
+              class="fa fa-plus"
+            >
+              Add Module</i
+            >
             <div *ngIf="moduleAddView">
-              <input type="text" class="form-control" style="display: inline-block; vertical-align: middle;"
+              <input
+                type="text"
+                class="form-control"
+                style="display: inline-block; vertical-align: middle"
                 [(ngModel)]="moduleName"
                 (keyup.enter)="addModule()"
-                placeholder="Enter module name">
-              <button [disabled]="!enabledAdding" (click)="addModule()" class="btn good-btn" style="display: inline-block; vertical-align: middle;">Add</button>
-              <i (click)="moduleAddView=false" class="fa fa-times" id="cancel-task" style="display: inline-block; vertical-align: middle;"></i>
+                placeholder="Enter module name"
+              />
+              <button
+                [disabled]="!enabledAdding"
+                (click)="addModule()"
+                class="btn good-btn"
+                style="display: inline-block; vertical-align: middle"
+              >
+                Add
+              </button>
+              <i
+                (click)="moduleAddView = false"
+                class="fa fa-times"
+                id="cancel-task"
+                style="display: inline-block; vertical-align: middle"
+              ></i>
             </div>
           </div>
         </li>
@@ -158,7 +209,12 @@
 
   <ng-template #manageSprintContent let-modal>
     <div class="modal-header">
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -167,44 +223,81 @@
         <app-switch-text-textarea [title]="'R6-Sprint '+item"></app-switch-text-textarea>
       </div> -->
       <div class="add-sprint">
-        <i *ngIf="!sprintAddView" (click)="sprintAddView=true" class="fa fa-plus" style="cursor: pointer;"> Add Sprint</i>
-        <div style="text-align: center;">
+        <i
+          *ngIf="!sprintAddView"
+          (click)="sprintAddView = true"
+          class="fa fa-plus"
+          style="cursor: pointer"
+        >
+          Add Sprint</i
+        >
+        <div style="text-align: center">
           <div *ngIf="sprintAddView">
-            <div style="font-size: large; transform: translateX(-185px); margin-bottom: 20px;">
+            <div
+              style="
+                font-size: large;
+                transform: translateX(-185px);
+                margin-bottom: 20px;
+              "
+            >
               <i class="fa fa-bolt"></i>
               New Sprint
             </div>
-            <div style="transform: translateX(-213px);">
+            <div style="transform: translateX(-213px)">
               Name<span style="color: red">*</span>
             </div>
-            <input type="text" class="form-control" style="display: inline-block; width: 475px;"
+            <input
+              type="text"
+              class="form-control"
+              style="display: inline-block; width: 475px"
               [(ngModel)]="sprintName"
-              placeholder="Enter Sprint Name">
-              
-            <div style="transform: translateX(-195px);">
-              <div style="display: inline-block;">
+              placeholder="Enter Sprint Name"
+            />
+
+            <div style="transform: translateX(-195px)">
+              <div style="display: inline-block">
                 Start<span style="color: red">*</span>
               </div>
-              <div style="display: inline-block; transform: translateX(190px);">
+              <div style="display: inline-block; transform: translateX(190px)">
                 End<span style="color: red">*</span>
               </div>
             </div>
-            <ngb-datepicker #dp (dateSelect)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t" outsideDays="hidden">
+            <ngb-datepicker
+              #dp
+              (dateSelect)="onDateSelection($event)"
+              [displayMonths]="2"
+              [dayTemplate]="t"
+              outsideDays="hidden"
+            >
             </ngb-datepicker>
-            
+
             <ng-template #t let-date let-focused="focused">
-              <span class="custom-day"
+              <span
+                class="custom-day"
                 [class.focused]="focused"
                 [class.range]="isRange(date)"
                 [class.faded]="isHovered(date) || isInside(date)"
                 (mouseenter)="hoveredDate = date"
-                (mouseleave)="hoveredDate = null">
+                (mouseleave)="hoveredDate = null"
+              >
                 {{ date.day }}
               </span>
             </ng-template>
-            <div style="transform: translateX(170px);">
-              <button [disabled]="!enabledAdding" class="btn good-btn" (click)="addSprint()">Add</button>
-              <button class="btn reject-btn" (click)="sprintAddView=false" id="cancel-task">Cancel</button>
+            <div style="transform: translateX(170px)">
+              <button
+                [disabled]="!enabledAdding"
+                class="btn good-btn"
+                (click)="addSprint()"
+              >
+                Add
+              </button>
+              <button
+                class="btn reject-btn"
+                (click)="sprintAddView = false"
+                id="cancel-task"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
@@ -251,32 +344,45 @@
 
   <ng-template #bugContent let-modal>
     <div class="modal-header">
-      <i class="fa fa-bug fa-2x" style="color: red;"></i>
-      <h4 class="modal-title w-100" id="modal-basic-title"><app-switch-text-textarea [title]="'Login button is not aligned properly'"></app-switch-text-textarea></h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <i class="fa fa-bug fa-2x" style="color: red"></i>
+      <h4 class="modal-title w-100" id="modal-basic-title">
+        <app-switch-text-textarea
+          [title]="'Login button is not aligned properly'"
+        ></app-switch-text-textarea>
+      </h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
-      <div class="row" style="margin-left: 10px; margin-top: 20px;">
+      <div class="row" style="margin-left: 10px; margin-top: 20px">
         <div class="col-12 col-lg-8">
           <div class="row">
-            <div class="col-1" style="padding-top: 2px;">
+            <div class="col-1" style="padding-top: 2px">
               <i class="fa fa-file"></i>
             </div>
             <div class="col">
               <b>Description</b>
             </div>
           </div>
-          <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+          <div class="row" style="margin-top: 20px; margin-bottom: 10px">
             <div class="col-1"></div>
-            <div class="col" style="font-size: var(--global-text-size);">
-              <app-switch-text-textarea [title]="'The login button is not aligned center. It moves here and there on different screen sizes.'"></app-switch-text-textarea>
+            <div class="col" style="font-size: var(--global-text-size)">
+              <app-switch-text-textarea
+                [title]="
+                  'The login button is not aligned center. It moves here and there on different screen sizes.'
+                "
+              ></app-switch-text-textarea>
             </div>
           </div>
           <div class="row">
             <div class="col-1"></div>
-            <div class="col" style="font-size: var(--global-text-size);">
+            <div class="col" style="font-size: var(--global-text-size)">
               <label for="acceptanceCriteria">Acceptance Criteria</label>
               <div class="form-group">
                 <app-switch-text-textarea></app-switch-text-textarea>
@@ -284,7 +390,7 @@
             </div>
           </div>
           <!-- comment Heading -->
-          <div class="row" style="margin-top: 20px; margin-bottom: 10px;">
+          <div class="row" style="margin-top: 20px; margin-bottom: 10px">
             <div class="col-1">
               <i class="fa fa-comments"></i>
             </div>
@@ -297,16 +403,23 @@
           <!-- single comment starting -->
           <div class="row">
             <div class="col-1 p-0">
-              <div class="avatar" style="background-color: #66241c;">KT</div>
+              <div class="avatar" style="background-color: #66241c">KT</div>
             </div>
             <div class="col">
               <div class="row">
-                <div class="col-5 col-sm-4 h-25"><small><b>Kartik Tiwari </b></small></div>
-                <div class="col-6 col-sm-7"><small class="text-muted">1 minutes ago</small></div>
+                <div class="col-5 col-sm-4 h-25">
+                  <small><b>Kartik Tiwari </b></small>
+                </div>
+                <div class="col-6 col-sm-7">
+                  <small class="text-muted">1 minutes ago</small>
+                </div>
               </div>
               <div class="row">
                 <div class="col h-75">
-                  <small>I need an end point of user name, phone no along with medication id.</small>
+                  <small
+                    >I need an end point of user name, phone no along with
+                    medication id.</small
+                  >
                 </div>
               </div>
             </div>
@@ -314,13 +427,17 @@
           <!-- single comment ending -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1 p-0" style="padding-left: 7px;">
-              <div class="avatar" style="padding-top:4px;">AS</div>
+            <div class="col-1 p-0" style="padding-left: 7px">
+              <div class="avatar" style="padding-top: 4px">AS</div>
             </div>
             <div class="col">
               <div class="row">
-                <div class="col-5 col-sm-4 h-25"><small><b>Amit Shaw </b></small></div>
-                <div class="col-6 col-sm-7"><small class="text-muted">10 minutes ago</small></div>
+                <div class="col-5 col-sm-4 h-25">
+                  <small><b>Amit Shaw </b></small>
+                </div>
+                <div class="col-6 col-sm-7">
+                  <small class="text-muted">10 minutes ago</small>
+                </div>
               </div>
               <div class="row">
                 <div class="col h-75">
@@ -332,17 +449,31 @@
           <!-- single comment ending -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1 p-0" style="padding-left: 7px;">
-              <div class="avatar" style="padding-top:4px;background-color: #1a5021;">R.S</div>
+            <div class="col-1 p-0" style="padding-left: 7px">
+              <div
+                class="avatar"
+                style="padding-top: 4px; background-color: #1a5021"
+              >
+                R.S
+              </div>
             </div>
             <div class="col">
               <div class="row">
-                <div class="col-5 col-sm-4 h-25"><small><b>Rahul Shrivastav </b></small></div>
-                <div class="col-6 col-sm-7"><small class="text-muted">yesterday at 2:33 p.m</small></div>
+                <div class="col-5 col-sm-4 h-25">
+                  <small><b>Rahul Shrivastav </b></small>
+                </div>
+                <div class="col-6 col-sm-7">
+                  <small class="text-muted">yesterday at 2:33 p.m</small>
+                </div>
               </div>
               <div class="row">
                 <div class="col h-75">
-                  <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+                  <small
+                    >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Debitis ex, iste amet, pariatur ea odit dolores a illo
+                    adipisci consectetur itaque ad consequuntur provident
+                    excepturi aut quibusdam? Fuga, animi non.</small
+                  >
                 </div>
               </div>
             </div>
@@ -350,17 +481,31 @@
           <!-- single comment ending -->
           <!-- single comment starting -->
           <div class="row">
-            <div class="col-1 p-0" style="padding-left: 7px;">
-              <div class="avatar" style="padding-top:4px;background-color: #6547d3;">PS</div>
+            <div class="col-1 p-0" style="padding-left: 7px">
+              <div
+                class="avatar"
+                style="padding-top: 4px; background-color: #6547d3"
+              >
+                PS
+              </div>
             </div>
             <div class="col">
               <div class="row">
-                <div class="col-5 col-sm-4 h-25"><small><b>Pappu Singh </b></small></div>
-                <div class="col-6 col-sm-7"><small class="text-muted">2nd Jan at 3:45 p.m</small></div>
+                <div class="col-5 col-sm-4 h-25">
+                  <small><b>Pappu Singh </b></small>
+                </div>
+                <div class="col-6 col-sm-7">
+                  <small class="text-muted">2nd Jan at 3:45 p.m</small>
+                </div>
               </div>
               <div class="row">
                 <div class="col h-75">
-                  <small>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ex, iste amet, pariatur ea odit dolores a illo adipisci consectetur itaque ad consequuntur provident excepturi aut quibusdam? Fuga, animi non.</small>
+                  <small
+                    >Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Debitis ex, iste amet, pariatur ea odit dolores a illo
+                    adipisci consectetur itaque ad consequuntur provident
+                    excepturi aut quibusdam? Fuga, animi non.</small
+                  >
                 </div>
               </div>
             </div>
@@ -370,44 +515,81 @@
             <div class="col-1 p-0">
               <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
             </div>
-            <div class="col-10 col-md-10" style="height: 74px;background-color: white; padding:0px; margin:10px">
-              <input type="text" class="form-control" placeholder="Write a comment..." style="border: none;">
-              <button class="btn good-btn" style="margin:3px;"><small>Comment</small></button>
+            <div
+              class="col-10 col-md-10"
+              style="
+                height: 74px;
+                background-color: white;
+                padding: 0px;
+                margin: 10px;
+              "
+            >
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Write a comment..."
+                style="border: none"
+              />
+              <button class="btn good-btn" style="margin: 3px">
+                <small>Comment</small>
+              </button>
             </div>
           </div>
         </div>
         <div class="col-12 col-lg-3">
-          <div style="margin-top: 10px;">
+          <div style="margin-top: 10px">
             <label for="startdate">Start date: </label>
             <div class="input-group">
-              <input class="form-control" placeholder="yyyy-mm-dd"
-                name="sd" ngbDatepicker #startDate="ngbDatepicker">
+              <input
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="sd"
+                ngbDatepicker
+                #startDate="ngbDatepicker"
+              />
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="startDate.toggle()" type="button">
+                <button
+                  class="btn btn-outline-secondary"
+                  (click)="startDate.toggle()"
+                  type="button"
+                >
                   <i class="fa fa-calendar-alt"></i>
                 </button>
               </div>
             </div>
             <!-- <input type="date" id="startdate" name="startdate"> -->
           </div>
-          <div style="margin-top: 10px;">
+          <div style="margin-top: 10px">
             <label for="enddate">End date:&nbsp;&nbsp;</label>
             <div class="input-group">
-              <input class="form-control" placeholder="yyyy-mm-dd"
-                name="ed" ngbDatepicker #endDate="ngbDatepicker">
+              <input
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                name="ed"
+                ngbDatepicker
+                #endDate="ngbDatepicker"
+              />
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary" (click)="endDate.toggle()" type="button">
+                <button
+                  class="btn btn-outline-secondary"
+                  (click)="endDate.toggle()"
+                  type="button"
+                >
                   <i class="fa fa-calendar-alt"></i>
                 </button>
               </div>
             </div>
             <!-- <input type="date" id="enddate" name="enddate"> -->
           </div>
-          <div style="margin-top: 10px;">
-            Work progress (15 %)
-          </div>
+          <div style="margin-top: 10px">Work progress (15 %)</div>
           <div>
-            <input type="range" min="1" max="100" value="15" style="width: 165px;">
+            <input
+              type="range"
+              min="1"
+              max="100"
+              value="15"
+              style="width: 165px"
+            />
           </div>
           <div>
             <app-tag></app-tag>
@@ -416,6 +598,4 @@
       </div>
     </div>
   </ng-template>
-
-
 </div>

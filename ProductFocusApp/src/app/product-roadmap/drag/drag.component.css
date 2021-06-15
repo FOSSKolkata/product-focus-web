@@ -1,50 +1,50 @@
 .rectangle {
-    position: absolute;
-    top: 20px; /*this should be input(done)*/
-    display: flex;
-    left: 50px; /*this should be input(done), output*/
-    align-items: center;
-    justify-content: center;
-    width: 300px; /*this should be input(done), output*/
-    height: 20px;
-    background-color: #458b0c; /*this should be input(done)*/
-    border: solid 1px #121621;
-    color: #f7f9ff;
-    margin: auto;
-  }
+  position: absolute;
+  top: 20px; /*this should be input(done)*/
+  display: flex;
+  left: 50px; /*this should be input(done), output*/
+  align-items: center;
+  justify-content: center;
+  width: 300px; /*this should be input(done), output*/
+  height: 20px;
+  background-color: #458b0c; /*this should be input(done)*/
+  border: solid 1px #121621;
+  color: #f7f9ff;
+  margin: auto;
+}
 
-  mwlResizable {
-    box-sizing: border-box;
-  }
+mwlResizable {
+  box-sizing: border-box;
+}
 
-  .resize-handle-top,
-  .resize-handle-bottom {
-    position: absolute;
-    height: 5px;
-    cursor: row-resize;
-    width: 100%;
-  }
+.resize-handle-top,
+.resize-handle-bottom {
+  position: absolute;
+  height: 5px;
+  cursor: row-resize;
+  width: 100%;
+}
 
-  .resize-handle-top {
-    top: 0;
-  }
+.resize-handle-top {
+  top: 0;
+}
 
-  .resize-handle-bottom {
-    bottom: 0;
-  }
+.resize-handle-bottom {
+  bottom: 0;
+}
 
-  .resize-handle-left,
-  .resize-handle-right {
-    position: absolute;
-    height: 100%;
-    cursor: col-resize;
-    width: 5px;
-  }
+.resize-handle-left,
+.resize-handle-right {
+  position: absolute;
+  height: 100%;
+  cursor: col-resize;
+  width: 5px;
+}
 
-  .resize-handle-left {
-    left: 0;
-  }
+.resize-handle-left {
+  left: 0;
+}
 
-  .resize-handle-right {
-    right: 0;
-  }
+.resize-handle-right {
+  right: 0;
+}

@@ -13,7 +13,8 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { DhtCommonModule } from '../dht-common/dht-common.module';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AddFeatureComponent } from './add-feature/add-feature.component';
-import { MatSelectModule } from '@angular/material/select'
+import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider'
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { MatSelectModule } from '@angular/material/select'
     DragDropModule,
     AutocompleteLibModule,
     DhtCommonModule,
-    MatSelectModule
+    MatSelectModule,
+    MatSliderModule
   ],
   declarations: [
     KanbanBoardComponent,
@@ -33,12 +35,11 @@ import { MatSelectModule } from '@angular/material/select'
     FeatureDetailsComponent,
     ManageComponent,
     AddUserComponent,
-    AddFeatureComponent
-  ]
+    AddFeatureComponent,
+  ],
 })
-
 export class KanbanBoardModule {
-  constructor(){
-    console.log("ProductModules Module loaded.");
+  constructor() {
+    console.log('ProductModules Module loaded.');
   }
 }

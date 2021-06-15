@@ -1,22 +1,39 @@
-<div style="width: initial;">
-  <div [style.display]="!isTextVisible?'none':'inline'">
-    <div *ngIf="!!textData && textData.name"
+<div style="width: initial">
+  <div [style.display]="!isTextVisible ? 'none' : 'inline'">
+    <div
+      *ngIf="!!textData && textData.name"
       class="text-item"
-      (click)="onLabelClick()">
-      {{textData.name}}
+      (click)="onLabelClick()"
+    >
+      {{ textData.name }}
     </div>
-    <div *ngIf="!textData || !textData.name"
+    <div
+      *ngIf="!textData || !textData.name"
       class="text-item"
-      (click)="onLabelClick()">
+      (click)="onLabelClick()"
+    >
       Assign Sprint`
     </div>
   </div>
-  <div class="dropdown-item" [style.display]="isTextVisible?'none':'inline'">
-    <div #dropdown (openChange)="onDropDownToggle($event)" ngbDropdown class="d-inline-block">
-      <div id="dropdownBasic1" ngbDropdownToggle>{{textData.name}}</div>
+  <div
+    class="dropdown-item"
+    [style.display]="isTextVisible ? 'none' : 'inline'"
+  >
+    <div
+      #dropdown
+      (openChange)="onDropDownToggle($event)"
+      ngbDropdown
+      class="d-inline-block"
+    >
+      <div id="dropdownBasic1" ngbDropdownToggle>{{ textData.name }}</div>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <div *ngFor="let item of listData">
-          <button *ngIf="item.name != textData.name" ngbDropdownItem (click)="select(item)">{{item.name}}
+          <button
+            *ngIf="item.name != textData.name"
+            ngbDropdownItem
+            (click)="select(item)"
+          >
+            {{ item.name }}
             <!-- <small *ngIf="item.name == title">current</small> -->
           </button>
         </div>

@@ -8,13 +8,13 @@ import { DragComponent } from './drag/drag.component';
 import { AngularDraggableModule } from 'angular2-draggable';
 
 @NgModule({
-  declarations: [ProductRoadmapComponent,DragComponent],
+  declarations: [ProductRoadmapComponent, DragComponent],
   imports: [
     CommonModule,
     ProductRoadmapRoutingModule,
     NgbModule,
     ResizableModule,
-    AngularDraggableModule
-  ]
+    AngularDraggableModule,
+  ],
 })
-export class ProductRoadmapModule { }
+export class ProductRoadmapModule {}

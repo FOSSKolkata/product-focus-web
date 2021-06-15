@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClosedInvitationsComponent } from './closed-invitations.component';
+import { InvitationsComponent } from './invitations.component';
 
-describe('ClosedInvitationsComponent', () => {
-  let component: ClosedInvitationsComponent;
-  let fixture: ComponentFixture<ClosedInvitationsComponent>;
+describe('InvitationsComponent', () => {
+  let component: InvitationsComponent;
+  let fixture: ComponentFixture<InvitationsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ClosedInvitationsComponent ]
+      declarations: [ InvitationsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ClosedInvitationsComponent);
+    fixture = TestBed.createComponent(InvitationsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

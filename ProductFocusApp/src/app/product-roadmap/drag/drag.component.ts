@@ -4,7 +4,7 @@ import { ResizeEvent } from 'angular-resizable-element';
 @Component({
   selector: 'app-drag',
   templateUrl: './drag.component.html',
-  styleUrls: ['./drag.component.css']
+  styleUrls: ['./drag.component.css'],
 })
 export class DragComponent implements OnInit {
   public style: object = {};
@@ -13,14 +13,13 @@ export class DragComponent implements OnInit {
   @Input('top') top: string = '';
   @Input('left') @Output('left') left: string = '';
   @Input('width') @Output('width') width: string = '';
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  tempWidth:Number = 0;
-  tempRight:Number = 0;
-  onResizeStart(event: ResizeEvent): void{
+  tempWidth: Number = 0;
+  tempRight: Number = 0;
+  onResizeStart(event: ResizeEvent): void {
     console.log(event.rectangle);
   }
 
@@ -31,7 +30,7 @@ export class DragComponent implements OnInit {
       left: `${event.rectangle.left}px`,
       top: `${event.rectangle.top}px`,
       width: `${event.rectangle.width}px`,
-      height: `${event.rectangle.height}px`
+      height: `${event.rectangle.height}px`,
     };
   }
 }

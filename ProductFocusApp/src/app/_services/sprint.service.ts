@@ -1,20 +1,22 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { apiConfig } from '../b2c-config';
-import { SprintInput } from '../dht-common/models';
+import { ISprint, ISprintInput } from '../dht-common/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SprintService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  addSprint(sprintInput: SprintInput){
-    return this.http.post(apiConfig.uri+"/Sprint/AddSprint",sprintInput);
+  addSprint(sprintInput: ISprintInput) {
+    return this.http.post(apiConfig.uri + '/Sprint/AddSprint', sprintInput);
   }
 
-  getSprintByProductId(id: number){
-    return this.http.get(apiConfig.uri+`/Sprint/GetSprintsByProductId/${id}`);
+  getSprintByProductId(id: number): Observable<ISprint[]> {
+    return this.http.get<ISprint[]>(
+      apiConfig.uri + `/Sprint/GetSprintsByProductId/${id}`
+    );
   }
 }

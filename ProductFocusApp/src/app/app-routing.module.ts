@@ -9,26 +9,37 @@ import { ProfileComponent } from './profile/profile.component';
 import { RediectComponent } from './rediect/rediect.component';
 import { InvitationComponent } from './invitation/invitation.component';
 import { OrganizationMembersComponent } from './organization/organization-members/organization-members.component';
-import { PendingInvitationsComponent } from './organization/pending-invitations/pending-invitations.component';
 import { ErrorComponent } from './garbage/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
-import { ClosedInvitationsComponent } from './organization/closed-invitations/closed-invitations.component';
+import { InvitationsComponent } from './organization/invitations/invitations.component';
 
 const SECURE_APP_ROUTES: Routes = [
   {
     path: 'products/:id',
-    loadChildren: ()=> import('./kanban-board/kanban-board.module').then(m => m.KanbanBoardModule)
-  },{
+    loadChildren: () =>
+      import('./kanban-board/kanban-board.module').then(
+        (m) => m.KanbanBoardModule
+      ),
+  },
+  {
     path: '',
-    loadChildren: ()=> import('./product-roadmap/product-roadmap.module').then(m => m.ProductRoadmapModule)
-  },{
+    loadChildren: () =>
+      import('./product-roadmap/product-roadmap.module').then(
+        (m) => m.ProductRoadmapModule
+      ),
+  },
+  {
     path: '',
-    loadChildren: ()=> import('./news-report/news-report.module').then(m => m.NewsReportModule)
-  },{
+    loadChildren: () =>
+      import('./news-report/news-report.module').then(
+        (m) => m.NewsReportModule
+      ),
+  },
+  {
     path: 'profile',
-    component: ProfileComponent
-  }
-]
+    component: ProfileComponent,
+  },
+];
 
 const routes: Routes = [
   {
@@ -36,24 +47,30 @@ const routes: Routes = [
     // component: OrganizationHomeComponent,
     // canActivate: [MsalGuard],
     redirectTo: 'organization-home',
-    pathMatch: 'full'
-  },{
+    pathMatch: 'full',
+  },
+  {
     path: 'id_token',
     redirectTo: 'organization-home',
-    pathMatch: 'full'
-  },{
+    pathMatch: 'full',
+  },
+  {
     path: '',
     component: LayoutComponent,
     canActivate: [MsalGuard],
-    children: SECURE_APP_ROUTES, runGuardsAndResolvers: 'always',
-  },{
+    children: SECURE_APP_ROUTES,
+    runGuardsAndResolvers: 'always',
+  },
+  {
     path: 'home',
-    component: HomeComponent
-  },{
+    component: HomeComponent,
+  },
+  {
     path: 'organization-home',
     component: OrganizationHomeComponent,
-    canActivate: [MsalGuard]
-  },{
+    canActivate: [MsalGuard],
+  },
+  {
     path: 'organization',
     component: OrganizationComponent,
     children: [
@@ -61,51 +78,54 @@ const routes: Routes = [
         path: '',
         redirectTo: 'members',
         pathMatch: 'full',
-      },{
+      },
+      {
         path: 'members',
-        component: OrganizationMembersComponent
-      },{
-        path: 'pending-invitations',
-        component: PendingInvitationsComponent
-      },{
-        path: 'closed-invitations',
-        component: ClosedInvitationsComponent
-      }
+        component: OrganizationMembersComponent,
+      },
+      {
+        path: 'invitations',
+        component: InvitationsComponent,
+      },
     ],
-    canActivate: [MsalGuard]
-  },{
+    canActivate: [MsalGuard],
+  },
+  {
     path: 'invitation',
     component: InvitationComponent,
-    canActivate: [MsalGuard]
-  }
-  ,{
+    canActivate: [MsalGuard],
+  },
+  {
     // Needed for hash routing
     path: 'error',
-    component: ErrorComponent
-  },{
+    component: ErrorComponent,
+  },
+  {
     // Needed for hash routing
     path: 'state',
-    component: RediectComponent
-  },{
+    component: RediectComponent,
+  },
+  {
     // Needed for hash routing
     path: 'code',
-    component: CodeComponent
-  }
+    component: CodeComponent,
+  },
 ];
 
 const isIframe = window !== window.parent && !window.opener;
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    useHash: true,
-    // Don't perform initial navigation in iframes
-    initialNavigation: !isIframe ? 'enabled' : 'disabled'
-  })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      useHash: true,
+      // Don't perform initial navigation in iframes
+      initialNavigation: !isIframe ? 'enabled' : 'disabled',
+    }),
+  ],
+  exports: [RouterModule],
 })
-
 export class AppRoutingModule {
-  constructor(){
-    console.log("AppRouting module is loaded.");
+  constructor() {
+    console.log('AppRouting module is loaded.');
   }
 }

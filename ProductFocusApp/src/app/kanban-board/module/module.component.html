@@ -1,19 +1,32 @@
 <div class="infinite-scroll-y-axis">
-  <h2 style="text-align: center;">{{module.name}}</h2>
+  <h2 style="text-align: center">{{ module.name }}</h2>
   <!-- <div *ngFor="let feature of module.features">
     <app-feature [feature]="feature"></app-feature>
   </div> -->
   <div class="add-feature">
-    <i *ngIf="!featureAddView" (click)="featureAddView=true" class="fa fa-plus"> Add Feature</i>
+    <i
+      *ngIf="!featureAddView"
+      (click)="featureAddView = true"
+      class="fa fa-plus"
+    >
+      Add Feature</i
+    >
     <div *ngIf="featureAddView" class="add">
-      <input type="text" class="form-control"
+      <input
+        type="text"
+        class="form-control"
         [(ngModel)]="featureName"
         (keyup.enter)="addFeature()"
-        placeholder="Enter feature name">
-        <div>
-          <button (click)="addFeature()" class="btn good-btn">Add</button>
-          <i (click)="featureAddView=false" class="fa fa-times" id="cancel-task"></i>
-        </div>
+        placeholder="Enter feature name"
+      />
+      <div>
+        <button (click)="addFeature()" class="btn good-btn">Add</button>
+        <i
+          (click)="featureAddView = false"
+          class="fa fa-times"
+          id="cancel-task"
+        ></i>
+      </div>
     </div>
   </div>
 </div>

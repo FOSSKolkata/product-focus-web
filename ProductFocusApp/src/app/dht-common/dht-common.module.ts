@@ -18,21 +18,16 @@ import { SwitchTextDropdownComponent } from './switch-text-dropdown/switch-text-
     UserAvatarComponent,
     ShortnamePipe,
     SpinnerComponent,
-    SwitchTextDropdownComponent
+    SwitchTextDropdownComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgbModule,
-    MatProgressSpinnerModule
-  ],
+  imports: [CommonModule, FormsModule, NgbModule, MatProgressSpinnerModule],
   exports: [
     TagComponent,
     SwitchTextTextareaComponent,
     SwitchTextDropdownComponent,
     UserAvatarComponent,
     ShortnamePipe,
-    SpinnerComponent
-  ]
+    SpinnerComponent,
+  ],
 })
-export class DhtCommonModule { }
+export class DhtCommonModule {}

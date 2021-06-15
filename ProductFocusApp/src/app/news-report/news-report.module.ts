@@ -7,15 +7,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    NewsReportComponent,
-    DomainEventComponent
-  ],
-  imports: [
-    CommonModule,
-    NewsReportRoutingModule,
-    NgbModule,
-    FormsModule
-  ]
+  declarations: [NewsReportComponent, DomainEventComponent],
+  imports: [CommonModule, NewsReportRoutingModule, NgbModule, FormsModule],
 })
-export class NewsReportModule { }
+export class NewsReportModule {}

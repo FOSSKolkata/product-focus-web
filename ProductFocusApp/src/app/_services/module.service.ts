@@ -1,15 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { apiConfig } from '../b2c-config';
-import { FeatureInput } from '../dht-common/models';
+import { IFeatureInput } from '../dht-common/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ModuleService {
-
-  constructor(private http: HttpClient) { }
-  addFeatureInModule(id: number,featureInput: FeatureInput){
-    return this.http.post(apiConfig.uri+`/Module/AddFeature/${id}`,featureInput);
+  constructor(private http: HttpClient) {}
+  addFeatureInModule(id: number, featureInput: IFeatureInput) {
+    return this.http.post(
+      apiConfig.uri + `/Module/AddFeature/${id}`,
+      featureInput
+    );
   }
 }

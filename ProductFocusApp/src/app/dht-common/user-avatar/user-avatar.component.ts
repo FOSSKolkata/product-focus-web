@@ -3,18 +3,19 @@ import { Component, Input, OnInit } from '@angular/core';
 @Component({
   selector: 'app-user-avatar',
   templateUrl: './user-avatar.component.html',
-  styleUrls: ['./user-avatar.component.css']
+  styleUrls: ['./user-avatar.component.css'],
 })
 export class UserAvatarComponent implements OnInit {
-  
   @Input('name') name!: string;
   @Input('color') color: string = '';
-  
-  constructor() { }
-  
+
+  constructor() {}
+
   ngOnInit(): void {
-    if(this.color == ''){
-      this.color = this.getRandomColor();
+    this.color = localStorage.color;
+    console.log('color: ', this.color);
+    if (!this.color || this.color == '') {
+      localStorage.color = this.color = this.getRandomColor();
     }
   }
 

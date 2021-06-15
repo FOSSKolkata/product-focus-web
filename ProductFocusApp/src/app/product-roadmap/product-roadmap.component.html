@@ -1,28 +1,90 @@
-<div class="margin-for-navs" [ngStyle]="(styling.sharedStyle$ | async)">
+<div class="margin-for-navs" [ngStyle]="styling.sharedStyle$ | async">
   <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
     <ngb-panel title="Medication">
       <ng-template ngbPanelContent>
-        <div style="position: relative;">
-          <div ngDraggable [lockAxis]="'y'" class="vertical-line" style="left:calc(100%/365*60)"><small>{{line}}</small></div>
-          <ul style="list-style-type: none; height: 3px;">
-            <li style="background-color: var(--light-gray); margin: 2px; font-size: 11px;">
-              <div style="width: calc(100%/12); float: left; text-align: center;">JAN</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">FEB</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">MAR</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">APR</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">MAY</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">JUN</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">JUL</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">AUG</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">SEP</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">OCT</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">NOV</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">DEC</div>
+        <div style="position: relative">
+          <div
+            ngDraggable
+            [lockAxis]="'y'"
+            class="vertical-line"
+            style="left: calc(100% / 365 * 60)"
+          >
+            <small>{{ line }}</small>
+          </div>
+          <ul style="list-style-type: none; height: 3px">
+            <li
+              style="
+                background-color: var(--light-gray);
+                margin: 2px;
+                font-size: 11px;
+              "
+            >
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                JAN
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                FEB
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                MAR
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                APR
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                MAY
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                JUN
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                JUL
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                AUG
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                SEP
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                OCT
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                NOV
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                DEC
+              </div>
             </li>
           </ul>
           <div>
-            <ul style="list-style-type: none;padding:0;">
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
+            <ul style="list-style-type: none; padding: 0">
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
                 <!-- <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:20px;left:calc(100%/365*31); width: calc(100%/365*31); background-color: brown; color:var(--white);">PNR medication needs to be transferred to a new tab</small>
                 <small style="height: 20px; overflow: hidden; position: absolute; top:20px;left:calc(100%/365*70); width: calc(100%/365*40); background-color: rgb(118, 165, 42); color:var(--white);">New medication API integration</small> -->
                 <app-drag
@@ -31,10 +93,11 @@
                   [top]="'20px'"
                   [left]="'calc(100%/365*120)'"
                   [width]="'calc(100%/365*150)'"
-                  >
+                >
                 </app-drag>
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
                 <!-- <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:46px;left:calc(100%/365*5); width: calc(100%/365*80); background-color: rgb(29, 124, 148); color:var(--white);">New medication API integration</small> -->
                 <app-drag
                   [text]="'New medication API integration'"
@@ -42,10 +105,11 @@
                   [top]="'46px'"
                   [left]="'calc(100%/365*5)'"
                   [width]="'calc(100%/365*80)'"
-                  >
+                >
                 </app-drag>
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
                 <!-- <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:72px;left:calc(100%/365*5); width: calc(100%/365*50); background-color: rgb(124, 134, 64); color:var(--white);">New medication API integration</small> -->
                 <app-drag
                   [text]="'New medication API integration'"
@@ -53,10 +117,11 @@
                   [top]="'72px'"
                   [left]="'calc(100%/365*5)'"
                   [width]="'calc(100%/365*50)'"
-                  >
+                >
                 </app-drag>
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
                 <!-- <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:98px;left:calc(100%/365*15); width: calc(100%/365*120); background-color: rgb(165, 112, 42); color:var(--white);">New medication API integration</small> -->
                 <app-drag
                   [text]="'New medication API integration'"
@@ -64,7 +129,7 @@
                   [top]="'98px'"
                   [left]="'calc(100%/365*15)'"
                   [width]="'calc(100%/365*120)'"
-                  >
+                >
                 </app-drag>
               </li>
             </ul>
@@ -74,38 +139,162 @@
     </ngb-panel>
     <ngb-panel title="Vital">
       <ng-template ngbPanelContent>
-        <div style="position: relative;">
-          <div class="vertical-line" style="left:calc(100%/365*180)"><small>180</small></div>
-          <ul style="list-style-type: none;height: 3px;">
-            <li style="background-color: var(--light-gray); margin: 2px; font-size: 11px;">
-              <div style="width: calc(100%/12); float: left; text-align: center;">JAN</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">FEB</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">MAR</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">APR</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">MAY</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">JUN</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">JUL</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">AUG</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">SEP</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">OCT</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">NOV</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">DEC</div>
+        <div style="position: relative">
+          <div class="vertical-line" style="left: calc(100% / 365 * 180)">
+            <small>180</small>
+          </div>
+          <ul style="list-style-type: none; height: 3px">
+            <li
+              style="
+                background-color: var(--light-gray);
+                margin: 2px;
+                font-size: 11px;
+              "
+            >
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                JAN
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                FEB
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                MAR
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                APR
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                MAY
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                JUN
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                JUL
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                AUG
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                SEP
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                OCT
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                NOV
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                DEC
+              </div>
             </li>
           </ul>
           <div>
-            <ul style="list-style-type: none;padding:0;">
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:20px;left:calc(100%/365*31); width: calc(100%/365*31); background-color: brown; color:var(--white);">PNR medication needs to be transferred to a new tab</small>
-                <small style="height: 20px; overflow: hidden; position: absolute; top:20px;left:calc(100%/365*70); width: calc(100%/365*40); background-color: rgb(118, 165, 42); color:var(--white);">New medication API integration</small>
+            <ul style="list-style-type: none; padding: 0">
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
+                <small
+                  style="
+                    text-align: center;
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 20px;
+                    left: calc(100% / 365 * 31);
+                    width: calc(100% / 365 * 31);
+                    background-color: brown;
+                    color: var(--white);
+                  "
+                  >PNR medication needs to be transferred to a new tab</small
+                >
+                <small
+                  style="
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 20px;
+                    left: calc(100% / 365 * 70);
+                    width: calc(100% / 365 * 40);
+                    background-color: rgb(118, 165, 42);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:46px;left:calc(100%/365*5); width: calc(100%/365*80); background-color: rgb(29, 124, 148); color:var(--white);">New medication API integration</small>
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
+                <small
+                  style="
+                    text-align: center;
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 46px;
+                    left: calc(100% / 365 * 5);
+                    width: calc(100% / 365 * 80);
+                    background-color: rgb(29, 124, 148);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:72px;left:calc(100%/365*5); width: calc(100%/365*50); background-color: rgb(124, 134, 64); color:var(--white);">New medication API integration</small>
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
+                <small
+                  style="
+                    text-align: center;
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 72px;
+                    left: calc(100% / 365 * 5);
+                    width: calc(100% / 365 * 50);
+                    background-color: rgb(124, 134, 64);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:98px;left:calc(100%/365*15); width: calc(100%/365*120); background-color: rgb(165, 112, 42); color:var(--white);">New medication API integration</small>
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
+                <small
+                  style="
+                    text-align: center;
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 98px;
+                    left: calc(100% / 365 * 15);
+                    width: calc(100% / 365 * 120);
+                    background-color: rgb(165, 112, 42);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
               </li>
             </ul>
           </div>
@@ -114,45 +303,209 @@
     </ngb-panel>
     <ngb-panel title="Telehealth">
       <ng-template ngbPanelContent>
-        <div style="position: relative;">
-          <div class="vertical-line" style="left:calc(100%/365*360)"><small>360</small></div>
-          <ul style="list-style-type: none;height: 3px;">
-            <li style="background-color: var(--light-gray); margin: 2px; font-size: 11px;">
-              <div style="width: calc(100%/12); float: left; text-align: center;">JAN</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">FEB</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">MAR</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">APR</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">MAY</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">JUN</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">JUL</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">AUG</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">SEP</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">OCT</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">NOV</div>
-              <div style="width: calc(100%/12); float: left; text-align: center;">DEC</div>
+        <div style="position: relative">
+          <div class="vertical-line" style="left: calc(100% / 365 * 360)">
+            <small>360</small>
+          </div>
+          <ul style="list-style-type: none; height: 3px">
+            <li
+              style="
+                background-color: var(--light-gray);
+                margin: 2px;
+                font-size: 11px;
+              "
+            >
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                JAN
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                FEB
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                MAR
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                APR
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                MAY
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                JUN
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                JUL
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                AUG
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                SEP
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                OCT
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                NOV
+              </div>
+              <div
+                style="width: calc(100% / 12); float: left; text-align: center"
+              >
+                DEC
+              </div>
             </li>
           </ul>
           <div>
-            <ul style="list-style-type: none;padding:0;">
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:20px;left:calc(100%/365*1); width: calc(100%/365*31); background-color: brown; color:var(--white);">PNR medication needs to be transferred to a new tab</small>
-                <small style="height: 20px; overflow: hidden; position: absolute; top:20px;left:calc(100%/365*180); width: calc(100%/365*40); background-color: rgb(118, 165, 42); color:var(--white);">New medication API integration</small>
+            <ul style="list-style-type: none; padding: 0">
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
+                <small
+                  style="
+                    text-align: center;
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 20px;
+                    left: calc(100% / 365 * 1);
+                    width: calc(100% / 365 * 31);
+                    background-color: brown;
+                    color: var(--white);
+                  "
+                  >PNR medication needs to be transferred to a new tab</small
+                >
+                <small
+                  style="
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 20px;
+                    left: calc(100% / 365 * 180);
+                    width: calc(100% / 365 * 40);
+                    background-color: rgb(118, 165, 42);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:46px;left:calc(100%/365*40); width: calc(100%/365*80); background-color: rgb(29, 124, 148); color:var(--white);">New medication API integration</small>
-                <small style="height: 20px; overflow: hidden; position: absolute; top:46px;left:calc(100%/365*121); width: calc(100%/365*40); background-color: rgb(29, 124, 148); color:var(--white);">New medication API integration</small>
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
+                <small
+                  style="
+                    text-align: center;
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 46px;
+                    left: calc(100% / 365 * 40);
+                    width: calc(100% / 365 * 80);
+                    background-color: rgb(29, 124, 148);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
+                <small
+                  style="
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 46px;
+                    left: calc(100% / 365 * 121);
+                    width: calc(100% / 365 * 40);
+                    background-color: rgb(29, 124, 148);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:72px;left:calc(100%/365*5); width: calc(100%/365*50); background-color: rgb(124, 134, 64); color:var(--white);">New medication API integration</small>
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
+                <small
+                  style="
+                    text-align: center;
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 72px;
+                    left: calc(100% / 365 * 5);
+                    width: calc(100% / 365 * 50);
+                    background-color: rgb(124, 134, 64);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:98px;left:calc(100%/365*15); width: calc(100%/365*120); background-color: rgb(165, 112, 42); color:var(--white);">New medication API integration</small>
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
+                <small
+                  style="
+                    text-align: center;
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 98px;
+                    left: calc(100% / 365 * 15);
+                    width: calc(100% / 365 * 120);
+                    background-color: rgb(165, 112, 42);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:124px;left:calc(100%/365*45); width: calc(100%/365*320); background-color: rgb(124, 134, 64); color:var(--white);">New medication API integration</small>
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
+                <small
+                  style="
+                    text-align: center;
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 124px;
+                    left: calc(100% / 365 * 45);
+                    width: calc(100% / 365 * 320);
+                    background-color: rgb(124, 134, 64);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
               </li>
-              <li style="background-color: var(--light-gray); margin: 6px;">&nbsp;
-                <small style="text-align: center; height: 20px; overflow: hidden; position: absolute; top:150px;left:calc(100%/365*30); width: calc(100%/365*120); background-color: rgb(165, 112, 42); color:var(--white);">New medication API integration</small>
+              <li style="background-color: var(--light-gray); margin: 6px">
+                &nbsp;
+                <small
+                  style="
+                    text-align: center;
+                    height: 20px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 150px;
+                    left: calc(100% / 365 * 30);
+                    width: calc(100% / 365 * 120);
+                    background-color: rgb(165, 112, 42);
+                    color: var(--white);
+                  "
+                  >New medication API integration</small
+                >
               </li>
             </ul>
           </div>

@@ -1,111 +1,160 @@
-export interface ProductModule{
-  name: string;
-  // features: Feature[]
+export interface IProductModule {
+  name: string,
 }
 
-export interface Feature {
-    id: number;
-    moduleId: number;
-    title: string;
-    status: number;
-    isBlocked: boolean;
-    workItemType: number;
-    plannedStartDate: Date;
-    plannedEndDate: Date;
-    actualStartDate: Date;
-    actualEndDate: Date;
+export interface IFeature {
+  id: number,
+  moduleId: number,
+  title: string,
+  status: number,
+  isBlocked: boolean,
+  workItemType: number,
+  plannedStartDate: Date,
+  plannedEndDate: Date,
+  actualStartDate: Date,
+  actualEndDate: Date,
 }
 
-export interface AddOrganizationInput {
-  organizationName: string;
-  email: string;
+export interface IAddOrganizationInput {
+  organizationName: string,
+  email: string,
 }
 
-export interface AddProductInOrganizationInput {
-  name: string;
+export interface IAddProductInOrganizationInput {
+  name: string,
 }
 
-export interface RegisterUserInput {
-  name: string;
-  email: string;
+export interface IRegisterUserInput {
+  name: string,
+  email: string,
 }
 
-export interface FeatureInput {
-  title: string;
-  workItemType: string;
+export interface IFeatureInput {
+  title: string,
+  workItemType: string,
 }
 
-export interface SprintInput {
-  productId: number;
-  name: string;
-  startDate: Date;
-  endDate: Date;
+export interface ISprintInput {
+  productId: number,
+  name: string,
+  startDate: Date,
+  endDate: Date,
 }
 
-export interface UpdateFeatureInput {
-  id: number;
-  title: string;
-  description: string;
-  workCompletionPercentage: number;
-  status: number;
-  sprintName: string;
-  storyPoint: number;
-  isBlocked: boolean;
-  emailOfAssignee: string;
-  acceptanceCriteria: string;
-  plannedStartDate: Date;
-  plannedEndDate: Date;
-  actualStartDate: Date;
-  actualEndDate: Date;
-  fieldName: number;
+export interface IFeatureDetails {
+  id: number,
+  title: string,
+  description: string,
+  workCompletionPercentage: number,
+  status: number,
+  storyPoint: number,
+  isBlocked: boolean,
+  acceptanceCriteria: string,
+  plannedStartDate: Date,
+  plannedEndDate: Date,
+  actualStartDate: Date,
+  actualEndDate: Date,
+  members: IMember[],
+  assignees: IAssignee[],
+  sprint: ISprint,
 }
 
-export interface FeatureDetails {
-  id: number;
-  title: string;
-  description: string;
-  workCompletionPercentage: number;
-  status: number;
-  storyPoint: number;
-  isBlocked: boolean;
-  acceptanceCriteria: string;
-  plannedStartDate: Date;
-  plannedEndDate: Date;
-  actualStartDate: Date;
-  actualEndDate: Date;
-  members: Member[];
-  assignees: Assignee[];
-  sprint: Sprint;
-}
-
-/*export interface Status {
-  new : number;
-  inProgress : number;
-  onHold : number;
-  completed: number
-}
-
-export interface WorkItemType {
-  feature : number;
-  bug : number
-}*/
-
-export interface Assignee {
+export interface IAssignee {
   id: number,
   objectId: string,
   email: string,
-  name: string
+  name: string,
 }
 
-export interface Sprint {
+export interface ISprint {
   id: number,
   name: string,
   startDate: Date,
-  endDate: Date
+  endDate: Date,
 }
 
-export interface Member {
-  name: string;
-  email: string;
-  objectId: string;
+export interface IMember {
+  name: string,
+  email: string,
+  objectId: string,
+}
+
+export interface ISendInvitationInput {
+  orgId: number,
+  email: string,
+}
+
+export interface IOrganization {
+  id: number,
+  name: string,
+}
+
+export interface IProduct {
+  id: number,
+  name: string,
+}
+
+export interface IModule {
+  id: number,
+  name: string,
+}
+
+export interface IKanbanBoard {
+  id: number,
+  name: string,
+  featureDetails: IFeatureDetails[],
+}
+
+export enum InvitationStatus {
+  New = 1,
+  Cancelled = 2,
+  Rejected = 3,
+  Accepted = 4,
+  Resent = 5,
+}
+
+export enum FeatureStatus {
+  new = 0,
+  inProgress = 1,
+  hold = 2,
+  completed = 3,
+}
+
+export interface IPendingInvitation {
+  email: string,
+  id: number,
+  invitedOn: Date,
+  lastResentOn: Date,
+  status: InvitationStatus
+}
+
+export interface IGetPendingInvitation {
+  recordCount: number,
+  pendingInvitations: IPendingInvitation[]
+}
+
+export interface IClosedInvitation {
+  email: string,
+  id: number,
+  invitedOn: Date,
+  actionedOn: Date,
+  organizationId: number,
+  status: InvitationStatus
+}
+
+export interface IGetClosedInvitation {
+  recordCount: number,
+  closedInvitations: IClosedInvitation[]
+}
+
+export interface IInvitationInput {
+  invitationId: number,
+  orgId: number,
+  email: string
+}
+
+export interface IUser {
+  id: number,
+  name: string,
+  email: string
 }

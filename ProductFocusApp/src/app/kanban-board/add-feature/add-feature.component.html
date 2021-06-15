@@ -1,22 +1,50 @@
-<small *ngIf="addFeatureOrBugStep == 0" (click)="addFeatureOrBugStep = 1"><i class="fa fa-plus"> Add Feature/Bug</i></small>
+<small *ngIf="addFeatureOrBugStep == 0" (click)="addFeatureOrBugStep = 1"
+  ><i class="fa fa-plus"> Add Feature/Bug</i></small
+>
 <div class="add" *ngIf="addFeatureOrBugStep == 1">
-  <div class="btn good-btn" style="margin: 5px;" (click)="addType('Feature'); addFeatureOrBugStep = 2;">Feature</div>
-  <div class="btn good-btn" style="margin: 5px;" (click)="addType('Bug'); addFeatureOrBugStep = 2;">Bug</div>
+  <div
+    class="btn good-btn"
+    style="margin: 5px"
+    (click)="addType('Feature'); addFeatureOrBugStep = 2"
+  >
+    Feature
+  </div>
+  <div
+    class="btn good-btn"
+    style="margin: 5px"
+    (click)="addType('Bug'); addFeatureOrBugStep = 2"
+  >
+    Bug
+  </div>
   <div>
-    <span style="margin: 5px;">Choose type</span>
-    <i (click)="addFeatureOrBugStep = 0" class="fa fa-times" id="cancel-task"></i>
+    <span style="margin: 5px">Choose type</span>
+    <i
+      (click)="addFeatureOrBugStep = 0"
+      class="fa fa-times"
+      id="cancel-task"
+    ></i>
   </div>
 </div>
 <div *ngIf="addFeatureOrBugStep == 2" class="add">
-  <i class="fa"
-  [class.fa-bug]="workItemType=='Bug'"
-  [class.fa-life-ring]="workItemType=='Feature'"
-  [style.color]="workItemType=='Bug'?'red':'blue'"
+  <i
+    class="fa"
+    [class.fa-bug]="workItemType == 'Bug'"
+    [class.fa-life-ring]="workItemType == 'Feature'"
+    [style.color]="workItemType == 'Bug' ? 'red' : 'blue'"
   ></i>
-  <textarea type="text" [(ngModel)]="title" class="form-control"
-  placeholder="Enter title" rows="2"></textarea>
+  <textarea
+    type="text"
+    [(ngModel)]="title"
+    class="form-control"
+    placeholder="Enter title"
+    rows="2"
+  ></textarea>
   <div>
     <button class="btn good-btn" (click)="addFeature()">Add</button>
-    <i class="fa fa-times" id="cancel-task" (click)="addFeatureOrBugStep = 0;"></i>
+    <i
+      class="fa fa-times"
+      id="cancel-task"
+      (click)="addFeatureOrBugStep = 0"
+    ></i>
   </div>
 </div>

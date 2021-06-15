@@ -5,10 +5,11 @@ import { ProductRoadmapComponent } from './product-roadmap.component';
 const routes: Routes = [
   {
     path: 'product-roadmap',
-    component: ProductRoadmapComponent
-}]
+    component: ProductRoadmapComponent,
+  },
+];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ProductRoadmapRoutingModule { }
+export class ProductRoadmapRoutingModule {}

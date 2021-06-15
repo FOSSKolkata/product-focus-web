@@ -1,17 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
-import { AddOrganizationInput, AddProductInOrganizationInput } from '../dht-common/models';
+import {
+  IAddOrganizationInput,
+  IAddProductInOrganizationInput,
+  IProduct,
+} from '../dht-common/models';
 import { OrganizationService } from '../_services/organization.service';
 
 @Component({
   selector: 'app-organization-home',
   templateUrl: './organization-home.component.html',
-  styleUrls: ['./organization-home.component.css']
+  styleUrls: ['./organization-home.component.css'],
 })
 export class OrganizationHomeComponent implements OnInit {
-
-  constructor(private organizationService: OrganizationService,
-              private authService: MsalService) { }
+  constructor(
+    private organizationService: OrganizationService,
+    private authService: MsalService
+  ) {}
   active: boolean = false;
   organizationAddView: boolean = false;
   productAddView: boolean = false;
@@ -19,85 +24,99 @@ export class OrganizationHomeComponent implements OnInit {
   selectedOrganization: any;
   productName: string | undefined;
   organizationList: any = [];
-  productList: any = [];
+  productList: IProduct[] = [];
   organizationSpinner = false;
   productSpinner = false;
   enabledAdding: boolean = true;
   ngOnInit(): void {
     this.setOrganizationList();
   }
-  setOrganizationList(){
-    this.organizationSpinner = true
-    this.organizationService.getOrganizationListByUser().subscribe(res => {
-      this.organizationSpinner = false;
-      this.organizationList = res;
-      this.selectOrganization(this.organizationList[0]);
-      if(this.selectedOrganization != undefined)
-        this.setProductList(this.selectedOrganization.id);
-    },err=>{
-      this.organizationSpinner = false;
-      console.log(err.message);
-    })
-  }
-  addOrganization(){
-    if(this.organizationName === undefined || this.organizationName == ''){
-      return;
-    }
-    this.enabledAdding = false;
-    var addOrganizationInput: AddOrganizationInput = {
-      organizationName: this.organizationName,
-      email: this.authService.instance.getAllAccounts()[0].username
-    }
-    this.organizationService.addOrganization(addOrganizationInput).subscribe(res => {
-      // success
-      this.organizationAddView = false;
-      this.organizationName = '';
-      this.setOrganizationList();
-      this.enabledAdding = true;
-    },err=> {
-      alert(err);
-      this.enabledAdding = true;
-    })
-  }
-  setProductList(id: number){
-    this.productSpinner = true;
-    this.productList = [];
-    this.organizationService.getProductsByOrganizationId(id).subscribe(res => {
-      this.productSpinner = false;
-      this.productList = res;
-      console.log(res);
-    },err => {
-      console.log(err);
-    })
-  }
-  selectOrganization(organization: any){
-    this.selectedOrganization = organization;
-    localStorage.setItem("lastSelctedOrganizationId",this.selectedOrganization.id);
-  }
-  addProduct(){
-    if(this.productName === undefined || this.productName == ''){
-      return;
-    }
-    if(this.selectedOrganization == undefined)
-      return;
-    this.enabledAdding = false;
-    var addProductInOrganizationInput: AddProductInOrganizationInput = {
-      name: this.productName
-    }
-    this.organizationService.addProductInOrganization(
-      this.selectedOrganization.id,
-      addProductInOrganizationInput).subscribe(res =>{
-        this.productName = '';
-        this.productAddView = false;
-        this.enabledAdding = true;
-        if(this.selectedOrganization != undefined)
+  setOrganizationList() {
+    this.organizationSpinner = true;
+    this.organizationService.getOrganizationListByUser().subscribe(
+      (res) => {
+        this.organizationSpinner = false;
+        this.organizationList = res;
+        this.selectOrganization(this.organizationList[0]);
+        if (this.selectedOrganization != undefined)
           this.setProductList(this.selectedOrganization.id);
-      },err=>{
+      },
+      (err) => {
+        this.organizationSpinner = false;
+        console.log(err.message);
+      }
+    );
+  }
+  addOrganization() {
+    if (this.organizationName === undefined || this.organizationName == '') {
+      return;
+    }
+    this.enabledAdding = false;
+    var addOrganizationInput: IAddOrganizationInput = {
+      organizationName: this.organizationName,
+      email: this.authService.instance.getAllAccounts()[0].username,
+    };
+    this.organizationService.addOrganization(addOrganizationInput).subscribe(
+      (res) => {
+        // success
+        this.organizationAddView = false;
+        this.organizationName = '';
+        this.setOrganizationList();
+        this.enabledAdding = true;
+      },
+      (err) => {
         alert(err);
         this.enabledAdding = true;
-      })
+      }
+    );
   }
-  setLastProductId(id: number){
-    localStorage.setItem('productId',id.toString());
+  setProductList(id: number) {
+    this.productSpinner = true;
+    this.productList = [];
+    this.organizationService.getProductsByOrganizationId(id).subscribe(
+      (res) => {
+        this.productSpinner = false;
+        this.productList = res;
+        console.log(res);
+      },
+      (err) => {
+        alert(err);
+      }
+    );
+  }
+  selectOrganization(organization: any) {
+    this.selectedOrganization = organization;
+    localStorage.lastSelctedOrganizationId = this.selectedOrganization.id;
+  }
+  addProduct() {
+    if (this.productName === undefined || this.productName == '') {
+      return;
+    }
+    if (this.selectedOrganization == undefined) return;
+    this.enabledAdding = false;
+    var addProductInOrganizationInput: IAddProductInOrganizationInput = {
+      name: this.productName,
+    };
+    this.organizationService
+      .addProductInOrganization(
+        this.selectedOrganization.id,
+        addProductInOrganizationInput
+      )
+      .subscribe(
+        (res) => {
+          this.productName = '';
+          this.productAddView = false;
+          this.enabledAdding = true;
+          if (this.selectedOrganization != undefined)
+            this.setProductList(this.selectedOrganization.id);
+        },
+        (err) => {
+          alert(err);
+          this.enabledAdding = true;
+        }
+      );
+  }
+  setLastProductId(id: number) {
+    localStorage.setItem('productId', id.toString());
   }
 }

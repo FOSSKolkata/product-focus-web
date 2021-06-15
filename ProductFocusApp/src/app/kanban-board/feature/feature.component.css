@@ -1,26 +1,26 @@
-.completed{
-    background-color: #61bd4f;
-    color: var(--white);
-    border-radius: 2px;
-    padding: 2px;
+.completed {
+  background-color: #61bd4f;
+  color: var(--white);
+  border-radius: 2px;
+  padding: 2px;
 }
 
-.not-completed{
-    background-color: #ec9488;
-    color: var(--white);
-    border-radius: 2px;
-    padding: 2px;
+.not-completed {
+  background-color: #ec9488;
+  color: var(--white);
+  border-radius: 2px;
+  padding: 2px;
 }
 
-.card{
-    cursor: pointer;
-    white-space: normal;
+.card {
+  cursor: pointer;
+  white-space: normal;
 }
 
 .bug {
-    border-left: 5px solid red;
+  border-left: 5px solid red;
 }
 
 .feature {
-    border-left: 5px solid blue;
+  border-left: 5px solid blue;
 }
