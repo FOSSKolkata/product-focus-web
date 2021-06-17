@@ -8,8 +8,9 @@ import {
   filter,
   map,
 } from 'rxjs/operators';
-import { ISendInvitationInput, IUser } from 'src/app/dht-common/models';
+import { IMemberDetailsList, ISendInvitationInput, IUser } from 'src/app/dht-common/models';
 import { InvitationService } from 'src/app/_services/invitation.service';
+import { UserService } from 'src/app/_services/user.service';
 
 @Component({
   selector: 'app-organization-members',
@@ -23,16 +24,25 @@ export class OrganizationMembersComponent implements OnInit {
   sendingInvitationActive = false;
   selectedUser!: IUser | string;
   lastSelctedOrganizationId!: number;
+  organizationMemberList: IMemberDetailsList = {
+    recordCount : 0,
+    members : []
+  };
 
   constructor(
     private modalService: NgbModal,
     private invitationService: InvitationService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     if (!localStorage.lastSelctedOrganizationId) this.router.navigate(['/']);
     this.lastSelctedOrganizationId = localStorage.lastSelctedOrganizationId;
+    this.userService.getUserListByOrganization(this.lastSelctedOrganizationId).subscribe(x => {
+      console.log("organization user",x);
+      this.organizationMemberList = x;
+    })
     this.invitationService.getUserListNotPartOfOrganization(this.lastSelctedOrganizationId).subscribe(x => {
       console.log("user",x);
       this.users = x;

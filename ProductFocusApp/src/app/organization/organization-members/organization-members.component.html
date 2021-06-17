@@ -1,4 +1,4 @@
-<span>Total 3</span
+<span>Total {{organizationMemberList.recordCount}}</span
 ><span style="float: right"
   ><button class="btn btn-primary" (click)="open(content)">
     Invite Member
@@ -14,29 +14,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let user of organizationMemberList.members">
           <td>
-            <app-user-avatar [name]="'Mark'"></app-user-avatar>
-            <div style="margin: -45px 0 0 50px">Mark</div>
-            <small style="margin: -10px 0 0 50px">mark@gmail.com</small>
+            <app-user-avatar [name]="user.name"></app-user-avatar>
+            <div style="margin: -45px 0 0 50px">{{user.name}}</div>
+            <small style="margin: -10px 0 0 50px">{{user.email}}</small>
           </td>
-          <td>Owner + Developer</td>
-        </tr>
-        <tr>
-          <td>
-            <app-user-avatar [name]="'Jacob'"></app-user-avatar>
-            <div style="margin: -45px 0 0 50px">Jacob</div>
-            <small style="margin: -10px 0 0 50px">jacob@gmail.com</small>
-          </td>
-          <td>Developer</td>
-        </tr>
-        <tr>
-          <td>
-            <app-user-avatar [name]="'Larry'"></app-user-avatar>
-            <div style="margin: -45px 0 0 50px">Larry</div>
-            <small style="margin: -10px 0 0 50px">larry@gmail.com</small>
-          </td>
-          <td>Tester</td>
+          <td>{{user.isOwner?"Owner":"User"}}</td>
         </tr>
       </tbody>
     </table>

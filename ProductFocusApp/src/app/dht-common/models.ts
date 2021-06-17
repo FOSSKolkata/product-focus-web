@@ -158,3 +158,15 @@ export interface IUser {
   name: string,
   email: string
 }
+
+export interface IMemberDetail {
+  id: number,
+  email: string,
+  name: string,
+  isOwner: boolean
+}
+
+export interface IMemberDetailsList {
+  recordCount: number,
+  members: IMemberDetail[]
+}
