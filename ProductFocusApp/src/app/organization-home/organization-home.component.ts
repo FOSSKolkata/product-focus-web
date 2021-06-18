@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import {
@@ -6,6 +7,7 @@ import {
   IProduct,
 } from '../dht-common/models';
 import { OrganizationService } from '../_services/organization.service';
+import { ToastService } from '../_services/toast.service';
 
 @Component({
   selector: 'app-organization-home',
@@ -13,9 +15,11 @@ import { OrganizationService } from '../_services/organization.service';
   styleUrls: ['./organization-home.component.css'],
 })
 export class OrganizationHomeComponent implements OnInit {
+  error!: HttpErrorResponse;
   constructor(
     private organizationService: OrganizationService,
-    private authService: MsalService
+    private authService: MsalService,
+    public toastService: ToastService
   ) {}
   active: boolean = false;
   organizationAddView: boolean = false;
@@ -43,7 +47,8 @@ export class OrganizationHomeComponent implements OnInit {
       },
       (err) => {
         this.organizationSpinner = false;
-        console.log(err.message);
+        this.error = err;
+        console.log(err);
       }
     );
   }
@@ -59,13 +64,14 @@ export class OrganizationHomeComponent implements OnInit {
     this.organizationService.addOrganization(addOrganizationInput).subscribe(
       (res) => {
         // success
+        this.showNotification(this.organizationName+" is added successfully",true);
         this.organizationAddView = false;
         this.organizationName = '';
         this.setOrganizationList();
         this.enabledAdding = true;
       },
       (err) => {
-        alert(err);
+        this.showNotification("Unable to add " + this.organizationName + " organization!! Please try again.",false);
         this.enabledAdding = true;
       }
     );
@@ -118,5 +124,14 @@ export class OrganizationHomeComponent implements OnInit {
   }
   setLastProductId(id: number) {
     localStorage.setItem('productId', id.toString());
+  }
+  
+  showNotification(message: string, isSuccess: boolean) {
+    var styleClass;
+    if(isSuccess)
+    styleClass = 'bg-success text-light';
+    else
+    styleClass = 'bg-danger text-light'
+    this.toastService.show(message, { classname: styleClass, delay: 5000 });
   }
 }

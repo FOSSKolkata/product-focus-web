@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {
@@ -51,6 +51,7 @@ import { CodeComponent } from './garbage/code/code.component';
 import { MatSortModule } from '@angular/material/sort';
 import { SprintService } from './_services/sprint.service';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
+import { ToastsContainer } from './toast-global/toast-container.component';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -120,6 +121,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     ErrorComponent,
     CodeComponent,
     InvitationsComponent,
+    ToastsContainer
   ],
   imports: [
     BrowserModule,

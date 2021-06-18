@@ -1,10 +1,12 @@
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+
 <app-top-nav></app-top-nav>
-<div style="margin-top: 70px">
+<div *ngIf="!error" style="margin-top: 70px">
   <div
     class="vertical-nav bg-white"
     [class.active]="active"
     id="sidebar"
-    style="top: 60px"
+    style="padding-top: 60px; overflow: auto;"
   >
     <app-spinner [is-spinner-active]="organizationSpinner"></app-spinner>
     <ul *ngIf="!organizationSpinner" class="nav flex-column bg-white mb-0">
@@ -21,50 +23,57 @@
         </div>
       </li>
       <li class="nav-item">
-        <div class="nav-link success add-organization">
-          <div
-            *ngIf="!organizationAddView"
-            type="button"
-            (click)="organizationAddView = true"
-            class="create"
-          >
-            Create an organization
-          </div>
-          <div *ngIf="organizationAddView" class="add">
-            <input
-              type="text"
-              class="form-control"
-              #name="ngModel"
-              placeholder="Enter Organization Name"
-              [(ngModel)]="organizationName"
-              (keyup.enter)="addOrganization()"
-              required
-              minlength="4"
-            />
-            <div *ngIf="name.invalid && (name.dirty || name.touched)">
-              <div class="text-danger" *ngIf="name.errors?.required">
-                Name is required.
+        <form #organizationForm="ngForm">
+          <div class="nav-link success add-organization">
+            <div
+              *ngIf="!organizationAddView"
+              type="button"
+              (click)="organizationAddView = true"
+              class="create"
+            >
+              <b>Create an organization</b>
+            </div>
+            <div *ngIf="organizationAddView" class="add">
+              <input
+                type="text"
+                class="form-control"
+                #name="ngModel"
+                name="organizationName"
+                placeholder="Enter Organization Name"
+                [(ngModel)]="organizationName"
+                (keyup.enter)="addOrganization()"
+                required
+                minlength="4"
+              />
+              <div *ngIf="name.invalid && (name.dirty || name.touched)">
+                <div class="text-danger" *ngIf="name.errors?.required">
+                  Name is required.
+                </div>
+                <div class="text-danger" *ngIf="name.errors?.minlength">
+                  Name must be at least 4 characters long.
+                </div>
               </div>
-              <div class="text-danger" *ngIf="name.errors?.minlength">
-                Name must be at least 4 characters long.
+              <div>
+                <button
+                  type="submit"
+                  [disabled]="organizationForm.invalid || !enabledAdding"
+                  (click)="addOrganization()"
+                  class="btn good-btn"
+                >
+                <div *ngIf="!enabledAdding" class="spinner-border spinner-border-sm" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                  {{enabledAdding?"Add":"Adding"}}
+                </button>
+                <i
+                  (click)="organizationAddView = false"
+                  class="fa fa-times"
+                  id="cancel-task"
+                ></i>
               </div>
             </div>
-            <div>
-              <button
-                [disabled]="!enabledAdding"
-                (click)="addOrganization()"
-                class="btn good-btn"
-              >
-                Add
-              </button>
-              <i
-                (click)="organizationAddView = false"
-                class="fa fa-times"
-                id="cancel-task"
-              ></i>
-            </div>
           </div>
-        </div>
+        </form>
       </li>
     </ul>
   </div>
@@ -160,4 +169,7 @@
       </div>
     </div>
   </div>
+</div>
+<div *ngIf="!!error" style="margin-top: 70px">
+  <app-error [error]="error"></app-error>
 </div>

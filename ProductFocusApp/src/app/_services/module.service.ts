@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
 import { IFeatureInput } from '../dht-common/models';
 
@@ -12,6 +14,11 @@ export class ModuleService {
     return this.http.post(
       apiConfig.uri + `/Module/AddFeature/${id}`,
       featureInput
+    ).pipe(
+      catchError(this.handleError)
     );
+  }
+  handleError(error: HttpErrorResponse){
+    return throwError(error);
   }
 }

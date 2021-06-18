@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
 import { IGetClosedInvitation, IGetPendingInvitation, IInvitationInput, ISendInvitationInput, IUser } from '../dht-common/models';
 
@@ -14,6 +16,8 @@ export class InvitationService {
     return this.http.post(
       apiConfig.uri + '/Invitation/SendInvitation',
       sendInvitationInput
+    ).pipe(
+      catchError(this.handleError)
     );
   }
 
@@ -25,6 +29,8 @@ export class InvitationService {
     return this.http.get<IGetPendingInvitation>(
       apiConfig.uri +
       `/Invitation/GetPendingInvitationList/${orgid}/${offset}/${count}`
+    ).pipe(
+      catchError(this.handleError)
     );
   }
 
@@ -33,13 +39,17 @@ export class InvitationService {
     offset: number,
     count: number
   ): Observable<IGetClosedInvitation> {
-    return this.http.get<IGetClosedInvitation>(apiConfig.uri + `/Invitation/GetClosedInvitationList/${orgid}/${offset}/${count}`);
+    return this.http.get<IGetClosedInvitation>(apiConfig.uri + `/Invitation/GetClosedInvitationList/${orgid}/${offset}/${count}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   cancelInvitation(cancel: IInvitationInput) {
     return this.http.post(
       apiConfig.uri + `/Invitation/CancelInvitation`,
       cancel
+    ).pipe(
+      catchError(this.handleError)
     );
   }
 
@@ -47,6 +57,8 @@ export class InvitationService {
     return this.http.post(
       apiConfig.uri + `/Invitation/AcceptInvitation`,
       accept
+    ).pipe(
+      catchError(this.handleError)
     );
   }
 
@@ -54,12 +66,20 @@ export class InvitationService {
     return this.http.post(
       apiConfig.uri + `/Invitation/RejectInvitation`,
       reject
+    ).pipe(
+      catchError(this.handleError)
     );
   }
 
   getUserListNotPartOfOrganization(orgid: number): Observable<IUser[]> {
     return this.http.get<IUser[]>(
       apiConfig.uri + `/Invitation/GetUserListNotPartOfOrganization/${orgid}`
+    ).pipe(
+      catchError(this.handleError)
     );
+  }
+
+  handleError(error: HttpErrorResponse){
+    return throwError(error);
   }
 }
