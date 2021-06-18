@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Observable, OperatorFunction } from 'rxjs';
 import {
   debounceTime,
@@ -18,12 +20,12 @@ import { UserService } from 'src/app/_services/user.service';
   styleUrls: ['./organization-members.component.css'],
 })
 export class OrganizationMembersComponent implements OnInit {
-  users: IUser[] = [];
+  usersMail: string[] = [];
   closeResult = '';
-  invitationStatusText = 'Send invitation to join';
   sendingInvitationActive = false;
-  selectedUser!: IUser | string;
+  selectedMail!: string;
   lastSelctedOrganizationId!: number;
+  gettingUserList = false;
   organizationMemberList: IMemberDetailsList = {
     recordCount : 0,
     members : []
@@ -33,7 +35,8 @@ export class OrganizationMembersComponent implements OnInit {
     private modalService: NgbModal,
     private invitationService: InvitationService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -42,11 +45,14 @@ export class OrganizationMembersComponent implements OnInit {
     this.userService.getUserListByOrganization(this.lastSelctedOrganizationId).subscribe(x => {
       console.log("organization user",x);
       this.organizationMemberList = x;
-    })
+    });
+
+    this.gettingUserList = true;
     this.invitationService.getUserListNotPartOfOrganization(this.lastSelctedOrganizationId).subscribe(x => {
       console.log("user",x);
-      this.users = x;
-    })
+      this.usersMail = this.getEmails(x);
+      this.gettingUserList = false;
+    });
   }
   open(content: any) {
     this.modalService
@@ -71,10 +77,7 @@ export class OrganizationMembersComponent implements OnInit {
     }
   }
 
-  formatter = (user: IUser) => user.email;
-  formatterResult = (user: IUser) => user.email + "(" + user.name + ")";
-
-  search: OperatorFunction<string, readonly IUser[]> = (
+  search: OperatorFunction<string, readonly string[]> = (
     text$: Observable<string>
   ) =>
     text$.pipe(
@@ -82,35 +85,38 @@ export class OrganizationMembersComponent implements OnInit {
       distinctUntilChanged(),
       filter((term) => term.length >= 2),
       map((term) =>
-        this.users
-          .filter((user) => user.email.toLowerCase().indexOf(term.toLowerCase()) > -1)
+        this.usersMail
+          .filter((usermail) => usermail.toLowerCase().indexOf(term.toLowerCase()) > -1)
           .slice(0, 10)
       )
     );
 
-  sendInvitation() {
+  sendInvitation(invitationForm: NgForm) {
     this.sendingInvitationActive = true;
     var invitationInput: ISendInvitationInput = {
-      email: '',
+      email: this.selectedMail,
       orgId: this.lastSelctedOrganizationId
     };
-    if(typeof(this.selectedUser) == "string"){
-      invitationInput.email = this.selectedUser;
-    }else{
-      invitationInput.email = this.selectedUser.email;
-    }
     this.invitationService.sendInvitation(invitationInput).subscribe(
-      (x) => {
+      (res) => {
+        this.toastr.success("Invitation Send","Success");
         this.sendingInvitationActive = false;
-        this.invitationStatusText = 'Completed';
-        setTimeout(() => {
-          this.invitationStatusText = 'Send invitation to join';
-        }, 2000);
+        this.selectedMail = '';
+        invitationForm.reset();
       },
       (err) => {
+        this.toastr.error("Unable to send Invitation","Failed");
         this.sendingInvitationActive = false;
-        console.log(err);
       }
     );
+
+  }
+  
+  getEmails(users: IUser[]): string[] {
+    var mails= new Array();
+    for(var user of users)
+      mails.push(user.email);
+    return mails;
   }
 }
+

@@ -25,6 +25,7 @@
       </tbody>
     </table>
   </div>
+  <app-spinner [is-spinner-active]="gettingUserList"></app-spinner>
 </div>
 
 <ng-template #content let-modal>
@@ -40,32 +41,46 @@
     </button>
   </div>
   <div class="modal-body">
-    <div class="form-group has-search">
-      <span class="fa fa-search form-control-feedback"></span>
-      <input
-        type="text"
-        [(ngModel)]="selectedUser"
-        class="form-control"
-        placeholder="Search"
-        [ngbTypeahead]="search"
-        [inputFormatter]="formatter"
-        [resultFormatter]="formatterResult"
-      />
-    </div>
-    <button
-      class="btn btn-primary"
-      style="width: 100%"
-      (click)="sendInvitation()"
-      [disabled]="sendingInvitationActive"
-    >
-      <div
-        *ngIf="sendingInvitationActive"
-        class="spinner-border spinner-border-sm"
-        role="status"
-      >
-        <span class="sr-only">Loading...</span>
+    <form #invitationForm="ngForm" (ngSubmit)="sendInvitation(invitationForm)">
+      <div class="form-group has-search">
+        <div *ngIf="invitation.invalid && (invitation.dirty || invitation.touched)">
+          <div class="text-danger" *ngIf="invitation.errors?.required">
+            Email is required.
+          </div>
+          <div class="text-danger" *ngIf="invitation.errors?.email">
+            Please enter a valid mail.
+          </div>
+        </div>
+        <span class="fa fa-search form-control-feedback"></span>
+          <input
+            type="email"
+            name="invitation"
+            #invitation="ngModel"
+            [(ngModel)]="selectedMail"
+            class="form-control"
+            placeholder="Search"
+            [ngbTypeahead]="search"
+            (keyup.enter)="sendInvitation(invitationForm)"
+            [readonly]="sendingInvitationActive"
+            required
+            email
+          />
       </div>
-      {{ invitationStatusText }}
-    </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        style="width: 100%"
+        [disabled]="invitation.invalid || sendingInvitationActive"
+      >
+        <div
+          *ngIf="sendingInvitationActive"
+          class="spinner-border spinner-border-sm"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+        {{sendingInvitationActive?"Sending":"Send invitation to join"}}
+      </button>
+    </form>
   </div>
 </ng-template>
