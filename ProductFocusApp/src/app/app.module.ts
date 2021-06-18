@@ -51,7 +51,7 @@ import { CodeComponent } from './garbage/code/code.component';
 import { MatSortModule } from '@angular/material/sort';
 import { SprintService } from './_services/sprint.service';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
-import { ToastsContainer } from './toast-global/toast-container.component';
+import { ToastrModule } from 'ngx-toastr';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -120,8 +120,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     StateComponent,
     ErrorComponent,
     CodeComponent,
-    InvitationsComponent,
-    ToastsContainer
+    InvitationsComponent
   ],
   imports: [
     BrowserModule,
@@ -134,7 +133,11 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     DhtCommonModule,
     MatSortModule,
     MatDialogModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    ToastrModule.forRoot({timeOut: 5000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    })
   ],
   providers: [
     {

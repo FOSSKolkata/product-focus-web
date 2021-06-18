@@ -1,13 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
+import { ToastrService } from 'ngx-toastr';
 import {
   IAddOrganizationInput,
   IAddProductInOrganizationInput,
   IProduct,
 } from '../dht-common/models';
 import { OrganizationService } from '../_services/organization.service';
-import { ToastService } from '../_services/toast.service';
 
 @Component({
   selector: 'app-organization-home',
@@ -19,8 +19,8 @@ export class OrganizationHomeComponent implements OnInit {
   constructor(
     private organizationService: OrganizationService,
     private authService: MsalService,
-    public toastService: ToastService
-  ) {}
+    private toastr: ToastrService
+  ) { }
   active: boolean = false;
   organizationAddView: boolean = false;
   productAddView: boolean = false;
@@ -64,14 +64,14 @@ export class OrganizationHomeComponent implements OnInit {
     this.organizationService.addOrganization(addOrganizationInput).subscribe(
       (res) => {
         // success
-        this.showNotification(this.organizationName+" is added successfully",true);
+        this.toastr.success("Organization added.","Success");
         this.organizationAddView = false;
         this.organizationName = '';
         this.setOrganizationList();
         this.enabledAdding = true;
       },
       (err) => {
-        this.showNotification("Unable to add " + this.organizationName + " organization!! Please try again.",false);
+        this.toastr.error("Organization not added","Failed");
         this.enabledAdding = true;
       }
     );
@@ -110,6 +110,7 @@ export class OrganizationHomeComponent implements OnInit {
       )
       .subscribe(
         (res) => {
+          this.toastr.success("Product added.","Success");
           this.productName = '';
           this.productAddView = false;
           this.enabledAdding = true;
@@ -117,21 +118,12 @@ export class OrganizationHomeComponent implements OnInit {
             this.setProductList(this.selectedOrganization.id);
         },
         (err) => {
-          alert(err);
+          this.toastr.error("Product not added","Failed");
           this.enabledAdding = true;
         }
       );
   }
   setLastProductId(id: number) {
     localStorage.setItem('productId', id.toString());
-  }
-  
-  showNotification(message: string, isSuccess: boolean) {
-    var styleClass;
-    if(isSuccess)
-    styleClass = 'bg-success text-light';
-    else
-    styleClass = 'bg-danger text-light'
-    this.toastService.show(message, { classname: styleClass, delay: 5000 });
   }
 }

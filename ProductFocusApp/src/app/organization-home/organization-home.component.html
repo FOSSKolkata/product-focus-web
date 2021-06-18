@@ -1,5 +1,3 @@
-<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
-
 <app-top-nav></app-top-nav>
 <div *ngIf="!error" style="margin-top: 70px">
   <div
@@ -42,6 +40,7 @@
                 placeholder="Enter Organization Name"
                 [(ngModel)]="organizationName"
                 (keyup.enter)="addOrganization()"
+                [readonly]="!enabledAdding"
                 required
                 minlength="4"
               />
@@ -82,7 +81,7 @@
     <div *ngIf="selectedOrganization" class="ml-5">
       {{ selectedOrganization.name }}
     </div>
-    <div class="row">
+    <div *ngIf="!this.organizationSpinner" class="row">
       <div class="col">
         <button
           id="sidebarCollapse"
@@ -144,27 +143,45 @@
           <a><i class="fa fa-plus">Add</i></a>
         </div>
         <div *ngIf="productAddView" class="add-product add">
-          <input
-            type="text"
-            class="form-control"
-            [(ngModel)]="productName"
-            (keyup.enter)="addProduct()"
-            placeholder="Enter product name"
-          />
-          <div>
-            <button
-              [disabled]="!enabledAdding"
-              (click)="addProduct()"
-              class="btn good-btn"
-            >
-              Add
-            </button>
-            <i
-              (click)="productAddView = false"
-              class="fa fa-times"
-              id="cancel-task"
-            ></i>
-          </div>
+          <form #productForm="ngForm" (ngSubmit)="addProduct()">
+            <input
+              type="text"
+              name="productname"
+              class="form-control"
+              #productname="ngModel"
+              [(ngModel)]="productName"
+              (keyup.enter)="addProduct()"
+              placeholder="Enter product name"
+              [readonly]="!enabledAdding"
+              required
+              minlength="4"
+            />
+            <div *ngIf="productname.invalid && (productname.dirty || productname.touched)">
+              <div class="text-danger" *ngIf="productname.errors?.required">
+                Name is required.
+              </div>
+              <div class="text-danger" *ngIf="productname.errors?.minlength">
+                Enter atleast 4 characters.
+              </div>
+            </div>
+            <div>
+              <button
+                [disabled]="productForm.invalid || !enabledAdding"
+                type="submit"
+                class="btn good-btn"
+              >
+                <div *ngIf="!enabledAdding" class="spinner-border spinner-border-sm" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                  {{enabledAdding?"Add":"Adding"}}
+              </button>
+              <i
+                (click)="productAddView = false"
+                class="fa fa-times"
+                id="cancel-task"
+              ></i>
+            </div>
+          </form>
         </div>
       </div>
     </div>

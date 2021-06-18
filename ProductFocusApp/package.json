@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~11.1.2",
+    "@angular/animations": "^11.1.2",
     "@angular/cdk": "^11.2.10",
     "@angular/common": "~11.1.2",
     "@angular/compiler": "~11.1.2",
@@ -29,6 +29,7 @@
     "angular-resizable-element": "^3.3.5",
     "angular2-draggable": "^2.3.2",
     "bootstrap": "^4.6.0",
+    "ngx-toastr": "^14.0.0",
     "rxjs": "~6.6.0",
     "subsink": "^1.0.2",
     "tslib": "^2.0.0",
