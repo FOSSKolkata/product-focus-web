@@ -13,7 +13,7 @@
     <mat-form-field>
       <mat-label>Sprint</mat-label>
       <mat-select>
-        <mat-option>None</mat-option>
+        <mat-option>ALL</mat-option>
         <mat-option
           *ngFor="let sprint of allSprint"
           (click)="filterSprint(sprint)"
@@ -26,15 +26,14 @@
   <div style="display: inline-block; vertical-align: top; margin: 0 10px">
     <mat-form-field>
       <mat-label>Assigned To</mat-label>
-      <mat-select>
-        <mat-option>None</mat-option>
+      <mat-select multiple>
         <mat-option [value]="'Tapas'">Tapas</mat-option>
         <mat-option [value]="'Vikram'">Vikram</mat-option>
         <mat-option [value]="'Amit'">Amit</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
-  <div style="display: inline-block; position: absolute; right: 100px">
+  <div style="display: inline-block; position: absolute; right: 30px">
     <div ngbDropdown style="margin-top: 15px">
       <i class="fa fa-cog fa-2x" id="settingsDropDown" ngbDropdownToggle></i>
       <div ngbDropdownMenu aria-labelledby="settingsDropDown">
@@ -222,86 +221,93 @@
       <!-- <div *ngFor="let item of [1,2,3]">
         <app-switch-text-textarea [title]="'R6-Sprint '+item"></app-switch-text-textarea>
       </div> -->
-      <div class="add-sprint">
-        <i
-          *ngIf="!sprintAddView"
-          (click)="sprintAddView = true"
-          class="fa fa-plus"
-          style="cursor: pointer"
-        >
-          Add Sprint</i
-        >
-        <div style="text-align: center">
-          <div *ngIf="sprintAddView">
-            <div
-              style="
-                font-size: large;
-                transform: translateX(-185px);
-                margin-bottom: 20px;
-              "
-            >
-              <i class="fa fa-bolt"></i>
-              New Sprint
-            </div>
-            <div style="transform: translateX(-213px)">
-              Name<span style="color: red">*</span>
-            </div>
-            <input
-              type="text"
-              class="form-control"
-              style="display: inline-block; width: 475px"
-              [(ngModel)]="sprintName"
-              placeholder="Enter Sprint Name"
-            />
-
-            <div style="transform: translateX(-195px)">
-              <div style="display: inline-block">
-                Start<span style="color: red">*</span>
+      <form sprintForm="ngForm" (onSubmit)="addSprint()">
+        <div class="add-sprint">
+          <i
+            *ngIf="!sprintAddView"
+            (click)="sprintAddView = true"
+            class="fa fa-plus"
+            style="cursor: pointer"
+          >
+            Add Sprint</i
+          >
+          <div style="text-align: center">
+            <div *ngIf="sprintAddView">
+              <div
+                style="
+                  font-size: large;
+                  transform: translateX(-185px);
+                  margin-bottom: 20px;
+                "
+              >
+                <i class="fa fa-bolt"></i>
+                New Sprint
               </div>
-              <div style="display: inline-block; transform: translateX(190px)">
-                End<span style="color: red">*</span>
+              <div style="transform: translateX(-213px)">
+                Name<span style="color: red">*</span>
               </div>
-            </div>
-            <ngb-datepicker
-              #dp
-              (dateSelect)="onDateSelection($event)"
-              [displayMonths]="2"
-              [dayTemplate]="t"
-              outsideDays="hidden"
-            >
-            </ngb-datepicker>
+              <input
+                type="text"
+                name="sprintname"
+                #sprintname="ngModel"
+                class="form-control"
+                style="display: inline-block; width: 475px"
+                [(ngModel)]="sprintName"
+                placeholder="Enter Sprint Name"
+                required
+                minlength="4"
+                ngModel
+              />
 
-            <ng-template #t let-date let-focused="focused">
-              <span
-                class="custom-day"
-                [class.focused]="focused"
-                [class.range]="isRange(date)"
-                [class.faded]="isHovered(date) || isInside(date)"
-                (mouseenter)="hoveredDate = date"
-                (mouseleave)="hoveredDate = null"
+              <div style="transform: translateX(-195px)">
+                <div style="display: inline-block">
+                  Start<span style="color: red">*</span>
+                </div>
+                <div style="display: inline-block; transform: translateX(190px)">
+                  End<span style="color: red">*</span>
+                </div>
+              </div>
+              <ngb-datepicker
+                #dp
+                (dateSelect)="onDateSelection($event)"
+                [displayMonths]="2"
+                [dayTemplate]="t"
+                outsideDays="hidden"
               >
-                {{ date.day }}
-              </span>
-            </ng-template>
-            <div style="transform: translateX(170px)">
-              <button
-                [disabled]="!enabledAdding"
-                class="btn good-btn"
-                (click)="addSprint()"
-              >
-                Add
-              </button>
-              <button
-                class="btn reject-btn"
-                (click)="sprintAddView = false"
-                id="cancel-task"
-              >
-                Cancel
-              </button>
+              </ngb-datepicker>
+
+              <ng-template #t let-date let-focused="focused">
+                <span
+                  class="custom-day"
+                  [class.focused]="focused"
+                  [class.range]="isRange(date)"
+                  [class.faded]="isHovered(date) || isInside(date)"
+                  (mouseenter)="hoveredDate = date"
+                  (mouseleave)="hoveredDate = null"
+                >
+                  {{ date.day }}
+                </span>
+              </ng-template>
+              <div style="transform: translateX(170px)">
+                <button
+                  [disabled]="!enabledAdding"
+                  class="btn good-btn"
+                  (click)="addSprint()"
+                >
+                  Add
+                </button>
+                <button
+                  class="btn reject-btn"
+                  (click)="sprintAddView = false"
+                  id="cancel-task"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </form>
       <div class="mb-2">
         <div class="table-responsive-sm">
           <table class="table">
@@ -309,31 +315,20 @@
               <tr style="color: var(--gray)">
                 <th scope="col">Name</th>
                 <th scope="col">Sprint Dates</th>
-                <th scope="col">Edit</th>
+                <!-- <th scope="col">Edit</th> -->
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr *ngFor="let sprint of allSprint">
                 <td>
-                  <span>R6-Sprint 2</span>
+                  <span>{{sprint.name}}</span>
                 </td>
                 <td>
-                  <span>21 Mar - 29 Mar</span>
+                  <span>{{sprint.startDate | date: "shortDate" }} - {{sprint.endDate | date: "shortDate" }}</span>
                 </td>
-                <td>
+                <!-- <td>
                   <i class="fa fa-edit"></i>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span>R6-Sprint 1</span>
-                </td>
-                <td>
-                  <span>12 Mar - 20 Mar</span>
-                </td>
-                <td>
-                  <i class="fa fa-edit"></i>
-                </td>
+                </td> -->
               </tr>
             </tbody>
           </table>

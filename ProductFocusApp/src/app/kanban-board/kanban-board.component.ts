@@ -24,6 +24,7 @@ import {
   ISprint,
   ISprintInput,
 } from '../dht-common/models';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -54,8 +55,9 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     public styling: StylingService,
     private modalService: NgbModal,
     private sprintService: SprintService,
-    calendar: NgbCalendar,
-    private featureService: FeatureService
+    private calendar: NgbCalendar,
+    private featureService: FeatureService,
+    private toastr: ToastrService
   ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 14);
@@ -122,6 +124,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.enabledAdding = false;
     this.productService.addModule(this.productId, this.moduleName).subscribe(
       (x) => {
+        this.toastr.success('Module added','Success');
         this.moduleName = '';
         this.moduleAddView = false;
         this.enabledAdding = true;
@@ -130,7 +133,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       },
       (err) => {
         this.enabledAdding = true;
-        alert(err);
+        this.toastr.error('Module not added','Failed');
       }
     );
   }
@@ -233,11 +236,12 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     };
     this.sprintService.addSprint(input).subscribe(
       (x) => {
+        this.toastr.success('Sprint added','Success');
         console.log(x);
         this.sprintAddView = false;
       },
       (err) => {
-        alert(err);
+        this.toastr.error('Sprint not added','Failed');
       }
     );
   }

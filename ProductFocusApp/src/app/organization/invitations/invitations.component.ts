@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IClosedInvitation, IGetClosedInvitation, IGetPendingInvitation, InvitationStatus, IPendingInvitation } from 'src/app/dht-common/models';
 import { InvitationService } from 'src/app/_services/invitation.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-invitations',
@@ -33,7 +34,8 @@ export class InvitationsComponent implements OnInit {
   constructor(
     private invitationService: InvitationService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -213,11 +215,15 @@ export class InvitationsComponent implements OnInit {
   cancelInvitation(modal: any) {
     this.cancellingInvitation = true;
     this.invitationService.cancelInvitation({invitationId: this.cancelInvitationItem.id, orgId: this.lastSelctedOrganizationId, email: this.cancelInvitationItem.email }).subscribe(res => {
+      this.toastr.success("Invitation cancelled.","Success");
       modal.close();
       this.cancellingInvitation = false;
       this.reset();
       this.initializePendingInvitation();
       this.initializeClosedInvitation();
+    },(err) => {
+      this.toastr.error("Cancelling failed","Failed");
+      modal.close();
     });
   }
 

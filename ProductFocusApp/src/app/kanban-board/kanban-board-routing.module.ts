@@ -7,10 +7,12 @@ const routes: Routes = [
   {
     path: 'kanban-board',
     component: KanbanBoardComponent,
+    data: {breadcrumb: 'Kanban Board'}
   },
   {
     path: 'kanban-board/manage',
     component: ManageComponent,
+    data: {breadcrumb: 'manage'}
   },
 ];
 

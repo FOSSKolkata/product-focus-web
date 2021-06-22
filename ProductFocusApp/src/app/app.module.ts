@@ -52,6 +52,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { SprintService } from './_services/sprint.service';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { ToastrModule } from 'ngx-toastr';
+import {BreadcrumbModule} from 'angular-crumbs';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -137,7 +138,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     ToastrModule.forRoot({timeOut: 5000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
-    })
+    }),
+    BreadcrumbModule
   ],
   providers: [
     {

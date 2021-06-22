@@ -1,25 +1,12 @@
-<app-top-nav></app-top-nav>
-<div *ngIf="!error" style="margin-top: 70px">
+<div *ngIf="!error">
   <div
     class="vertical-nav bg-white"
     [class.active]="active"
     id="sidebar"
-    style="padding-top: 60px; overflow: auto;"
+    style="overflow: auto; display: inline-block;"
   >
     <app-spinner [is-spinner-active]="organizationSpinner"></app-spinner>
-    <ul *ngIf="!organizationSpinner" class="nav flex-column bg-white mb-0">
-      <li
-        *ngFor="let organization of organizationList"
-        class="nav-item"
-        [class.active-item]="organization.id == selectedOrganization.id"
-        (click)="
-          setProductList(organization.id); selectOrganization(organization)
-        "
-      >
-        <div class="nav-link">
-          {{ organization.name }}
-        </div>
-      </li>
+    <ul *ngIf="!organizationSpinner" class="nav flex-column bg-white">
       <li class="nav-item">
         <form #organizationForm="ngForm">
           <div class="nav-link success add-organization">
@@ -65,6 +52,7 @@
                   {{enabledAdding?"Add":"Adding"}}
                 </button>
                 <i
+                  *ngIf="enabledAdding"
                   (click)="organizationAddView = false"
                   class="fa fa-times"
                   id="cancel-task"
@@ -74,10 +62,22 @@
           </div>
         </form>
       </li>
+      <li
+        *ngFor="let organization of organizationList"
+        class="nav-item"
+        [class.active-item]="organization.id == selectedOrganization.id"
+        (click)="
+          setProductList(organization.id); selectOrganization(organization)
+        "
+      >
+        <div class="nav-link">
+          {{ organization.name }}
+        </div>
+      </li>
     </ul>
   </div>
 
-  <div class="page-content" [class.active]="active" id="content">
+  <div style="display: inline-block; vertical-align: top; width: calc(100vw - 19rem);;">
     <div *ngIf="selectedOrganization" class="ml-5">
       {{ selectedOrganization.name }}
     </div>
@@ -175,7 +175,7 @@
                 </div>
                   {{enabledAdding?"Add":"Adding"}}
               </button>
-              <i
+              <i *ngIf="enabledAdding"
                 (click)="productAddView = false"
                 class="fa fa-times"
                 id="cancel-task"
@@ -187,6 +187,6 @@
     </div>
   </div>
 </div>
-<div *ngIf="!!error" style="margin-top: 70px">
+<div *ngIf="!!error">
   <app-error [error]="error"></app-error>
 </div>

@@ -6,6 +6,7 @@ const routes: Routes = [
   {
     path: 'news-report',
     component: NewsReportComponent,
+    data: {breadcrumb: 'News Report'}
   },
 ];
 

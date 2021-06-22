@@ -21,9 +21,6 @@
       >
       </app-switch-text-textarea>
       <span
-        data-toggle="tooltip"
-        data-placement="top"
-        title="Unblock"
         *ngIf="featureDetails && featureDetails.isBlocked"
         style="
           background-color: var(--blocked);
@@ -32,7 +29,6 @@
           color: white;
           cursor: pointer;
         "
-        (click)="modifyFeature(7, false)"
       >
         blocked
       </span>
@@ -388,7 +384,7 @@
   </div>
   <div class="col-12 col-lg-3">
     <div style="margin-top: 10px">
-      <label style="display: block" for="storyPoint">Story Point</label>
+      <label style="display: block; font-weight: bold; margin-bottom: 0;" for="storyPoint">Story Point</label>
       <input
         style="width: 100%"
         type="number"
@@ -400,7 +396,7 @@
       />
     </div>
     <div style="margin-top: 10px">
-      Sprint
+      <b style="margin-bottom: -5px;">Sprint</b>
       <app-switch-text-dropdown
         [list-data]="allSprint"
         [text-data]="featureDetails.sprint"
@@ -408,7 +404,7 @@
       ></app-switch-text-dropdown>
     </div>
     <div style="margin-top: 10px">
-      <label for="startdate">Start date: </label>
+      <label for="startdate" style="font-weight: bold; margin-bottom: -5px;">Start date </label>
       <div *ngIf="featureDetails" class="input-group">
         <input
           class="form-control"
@@ -434,7 +430,7 @@
       <!-- <input type="date" id="startdate" name="startdate"> -->
     </div>
     <div style="margin-top: 10px">
-      <label for="enddate">End date:&nbsp;&nbsp;</label>
+      <label for="enddate" style="font-weight: bold; margin-bottom: -5px;">End date&nbsp;&nbsp;</label>
       <div class="input-group">
         <input
           class="form-control"
@@ -476,9 +472,9 @@
         "
         style="width: 165px"
       />
-      <mat-slider></mat-slider>
+      <!-- <mat-slider></mat-slider> -->
     </div>
-    <div>
+    <!-- <div>
       <app-tag></app-tag>
     </div>
     <div ngbDropdown [autoClose]="'outside'" style="margin-top: 10px">
@@ -502,7 +498,7 @@
           <button class="btn good-btn">Add</button>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- <div *ngIf="!isBlocked" ngbDropdown [autoClose]="'outside'" style="margin-top: 10px;">
       <div id="checklistDropDown" class="lists" ngbDropdownToggle>
         <i class="fa fa-ban"></i>
@@ -524,7 +520,13 @@
       (click)="modifyFeature(modifyColumnIdentifier.isBlocked, true)"
     >
       <i class="fa fa-ban"></i>
-      Mark as block
+      Mark as blocked
+    </div>
+    <div *ngIf="featureDetails.isBlocked"
+      class="lists"
+      (click)="modifyFeature(7, false)">
+      <i class="fa fa-ban"></i>
+      Unblock
     </div>
     <div *ngIf="isBlocked" (click)="isBlocked = false" style="margin-top: 10px">
       <div class="lists">

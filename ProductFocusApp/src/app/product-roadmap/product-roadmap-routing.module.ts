@@ -6,6 +6,7 @@ const routes: Routes = [
   {
     path: 'product-roadmap',
     component: ProductRoadmapComponent,
+    data: {breadcrumb: 'Roadmap'}
   },
 ];
 @NgModule({

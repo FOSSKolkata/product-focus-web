@@ -5,11 +5,8 @@
 .top-nav {
   background-color: var(--nav-dark-blue);
   color: var(--white);
-  position: fixed;
   width: 100%;
-  top: 0;
   z-index: 3;
-  height: 60px;
 }
 
 .top-nav img {

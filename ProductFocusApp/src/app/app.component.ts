@@ -34,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'Product Focus';
   isIframe = false;
   loginDisplay = false;
+  currentUserName!:string;
   private readonly _destroying$ = new Subject<void>();
 
   constructor(
@@ -53,6 +54,13 @@ export class AppComponent implements OnInit, OnDestroy {
         takeUntil(this._destroying$)
       )
       .subscribe(() => {
+        if (this.authService.instance.getAllAccounts().length > 0) {
+          var userInfo: any =
+            this.authService.instance.getAllAccounts()[0].idTokenClaims;
+          this.currentUserName = userInfo.given_name
+            .concat(' ')
+            .concat(userInfo.family_name);
+        }
         // var account = this.authService.instance.getAllAccounts()[0];
         // var claims: any = account.idTokenClaims;
         // var key = account.homeAccountId + "-dumanhillb2c.b2clogin.com-refreshtoken-" + claims.aud + "--";

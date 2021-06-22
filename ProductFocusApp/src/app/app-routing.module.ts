@@ -38,21 +38,21 @@ const SECURE_APP_ROUTES: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
+    data: {breadcrumb: 'Profile'}
   },
 ];
 
 const routes: Routes = [
   {
     path: '',
-    // component: OrganizationHomeComponent,
-    // canActivate: [MsalGuard],
     redirectTo: 'organization-home',
-    pathMatch: 'full',
+    pathMatch: 'full'
   },
   {
     path: 'id_token',
     redirectTo: 'organization-home',
     pathMatch: 'full',
+    data: {breadcrumb: 'Organization'}
   },
   {
     path: '',
@@ -69,10 +69,12 @@ const routes: Routes = [
     path: 'organization-home',
     component: OrganizationHomeComponent,
     canActivate: [MsalGuard],
+    data: {breadcrumb: 'Organization Home'}
   },
   {
     path: 'organization',
     component: OrganizationComponent,
+    data: {breadcrumb: 'Organization'},
     children: [
       {
         path: '',
@@ -82,10 +84,12 @@ const routes: Routes = [
       {
         path: 'members',
         component: OrganizationMembersComponent,
+        data: {breadcrumb: 'Members'}
       },
       {
         path: 'invitations',
         component: InvitationsComponent,
+        data: {breadcrumb: 'Invitations'}
       },
     ],
     canActivate: [MsalGuard],
@@ -94,6 +98,7 @@ const routes: Routes = [
     path: 'invitation',
     component: InvitationComponent,
     canActivate: [MsalGuard],
+    data: {breadcrumb: 'Invitation'}
   },
   {
     // Needed for hash routing

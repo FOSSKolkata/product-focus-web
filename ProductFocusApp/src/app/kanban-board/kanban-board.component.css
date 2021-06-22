@@ -6,7 +6,6 @@
 
 .state-section {
   margin-left: 200px;
-  margin-top: 130px;
 }
 
 .state-header {
@@ -65,11 +64,9 @@ i::after,
 }
 
 .mid-nav {
-  position: fixed;
-  top: 0;
   background-color: var(--light-gray);
   z-index: 1;
-  width: 100%;
+  width: 100vw;
   padding: 5px 0px;
 }
 

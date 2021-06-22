@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 
 @Component({
@@ -8,22 +8,12 @@ import { MsalService } from '@azure/msal-angular';
 })
 export class TopNavComponent implements OnInit {
   isNavbarCollapsed = true;
-  loginDisplay = false;
-  currentUserName!: string;
+  @Input('user')currentUserName!: string;
 
   constructor(private authService: MsalService) {}
 
   ngOnInit(): void {
-    this.authService
-      .handleRedirectObservable()
-      .subscribe((x) => console.log(x));
-    if (this.authService.instance.getAllAccounts().length > 0) {
-      var userInfo: any =
-        this.authService.instance.getAllAccounts()[0].idTokenClaims;
-      this.currentUserName = userInfo.given_name
-        .concat(' ')
-        .concat(userInfo.family_name);
-    }
+    
   }
 
   logout() {
