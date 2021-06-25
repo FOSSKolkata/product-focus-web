@@ -32,19 +32,50 @@
     [class.fa-life-ring]="workItemType == 'Feature'"
     [style.color]="workItemType == 'Bug' ? 'red' : 'blue'"
   ></i>
-  <textarea
-    type="text"
-    [(ngModel)]="title"
-    class="form-control"
-    placeholder="Enter title"
-    rows="2"
-  ></textarea>
-  <div>
-    <button class="btn good-btn" (click)="addFeature()">Add</button>
-    <i
-      class="fa fa-times"
-      id="cancel-task"
-      (click)="addFeatureOrBugStep = 0"
-    ></i>
-  </div>
+  <form #addFeatureForm="ngForm" (ngSubmit)="addFeature()">
+    <textarea
+      type="text"
+      [(ngModel)]="title"
+      name="featureBugTitle"
+      #featureBugTitle="ngModel"
+      class="form-control"
+      placeholder="Enter title"
+      rows="2"
+      required
+      minlength="4"
+    ></textarea>
+    <div
+      *ngIf="
+        featureBugTitle.invalid &&
+        (featureBugTitle.dirty || featureBugTitle.touched)
+      "
+      class="text-danger"
+    >
+      <div *ngIf="featureBugTitle.errors?.required">Title is required.</div>
+      <div *ngIf="featureBugTitle.errors?.minlength">
+        Title should be of 4 length.
+      </div>
+    </div>
+    <div>
+      <button
+        type="submit"
+        [disabled]="addFeatureForm.invalid"
+        class="btn good-btn"
+      >
+      <div
+        *ngIf="addingFeature"
+        class="spinner-border spinner-border-sm"
+        role="status"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+        {{addingFeature?"Adding":"Add"}}
+      </button>
+      <i *ngIf="!addingFeature"
+        class="fa fa-times"
+        id="cancel-task"
+        (click)="addFeatureOrBugStep = 0"
+      ></i>
+    </div>
+  </form>
 </div>

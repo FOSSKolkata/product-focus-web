@@ -13,6 +13,9 @@ export interface IFeature {
   plannedEndDate: Date,
   actualStartDate: Date,
   actualEndDate: Date,
+  assignees: IFeatureAssignee[],
+  storyPoint: number,
+  workCompletionPercentage: number
 }
 
 export interface IAddOrganizationInput {
@@ -57,6 +60,14 @@ export interface IFeatureDetails {
   members: IMember[],
   assignees: IAssignee[],
   sprint: ISprint,
+}
+
+export interface IFeatureAssignee{
+  id: number,
+  objectId: string,
+  email: string,
+  name: string,
+  userId: number
 }
 
 export interface IAssignee {

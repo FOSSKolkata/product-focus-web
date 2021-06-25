@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import {
   MsalService,
   MSAL_GUARD_CONFIG,
@@ -15,6 +16,7 @@ import {
   EventType,
   AuthError,
 } from '@azure/msal-browser';
+import { Breadcrumb, BreadcrumbService } from 'angular-crumbs';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { b2cPolicies } from './b2c-config';
@@ -40,10 +42,15 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService,
-    private msalBroadcastService: MsalBroadcastService
+    private msalBroadcastService: MsalBroadcastService,
+    private breadcrumbService: BreadcrumbService,
+    private titleService: Title
   ) {}
 
   ngOnInit(): void {
+    this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
+      this.titleService.setTitle(this.createTitle(crumbs));
+    });
     this.isIframe = window !== window.parent && !window.opener;
 
     this.msalBroadcastService.inProgress$
@@ -169,6 +176,21 @@ export class AppComponent implements OnInit, OnDestroy {
     };
 
     this.login(editProfileFlowRequest);
+  }
+  private createTitle(routesCollection: Breadcrumb[]) {
+    const title = 'Product Focus';
+    const titles = routesCollection.filter((route) => route.displayName);
+
+    if (!titles.length) { return title; }
+
+    const routeTitle = this.titlesToString(titles);
+    return `${routeTitle} ${title}`;
+  }
+
+  private titlesToString(titles:Breadcrumb[]) {
+      return titles.reduce((prev, curr) => {
+          return `${curr.displayName} - ${prev}`;
+      }, '');
   }
 
   ngOnDestroy(): void {

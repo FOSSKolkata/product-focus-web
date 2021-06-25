@@ -46,6 +46,9 @@ export class FeatureDetailsComponent implements OnInit {
     plannedEndDate: new Date(),
     actualStartDate: new Date(),
     actualEndDate: new Date(),
+    assignees: [],
+    storyPoint: 0,
+    workCompletionPercentage: 0
   };
 
   featureDetails: IFeatureDetails = {

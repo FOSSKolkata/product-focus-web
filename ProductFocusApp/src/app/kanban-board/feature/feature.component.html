@@ -6,7 +6,14 @@
   (click)="openFeatureDetailsModal(content)"
 >
   <div class="card-body">
+    <div style="position: relative; height: 15px; margin-top: -30px;">
+      <hr style="height:5px;border-width:1;background-color:#78C000;" [style.width]="feature.workCompletionPercentage + '%'">
+      <hr style="margin-top: -20px;">
+    </div>
     <div class="card-text">
+      <div style="float: right;">
+        S.P {{feature.storyPoint}}
+      </div>
       <span
         *ngIf="feature.isBlocked"
         style="background-color: var(--blocked); color: white"
@@ -33,7 +40,28 @@
           {{ feature.plannedStartDate | date: "mediumDate" }} -
           {{ feature.plannedEndDate | date: "mediumDate" }}
         </div>
-        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <!-- <circle-progress
+            [percent]="feature.workCompletionPercentage"
+            [radius]="15"
+            [outerStrokeWidth]="2"
+            [innerStrokeWidth]="1"
+            [outerStrokeColor]="'#78C000'"
+            [innerStrokeColor]="'#C7E596'"
+            [animation]="true"
+            [titleFontSize]='"10"'
+            [subtitle]='""'
+            [backgroundPadding]="0"
+            [space]="0"
+            [animationDuration]="300"
+          ></circle-progress> -->
+          {{feature.workCompletionPercentage}}%
+        </div>
+        <div class="col">
+          <app-user-list [user-list]="feature.assignees"></app-user-list>
+        </div>
       </div>
       <!-- {{feature | json}} -->
     </div>

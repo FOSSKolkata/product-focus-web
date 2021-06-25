@@ -93,6 +93,7 @@ export class OrganizationHomeComponent implements OnInit {
   selectOrganization(organization: any) {
     this.selectedOrganization = organization;
     localStorage.lastSelctedOrganizationId = this.selectedOrganization.id;
+    localStorage.selectedOrganization = JSON.stringify(this.selectedOrganization);
   }
   addProduct() {
     if (this.productName === undefined || this.productName == '') {
@@ -123,7 +124,8 @@ export class OrganizationHomeComponent implements OnInit {
         }
       );
   }
-  setLastProductId(id: number) {
-    localStorage.setItem('productId', id.toString());
+  setLastProductId(product: any) {
+    localStorage.setItem('productId', product.id.toString());
+    localStorage.selectedProduct = JSON.stringify(product);
   }
 }

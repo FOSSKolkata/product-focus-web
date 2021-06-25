@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { ModuleService } from 'src/app/_services/module.service';
 import { IFeatureInput } from '../../dht-common/models';
 
@@ -10,13 +11,15 @@ import { IFeatureInput } from '../../dht-common/models';
 export class AddFeatureComponent implements OnInit {
   @Input('module-id') moduleId!: number;
   @Output('is-feature-added') isFeatureAdded = new EventEmitter();
-  constructor(private moduleService: ModuleService) {}
+  constructor(private moduleService: ModuleService,
+              private toastr: ToastrService) {}
 
   ngOnInit(): void {}
 
   addFeatureOrBugStep: Number = 0;
   workItemType: string = '';
   title!: string;
+  addingFeature = false;
   addType(workItemType: string) {
     this.workItemType = workItemType;
   }
@@ -26,15 +29,21 @@ export class AddFeatureComponent implements OnInit {
       title: this.title,
       workItemType: this.workItemType,
     };
+    this.addingFeature = true;
     this.moduleService
       .addFeatureInModule(this.moduleId, featureInput)
       .subscribe(
         (x) => {
           //emit event
+          this.addingFeature = false;
           this.isFeatureAdded.emit('true');
           this.addFeatureOrBugStep = 0;
+          this.toastr.success("Feature added.","Success");
         },
-        (err) => console.log('err', err)
+        (err) => {
+          this.addingFeature = false;
+          this.toastr.error("Feature not added","Failed");
+        }
       );
   }
 }

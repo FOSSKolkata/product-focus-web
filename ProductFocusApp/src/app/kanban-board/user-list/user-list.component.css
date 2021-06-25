@@ -1,0 +1,13 @@
+.user {
+    width: 30px;
+    height: 30px;
+    margin: 1px;
+    background-color: rgb(137, 236, 243);
+    box-shadow: inset 0 0 2px #000000;
+    border-radius: 2px;
+    display: grid;
+    align-content: center;
+    text-align: center;
+    float: right;
+    border-radius: 50%;
+}

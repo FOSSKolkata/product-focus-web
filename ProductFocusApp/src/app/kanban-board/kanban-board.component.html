@@ -27,9 +27,7 @@
     <mat-form-field>
       <mat-label>Assigned To</mat-label>
       <mat-select multiple>
-        <mat-option [value]="'Tapas'">Tapas</mat-option>
-        <mat-option [value]="'Vikram'">Vikram</mat-option>
-        <mat-option [value]="'Amit'">Amit</mat-option>
+        <mat-option *ngFor="let user of organizationUser" [value]="user.name">{{user.name}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -177,28 +175,38 @@
               Add Module</i
             >
             <div *ngIf="moduleAddView">
-              <input
-                type="text"
-                class="form-control"
-                style="display: inline-block; vertical-align: middle"
-                [(ngModel)]="moduleName"
-                (keyup.enter)="addModule()"
-                placeholder="Enter module name"
-              />
-              <button
-                [disabled]="!enabledAdding"
-                (click)="addModule()"
-                class="btn good-btn"
-                style="display: inline-block; vertical-align: middle"
-              >
-                Add
-              </button>
-              <i
-                (click)="moduleAddView = false"
-                class="fa fa-times"
-                id="cancel-task"
-                style="display: inline-block; vertical-align: middle"
-              ></i>
+              <form #addModuleForm="ngForm" (ngSubmit)="addModule()">
+                <input
+                  type="text"
+                  class="form-control"
+                  style="display: inline-block; vertical-align: middle"
+                  [(ngModel)]="moduleName"
+                  #module="ngModel"
+                  name="module"
+                  (keyup.enter)="addModule()"
+                  placeholder="Enter module name"
+                  required
+                  minlength="4"
+                />
+                <button
+                  [disabled]="!enabledAdding || addModuleForm.invalid"
+                  type="submit"
+                  class="btn good-btn"
+                  style="display: inline-block; vertical-align: middle; margin: 0 5px;"
+                >
+                  Add
+                </button>
+                <i *ngIf="enabledAdding"
+                  (click)="moduleAddView = false"
+                  class="fa fa-times"
+                  id="cancel-task"
+                  style="display: inline-block; vertical-align: middle"
+                ></i>
+                <div *ngIf="module.invalid && (module.dirty || module.touched)" class="text-danger">
+                  <div *ngIf="module.errors?.required">Name is required.</div>
+                  <div *ngIf="module.errors?.minlength">Name should be atleast 4 characters long.</div>
+                </div>
+              </form>
             </div>
           </div>
         </li>
@@ -221,7 +229,7 @@
       <!-- <div *ngFor="let item of [1,2,3]">
         <app-switch-text-textarea [title]="'R6-Sprint '+item"></app-switch-text-textarea>
       </div> -->
-      <form sprintForm="ngForm" (onSubmit)="addSprint()">
+      <form [formGroup]="sprintForm" (ngSubmit)="addSprint()">
         <div class="add-sprint">
           <i
             *ngIf="!sprintAddView"
@@ -249,15 +257,17 @@
               <input
                 type="text"
                 name="sprintname"
-                #sprintname="ngModel"
                 class="form-control"
                 style="display: inline-block; width: 475px"
-                [(ngModel)]="sprintName"
                 placeholder="Enter Sprint Name"
                 required
                 minlength="4"
-                ngModel
+                formControlName="name"
               />
+              <div *ngIf="sprintname.invalid && (sprintname.dirty || sprintname.touched)">
+                <div class="text-danger" style="transform: translateX(-155px);" *ngIf="sprintname.errors?.required">Please Enter Sprint Name.</div>
+                <div class="text-danger" style="transform: translateX(-131px);" *ngIf="sprintname.errors?.minlength">Please Enter Atleast 4 characters.</div>
+              </div>
 
               <div style="transform: translateX(-195px)">
                 <div style="display: inline-block">
@@ -273,6 +283,8 @@
                 [displayMonths]="2"
                 [dayTemplate]="t"
                 outsideDays="hidden"
+                name="sprintdates"
+                formControlName="dates"
               >
               </ngb-datepicker>
 
@@ -290,9 +302,9 @@
               </ng-template>
               <div style="transform: translateX(170px)">
                 <button
-                  [disabled]="!enabledAdding"
+                  [disabled]="sprintForm.invalid || !enabledAdding"
                   class="btn good-btn"
-                  (click)="addSprint()"
+                  type="submit"
                 >
                   Add
                 </button>
@@ -332,263 +344,6 @@
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-
-  <ng-template #bugContent let-modal>
-    <div class="modal-header">
-      <i class="fa fa-bug fa-2x" style="color: red"></i>
-      <h4 class="modal-title w-100" id="modal-basic-title">
-        <app-switch-text-textarea
-          [title]="'Login button is not aligned properly'"
-        ></app-switch-text-textarea>
-      </h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="row" style="margin-left: 10px; margin-top: 20px">
-        <div class="col-12 col-lg-8">
-          <div class="row">
-            <div class="col-1" style="padding-top: 2px">
-              <i class="fa fa-file"></i>
-            </div>
-            <div class="col">
-              <b>Description</b>
-            </div>
-          </div>
-          <div class="row" style="margin-top: 20px; margin-bottom: 10px">
-            <div class="col-1"></div>
-            <div class="col" style="font-size: var(--global-text-size)">
-              <app-switch-text-textarea
-                [title]="
-                  'The login button is not aligned center. It moves here and there on different screen sizes.'
-                "
-              ></app-switch-text-textarea>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-1"></div>
-            <div class="col" style="font-size: var(--global-text-size)">
-              <label for="acceptanceCriteria">Acceptance Criteria</label>
-              <div class="form-group">
-                <app-switch-text-textarea></app-switch-text-textarea>
-              </div>
-            </div>
-          </div>
-          <!-- comment Heading -->
-          <div class="row" style="margin-top: 20px; margin-bottom: 10px">
-            <div class="col-1">
-              <i class="fa fa-comments"></i>
-            </div>
-            <div class="col">
-              <b>Comments</b>
-            </div>
-          </div>
-          <!-- comments -->
-          <!-- all the comments -->
-          <!-- single comment starting -->
-          <div class="row">
-            <div class="col-1 p-0">
-              <div class="avatar" style="background-color: #66241c">KT</div>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-5 col-sm-4 h-25">
-                  <small><b>Kartik Tiwari </b></small>
-                </div>
-                <div class="col-6 col-sm-7">
-                  <small class="text-muted">1 minutes ago</small>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col h-75">
-                  <small
-                    >I need an end point of user name, phone no along with
-                    medication id.</small
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single comment ending -->
-          <!-- single comment starting -->
-          <div class="row">
-            <div class="col-1 p-0" style="padding-left: 7px">
-              <div class="avatar" style="padding-top: 4px">AS</div>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-5 col-sm-4 h-25">
-                  <small><b>Amit Shaw </b></small>
-                </div>
-                <div class="col-6 col-sm-7">
-                  <small class="text-muted">10 minutes ago</small>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col h-75">
-                  <small>I need mobile number along with user details.</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single comment ending -->
-          <!-- single comment starting -->
-          <div class="row">
-            <div class="col-1 p-0" style="padding-left: 7px">
-              <div
-                class="avatar"
-                style="padding-top: 4px; background-color: #1a5021"
-              >
-                R.S
-              </div>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-5 col-sm-4 h-25">
-                  <small><b>Rahul Shrivastav </b></small>
-                </div>
-                <div class="col-6 col-sm-7">
-                  <small class="text-muted">yesterday at 2:33 p.m</small>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col h-75">
-                  <small
-                    >Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Debitis ex, iste amet, pariatur ea odit dolores a illo
-                    adipisci consectetur itaque ad consequuntur provident
-                    excepturi aut quibusdam? Fuga, animi non.</small
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single comment ending -->
-          <!-- single comment starting -->
-          <div class="row">
-            <div class="col-1 p-0" style="padding-left: 7px">
-              <div
-                class="avatar"
-                style="padding-top: 4px; background-color: #6547d3"
-              >
-                PS
-              </div>
-            </div>
-            <div class="col">
-              <div class="row">
-                <div class="col-5 col-sm-4 h-25">
-                  <small><b>Pappu Singh </b></small>
-                </div>
-                <div class="col-6 col-sm-7">
-                  <small class="text-muted">2nd Jan at 3:45 p.m</small>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col h-75">
-                  <small
-                    >Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Debitis ex, iste amet, pariatur ea odit dolores a illo
-                    adipisci consectetur itaque ad consequuntur provident
-                    excepturi aut quibusdam? Fuga, animi non.</small
-                  >
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- single comment ending -->
-          <div class="row">
-            <div class="col-1 p-0">
-              <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
-            </div>
-            <div
-              class="col-10 col-md-10"
-              style="
-                height: 74px;
-                background-color: white;
-                padding: 0px;
-                margin: 10px;
-              "
-            >
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Write a comment..."
-                style="border: none"
-              />
-              <button class="btn good-btn" style="margin: 3px">
-                <small>Comment</small>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-lg-3">
-          <div style="margin-top: 10px">
-            <label for="startdate">Start date: </label>
-            <div class="input-group">
-              <input
-                class="form-control"
-                placeholder="yyyy-mm-dd"
-                name="sd"
-                ngbDatepicker
-                #startDate="ngbDatepicker"
-              />
-              <div class="input-group-append">
-                <button
-                  class="btn btn-outline-secondary"
-                  (click)="startDate.toggle()"
-                  type="button"
-                >
-                  <i class="fa fa-calendar-alt"></i>
-                </button>
-              </div>
-            </div>
-            <!-- <input type="date" id="startdate" name="startdate"> -->
-          </div>
-          <div style="margin-top: 10px">
-            <label for="enddate">End date:&nbsp;&nbsp;</label>
-            <div class="input-group">
-              <input
-                class="form-control"
-                placeholder="yyyy-mm-dd"
-                name="ed"
-                ngbDatepicker
-                #endDate="ngbDatepicker"
-              />
-              <div class="input-group-append">
-                <button
-                  class="btn btn-outline-secondary"
-                  (click)="endDate.toggle()"
-                  type="button"
-                >
-                  <i class="fa fa-calendar-alt"></i>
-                </button>
-              </div>
-            </div>
-            <!-- <input type="date" id="enddate" name="enddate"> -->
-          </div>
-          <div style="margin-top: 10px">Work progress (15 %)</div>
-          <div>
-            <input
-              type="range"
-              min="1"
-              max="100"
-              value="15"
-              style="width: 165px"
-            />
-          </div>
-          <div>
-            <app-tag></app-tag>
-          </div>
         </div>
       </div>
     </div>

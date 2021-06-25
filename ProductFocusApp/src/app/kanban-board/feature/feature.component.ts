@@ -27,6 +27,9 @@ export class FeatureComponent implements OnInit, OnDestroy {
     plannedEndDate: new Date(),
     actualStartDate: new Date(),
     actualEndDate: new Date(),
+    assignees: [],
+    storyPoint: 0,
+    workCompletionPercentage: 0
   };
 
   @Output('modal-closed') modalClosed = new EventEmitter<boolean>();

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SubSink } from 'subsink';
 import { StylingService } from '../side-nav/styling.service';
 import { ProductService } from '../_services/product.service';
@@ -20,11 +20,14 @@ import { SprintService } from '../_services/sprint.service';
 import {
   FeatureStatus,
   IKanbanBoard,
+  IMemberDetail,
   IModule,
   ISprint,
   ISprintInput,
 } from '../dht-common/models';
 import { ToastrService } from 'ngx-toastr';
+import { BreadcrumbService } from 'angular-crumbs';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -44,10 +47,17 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   moduleName: string | undefined;
   sprintName: string | undefined;
   productId!: number;
+  selectedProduct!: any;
+  selectedOrganization!: any;
   kanbanBoardSpinner: boolean = false;
   board: any = [];
   enabledAdding: boolean = true;
   allSprint: ISprint[] = [];
+  organizationUser: IMemberDetail[] = [];
+  sprintForm = new FormGroup({
+    name: new FormControl(''),
+    dates: new FormControl('',this.DateValidate())
+  });
 
   constructor(
     private productService: ProductService,
@@ -57,7 +67,11 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     private sprintService: SprintService,
     private calendar: NgbCalendar,
     private featureService: FeatureService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route: ActivatedRoute,
+    private breadcrumbService: BreadcrumbService,
+    private userService: UserService,
+    private router: Router
   ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 14);
@@ -65,10 +79,22 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.productId = this.activatedRoute.snapshot.params.id;
-    console.log(this.productId);
+    if(localStorage.selectedOrganization === undefined || localStorage.selectedProduct === undefined)
+      this.router.navigate(['/']);
+    this.selectedProduct = JSON.parse(localStorage.selectedProduct);
+    this.selectedOrganization = JSON.parse(localStorage.selectedOrganization);
+
+    this.breadcrumbService.changeBreadcrumb(this.route.snapshot,this.selectedProduct.name);
     this.setModules();
     this.setSprint();
+    this.setAssignedTo();
     this.setKanbanBoard();
+  }
+
+  setAssignedTo(){
+    this.userService.getUserListByOrganization(this.selectedOrganization.id).subscribe(x => {
+      this.organizationUser = x.members;
+    });
   }
 
   setSprint() {
@@ -192,6 +218,10 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       this.toDate = null;
       this.fromDate = date;
     }
+    this.sprintForm = new FormGroup({
+      name: new FormControl(this.sprintForm.value['name']),
+      dates: new FormControl('',this.DateValidate())
+    });
   }
 
   isHovered(date: NgbDate) {
@@ -253,4 +283,22 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   public get featureStatus(): typeof FeatureStatus {
     return FeatureStatus;
   }
+  DateValidate(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      console.log(control,this.fromDate,this.toDate);
+      if(this.toDate == null)
+        return {dateNotChosen: true};
+      if (this.fromDate && this.toDate) {
+        const isRangeValid = (this.ngbDateToDate(this.toDate).getTime()-this.ngbDateToDate(this.fromDate).getTime() > 0);
+        return isRangeValid ? null : {dateRange:true};
+      }
+      return null;
+    }
+  }
+  public get sprintname() {
+    return this.sprintForm.value['name'];
+  }
 }
+
+import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { UserService } from '../_services/user.service';

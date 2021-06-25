@@ -1,0 +1,17 @@
+<div
+*ngIf="userList.length > 4"
+class="user"
+>  +{{ userList.length - 3 }}
+</div>
+<div
+  *ngIf="userList.length == 4"
+  class="user"
+>
+  {{ userList[3].name | shortname }}
+</div>
+<div
+  *ngFor="let user of userListShow"
+  class="user"
+>
+  {{ user.name | shortname }}
+</div>
