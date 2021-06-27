@@ -19,8 +19,7 @@ export interface IFeature {
 }
 
 export interface IAddOrganizationInput {
-  organizationName: string,
-  email: string,
+  organizationName: string
 }
 
 export interface IAddProductInOrganizationInput {

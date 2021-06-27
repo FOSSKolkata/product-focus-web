@@ -71,7 +71,8 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private dateService: DateFunctionService
   ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 14);
@@ -261,8 +262,8 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     var input: ISprintInput = {
       productId: this.productId,
       name: this.sprintName,
-      startDate: this.ngbDateToDate(this.fromDate),
-      endDate: this.ngbDateToDate(this.toDate),
+      startDate: this.dateService.ngbDateToDate(this.fromDate),
+      endDate: this.dateService.ngbDateToDate(this.toDate),
     };
     this.sprintService.addSprint(input).subscribe(
       (x) => {
@@ -276,9 +277,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngbDateToDate(ngbDate: NgbDateStruct) {
-    return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day + 1);
-  }
 
   public get featureStatus(): typeof FeatureStatus {
     return FeatureStatus;
@@ -289,7 +287,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       if(this.toDate == null)
         return {dateNotChosen: true};
       if (this.fromDate && this.toDate) {
-        const isRangeValid = (this.ngbDateToDate(this.toDate).getTime()-this.ngbDateToDate(this.fromDate).getTime() > 0);
+        const isRangeValid = (this.dateService.ngbDateToDate(this.toDate).getTime()-this.dateService.ngbDateToDate(this.fromDate).getTime() > 0);
         return isRangeValid ? null : {dateRange:true};
       }
       return null;
@@ -301,4 +299,5 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 }
 
 import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { UserService } from '../_services/user.service';
+import { UserService } from '../_services/user.service';import { DateFunctionService } from '../dht-common/date-function.service';
+

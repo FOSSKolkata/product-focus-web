@@ -95,7 +95,7 @@
           ></i>
         </button>
       </div>
-      <div class="col">
+      <div class="col" *ngIf="!!this.selectedOrganization">
         <a routerLink="/organization" class="nav-link text-dark float-right">
           <i class="fa fa-cog"></i>
           Settings

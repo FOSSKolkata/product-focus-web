@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { DateFunctionService } from 'src/app/dht-common/date-function.service';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { SprintService } from 'src/app/_services/sprint.service';
 import { IFeature, IFeatureDetails, ISprint } from '../../dht-common/models';
@@ -79,7 +80,8 @@ export class FeatureDetailsComponent implements OnInit {
   constructor(
     private featureService: FeatureService,
     private sprintService: SprintService,
-    private router: Router
+    private router: Router,
+    private dateService: DateFunctionService
   ) {}
 
   ngOnInit(): void {
@@ -103,10 +105,10 @@ export class FeatureDetailsComponent implements OnInit {
       .subscribe((x) => {
         console.log('FeatureDetails Res', x);
         this.featureDetails = x;
-        this.startDate = this.dateToNgbDate(
+        this.startDate = this.dateService.dateToNgbDate(
           new Date(this.featureDetails.plannedStartDate)
         );
-        this.endDate = this.dateToNgbDate(
+        this.endDate = this.dateService.dateToNgbDate(
           new Date(this.featureDetails.plannedEndDate)
         );
       });
@@ -155,9 +157,9 @@ export class FeatureDetailsComponent implements OnInit {
     } else if (key == ModifyColumnIdentifier.acceptanceCriteria) {
       object.acceptanceCriteria = value;
     } else if (key == ModifyColumnIdentifier.plannedStartDate) {
-      object.plannedStartDate = this.ngbDateToDate(value);
+      object.plannedStartDate = this.dateService.ngbDateToDate(value);
     } else if (key == ModifyColumnIdentifier.plannedEndDate) {
-      object.plannedEndDate = this.ngbDateToDate(value);
+      object.plannedEndDate = this.dateService.ngbDateToDate(value);
     } else if (key == ModifyColumnIdentifier.isBlocked) {
       object.isBlocked = value;
       this.featureDetails.isBlocked = value; // do not need to call api again
@@ -173,17 +175,6 @@ export class FeatureDetailsComponent implements OnInit {
     this.featureService.modifyFeatureElement(object).subscribe((x) => {
       console.log(x);
     });
-  }
-
-  dateToNgbDate(date: Date): NgbDateStruct {
-    return {
-      day: date.getUTCDate(),
-      month: date.getUTCMonth() + 1,
-      year: date.getUTCFullYear(),
-    };
-  }
-  ngbDateToDate(ngbDate: NgbDateStruct) {
-    return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day + 1);
   }
 
   public get modifyColumnIdentifier(): typeof ModifyColumnIdentifier {

@@ -41,8 +41,9 @@ export class OrganizationHomeComponent implements OnInit {
       (res) => {
         this.organizationSpinner = false;
         this.organizationList = res;
-        this.selectOrganization(this.organizationList[0]);
-        if (this.selectedOrganization != undefined)
+        if(this.organizationList.length >= 1)
+          this.selectOrganization(this.organizationList[0]);
+        if (this.selectedOrganization !== undefined)
           this.setProductList(this.selectedOrganization.id);
       },
       (err) => {
@@ -58,8 +59,7 @@ export class OrganizationHomeComponent implements OnInit {
     }
     this.enabledAdding = false;
     var addOrganizationInput: IAddOrganizationInput = {
-      organizationName: this.organizationName,
-      email: this.authService.instance.getAllAccounts()[0].username,
+      organizationName: this.organizationName
     };
     this.organizationService.addOrganization(addOrganizationInput).subscribe(
       (res) => {
