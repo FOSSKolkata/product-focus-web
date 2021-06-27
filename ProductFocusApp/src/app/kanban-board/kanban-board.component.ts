@@ -45,7 +45,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   moduleAddView: boolean = false;
   sprintAddView: boolean = false;
   moduleName: string | undefined;
-  sprintName: string | undefined;
+  sprintName: string = "";
   productId!: number;
   selectedProduct!: any;
   selectedOrganization!: any;
@@ -269,6 +269,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       (x) => {
         this.toastr.success('Sprint added','Success');
         console.log(x);
+        this.setSprint();
         this.sprintAddView = false;
       },
       (err) => {
