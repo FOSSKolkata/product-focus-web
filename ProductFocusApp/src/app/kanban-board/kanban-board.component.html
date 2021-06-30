@@ -13,10 +13,9 @@
     <mat-form-field>
       <mat-label>Sprint</mat-label>
       <mat-select>
-        <mat-option>ALL</mat-option>
         <mat-option
           *ngFor="let sprint of allSprint"
-          (click)="filterSprint(sprint)"
+          (click)="selectSprint(sprint)"
           [value]="sprint.name"
           >{{ sprint.name }}</mat-option
         >
@@ -26,8 +25,14 @@
   <div style="display: inline-block; vertical-align: top; margin: 0 10px">
     <mat-form-field>
       <mat-label>Assigned To</mat-label>
-      <mat-select multiple>
-        <mat-option *ngFor="let user of organizationUser" [value]="user.name">{{user.name}}</mat-option>
+      <mat-select
+        multiple
+        [(ngModel)]="selectedUserIds"
+        (closed)="setKanbanBoard()"
+      >
+        <mat-option *ngFor="let user of organizationUser" [value]="user.id">{{
+          user.name
+        }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -192,19 +197,29 @@
                   [disabled]="!enabledAdding || addModuleForm.invalid"
                   type="submit"
                   class="btn good-btn"
-                  style="display: inline-block; vertical-align: middle; margin: 0 5px;"
+                  style="
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin: 0 5px;
+                  "
                 >
                   Add
                 </button>
-                <i *ngIf="enabledAdding"
+                <i
+                  *ngIf="enabledAdding"
                   (click)="moduleAddView = false"
                   class="fa fa-times"
                   id="cancel-task"
                   style="display: inline-block; vertical-align: middle"
                 ></i>
-                <div *ngIf="module.invalid && (module.dirty || module.touched)" class="text-danger">
+                <div
+                  *ngIf="module.invalid && (module.dirty || module.touched)"
+                  class="text-danger"
+                >
                   <div *ngIf="module.errors?.required">Name is required.</div>
-                  <div *ngIf="module.errors?.minlength">Name should be atleast 4 characters long.</div>
+                  <div *ngIf="module.errors?.minlength">
+                    Name should be atleast 4 characters long.
+                  </div>
                 </div>
               </form>
             </div>
@@ -265,16 +280,34 @@
                 minlength="4"
                 formControlName="name"
               />
-              <div *ngIf="sprintname.invalid && (sprintname.dirty || sprintname.touched)">
-                <div class="text-danger" style="transform: translateX(-155px);" *ngIf="sprintname.errors?.required">Please Enter Sprint Name.</div>
-                <div class="text-danger" style="transform: translateX(-131px);" *ngIf="sprintname.errors?.minlength">Please Enter Atleast 4 characters.</div>
+              <div
+                *ngIf="
+                  sprintname.invalid && (sprintname.dirty || sprintname.touched)
+                "
+              >
+                <div
+                  class="text-danger"
+                  style="transform: translateX(-155px)"
+                  *ngIf="sprintname.errors?.required"
+                >
+                  Please Enter Sprint Name.
+                </div>
+                <div
+                  class="text-danger"
+                  style="transform: translateX(-131px)"
+                  *ngIf="sprintname.errors?.minlength"
+                >
+                  Please Enter Atleast 4 characters.
+                </div>
               </div>
 
               <div style="transform: translateX(-195px)">
                 <div style="display: inline-block">
                   Start<span style="color: red">*</span>
                 </div>
-                <div style="display: inline-block; transform: translateX(190px)">
+                <div
+                  style="display: inline-block; transform: translateX(190px)"
+                >
                   End<span style="color: red">*</span>
                 </div>
               </div>
@@ -334,10 +367,13 @@
             <tbody>
               <tr *ngFor="let sprint of allSprint">
                 <td>
-                  <span>{{sprint.name}}</span>
+                  <span>{{ sprint.name }}</span>
                 </td>
                 <td>
-                  <span>{{sprint.startDate | date: "shortDate" }} - {{sprint.endDate | date: "shortDate" }}</span>
+                  <span
+                    >{{ sprint.startDate | date: "shortDate" }} -
+                    {{ sprint.endDate | date: "shortDate" }}</span
+                  >
                 </td>
                 <!-- <td>
                   <i class="fa fa-edit"></i>

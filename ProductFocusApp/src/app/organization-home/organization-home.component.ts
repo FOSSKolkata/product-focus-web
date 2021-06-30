@@ -1,11 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import {
   IAddOrganizationInput,
-  IAddProductInOrganizationInput,
-  IProduct,
 } from '../dht-common/models';
 import { OrganizationService } from '../_services/organization.service';
 
@@ -18,19 +16,15 @@ export class OrganizationHomeComponent implements OnInit {
   error!: HttpErrorResponse;
   constructor(
     private organizationService: OrganizationService,
-    private authService: MsalService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
-  active: boolean = false;
   organizationAddView: boolean = false;
-  productAddView: boolean = false;
   organizationName: string | undefined;
   selectedOrganization: any;
-  productName: string | undefined;
   organizationList: any = [];
-  productList: IProduct[] = [];
   organizationSpinner = false;
-  productSpinner = false;
   enabledAdding: boolean = true;
   ngOnInit(): void {
     this.setOrganizationList();
@@ -39,12 +33,14 @@ export class OrganizationHomeComponent implements OnInit {
     this.organizationSpinner = true;
     this.organizationService.getOrganizationListByUser().subscribe(
       (res) => {
+        console.log("orga: ", res);
         this.organizationSpinner = false;
         this.organizationList = res;
-        if(this.organizationList.length >= 1)
+        if (this.organizationList.length >= 1) {
           this.selectOrganization(this.organizationList[0]);
-        if (this.selectedOrganization !== undefined)
-          this.setProductList(this.selectedOrganization.id);
+          localStorage.selectedOrganization = JSON.stringify(this.organizationList[0]);
+          this.router.navigate(['organization-home', this.organizationList[0].name]);
+        }
       },
       (err) => {
         this.organizationSpinner = false;
@@ -53,6 +49,7 @@ export class OrganizationHomeComponent implements OnInit {
       }
     );
   }
+
   addOrganization() {
     if (this.organizationName === undefined || this.organizationName == '') {
       return;
@@ -64,68 +61,23 @@ export class OrganizationHomeComponent implements OnInit {
     this.organizationService.addOrganization(addOrganizationInput).subscribe(
       (res) => {
         // success
-        this.toastr.success("Organization added.","Success");
+        this.toastr.success("Organization added.", "Success");
         this.organizationAddView = false;
         this.organizationName = '';
         this.setOrganizationList();
         this.enabledAdding = true;
       },
       (err) => {
-        this.toastr.error("Organization not added","Failed");
+        this.toastr.error("Organization not added", "Failed");
         this.enabledAdding = true;
       }
     );
   }
-  setProductList(id: number) {
-    this.productSpinner = true;
-    this.productList = [];
-    this.organizationService.getProductsByOrganizationId(id).subscribe(
-      (res) => {
-        this.productSpinner = false;
-        this.productList = res;
-        console.log(res);
-      },
-      (err) => {
-        alert(err);
-      }
-    );
-  }
+
   selectOrganization(organization: any) {
     this.selectedOrganization = organization;
     localStorage.lastSelctedOrganizationId = this.selectedOrganization.id;
     localStorage.selectedOrganization = JSON.stringify(this.selectedOrganization);
-  }
-  addProduct() {
-    if (this.productName === undefined || this.productName == '') {
-      return;
-    }
-    if (this.selectedOrganization == undefined) return;
-    this.enabledAdding = false;
-    var addProductInOrganizationInput: IAddProductInOrganizationInput = {
-      name: this.productName,
-    };
-    this.organizationService
-      .addProductInOrganization(
-        this.selectedOrganization.id,
-        addProductInOrganizationInput
-      )
-      .subscribe(
-        (res) => {
-          this.toastr.success("Product added.","Success");
-          this.productName = '';
-          this.productAddView = false;
-          this.enabledAdding = true;
-          if (this.selectedOrganization != undefined)
-            this.setProductList(this.selectedOrganization.id);
-        },
-        (err) => {
-          this.toastr.error("Product not added","Failed");
-          this.enabledAdding = true;
-        }
-      );
-  }
-  setLastProductId(product: any) {
-    localStorage.setItem('productId', product.id.toString());
-    localStorage.selectedProduct = JSON.stringify(product);
+    this.router.navigate(['./organization-home', organization.name]);
   }
 }

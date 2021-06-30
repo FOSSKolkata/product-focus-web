@@ -54,6 +54,13 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   enabledAdding: boolean = true;
   allSprint: ISprint[] = [];
   organizationUser: IMemberDetail[] = [];
+  currentSprint: ISprint = {
+    id: -1,
+    name: '',
+    startDate: new Date(),
+    endDate: new Date()
+  }
+  selectedUserIds = [];
   sprintForm = new FormGroup({
     name: new FormControl(''),
     dates: new FormControl('',this.DateValidate())
@@ -89,7 +96,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.setModules();
     this.setSprint();
     this.setAssignedTo();
-    this.setKanbanBoard();
   }
 
   setAssignedTo(){
@@ -101,11 +107,14 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   setSprint() {
     this.sprintService.getSprintByProductId(this.productId).subscribe((x) => {
       this.allSprint = x;
+      console.log("allsprints",x);
+      this.currentSprint = this.allSprint[0];
     });
   }
 
-  filterSprint(sprint: any) {
-    console.log(sprint);
+  selectSprint(sprint: ISprint) {
+    this.currentSprint = sprint;
+    this.setKanbanBoard();
   }
 
   setKanbanBoard() {
@@ -113,7 +122,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.kanbanBoardSpinner = true;
     this.board = [];
     this.productService
-      .getKanbanViewByProductId(this.productId)
+      .getKanbanViewByProductIdAndQuery(this.productId,this.currentSprint.id,this.selectedUserIds)
       .subscribe((x) => {
         this.kanbanBoardSpinner = false;
         this.kanbanBoard = x;

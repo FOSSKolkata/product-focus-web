@@ -1,18 +1,3 @@
-.column-control {
-  background-color: var(--white);
-  margin: 1px;
-  padding: 65px 25px 65px 25px;
-  height: 150px;
-  text-align: center;
-}
-
-.add-product {
-  background-color: var(--white);
-  margin: 1px;
-  padding: 40px 25px 40px 25px;
-  height: 150px;
-}
-
 .nav li {
   cursor: pointer;
 }
@@ -23,36 +8,6 @@
   transition: all 0.4s;
 }
 
-.module-content {
-  background-color: var(--light-gray);
-  margin: 2px;
-}
-
-#sidebar.active {
-  margin-left: -17rem;
-}
-
-#content.active {
-  width: 98%;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  #sidebar.active {
-    margin-left: -17rem;
-  }
-  #sidebar {
-    margin-left: 0;
-  }
-  #content.active {
-    width: 100%;
-    margin: 0;
-  }
-  #content {
-    margin-left: 17rem;
-    width: calc(100% - 17rem);
-  }
-}
 
 .add div button {
   margin: 5px 5px 5px 0;
@@ -66,12 +21,6 @@
 .active-item,
 .nav-item:hover {
   background-color: var(--dark-gray);
-}
-
-@media (min-width: 600px) {
-  .screen {
-    display: none;
-  }
 }
 
 a:link {

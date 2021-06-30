@@ -1,7 +1,6 @@
 <div *ngIf="!error">
   <div
     class="vertical-nav bg-white"
-    [class.active]="active"
     id="sidebar"
     style="overflow: auto; display: inline-block;"
   >
@@ -66,125 +65,16 @@
         *ngFor="let organization of organizationList"
         class="nav-item"
         [class.active-item]="organization.id == selectedOrganization.id"
-        (click)="
-          setProductList(organization.id); selectOrganization(organization)
-        "
       >
-        <div class="nav-link">
+        <div class="nav-link" (click)="selectOrganization(organization)">
           {{ organization.name }}
         </div>
       </li>
     </ul>
   </div>
 
-  <div style="display: inline-block; vertical-align: top; width: calc(100vw - 19rem);;">
-    <div *ngIf="selectedOrganization" class="ml-5">
-      {{ selectedOrganization.name }}
-    </div>
-    <div *ngIf="!this.organizationSpinner" class="row">
-      <div class="col">
-        <button
-          id="sidebarCollapse"
-          class="btn-transparent screen"
-          (click)="active = !active"
-        >
-          <i
-            class="fa m-2 ml-5"
-            [class.fa-arrow-right]="active"
-            [class.fa-arrow-left]="!active"
-          ></i>
-        </button>
-      </div>
-      <div class="col" *ngIf="!!this.selectedOrganization">
-        <a routerLink="/organization" class="nav-link text-dark float-right">
-          <i class="fa fa-cog"></i>
-          Settings
-        </a>
-      </div>
-    </div>
-
-    <app-spinner [is-spinner-active]="productSpinner"></app-spinner>
-    <div
-      [style.display]="!productSpinner"
-      *ngIf="selectedOrganization"
-      class="row module-content ml-5"
-    >
-      <div
-        *ngFor="let product of productList"
-        class="col-lg-4 col-md-6 mt-3 mb-3"
-      >
-        <div class="column-control">
-          <i
-            class="fa fa-ellipsis-h"
-            style="position: absolute; right: 20px; top: 0px"
-          ></i>
-          <a routerLink="/product-roadmap">
-            <i
-              class="fa fa-road fa-2x"
-              style="position: absolute; top: 110px; left: 30px"
-            ></i>
-          </a>
-          <a
-            [routerLink]="['/products', product.id, 'kanban-board']"
-            (click)="setLastProductId(product)"
-            >{{ product.name }}</a
-          >
-        </div>
-      </div>
-      <div
-        class="col-lg-4 col-md-6 mt-3 mb-3 pointer"
-        *ngIf="!productAddView || !productSpinner"
-      >
-        <div
-          *ngIf="!productAddView"
-          (click)="productAddView = true"
-          class="column-control"
-        >
-          <a><i class="fa fa-plus">Add</i></a>
-        </div>
-        <div *ngIf="productAddView" class="add-product add">
-          <form #productForm="ngForm" (ngSubmit)="addProduct()">
-            <input
-              type="text"
-              name="productname"
-              class="form-control"
-              #productname="ngModel"
-              [(ngModel)]="productName"
-              (keyup.enter)="addProduct()"
-              placeholder="Enter product name"
-              [readonly]="!enabledAdding"
-              required
-              minlength="4"
-            />
-            <div *ngIf="productname.invalid && (productname.dirty || productname.touched)">
-              <div class="text-danger" *ngIf="productname.errors?.required">
-                Name is required.
-              </div>
-              <div class="text-danger" *ngIf="productname.errors?.minlength">
-                Enter atleast 4 characters.
-              </div>
-            </div>
-            <div>
-              <button
-                [disabled]="productForm.invalid || !enabledAdding"
-                type="submit"
-                class="btn good-btn"
-              >
-                <div *ngIf="!enabledAdding" class="spinner-border spinner-border-sm" role="status">
-                  <span class="sr-only">Loading...</span>
-                </div>
-                  {{enabledAdding?"Add":"Adding"}}
-              </button>
-              <i *ngIf="enabledAdding"
-                (click)="productAddView = false"
-                class="fa fa-times"
-                id="cancel-task"
-              ></i>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
+  <div style="display: inline-block; vertical-align: top; width: calc(100vw - 19rem);">
+    <router-outlet></router-outlet>
   </div>
 </div>
 <div *ngIf="!!error">

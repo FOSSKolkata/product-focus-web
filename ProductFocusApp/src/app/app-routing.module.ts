@@ -12,6 +12,7 @@ import { OrganizationMembersComponent } from './organization/organization-member
 import { ErrorComponent } from './garbage/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
+import { ProductListComponent } from './organization-home/product-list/product-list.component';
 
 const SECURE_APP_ROUTES: Routes = [
   {
@@ -69,7 +70,15 @@ const routes: Routes = [
     path: 'organization-home',
     component: OrganizationHomeComponent,
     canActivate: [MsalGuard],
-    data: {breadcrumb: 'Organization Home'}
+    data: {breadcrumb: 'Organization Home'},
+    children: [
+      {
+        path: ':organizationName',
+        component: ProductListComponent,
+        canActivate: [MsalGuard],
+        data: {breadcrumb: 'Organization Home'}
+      }
+    ]
   },
   {
     path: 'organization',
