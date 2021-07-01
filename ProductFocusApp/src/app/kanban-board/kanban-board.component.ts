@@ -60,6 +60,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     startDate: new Date(),
     endDate: new Date()
   }
+  selectedSprint = this.currentSprint;
   selectedUserIds = [];
   sprintForm = new FormGroup({
     name: new FormControl(''),
@@ -107,8 +108,9 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   setSprint() {
     this.sprintService.getSprintByProductId(this.productId).subscribe((x) => {
       this.allSprint = x;
-      console.log("allsprints",x);
       this.currentSprint = this.allSprint[0];
+      this.selectedSprint = JSON.parse(JSON.stringify(this.currentSprint));
+      this.selectSprint(this.currentSprint);
     });
   }
 

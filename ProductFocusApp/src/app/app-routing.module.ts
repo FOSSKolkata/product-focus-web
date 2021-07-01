@@ -35,12 +35,7 @@ const SECURE_APP_ROUTES: Routes = [
       import('./news-report/news-report.module').then(
         (m) => m.NewsReportModule
       ),
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent,
-    data: {breadcrumb: 'Profile'}
-  },
+  }
 ];
 
 const routes: Routes = [
@@ -54,15 +49,13 @@ const routes: Routes = [
     redirectTo: 'organization-home',
     pathMatch: 'full',
     data: {breadcrumb: 'Organization'}
-  },
-  {
+  },{
     path: '',
     component: LayoutComponent,
     canActivate: [MsalGuard],
     children: SECURE_APP_ROUTES,
     runGuardsAndResolvers: 'always',
-  },
-  {
+  },{
     path: 'home',
     component: HomeComponent,
   },
@@ -108,6 +101,11 @@ const routes: Routes = [
     component: InvitationComponent,
     canActivate: [MsalGuard],
     data: {breadcrumb: 'Invitation'}
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    data: {breadcrumb: 'Profile'}
   },
   {
     // Needed for hash routing

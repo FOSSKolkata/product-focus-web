@@ -12,7 +12,7 @@
   <div style="display: inline-block; vertical-align: top; margin: 0 10px">
     <mat-form-field>
       <mat-label>Sprint</mat-label>
-      <mat-select>
+      <mat-select [(value)]="selectedSprint.name">
         <mat-option
           *ngFor="let sprint of allSprint"
           (click)="selectSprint(sprint)"
