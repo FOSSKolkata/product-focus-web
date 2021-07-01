@@ -411,6 +411,7 @@
           placeholder="yyyy-mm-dd"
           name="sd"
           [(ngModel)]="startDate"
+          [maxDate]="endDate"
           ngbDatepicker
           #sDate="ngbDatepicker"
           (dateSelect)="

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FeatureComponent } from './feature/feature.component';
-import { ModuleComponent } from './module/module.component';
 import { KanbanBoardComponent } from './kanban-board.component';
 import { ProductModulesRoutingModule } from './kanban-board-routing.module';
 import { FeatureDetailsComponent } from './feature-details/feature-details.component';
@@ -43,7 +42,6 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
   declarations: [
     KanbanBoardComponent,
     FeatureComponent,
-    ModuleComponent,
     FeatureDetailsComponent,
     ManageComponent,
     AddUserComponent,

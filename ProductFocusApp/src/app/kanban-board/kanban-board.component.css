@@ -19,7 +19,7 @@
   display: inline-block;
   width: 300px;
   vertical-align: top;
-  min-height: 10px;
+  min-height: 57px;
 }
 
 .module {
@@ -31,7 +31,8 @@
   background-color: skyblue;
   margin: 5px 0;
   width: fit-content;
-  border: 1px dashed black;
+  /* border: 1px dashed black; */
+  border-radius: 3px;
 }
 
 .module-header {
@@ -129,34 +130,6 @@ div[ngbDropdownMenu] {
 .effect:hover {
   background-color: cyan;
   cursor: pointer;
-}
-
-.arrow-head {
-  width: 10px;
-  height: 10px;
-  left: 80px;
-  top: 20px;
-  background-color: transparent;
-  border-top: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid blue;
-  position: absolute;
-}
-
-.arrow-tail {
-  top: 25px;
-  width: 80px;
-  background-color: blue;
-  height: 2px;
-  position: absolute;
-}
-
-.arrow-container {
-  position: relative;
-  height: 60px;
-  margin: 5px 0;
-  width: 100px;
-  display: inline-block;
 }
 
 .reason {
