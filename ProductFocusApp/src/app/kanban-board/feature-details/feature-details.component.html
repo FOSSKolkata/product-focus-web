@@ -437,6 +437,7 @@
           placeholder="yyyy-mm-dd"
           name="ed"
           [(ngModel)]="endDate"
+          [minDate]="startDate"
           ngbDatepicker
           #eDate="ngbDatepicker"
           (dateSelect)="
