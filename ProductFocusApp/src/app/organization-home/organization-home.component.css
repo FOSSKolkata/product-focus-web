@@ -34,3 +34,23 @@ a:link {
   box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.4s;
 }
+
+.column-control {
+  background-color: var(--white);
+  margin: 1px;
+  padding: 65px 25px 65px 25px;
+  height: 150px;
+  text-align: center;
+}
+.module-content {
+  background-color: var(--light-gray);
+  margin: 2px;
+}
+
+.add-product {
+  background-color: var(--white);
+  margin: 1px;
+  padding: 40px 25px 40px 25px;
+  height: 150px;
+}
+

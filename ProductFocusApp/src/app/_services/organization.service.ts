@@ -41,8 +41,8 @@ export class OrganizationService {
     );
   }
 
-  getOrganizationListByUser(): Observable<IOrganization> {
-    return this.http.get<IOrganization>(
+  getOrganizationListByUser(): Observable<IOrganization[]> {
+    return this.http.get<IOrganization[]>(
       apiConfig.uri + '/Organization/GetOrganizationListByUser'
     ).pipe(
       catchError(this.handleError)

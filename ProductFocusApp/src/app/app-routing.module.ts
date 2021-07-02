@@ -12,7 +12,6 @@ import { OrganizationMembersComponent } from './organization/organization-member
 import { ErrorComponent } from './garbage/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
-import { ProductListComponent } from './organization-home/product-list/product-list.component';
 
 const SECURE_APP_ROUTES: Routes = [
   {
@@ -41,14 +40,14 @@ const SECURE_APP_ROUTES: Routes = [
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'organization-home',
+    redirectTo: 'organizations',
     pathMatch: 'full'
   },
   {
     path: 'id_token',
-    redirectTo: 'organization-home',
+    redirectTo: 'organizations',
     pathMatch: 'full',
-    data: {breadcrumb: 'Organization'}
+    data: {breadcrumb: 'Organizations'}
   },{
     path: '',
     component: LayoutComponent,
@@ -60,20 +59,16 @@ const routes: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'organization-home',
+    path: 'organizations',
     component: OrganizationHomeComponent,
     canActivate: [MsalGuard],
-    data: {breadcrumb: 'Organization Home'},
-    children: [
-      {
-        path: ':organizationName',
-        component: ProductListComponent,
-        canActivate: [MsalGuard],
-        data: {breadcrumb: 'Organization Home'}
-      }
-    ]
-  },
-  {
+    data: {breadcrumb: 'Organization Home'}
+  },{
+    path: 'organizations/:organization-name',
+    component: OrganizationHomeComponent,
+    canActivate: [MsalGuard],
+    data: {breadcrumb: ' '}
+  },{
     path: 'organization',
     component: OrganizationComponent,
     data: {breadcrumb: 'Organization'},
