@@ -7,7 +7,4 @@ import { Component } from '@angular/core';
 })
 export class LayoutComponent {
   constructor() {}
-  boss(event: any) {
-    alert(event);
-  }
 }

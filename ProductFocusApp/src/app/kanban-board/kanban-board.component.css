@@ -11,13 +11,13 @@
 .state-header {
   display: inline-block;
   text-align: center;
-  width: 300px;
+  width: 270px;
 }
 
 .feature-section {
   text-align: left;
   display: inline-block;
-  width: 300px;
+  width: 270px;
   vertical-align: top;
   min-height: 57px;
 }
@@ -67,7 +67,7 @@ i::after,
 .mid-nav {
   background-color: var(--light-gray);
   z-index: 1;
-  width: 100vw;
+  width: calc(100vw - 75px);
   padding: 5px 0px;
 }
 
