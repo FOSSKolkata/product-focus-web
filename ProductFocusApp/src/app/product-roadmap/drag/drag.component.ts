@@ -4,7 +4,7 @@ import { ResizeEvent } from 'angular-resizable-element';
 @Component({
   selector: 'app-drag',
   templateUrl: './drag.component.html',
-  styleUrls: ['./drag.component.css'],
+  styleUrls: ['./drag.component.scss'],
 })
 export class DragComponent implements OnInit {
   public style: object = {};

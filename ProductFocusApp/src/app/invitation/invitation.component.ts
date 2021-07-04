@@ -8,7 +8,7 @@ import { InvitationService } from '../_services/invitation.service';
 @Component({
   selector: 'app-invitation',
   templateUrl: './invitation.component.html',
-  styleUrls: ['./invitation.component.css'],
+  styleUrls: ['./invitation.component.scss'],
 })
 export class InvitationComponent implements OnInit {
   invitationData!: IInvitationInput;

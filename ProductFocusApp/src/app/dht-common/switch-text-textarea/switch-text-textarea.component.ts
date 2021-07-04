@@ -11,7 +11,7 @@ import {
 @Component({
   selector: 'app-switch-text-textarea',
   templateUrl: './switch-text-textarea.component.html',
-  styleUrls: ['./switch-text-textarea.component.css'],
+  styleUrls: ['./switch-text-textarea.component.scss'],
 })
 export class SwitchTextTextareaComponent implements OnInit {
   @Input('title') title: string = '';

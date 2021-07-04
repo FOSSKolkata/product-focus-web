@@ -4,7 +4,7 @@ import { StylingService } from 'src/app/side-nav/styling.service';
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.css'],
+  styleUrls: ['./manage.component.scss'],
 })
 export class ManageComponent implements OnInit {
   isActive: boolean = true;

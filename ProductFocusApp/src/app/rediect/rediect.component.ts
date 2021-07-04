@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 @Component({
   selector: 'app-rediect',
   templateUrl: './rediect.component.html',
-  styleUrls: ['./rediect.component.css'],
+  styleUrls: ['./rediect.component.scss'],
 })
 export class RediectComponent implements OnInit {
   private readonly _destroying$ = new Subject<void>();

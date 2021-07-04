@@ -4,7 +4,7 @@ import { StylingService } from '../side-nav/styling.service';
 @Component({
   selector: 'app-product-roadmap',
   templateUrl: './product-roadmap.component.html',
-  styleUrls: ['./product-roadmap.component.css'],
+  styleUrls: ['./product-roadmap.component.scss'],
 })
 export class ProductRoadmapComponent implements OnInit {
   line: Number = 60;

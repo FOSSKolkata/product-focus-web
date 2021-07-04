@@ -5,7 +5,7 @@ import { StylingService } from '../side-nav/styling.service';
 @Component({
   selector: 'app-news-report',
   templateUrl: './news-report.component.html',
-  styleUrls: ['./news-report.component.css'],
+  styleUrls: ['./news-report.component.scss'],
 })
 export class NewsReportComponent implements OnInit {
   constructor(public styling: StylingService) {}

@@ -21,7 +21,7 @@ import { IMember } from 'src/app/dht-common/models';
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.css'],
+  styleUrls: ['./add-user.component.scss'],
 })
 export class AddUserComponent implements OnInit, OnChanges {
   @ViewChild('instance', { static: true }) instance!: NgbTypeahead;

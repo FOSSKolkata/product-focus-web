@@ -12,6 +12,7 @@ import { OrganizationMembersComponent } from './organization/organization-member
 import { ErrorComponent } from './garbage/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
+import { DailyScrumComponent } from './daily-scrum/daily-scrum.component';
 
 const SECURE_APP_ROUTES: Routes = [
   {
@@ -34,6 +35,9 @@ const SECURE_APP_ROUTES: Routes = [
       import('./news-report/news-report.module').then(
         (m) => m.NewsReportModule
       ),
+  },{
+    path: 'scrum',
+    component: DailyScrumComponent
   }
 ];
 

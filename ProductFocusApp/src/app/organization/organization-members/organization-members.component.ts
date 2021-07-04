@@ -17,7 +17,7 @@ import { UserService } from 'src/app/_services/user.service';
 @Component({
   selector: 'app-organization-members',
   templateUrl: './organization-members.component.html',
-  styleUrls: ['./organization-members.component.css'],
+  styleUrls: ['./organization-members.component.scss'],
 })
 export class OrganizationMembersComponent implements OnInit {
   usersMail: string[] = [];

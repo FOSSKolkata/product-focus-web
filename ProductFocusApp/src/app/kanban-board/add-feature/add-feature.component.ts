@@ -6,7 +6,7 @@ import { IFeatureInput } from '../../dht-common/models';
 @Component({
   selector: 'app-add-feature',
   templateUrl: './add-feature.component.html',
-  styleUrls: ['./add-feature.component.css'],
+  styleUrls: ['./add-feature.component.scss'],
 })
 export class AddFeatureComponent implements OnInit {
   @Input('module-id') moduleId!: number;

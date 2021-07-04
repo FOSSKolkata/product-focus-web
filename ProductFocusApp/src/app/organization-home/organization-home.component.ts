@@ -12,7 +12,7 @@ import { OrganizationService } from '../_services/organization.service';
 @Component({
   selector: 'app-organization-home',
   templateUrl: './organization-home.component.html',
-  styleUrls: ['./organization-home.component.css'],
+  styleUrls: ['./organization-home.component.scss'],
 })
 export class OrganizationHomeComponent implements OnInit {
   error!: HttpErrorResponse;

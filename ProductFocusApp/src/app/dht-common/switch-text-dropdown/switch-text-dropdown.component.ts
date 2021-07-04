@@ -6,7 +6,7 @@ import { ISprint } from '../models';
 @Component({
   selector: 'app-switch-text-dropdown',
   templateUrl: './switch-text-dropdown.component.html',
-  styleUrls: ['./switch-text-dropdown.component.css'],
+  styleUrls: ['./switch-text-dropdown.component.scss'],
 })
 export class SwitchTextDropdownComponent implements OnInit {
   @ViewChild(NgbDropdown) private dropdown!: NgbDropdown;

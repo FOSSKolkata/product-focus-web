@@ -13,7 +13,7 @@ import { IFeature } from '../../dht-common/models';
 @Component({
   selector: 'app-feature',
   templateUrl: './feature.component.html',
-  styleUrls: ['./feature.component.css'],
+  styleUrls: ['./feature.component.scss'],
 })
 export class FeatureComponent implements OnInit, OnDestroy {
   @Input('feature') feature: IFeature = {

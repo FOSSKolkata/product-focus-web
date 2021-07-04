@@ -5,7 +5,7 @@ import { b2cPolicies } from '../b2c-config';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   constructor(private router: Router) {}

@@ -32,7 +32,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-kanban-board-component',
   templateUrl: './kanban-board.component.html',
-  styleUrls: ['./kanban-board.component.css'],
+  styleUrls: ['./kanban-board.component.scss'],
 })
 export class KanbanBoardComponent implements OnInit, OnDestroy {
   hoveredDate: NgbDate | null = null;
