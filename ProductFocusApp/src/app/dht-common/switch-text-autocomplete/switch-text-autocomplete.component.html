@@ -1,0 +1,26 @@
+<div (click)="isAddUserActive = true; inputTextFocus(inputText)" class="section">
+  <div style="display: inline-block; min-width: 10px; min-height: 10px;">
+    <span
+      *ngFor="let user of addedUsers; index as i"
+    >
+      {{ user.name }}, &nbsp;
+    </span>
+  </div>
+  
+  <input style="display: inline-block;"
+    #inputText
+    [style.display]="isAddUserActive ? 'inline' : 'none'"
+    class="good-border"
+    [(ngModel)]="fullUserName"
+    (focusout)="isAddUserActive = false"
+    (focus)="focus$.next($any($event).target.value)"
+    (click)="click$.next($any($event).target.value)"
+    (selectItem)="addUser($event)"
+    [ngbTypeahead]="search"
+    #instance="ngbTypeahead"
+    [inputFormatter]="formatter"
+    [resultFormatter]="formatter"
+    size="10"
+  />
+  </div>
+  

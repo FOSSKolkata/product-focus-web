@@ -39,7 +39,6 @@ import { SideNavComponent } from './side-nav/side-nav.component';
 import { TopNavComponent } from './top-nav/top-nav.component';
 import { ProfileComponent } from './profile/profile.component';
 import { OrganizationService } from './_services/organization.service';
-import { StylingService } from './side-nav/styling.service';
 import { RediectComponent } from './rediect/rediect.component';
 import { UserService } from './_services/user.service';
 import { DhtCommonModule } from './dht-common/dht-common.module';
@@ -165,7 +164,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     OrganizationService,
     UserService,
     SprintService,
-    StylingService,
   ],
   bootstrap: [AppComponent, MsalRedirectComponent],
 })

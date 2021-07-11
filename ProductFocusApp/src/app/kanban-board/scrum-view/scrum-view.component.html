@@ -1,0 +1,36 @@
+<div class="infinite-scroll-x-axis">
+  <div style="overflow-y:auto; height: 77.5vh;">
+    <table>
+    <tr>
+      <th>{{currentSprint?.startDate | date:'dd-MM-YYYY'}}</th>
+      <th>Release {{currentSprint?.name}}</th>
+    </tr>
+      <tr>
+        <th>Modules</th>
+        <th>Tasks</th>
+        <th>Story Points</th>
+        <th>Estimated Start Date</th>
+        <th>Estimated End Date</th>
+        <th>Duration in days</th>
+        <th>Assigned To</th>
+        <th>Remarks</th>
+        <th>Functional Testability</th>
+        <th *ngFor="let sprintDate of sprintDates">{{sprintDate | date:'dd-MM-YYYY'}}</th>
+      </tr>
+      <tr *ngFor="let feature of board">
+        <th *ngIf="feature.name != ''" [attr.rowspan]="requireColspan(feature.name)"><b>{{feature.name}}</b></th>
+        <td><app-switch-text-input [title]="feature.title" (is-text-changed)="modifyFeature(modifyColumnIdentifier.title, $event, feature)"></app-switch-text-input></td>
+        <td><app-switch-text-input [title]="feature.storyPoint" (is-text-changed)="modifyFeature(modifyColumnIdentifier.storyPoint, $event, feature)"></app-switch-text-input></td>
+        <td><app-switch-text-datepick [date]="feature.startDate" [max]="feature.endDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedStartDate, $event,feature)"></app-switch-text-datepick></td>
+        <td><app-switch-text-datepick [date]="feature.endDate" [min]="feature.startDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedEndDate, $event,feature)"></app-switch-text-datepick></td>
+        <td>{{feature.durationInDays}}</td>
+        <td><app-switch-text-autocomplete [added-users]="feature.assignee" [other-users]="organizationUser" (is-added)="addUserInFeature($event,feature)"></app-switch-text-autocomplete></td>
+        <td></td>
+        <td></td>
+        <td *ngFor="let sprint of sprintDates">
+          <app-progress-comment></app-progress-comment>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>

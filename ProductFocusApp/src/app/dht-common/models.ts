@@ -18,6 +18,23 @@ export interface IFeature {
   workCompletionPercentage: number
 }
 
+export enum ModifyColumnIdentifier {
+  title = 1,
+  description = 2,
+  workCompletionPercentage = 3,
+  status = 4,
+  sprint = 5,
+  storyPoint = 6,
+  isBlocked = 7,
+  includeAssignee = 8,
+  excludeAssignee = 9,
+  acceptanceCriteria = 10,
+  plannedStartDate = 11,
+  plannedEndDate = 12,
+  actualStartDate = 13,
+  actualEndDate = 14,
+}
+
 export interface IAddOrganizationInput {
   organizationName: string
 }
@@ -34,6 +51,7 @@ export interface IRegisterUserInput {
 export interface IFeatureInput {
   title: string,
   workItemType: string,
+  sprintId: number
 }
 
 export interface ISprintInput {

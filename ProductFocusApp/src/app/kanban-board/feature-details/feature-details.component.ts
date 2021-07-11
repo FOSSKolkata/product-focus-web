@@ -1,27 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { SprintService } from 'src/app/_services/sprint.service';
-import { IFeature, IFeatureDetails, ISprint } from '../../dht-common/models';
-
-export enum ModifyColumnIdentifier {
-  title = 1,
-  description = 2,
-  workCompletionPercentage = 3,
-  status = 4,
-  sprint = 5,
-  storyPoint = 6,
-  isBlocked = 7,
-  includeAssignee = 8,
-  excludeAssignee = 9,
-  acceptanceCriteria = 10,
-  plannedStartDate = 11,
-  plannedEndDate = 12,
-  actualStartDate = 13,
-  actualEndDate = 14,
-}
+import { IFeature, IFeatureDetails, ISprint, ModifyColumnIdentifier } from '../../dht-common/models';
 
 @Component({
   selector: 'app-feature-details',
@@ -81,7 +65,8 @@ export class FeatureDetailsComponent implements OnInit {
     private featureService: FeatureService,
     private sprintService: SprintService,
     private router: Router,
-    private dateService: DateFunctionService
+    private dateService: DateFunctionService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -150,6 +135,8 @@ export class FeatureDetailsComponent implements OnInit {
     }
     this.featureService.modifyFeatureElement(object).subscribe((x) => {
       console.log(x);
+    },(err)=>{
+      this.toastr.error('Update is not saved!!','Not modified')
     });
   }
 

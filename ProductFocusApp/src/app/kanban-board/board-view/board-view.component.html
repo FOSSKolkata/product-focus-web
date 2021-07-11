@@ -1,0 +1,101 @@
+<div style="overflow-y:auto; height: 77.5vh;" class="infinite-scroll-x-axis">
+    <div class="state-section">
+      <div class="state-header">
+        <div class="card">
+          <div class="card-header">New</div>
+        </div>
+      </div>
+      <div class="state-header">
+        <div class="card">
+          <div class="card-header">In Progress</div>
+        </div>
+      </div>
+      <div class="state-header">
+        <div class="card">
+          <div class="card-header">Hold</div>
+        </div>
+      </div>
+      <div class="state-header">
+        <div class="card">
+          <div class="card-header">Completed</div>
+        </div>
+      </div>
+    </div>
+    <app-spinner [is-spinner-active]="kanbanBoardSpinner"></app-spinner>
+    <div
+      [style.display]="!kanbanBoardSpinner"
+      *ngFor="let module of board; let i = index"
+    >
+      <div class="module-section">
+        <div cdkDropListGroup>
+          <div *ngIf="module" class="module-header">
+            <b>{{ module.name }}</b>
+          </div>
+          <div
+            class="feature-section"
+            cdkDropList
+            (cdkDropListDropped)="drop($event, featureStatus.new)"
+            [cdkDropListData]="module[0]"
+            [id]="module.id"
+          >
+            <div *ngFor="let feature of module[0]" cdkDrag>
+              <app-feature (modal-closed)="fireChanges()" [feature]="feature">
+              </app-feature>
+            </div>
+            <div class="card" style="margin: 5px">
+              <div class="card-footer">
+                <app-add-feature
+                  *ngIf="board"
+                  [module-id]="module.id"
+                  [selected-sprint]="selectedSprint"
+                  (is-feature-added)="fireChanges()"
+                ></app-add-feature>
+              </div>
+            </div>
+          </div>
+          <div
+            class="feature-section"
+            cdkDropList
+            [cdkDropListData]="module[1]"
+            (cdkDropListDropped)="drop($event, featureStatus.inProgress)"
+            [id]="module.id"
+          >
+            <div *ngFor="let feature of module[1]" cdkDrag>
+              <app-feature (modal-closed)="fireChanges()" [feature]="feature">
+              </app-feature>
+            </div>
+          </div>
+          <div
+            class="feature-section"
+            cdkDropList
+            [cdkDropListData]="module[2]"
+            (cdkDropListDropped)="drop($event, featureStatus.hold)"
+            [id]="module.id"
+          >
+            <div *ngFor="let feature of module[2]" cdkDrag>
+              <app-feature (modal-closed)="fireChanges()" [feature]="feature">
+              </app-feature>
+            </div>
+          </div>
+          <div
+            class="feature-section"
+            cdkDropList
+            [cdkDropListData]="module[3]"
+            (cdkDropListDropped)="drop($event, featureStatus.completed)"
+            [id]="module.id"
+          >
+            <div *ngFor="let feature of module[3]" cdkDrag>
+              <app-feature [feature]="feature"> </app-feature>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      *ngIf="!board.length && !kanbanBoardSpinner"
+      style="text-align: center; margin-top: 10px"
+    >
+      No module found!!
+    </div>
+  </div>

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { StylingService } from '../side-nav/styling.service';
 
 @Component({
   selector: 'app-news-report',
@@ -8,7 +7,7 @@ import { StylingService } from '../side-nav/styling.service';
   styleUrls: ['./news-report.component.scss'],
 })
 export class NewsReportComponent implements OnInit {
-  constructor(public styling: StylingService) {}
+  constructor() {}
   startDate: NgbDateStruct | undefined;
   endDate: NgbDateStruct | undefined;
   ngOnInit(): void {}

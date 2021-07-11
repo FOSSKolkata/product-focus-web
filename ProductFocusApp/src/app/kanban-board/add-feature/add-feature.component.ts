@@ -1,18 +1,27 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ModuleService } from 'src/app/_services/module.service';
-import { IFeatureInput } from '../../dht-common/models';
+import { IFeatureInput, ISprint } from '../../dht-common/models';
 
 @Component({
   selector: 'app-add-feature',
   templateUrl: './add-feature.component.html',
   styleUrls: ['./add-feature.component.scss'],
 })
-export class AddFeatureComponent implements OnInit {
+export class AddFeatureComponent implements OnInit, OnChanges {
   @Input('module-id') moduleId!: number;
+  @Input('selected-sprint') selectedSprint: ISprint = {
+    id: -1,
+    name: '',
+    startDate: new Date(),
+    endDate: new Date()
+  }
   @Output('is-feature-added') isFeatureAdded = new EventEmitter();
   constructor(private moduleService: ModuleService,
               private toastr: ToastrService) {}
+  ngOnChanges(changes: SimpleChanges): void {
+    // console.log("sel sp",this.selectedSprint);
+  }
 
   ngOnInit(): void {}
 
@@ -28,6 +37,7 @@ export class AddFeatureComponent implements OnInit {
     var featureInput: IFeatureInput = {
       title: this.title,
       workItemType: this.workItemType,
+      sprintId: this.selectedSprint.id
     };
     this.addingFeature = true;
     this.moduleService

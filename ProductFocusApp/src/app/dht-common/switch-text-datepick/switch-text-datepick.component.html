@@ -1,0 +1,2 @@
+<input style="text-align: center;" matInput [formControl]="curr" [matDatepicker]="picker" (click)="picker.open()" (dateChange)="dateChanged($event)" [min]="minDate" [max]="maxDate">
+<mat-datepicker #picker></mat-datepicker>

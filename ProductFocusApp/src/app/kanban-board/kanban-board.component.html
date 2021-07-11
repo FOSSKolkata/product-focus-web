@@ -1,4 +1,4 @@
-<div class="margin-for-navs mid-nav" [ngStyle]="styling.sharedStyle$ | async">
+<div class="margin-for-navs mid-nav">
   <div
     style="
       display: inline-block;
@@ -36,6 +36,14 @@
       </mat-select>
     </mat-form-field>
   </div>
+  <div style="display: inline-block; height: 57px;">
+    <div style="display: grid; align-items: center; height: 100%;">
+      <mat-radio-group aria-label="Select an option">
+        <mat-radio-button value="isKanbanMode" [checked]="isKanbanMode" (change)="isKanbanMode = true">Board View</mat-radio-button>
+        <mat-radio-button value="!isKanbanMode" [checked]="!isKanbanMode" (change)="isKanbanMode = false">Scrum View</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
   <div style="display: inline-block; position: absolute; right: 30px">
     <div ngbDropdown style="margin-top: 15px">
       <i class="fa fa-cog fa-2x" id="settingsDropDown" ngbDropdownToggle></i>
@@ -51,338 +59,240 @@
   </div>
 </div>
 <div
-  class="infinite-scroll-x-axis margin-for-navs"
-  [ngStyle]="styling.sharedStyle$ | async"
+  class="margin-for-navs"
 >
-  <div class="state-section">
-    <div class="state-header">
-      <div class="card">
-        <div class="card-header">New</div>
-      </div>
-    </div>
-    <div class="state-header">
-      <div class="card">
-        <div class="card-header">In Progress</div>
-      </div>
-    </div>
-    <div class="state-header">
-      <div class="card">
-        <div class="card-header">Hold</div>
-      </div>
-    </div>
-    <div class="state-header">
-      <div class="card">
-        <div class="card-header">Completed</div>
-      </div>
-    </div>
+  <app-board-view *ngIf="isKanbanMode" [kanban-board]="kanbanBoard" (changed)="setKanbanBoard()" [selected-sprint]="selectedSprint"></app-board-view>
+  <app-scrum-view *ngIf="!isKanbanMode" [kanban-board]="kanbanBoard" [selected-sprint]="selectedSprint"></app-scrum-view>
+</div>
+<ng-template #manageModuleContent let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-  <app-spinner [is-spinner-active]="kanbanBoardSpinner"></app-spinner>
-  <div
-    [style.display]="!kanbanBoardSpinner"
-    *ngFor="let module of board; let i = index"
-  >
-    <div class="module-section">
-      <div cdkDropListGroup>
-        <div *ngIf="module" class="module-header">
-          <b>{{ module.name }}</b>
-        </div>
-        <div
-          class="feature-section"
-          cdkDropList
-          (cdkDropListDropped)="drop($event, featureStatus.new)"
-          [cdkDropListData]="module[0]"
-          [id]="module.id"
-        >
-          <div *ngFor="let feature of module[0]" cdkDrag>
-            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-            </app-feature>
-          </div>
-          <div class="card" style="margin: 5px">
-            <div class="card-footer">
-              <app-add-feature
-                *ngIf="board"
-                [module-id]="module.id"
-                (is-feature-added)="setKanbanBoard()"
-              ></app-add-feature>
-            </div>
-          </div>
-        </div>
-        <div
-          class="feature-section"
-          cdkDropList
-          [cdkDropListData]="module[1]"
-          (cdkDropListDropped)="drop($event, featureStatus.inProgress)"
-          [id]="module.id"
-        >
-          <div *ngFor="let feature of module[1]" cdkDrag>
-            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-            </app-feature>
-          </div>
-        </div>
-        <div
-          class="feature-section"
-          cdkDropList
-          [cdkDropListData]="module[2]"
-          (cdkDropListDropped)="drop($event, featureStatus.hold)"
-          [id]="module.id"
-        >
-          <div *ngFor="let feature of module[2]" cdkDrag>
-            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-            </app-feature>
-          </div>
-        </div>
-        <div
-          class="feature-section"
-          cdkDropList
-          [cdkDropListData]="module[3]"
-          (cdkDropListDropped)="drop($event, featureStatus.completed)"
-          [id]="module.id"
-        >
-          <div *ngFor="let feature of module[3]" cdkDrag>
-            <app-feature [feature]="feature"> </app-feature>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div
-    *ngIf="!board.length && !kanbanBoardSpinner"
-    style="text-align: center; margin-top: 10px"
-  >
-    No module found!!
-  </div>
-
-  <ng-template #manageModuleContent let-modal>
-    <div class="modal-header">
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let module of modules">
-          <div class="module">{{ module.name }}</div>
-          <!-- <i class="fa fa-stop-circle float-right" data-toggle="tooltip" data-placement="top" title="Discontinue"></i> -->
-        </li>
-        <li class="list-group-item">
-          <div class="add-module">
-            <i
-              *ngIf="!moduleAddView"
-              (click)="moduleAddView = true"
-              class="fa fa-plus"
-            >
-              Add Module</i
-            >
-            <div *ngIf="moduleAddView">
-              <form #addModuleForm="ngForm" (ngSubmit)="addModule()">
-                <input
-                  type="text"
-                  class="form-control"
-                  style="display: inline-block; vertical-align: middle"
-                  [(ngModel)]="moduleName"
-                  #module="ngModel"
-                  name="module"
-                  (keyup.enter)="addModule()"
-                  placeholder="Enter module name"
-                  required
-                  minlength="4"
-                />
-                <button
-                  [disabled]="!enabledAdding || addModuleForm.invalid"
-                  type="submit"
-                  class="btn good-btn"
-                  style="
-                    display: inline-block;
-                    vertical-align: middle;
-                    margin: 0 5px;
-                  "
-                >
-                  Add
-                </button>
-                <i
-                  *ngIf="enabledAdding"
-                  (click)="moduleAddView = false"
-                  class="fa fa-times"
-                  id="cancel-task"
-                  style="display: inline-block; vertical-align: middle"
-                ></i>
-                <div
-                  *ngIf="module.invalid && (module.dirty || module.touched)"
-                  class="text-danger"
-                >
-                  <div *ngIf="module.errors?.required">Name is required.</div>
-                  <div *ngIf="module.errors?.minlength">
-                    Name should be atleast 4 characters long.
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </ng-template>
-
-  <ng-template #manageSprintContent let-modal>
-    <div class="modal-header">
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <!-- <div *ngFor="let item of [1,2,3]">
-        <app-switch-text-textarea [title]="'R6-Sprint '+item"></app-switch-text-textarea>
-      </div> -->
-      <form [formGroup]="sprintForm" (ngSubmit)="addSprint()">
-        <div class="add-sprint">
+  <div class="modal-body">
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let module of modules">
+        <div class="module">{{ module.name }}</div>
+        <!-- <i class="fa fa-stop-circle float-right" data-toggle="tooltip" data-placement="top" title="Discontinue"></i> -->
+      </li>
+      <li class="list-group-item">
+        <div class="add-module">
           <i
-            *ngIf="!sprintAddView"
-            (click)="sprintAddView = true"
+            *ngIf="!moduleAddView"
+            (click)="moduleAddView = true"
             class="fa fa-plus"
-            style="cursor: pointer"
           >
-            Add Sprint</i
+            Add Module</i
           >
-          <div style="text-align: center">
-            <div *ngIf="sprintAddView">
-              <div
-                style="
-                  font-size: large;
-                  transform: translateX(-185px);
-                  margin-bottom: 20px;
-                "
-              >
-                <i class="fa fa-bolt"></i>
-                New Sprint
-              </div>
-              <div style="transform: translateX(-213px)">
-                Name<span style="color: red">*</span>
-              </div>
+          <div *ngIf="moduleAddView">
+            <form #addModuleForm="ngForm" (ngSubmit)="addModule()">
               <input
                 type="text"
-                [(ngModel)]="sprintName"
-                name="sprintname"
                 class="form-control"
-                style="display: inline-block; width: 475px"
-                placeholder="Enter Sprint Name"
+                style="display: inline-block; vertical-align: middle"
+                [(ngModel)]="moduleName"
+                #module="ngModel"
+                name="module"
+                (keyup.enter)="addModule()"
+                placeholder="Enter module name"
                 required
                 minlength="4"
-                formControlName="name"
               />
-              <div
-                *ngIf="
-                  sprintname.invalid && (sprintname.dirty || sprintname.touched)
+              <button
+                [disabled]="!enabledAdding || addModuleForm.invalid"
+                type="submit"
+                class="btn good-btn"
+                style="
+                  display: inline-block;
+                  vertical-align: middle;
+                  margin: 0 5px;
                 "
               >
-                <div
-                  class="text-danger"
-                  style="transform: translateX(-155px)"
-                  *ngIf="sprintname.errors?.required"
-                >
-                  Please Enter Sprint Name.
-                </div>
-                <div
-                  class="text-danger"
-                  style="transform: translateX(-131px)"
-                  *ngIf="sprintname.errors?.minlength"
-                >
-                  Please Enter Atleast 4 characters.
-                </div>
-              </div>
-
-              <div style="transform: translateX(-195px)">
-                <div style="display: inline-block">
-                  Start<span style="color: red">*</span>
-                </div>
-                <div
-                  style="display: inline-block; transform: translateX(190px)"
-                >
-                  End<span style="color: red">*</span>
-                </div>
-              </div>
-              <ngb-datepicker
-                #dp
-                (dateSelect)="onDateSelection($event)"
-                [displayMonths]="2"
-                [dayTemplate]="t"
-                outsideDays="hidden"
-                name="sprintdates"
-                formControlName="dates"
+                Add
+              </button>
+              <i
+                *ngIf="enabledAdding"
+                (click)="moduleAddView = false"
+                class="fa fa-times"
+                id="cancel-task"
+                style="display: inline-block; vertical-align: middle"
+              ></i>
+              <div
+                *ngIf="module.invalid && (module.dirty || module.touched)"
+                class="text-danger"
               >
-              </ngb-datepicker>
-
-              <ng-template #t let-date let-focused="focused">
-                <span
-                  class="custom-day"
-                  [class.focused]="focused"
-                  [class.range]="isRange(date)"
-                  [class.faded]="isHovered(date) || isInside(date)"
-                  (mouseenter)="hoveredDate = date"
-                  (mouseleave)="hoveredDate = null"
-                >
-                  {{ date.day }}
-                </span>
-              </ng-template>
-              <div style="transform: translateX(170px)">
-                <button
-                  [disabled]="sprintForm.invalid || !enabledAdding"
-                  class="btn good-btn"
-                  type="submit"
-                >
-                  Add
-                </button>
-                <button
-                  class="btn reject-btn"
-                  (click)="sprintAddView = false"
-                  id="cancel-task"
-                >
-                  Cancel
-                </button>
+                <div *ngIf="module.errors?.required">Name is required.</div>
+                <div *ngIf="module.errors?.minlength">
+                  Name should be atleast 4 characters long.
+                </div>
               </div>
+            </form>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</ng-template>
+
+<ng-template #manageSprintContent let-modal>
+  <div class="modal-header">
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- <div *ngFor="let item of [1,2,3]">
+      <app-switch-text-textarea [title]="'R6-Sprint '+item"></app-switch-text-textarea>
+    </div> -->
+    <form [formGroup]="sprintForm" (ngSubmit)="addSprint()">
+      <div class="add-sprint">
+        <i
+          *ngIf="!sprintAddView"
+          (click)="sprintAddView = true"
+          class="fa fa-plus"
+          style="cursor: pointer"
+        >
+          Add Sprint</i
+        >
+        <div style="text-align: center">
+          <div *ngIf="sprintAddView">
+            <div
+              style="
+                font-size: large;
+                transform: translateX(-185px);
+                margin-bottom: 20px;
+              "
+            >
+              <i class="fa fa-bolt"></i>
+              New Sprint
+            </div>
+            <div style="transform: translateX(-213px)">
+              Name<span style="color: red">*</span>
+            </div>
+            <input
+              type="text"
+              [(ngModel)]="sprintName"
+              name="sprintname"
+              class="form-control"
+              style="display: inline-block; width: 475px"
+              placeholder="Enter Sprint Name"
+              required
+              minlength="4"
+              formControlName="name"
+            />
+            <div
+              *ngIf="
+                sprintname.invalid && (sprintname.dirty || sprintname.touched)
+              "
+            >
+              <div
+                class="text-danger"
+                style="transform: translateX(-155px)"
+                *ngIf="sprintname.errors?.required"
+              >
+                Please Enter Sprint Name.
+              </div>
+              <div
+                class="text-danger"
+                style="transform: translateX(-131px)"
+                *ngIf="sprintname.errors?.minlength"
+              >
+                Please Enter Atleast 4 characters.
+              </div>
+            </div>
+
+            <div style="transform: translateX(-195px)">
+              <div style="display: inline-block">
+                Start<span style="color: red">*</span>
+              </div>
+              <div
+                style="display: inline-block; transform: translateX(190px)"
+              >
+                End<span style="color: red">*</span>
+              </div>
+            </div>
+            <ngb-datepicker
+              #dp
+              (dateSelect)="onDateSelection($event)"
+              [displayMonths]="2"
+              [dayTemplate]="t"
+              outsideDays="hidden"
+              name="sprintdates"
+              formControlName="dates"
+            >
+            </ngb-datepicker>
+
+            <ng-template #t let-date let-focused="focused">
+              <span
+                class="custom-day"
+                [class.focused]="focused"
+                [class.range]="isRange(date)"
+                [class.faded]="isHovered(date) || isInside(date)"
+                (mouseenter)="hoveredDate = date"
+                (mouseleave)="hoveredDate = null"
+              >
+                {{ date.day }}
+              </span>
+            </ng-template>
+            <div style="transform: translateX(170px)">
+              <button
+                [disabled]="sprintForm.invalid || !enabledAdding"
+                class="btn good-btn"
+                type="submit"
+              >
+                Add
+              </button>
+              <button
+                class="btn reject-btn"
+                (click)="sprintAddView = false"
+                id="cancel-task"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>
-      </form>
-      <div class="mb-2">
-        <div class="table-responsive-sm">
-          <table class="table">
-            <thead>
-              <tr style="color: var(--gray)">
-                <th scope="col">Name</th>
-                <th scope="col">Sprint Dates</th>
-                <!-- <th scope="col">Edit</th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let sprint of allSprint">
-                <td>
-                  <span>{{ sprint.name }}</span>
-                </td>
-                <td>
-                  <span
-                    >{{ sprint.startDate | date: "shortDate" }} -
-                    {{ sprint.endDate | date: "shortDate" }}</span
-                  >
-                </td>
-                <!-- <td>
-                  <i class="fa fa-edit"></i>
-                </td> -->
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      </div>
+    </form>
+    <div class="mb-2">
+      <div class="table-responsive-sm">
+        <table class="table">
+          <thead>
+            <tr style="color: var(--gray)">
+              <th scope="col">Name</th>
+              <th scope="col">Sprint Dates</th>
+              <!-- <th scope="col">Edit</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let sprint of allSprint">
+              <td>
+                <span>{{ sprint.name }}</span>
+              </td>
+              <td>
+                <span
+                  >{{ sprint.startDate | date: "shortDate" }} -
+                  {{ sprint.endDate | date: "shortDate" }}</span
+                >
+              </td>
+              <!-- <td>
+                <i class="fa fa-edit"></i>
+              </td> -->
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </ng-template>
-</div>
+  </div>
+</ng-template>
