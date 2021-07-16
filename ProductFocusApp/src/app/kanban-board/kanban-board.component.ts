@@ -20,7 +20,9 @@ import { ToastrService } from 'ngx-toastr';
 import { BreadcrumbService } from 'angular-crumbs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { UserService } from '../_services/user.service';import { DateFunctionService } from '../dht-common/date-function.service';
+import { UserService } from '../_services/user.service';
+import { DateFunctionService } from '../dht-common/date-function.service';
+import { ModifyColumnIdentifier } from '../dht-common/models';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -44,7 +46,8 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   enabledAdding: boolean = true;
   allSprint: ISprint[] = [];
   organizationUser: IMemberDetail[] = [];
-  isKanbanMode = true;
+  isKanbanMode:boolean;
+  isLoading = false;
   currentSprint: ISprint = {
     id: -1,
     name: '',
@@ -73,6 +76,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   ) {
     this.fromDate = calendar.getToday();
     this.toDate = calendar.getNext(calendar.getToday(), 'd', 14);
+    this.isKanbanMode = localStorage.isKanbanMode === undefined?true:localStorage.isKanbanMode == "true"?true: false;
   }
 
   ngOnInit(): void {
@@ -104,17 +108,18 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
   selectSprint(sprint: ISprint) {
     this.currentSprint = sprint;
-    console.log('heoo',this.currentSprint);
     this.selectedSprint = JSON.parse(JSON.stringify(this.currentSprint));
     this.setKanbanBoard();
   }
 
   setKanbanBoard() {
     if (this.productId === undefined) return;
+    this.isLoading = true;
     this.productService
       .getKanbanViewByProductIdAndQuery(this.productId,this.currentSprint.id,this.selectedUserIds)
       .subscribe((x) => {
         this.kanbanBoard = x;
+        this.isLoading = false;
       });
   }
 
@@ -245,5 +250,34 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   }
   public get sprintname() {
     return this.sprintForm.value['name'];
+  }
+
+  changeMode(isKanbanMode: boolean){
+    this.isKanbanMode = isKanbanMode;
+    localStorage.isKanbanMode = isKanbanMode;
+  }
+
+  updateChanges(modifiedFeatureInfo: any){ // Id, fieldName(enum value), fieldname
+    for(let module of this.kanbanBoard){
+      for(let feature of module.featureDetails){
+        if(feature.id === modifiedFeatureInfo.id){
+          if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.storyPoint){
+            feature.storyPoint = modifiedFeatureInfo.storyPoint;
+          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.includeAssignee){
+            feature.assignees.push(modifiedFeatureInfo.assignee);
+          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.actualStartDate){
+            feature.actualStartDate = modifiedFeatureInfo.plannedStartDate;
+          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.actualEndDate){
+            feature.actualEndDate = modifiedFeatureInfo.plannedEndDate;
+          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.description){
+            feature.description = modifiedFeatureInfo.description;
+          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.title){
+            feature.title = modifiedFeatureInfo.title;
+          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.workCompletionPercentage){
+            feature.workCompletionPercentage = modifiedFeatureInfo.workCompletionPercentage
+          }
+        }
+      }
+    }
   }
 }

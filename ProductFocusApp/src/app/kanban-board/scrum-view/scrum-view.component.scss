@@ -11,3 +11,15 @@ th {
 th {
   padding: 0 10px;
 }
+
+td{
+  white-space: normal;
+}
+
+// td:hover{
+//   background-color: var(--light-gray);
+// }
+
+// td { // Will be used for multiline text
+//   max-width: 250px; 
+// }

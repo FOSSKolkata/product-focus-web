@@ -15,6 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { SwitchTextAutocompleteComponent } from './switch-text-autocomplete/switch-text-autocomplete.component';
+import { EditableTextComponent } from './editable-text/editable-text.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { SwitchTextAutocompleteComponent } from './switch-text-autocomplete/swit
     SpinnerComponent,
     SwitchTextInputComponent,
     SwitchTextDatepickComponent,
-    SwitchTextAutocompleteComponent
+    SwitchTextAutocompleteComponent,
+    EditableTextComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +49,8 @@ import { SwitchTextAutocompleteComponent } from './switch-text-autocomplete/swit
     SwitchTextAutocompleteComponent,
     UserAvatarComponent,
     ShortnamePipe,
-    SpinnerComponent
+    SpinnerComponent,
+    EditableTextComponent
   ],
 })
 export class DhtCommonModule {}

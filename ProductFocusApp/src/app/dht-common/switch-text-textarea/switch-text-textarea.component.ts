@@ -16,7 +16,6 @@ import {
 export class SwitchTextTextareaComponent implements OnInit {
   @Input('title') title: string = '';
   @Output('is-text-changed') isTextChanged = new EventEmitter<string>();
-
   @ViewChild('textArea') set textAreaRef(ref: ElementRef) {
     if (!!ref) {
       ref.nativeElement.focus();

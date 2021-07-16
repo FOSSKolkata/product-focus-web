@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
@@ -16,6 +16,8 @@ export class ScrumViewComponent implements OnInit, OnChanges {
 
   @Input('kanban-board') kanbanBoard: IKanbanBoard[] = [];
   @Input('selected-sprint') currentSprint: ISprint | null = null;
+  @Output('changed') changes = new EventEmitter<any>();
+  @Input('is-loading')kanbanBoardSpinner: boolean = false;
   sprintDates: Date[] = [];
   board:any[] = [];
   organizationUser: IMemberDetail[] = [];
@@ -30,7 +32,6 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     private router: Router) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("Hello world",this.kanbanBoard);
     this.sprintDates = [];
     if(!this.currentSprint?.startDate || !this.currentSprint?.endDate)
       return;
@@ -51,7 +52,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
           storyPoint: feature.storyPoint,
           startDate: feature.plannedStartDate,
           endDate: feature.plannedEndDate,
-          durationInDays: (new Date(feature.plannedEndDate).getTime() - new Date(feature.plannedStartDate).getTime())/(1000*60*60*24),
+          durationInDays: this.getNumberOfDaysBetweenTwoDates(new Date(feature.plannedEndDate),new Date(feature.plannedStartDate)),
           assignee: feature.assignees,
         };
         var curr = this.countOfFeatureInModule.get(module.name);
@@ -75,46 +76,70 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     }
     this.userService.getUserListByOrganization(this.organization.id).subscribe(x=>{
       this.organizationUser = x.members;
-      console.log("userlist ::",this.organizationUser);
     });
   }
 
-  addUserInFeature(event: any, feature: any){
-    this.modifyFeature(ModifyColumnIdentifier.includeAssignee,event.email,feature);
-  }
-
   modifyFeature(key: number, value: any, feature: any) {
-    var object: any = {};
-    object.id = feature.id;
-    object.fieldName = key;
+    var changedFeaturedInfo: any = {};
+    var changedFeaturedInfoEvent: any = {};
+    changedFeaturedInfo.id = feature.id;
+    changedFeaturedInfoEvent.id = feature.id;
+    changedFeaturedInfo.fieldName = key;
+    changedFeaturedInfoEvent.fieldName = key;
     if (key == ModifyColumnIdentifier.title) {
-      object.title = value;
+      changedFeaturedInfo.title = value;
+      changedFeaturedInfoEvent.title = value;
     } else if (key == ModifyColumnIdentifier.workCompletionPercentage) {
-      object.workCompletionPercentage = value;
+      changedFeaturedInfo.workCompletionPercentage = value;
+      changedFeaturedInfoEvent.workCompletionPercentage = value;
     } else if (key == ModifyColumnIdentifier.acceptanceCriteria) {
-      object.acceptanceCriteria = value;
+      changedFeaturedInfo.acceptanceCriteria = value;
+      changedFeaturedInfoEvent.acceptanceCriteria = value;
     } else if (key == ModifyColumnIdentifier.plannedStartDate) {
-      object.plannedStartDate = new Date(value.getTime() + 86400000); // 1 day error correction
-      feature.plannedStartDate = value;
+      changedFeaturedInfo.plannedStartDate = new Date(value.getTime() + 86400000); // 1 day error correction
+      changedFeaturedInfoEvent.plannedStartDate = new Date(value.getTime() + 86400000);
+      feature.durationInDays = this.getNumberOfDaysBetweenTwoDates(new Date(value),new Date(feature.endDate));
+      this.modifyFeatureDates(feature,ModifyColumnIdentifier.plannedStartDate,new Date(value.getTime()));
     } else if (key == ModifyColumnIdentifier.plannedEndDate) {
-      object.plannedEndDate = new Date(value.getTime() + 86400000);
-      feature.plannedEndDate = value;
-    } else if (key == ModifyColumnIdentifier.sprint) {
-      object.sprintName = value.name;
+      changedFeaturedInfo.plannedEndDate = new Date(value.getTime() + 86400000);
+      changedFeaturedInfoEvent.plannedEndDate = new Date(value.getTime() + 86400000);
+      this.modifyFeatureDates(feature,ModifyColumnIdentifier.plannedEndDate,new Date(value.getTime()));
+      feature.durationInDays = this.getNumberOfDaysBetweenTwoDates(new Date(feature.startDate),new Date(value));
     } else if(key == ModifyColumnIdentifier.storyPoint){
-      object.storyPoint = value;
+      changedFeaturedInfo.storyPoint = value;
+      changedFeaturedInfoEvent.storyPoint = value;
     } else if(key == ModifyColumnIdentifier.includeAssignee){
-      object.emailOfAssignee = value;
+      changedFeaturedInfo.emailOfAssignee = value.email;
+      changedFeaturedInfoEvent.assignee = value;
     }
-    this.featureService.modifyFeatureElement(object).subscribe((x) => {
-      console.log(x);
+    this.featureService.modifyFeatureElement(changedFeaturedInfo).subscribe((x) => {
+      this.fireChanges(changedFeaturedInfoEvent);
     },(err)=>{
       this.toastr.error('Update is not saved!!','Not Modified');
     });
   }
+
+  modifyFeatureDates(modifiedFeature: any, dateType: ModifyColumnIdentifier, date: Date) {
+    for(let feature of this.board){
+      if(feature.id === modifiedFeature.id){
+        if(dateType === ModifyColumnIdentifier.plannedStartDate){
+          feature.startDate = date;
+        }else {
+          feature.endDate = date;
+        }
+      }
+    }
+  }
+  fireChanges(modifiedFeature: any) {
+    this.changes.emit(modifiedFeature);
+  }
   
   public get modifyColumnIdentifier(): typeof ModifyColumnIdentifier {
     return ModifyColumnIdentifier;
+  }
+
+  getNumberOfDaysBetweenTwoDates(start: Date,end: Date): number {
+    return Math.ceil(Math.abs((start.getTime()-end.getTime())/(1000*60*60*24)));
   }
 
 }

@@ -27,7 +27,7 @@
   >
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div
+  <div *ngIf="currentUserName !== undefined"
     [ngbCollapse]="isNavbarCollapsed"
     class="collapse navbar-collapse"
     id="navbarsDefault"

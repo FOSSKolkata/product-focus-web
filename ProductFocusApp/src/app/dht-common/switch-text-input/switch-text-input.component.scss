@@ -1,29 +1,29 @@
 .switch-area {
-    width: 100%;
-  }
-  
-  .switch-area:hover {
-    background-color: var(--light-gray);
-  }
-  
-  .switch-area label {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    min-height: 39px;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
-  input{
-    height: 39px;
-    width: unset;
-    padding: 0;
-    text-align: center;
-  }
+  width: 100%;
+}
 
-  input:focus{
-    outline: none;
-    border: 1px solid gray;
-  }
+.switch-area:hover {
+  background-color: var(--light-gray);
+}
+
+.switch-area label {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  // min-height: 39px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+input{
+  // height: 39px;
+  width: unset;
+  padding: 0;
+  text-align: center;
+}
+
+input:focus{
+  outline: none;
+  border: 1px solid gray;
+}

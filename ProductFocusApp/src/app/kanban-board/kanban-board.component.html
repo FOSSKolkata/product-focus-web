@@ -39,8 +39,8 @@
   <div style="display: inline-block; height: 57px;">
     <div style="display: grid; align-items: center; height: 100%;">
       <mat-radio-group aria-label="Select an option">
-        <mat-radio-button value="isKanbanMode" [checked]="isKanbanMode" (change)="isKanbanMode = true">Board View</mat-radio-button>
-        <mat-radio-button value="!isKanbanMode" [checked]="!isKanbanMode" (change)="isKanbanMode = false">Scrum View</mat-radio-button>
+        <mat-radio-button value="isKanbanMode" [checked]="isKanbanMode" (change)="changeMode(true)">Board View</mat-radio-button>
+        <mat-radio-button value="!isKanbanMode" [checked]="!isKanbanMode" (change)="changeMode(false)">Scrum View</mat-radio-button>
       </mat-radio-group>
     </div>
   </div>
@@ -61,8 +61,8 @@
 <div
   class="margin-for-navs"
 >
-  <app-board-view *ngIf="isKanbanMode" [kanban-board]="kanbanBoard" (changed)="setKanbanBoard()" [selected-sprint]="selectedSprint"></app-board-view>
-  <app-scrum-view *ngIf="!isKanbanMode" [kanban-board]="kanbanBoard" [selected-sprint]="selectedSprint"></app-scrum-view>
+  <app-board-view *ngIf="isKanbanMode" [is-loading]="isLoading" [kanban-board]="kanbanBoard" (changed)="setKanbanBoard()" [selected-sprint]="selectedSprint"></app-board-view>
+  <app-scrum-view *ngIf="!isKanbanMode" [is-loading]="isLoading" [kanban-board]="kanbanBoard" (changed)="updateChanges($event)" [selected-sprint]="selectedSprint"></app-scrum-view>
 </div>
 <ng-template #manageModuleContent let-modal>
   <div class="modal-header">

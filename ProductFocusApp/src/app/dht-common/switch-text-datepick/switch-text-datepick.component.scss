@@ -2,3 +2,30 @@
     width: unset !important;
     height: unset !important;
 }
+
+// input:hover,input:focus{
+//     background-color: var(--light-gray);
+//     padding: 10px 0 9px 0;
+// }
+
+input:hover,input:focus{
+    background-color: transparent;
+    cursor: pointer;
+}
+
+div{
+    min-width: 20px;
+    min-height: 100%;
+    max-width: 300px;
+    overflow-x: auto;
+    height: auto;
+    align-items: center;
+}
+div:hover{
+    background-color: var(--light-gray);
+    cursor: pointer;
+}
+div:focus{
+    cursor:text;
+    background-color: var(--dark-gray);
+}

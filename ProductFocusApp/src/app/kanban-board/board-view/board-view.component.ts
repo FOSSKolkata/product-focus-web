@@ -11,7 +11,7 @@ import { FeatureService } from 'src/app/_services/feature.service';
 export class BoardViewComponent implements OnInit, OnChanges {
 
   @Output('changed') changed = new EventEmitter<boolean>();
-  kanbanBoardSpinner: boolean = false;
+  @Input('is-loading')kanbanBoardSpinner: boolean = false;
   @Input('kanban-board')kanbanBoard: IKanbanBoard[] = [];
   board: any = [];
   @Input('selected-sprint') selectedSprint: ISprint = {
@@ -25,7 +25,6 @@ export class BoardViewComponent implements OnInit, OnChanges {
   productId!: number;
   constructor(private featureService: FeatureService) { }
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('selected sp: ',this.selectedSprint.id);
     this.board = [];
     for (var module of this.kanbanBoard) {
       this.board.push([]);

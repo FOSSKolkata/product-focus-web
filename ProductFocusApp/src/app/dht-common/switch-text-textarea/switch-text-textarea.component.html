@@ -1,6 +1,6 @@
 <div class="switch-area">
   <label
-    style="width: 100%; min-height: 20px; padding: 5px"
+    style="width: 100%; min-height: 20px; padding: 5px; white-space: pre-wrap;"
     [ngStyle]="labelStyle"
     *ngIf="isTextVisible"
     (click)="onLabelClick()"
@@ -10,7 +10,6 @@
   <textarea
     #textArea
     class="form-control"
-    rows="1"
     [ngStyle]="inputStyle"
     style="width: inherit"
     *ngIf="!isTextVisible"

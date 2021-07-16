@@ -1,16 +1,5 @@
-textarea:focus, input:focus{
-    outline: none;
-    border: none;
-}
-.section{
-    padding: 10px 0 9px 0;
-}
-.section:hover{
-    background-color: var(--light-gray);
-    cursor: pointer;
-    input{
-        background-color: var(--light-gray);
-    }
+[contenteditable]{
+    outline: 0px solid transparent;
 }
 
 div{
@@ -26,6 +15,7 @@ div:hover{
     cursor: pointer;
 }
 div:focus{
+    outline: 1px solid gray;
     cursor:text;
     background-color: var(--dark-gray);
 }
