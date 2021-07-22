@@ -118,6 +118,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.productService
       .getKanbanViewByProductIdAndQuery(this.productId,this.currentSprint.id,this.selectedUserIds)
       .subscribe((x) => {
+        console.log(x);
         this.kanbanBoard = x;
         this.isLoading = false;
       });
@@ -214,11 +215,12 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       return;
     }
     var input: ISprintInput = {
-      productId: this.productId,
+      productId: +this.productId,
       name: this.sprintName,
       startDate: this.dateService.ngbDateToDate(this.fromDate),
       endDate: this.dateService.ngbDateToDate(this.toDate),
     };
+    console.log(input,"sprint data");
     this.sprintService.addSprint(input).subscribe(
       (x) => {
         this.toastr.success('Sprint added','Success');

@@ -29,8 +29,8 @@
         <td><app-switch-text-autocomplete [added-users]="feature.assignee" [other-users]="organizationUser" (is-added)="modifyFeature(modifyColumnIdentifier.includeAssignee,$event,feature)"></app-switch-text-autocomplete></td>
         <td></td>
         <td></td>
-        <td *ngFor="let sprint of sprintDates">
-          <app-progress-comment></app-progress-comment>
+        <td *ngFor="let sprintDate of sprintDates">
+          <app-progress-comment [feature-id]="feature.id" [date]="sprintDate"></app-progress-comment>
         </td>
       </tr>
     </table>

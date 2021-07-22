@@ -1,4 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import * as moment from 'moment';
+import { IUpsertScrumCommentInput, IUpsertScrumWorkCompletionPercentageInput } from 'src/app/dht-common/models';
+import { FeatureService } from 'src/app/_services/feature.service';
 
 @Component({
   selector: 'app-progress-comment',
@@ -6,46 +9,33 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild }
   styleUrls: ['./progress-comment.component.scss']
 })
 export class ProgressCommentComponent implements OnInit {
-  @Input('progress') progress: number = 0;
-  @Input('comment') comment: string = '';
-  @Output('is-text-changed') isTextChanged = new EventEmitter<number | string>();
-  @Input('input-style') inputStyle = {};
-  @Input('label-style') labelStyle = {};
-  @ViewChild('inputText') set inputTextRef(ref: ElementRef) {
-    if (!!ref) {
-      ref.nativeElement.focus();
-    }
-  }
-  isProgressLabelVisible: boolean = true;
-  isCommentLabelVisible: boolean = true;
-  oldLabelText!: number;
-  oldCommentText!: string;
-
-  constructor() {}
+  @Input('feature-id') featureId: number | null = null;
+  @Input('date') date: Date | null = null;
+  constructor(private featureService: FeatureService) {}
 
   ngOnInit(): void {}
-
-  onProgressFocusOut(event: any) {
-    this.isProgressLabelVisible = true;
-    if (this.oldLabelText != this.progress) {
-      this.isTextChanged.emit(this.progress);
-    }
+  upsertScrumWorkCompletionPercentage(event: any){
+    if(this.featureId === null || this.date === null)
+      return;
+    let input: IUpsertScrumWorkCompletionPercentageInput = {
+      featureId: this.featureId,
+      workCompletionPercentage: event.target.textContent,
+      scrumDate: new Date(Date.UTC(this.date.getFullYear(),this.date.getMonth(),this.date.getDate(),0,0,0))
+    };
+    this.featureService.upsertScrumWorkCompletionPercentage(input).subscribe(res => {
+      console.log(res,"respo");
+    });
   }
-
-  onCommentFocusOut(event: any) {
-    this.isCommentLabelVisible = true;
-    if (this.oldCommentText != this.comment) {
-      this.isTextChanged.emit(this.comment);
-    }
-  }
-
-  onProgressLabelClick() {
-    this.oldLabelText = this.progress;
-    this.isProgressLabelVisible = false;
-  }
-
-  onCommentLabelClick() {
-    this.oldCommentText = this.comment;
-    this.isCommentLabelVisible = false;
+  upsertScrumComment(event: any){
+    if(this.featureId === null || this.date === null)
+      return;
+    let input: IUpsertScrumCommentInput = {
+      featureId: this.featureId,
+      scrumComment: event.target.textContent,
+      scrumDate: new Date(Date.UTC(this.date.getFullYear(),this.date.getMonth(),this.date.getDate(),0,0,0))
+    };
+    this.featureService.upsertScrumComment(input).subscribe(res => {
+      console.log(res,"respo");
+    });
   }
 }

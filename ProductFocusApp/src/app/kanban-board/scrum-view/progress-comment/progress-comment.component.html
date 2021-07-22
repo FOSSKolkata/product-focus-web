@@ -1,36 +1,4 @@
-<div class="switch-area"
-  (click)="onProgressLabelClick()">
-  <label
-    [ngStyle]="labelStyle"
-    style="text-align: center;"
-    *ngIf="isProgressLabelVisible"
-  >
-    {{ progress }}
-  </label>
-  <input
-    size="1"
-    type="text"
-    #inputText
-    [ngStyle]="inputStyle"
-    style="width: inherit"
-    *ngIf="!isProgressLabelVisible"
-    [(ngModel)]="progress"
-    (focusout)="onProgressFocusOut($event)"
-  >%
-</div>
-<div class="switch-area" (click)="onCommentLabelClick()">
-  <label
-    *ngIf="isCommentLabelVisible"
-  >
-    {{ comment }}
-  </label>
-  <input
-    type="text"
-    #inputText
-    [ngStyle]="inputStyle"
-    style="width: inherit"
-    *ngIf="!isCommentLabelVisible"
-    [(ngModel)]="comment"
-    (focusout)="onCommentFocusOut($event)"
-  >
+<div class="full-space">
+  <div contenteditable="true" style="height: 20px; width: 100%; border-bottom: 1px dotted gray;" placeholder="Enter work %" (focusout)="upsertScrumWorkCompletionPercentage($event)"></div>
+  <div contenteditable="true" style="flex-grow : 1; width: 100%;" placeholder="Write comment here..." (focusout)="upsertScrumComment($event)"></div>
 </div>

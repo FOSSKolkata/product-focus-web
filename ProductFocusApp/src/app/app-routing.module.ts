@@ -12,6 +12,7 @@ import { OrganizationMembersComponent } from './organization/organization-member
 import { ErrorComponent } from './garbage/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
+import { SecureGuard } from './dht-common/secure.guard';
 
 const SECURE_APP_ROUTES: Routes = [
   {
@@ -51,7 +52,7 @@ const routes: Routes = [
   },{
     path: '',
     component: LayoutComponent,
-    canActivate: [MsalGuard],
+    canActivate: [MsalGuard,SecureGuard],
     children: SECURE_APP_ROUTES,
     runGuardsAndResolvers: 'always',
   },{
@@ -61,12 +62,12 @@ const routes: Routes = [
   {
     path: 'organizations',
     component: OrganizationHomeComponent,
-    canActivate: [MsalGuard],
+    canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: 'Organization Home'}
   },{
     path: 'organizations/:organization-name',
     component: OrganizationHomeComponent,
-    canActivate: [MsalGuard],
+    canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: ' '}
   },{
     path: 'organization',
@@ -89,12 +90,12 @@ const routes: Routes = [
         data: {breadcrumb: 'Invitations'}
       },
     ],
-    canActivate: [MsalGuard],
+    canActivate: [MsalGuard,SecureGuard],
   },
   {
     path: 'invitation',
     component: InvitationComponent,
-    canActivate: [MsalGuard],
+    canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: 'Invitation'}
   },
   {

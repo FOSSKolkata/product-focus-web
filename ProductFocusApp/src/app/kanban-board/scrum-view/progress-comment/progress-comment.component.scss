@@ -1,18 +1,32 @@
-input{
-  text-align: center;
-}
-textarea:focus,
-input:focus {
-  outline: none;
-  border: none;
-}
-
-.switch-area {
-  height: 19px;
+.full-space{
+  min-width: 20px;
+  min-height: 100%;
+  max-width: 300px;
+  overflow-x: auto;
+  height: auto;
+  align-items: center;
+  display: flex;
+  flex-flow: column;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+[contenteditable=true]:empty:before{
+  content: attr(placeholder);
+  pointer-events: none;
+  display: block;
+  color: gray;
+}
+
+div[contenteditable=true] {
+  outline: 1px solid transparent;
+}
+
+div[contenteditable=true]:hover {
+  background-color: var(--light-gray);
+  cursor: pointer;
+}
+
+div[contenteditable=true]:focus{
+  outline: 1px solid gray;
+  cursor:text;
+  background-color: var(--dark-gray);
 }

@@ -198,3 +198,15 @@ export interface IMemberDetailsList {
   recordCount: number,
   members: IMemberDetail[]
 }
+
+export interface IUpsertScrumCommentInput{
+  featureId: number,
+  scrumComment: string,
+  scrumDate: Date
+}
+
+export interface IUpsertScrumWorkCompletionPercentageInput{
+  featureId: number,
+  workCompletionPercentage: number,
+  scrumDate: Date
+}

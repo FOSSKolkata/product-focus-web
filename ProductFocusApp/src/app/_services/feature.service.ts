@@ -31,6 +31,18 @@ export class FeatureService {
     );
   }
 
+  upsertScrumComment(data: any){
+    return this.http.post(apiConfig.uri + `/Feature/UpsertScrumComment`,data).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  upsertScrumWorkCompletionPercentage(data: any){
+    return this.http.post(apiConfig.uri + `/Feature/UpsertScrumWorkCompletionPercentage`,data).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   handleError(error: HttpErrorResponse){
     return throwError(error);
   }

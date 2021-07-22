@@ -52,6 +52,7 @@ import { SprintService } from './_services/sprint.service';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { ToastrModule } from 'ngx-toastr';
 import {BreadcrumbModule} from 'angular-crumbs';
+import { SecureGuard } from './dht-common/secure.guard';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -164,6 +165,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     OrganizationService,
     UserService,
     SprintService,
+    SecureGuard
   ],
   bootstrap: [AppComponent, MsalRedirectComponent],
 })
