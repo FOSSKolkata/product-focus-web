@@ -58,7 +58,7 @@
     </div>
   </div>
 </div>
-<div
+<div *ngIf="!error"
   class="margin-for-navs"
 >
   <app-board-view *ngIf="isKanbanMode" [is-loading]="isLoading" [kanban-board]="kanbanBoard" (changed)="setKanbanBoard()" [selected-sprint]="selectedSprint"></app-board-view>
