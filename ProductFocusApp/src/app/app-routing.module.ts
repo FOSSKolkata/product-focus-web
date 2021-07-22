@@ -9,7 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { RediectComponent } from './rediect/rediect.component';
 import { InvitationComponent } from './invitation/invitation.component';
 import { OrganizationMembersComponent } from './organization/organization-members/organization-members.component';
-import { ErrorComponent } from './garbage/error/error.component';
+import { ErrorComponent } from './dht-common/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { SecureGuard } from './dht-common/secure.guard';

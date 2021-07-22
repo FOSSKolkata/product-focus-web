@@ -296,3 +296,6 @@
     </div>
   </div>
 </ng-template>
+<div *ngIf="!!error">
+  <app-error [error]="error"></app-error>
+</div>

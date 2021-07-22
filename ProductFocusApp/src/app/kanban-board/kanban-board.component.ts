@@ -23,6 +23,7 @@ import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { UserService } from '../_services/user.service';
 import { DateFunctionService } from '../dht-common/date-function.service';
 import { ModifyColumnIdentifier } from '../dht-common/models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -60,6 +61,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     name: new FormControl(''),
     dates: new FormControl('',this.DateValidate())
   });
+  error!: HttpErrorResponse;
 
   constructor(
     private productService: ProductService,
@@ -121,6 +123,9 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
         console.log(x);
         this.kanbanBoard = x;
         this.isLoading = false;
+      },(err)=>{
+        this.isLoading = false;
+        this.error = err;
       });
   }
 
