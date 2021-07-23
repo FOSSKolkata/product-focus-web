@@ -1,6 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import * as moment from 'moment';
-import { IUpsertScrumCommentInput, IUpsertScrumWorkCompletionPercentageInput } from 'src/app/dht-common/models';
+import { Component, Input, OnInit } from '@angular/core';
+import { IScrumDay, IUpsertScrumCommentInput, IUpsertScrumWorkCompletionPercentageInput } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
 
 @Component({
@@ -8,9 +7,10 @@ import { FeatureService } from 'src/app/_services/feature.service';
   templateUrl: './progress-comment.component.html',
   styleUrls: ['./progress-comment.component.scss']
 })
-export class ProgressCommentComponent implements OnInit {
+export class ProgressCommentComponent implements OnInit{
   @Input('feature-id') featureId: number | null = null;
   @Input('date') date: Date | null = null;
+  @Input('scrum-day') scrumDay: IScrumDay | null = null;
   constructor(private featureService: FeatureService) {}
 
   ngOnInit(): void {}

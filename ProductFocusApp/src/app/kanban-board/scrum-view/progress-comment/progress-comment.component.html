@@ -1,4 +1,16 @@
 <div class="full-space">
-  <div contenteditable="true" style="height: 20px; width: 100%; border-bottom: 1px dotted gray;" placeholder="Enter work %" (focusout)="upsertScrumWorkCompletionPercentage($event)"></div>
-  <div contenteditable="true" style="flex-grow : 1; width: 100%;" placeholder="Write comment here..." (focusout)="upsertScrumComment($event)"></div>
+  <div
+    contenteditable="true"
+    style="height: 20px; width: 100%; border-bottom: 1px dotted gray"
+    placeholder="Enter work %"
+    (focusout)="upsertScrumWorkCompletionPercentage($event)"
+  >{{scrumDay?.workCompletionPercentage}}
+  </div>
+  <div
+    contenteditable="true"
+    style="flex-grow: 1; width: 100%"
+    placeholder="Write comment here..."
+    (focusout)="upsertScrumComment($event)"
+  >{{scrumDay?.comment}}
+</div>
 </div>

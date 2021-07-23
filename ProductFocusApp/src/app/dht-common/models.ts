@@ -77,6 +77,7 @@ export interface IFeatureDetails {
   members: IMember[],
   assignees: IAssignee[],
   sprint: ISprint,
+  scrumDays: IScrumDay[]
 }
 
 export interface IFeatureAssignee{
@@ -131,6 +132,14 @@ export interface IKanbanBoard {
   id: number,
   name: string,
   featureDetails: IFeatureDetails[],
+
+}
+
+export interface IScrumDay {
+  featureId: number,
+  date: Date,
+  workCompletionPercentage: number,
+  comment: string
 }
 
 export enum InvitationStatus {

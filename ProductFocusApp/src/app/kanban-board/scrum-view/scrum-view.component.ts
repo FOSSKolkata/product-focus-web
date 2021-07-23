@@ -1,9 +1,7 @@
-import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { DateFunctionService } from 'src/app/dht-common/date-function.service';
-import { IKanbanBoard, IMemberDetail, ISprint, ModifyColumnIdentifier } from 'src/app/dht-common/models';
+import { IKanbanBoard, IMemberDetail, IScrumDay, ISprint, ModifyColumnIdentifier } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { UserService } from 'src/app/_services/user.service';
 
@@ -24,9 +22,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
   organization: any | null = null;
   countOfFeatureInModule = new Map<string,number>();
 
-  constructor(private datePipe: DatePipe,
-    private dateService: DateFunctionService,
-    private featureService: FeatureService,
+  constructor(private featureService: FeatureService,
     private toastr: ToastrService,
     private userService: UserService,
     private router: Router) { }
@@ -43,6 +39,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     }
     this.countOfFeatureInModule.clear();
     this.board = [];
+    console.log(this.kanbanBoard);
     for(let module of this.kanbanBoard){
       for(let feature of module.featureDetails){
         let currentFeature = {
@@ -54,6 +51,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
           endDate: feature.plannedEndDate,
           durationInDays: this.getNumberOfDaysBetweenTwoDates(new Date(feature.plannedEndDate),new Date(feature.plannedStartDate)),
           assignee: feature.assignees,
+          scrumDays: this.sortByDateAndAddExtra(feature.scrumDays)
         };
         var curr = this.countOfFeatureInModule.get(module.name);
         if(curr === undefined)
@@ -63,6 +61,27 @@ export class ScrumViewComponent implements OnInit, OnChanges {
         this.board.push(currentFeature);
       }
     }
+  }
+  sortByDateAndAddExtra(scrumDays: IScrumDay[]) {
+    let tempScrumDays = new Map<number,IScrumDay>();
+    for(let curr of scrumDays){
+      tempScrumDays.set(new Date(curr.date).getTime(),curr);
+    }
+    for(let curr of this.sprintDates){
+      if(tempScrumDays.get(new Date(curr).getTime()) === undefined)
+        tempScrumDays.set(new Date(curr).getTime(),{
+          comment: '',
+          date: new Date(curr),
+          featureId: -1,
+          workCompletionPercentage: 0
+        });
+    }
+    let modifiedScrumDays: IScrumDay[] = [];
+    for(let curr of tempScrumDays){
+      modifiedScrumDays.push(curr[1]);
+    }
+    console.log(modifiedScrumDays,'hii');
+    return modifiedScrumDays;
   }
 
   requireColspan(featureName: string){
