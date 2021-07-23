@@ -14,7 +14,7 @@ export class SwitchTextAutocompleteComponent implements OnInit {
   @ViewChild('instance', { static: true }) instance!: NgbTypeahead;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
-  fullUserName: any;
+  fullUserName: string = '';
   @Input('added-users') addedUsers: IMember[] = [];
   @Input('other-users') otherUsers: IMemberDetail[] = [];
   @Output('is-added') isUserAdded = new EventEmitter<IMember>();
@@ -51,6 +51,7 @@ export class SwitchTextAutocompleteComponent implements OnInit {
     this.addedUsers.push(event.item);
     this.removeAddedUser();
     this.isUserAdded.emit(event.item);
+    setTimeout(()=>this.fullUserName = '',0);
   }
 
   removeAddedUser() {

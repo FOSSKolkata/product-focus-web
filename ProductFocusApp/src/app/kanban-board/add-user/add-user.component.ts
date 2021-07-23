@@ -62,16 +62,10 @@ export class AddUserComponent implements OnInit, OnChanges {
     );
 
   addUser(event: any) {
-    // console.log(event);
-    // setTimeout(()=>this.fullUserName = '',0);
-    // var index = this.addedUsers.indexOf(event.item);
-    // if(index != -1) {
-    //   console.log(event.item + " is already added");
-    //   return;
-    // }
     this.addedUsers.push(event.item);
     this.removeAddedUser();
     this.isUserAdded.emit(event.item);
+    setTimeout(()=>this.fullUserName = '',0);
   }
 
   removeAddedUser() {
