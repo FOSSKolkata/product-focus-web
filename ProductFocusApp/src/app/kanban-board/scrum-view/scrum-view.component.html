@@ -26,7 +26,9 @@
         <td>{{feature.durationInDays}}</td>
         <td><app-switch-text-autocomplete [added-users]="feature.assignee" [other-users]="organizationUser" (is-added)="modifyFeature(modifyColumnIdentifier.includeAssignee,$event,feature)"></app-switch-text-autocomplete></td>
         <td></td>
-        <td></td>
+        <td>
+          <input type="checkbox">
+        </td>
         <td *ngFor="let sprintDate of sprintDates; index as i">
           <app-progress-comment [feature-id]="feature.id" [date]="sprintDate" [scrum-day]="feature.scrumDays[i]"></app-progress-comment>
         </td>

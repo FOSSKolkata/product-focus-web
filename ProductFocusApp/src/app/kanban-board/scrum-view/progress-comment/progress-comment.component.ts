@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { IScrumDay, IUpsertScrumCommentInput, IUpsertScrumWorkCompletionPercentageInput } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
 
@@ -11,7 +12,8 @@ export class ProgressCommentComponent implements OnInit{
   @Input('feature-id') featureId: number | null = null;
   @Input('date') date: Date | null = null;
   @Input('scrum-day') scrumDay: IScrumDay | null = null;
-  constructor(private featureService: FeatureService) {}
+  constructor(private featureService: FeatureService,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {}
   upsertScrumWorkCompletionPercentage(event: any){
@@ -19,11 +21,13 @@ export class ProgressCommentComponent implements OnInit{
       return;
     let input: IUpsertScrumWorkCompletionPercentageInput = {
       featureId: this.featureId,
-      workCompletionPercentage: event.target.textContent,
+      workCompletionPercentage: +event.target.textContent,
       scrumDate: new Date(Date.UTC(this.date.getFullYear(),this.date.getMonth(),this.date.getDate(),0,0,0))
     };
     this.featureService.upsertScrumWorkCompletionPercentage(input).subscribe(res => {
       console.log(res,"respo");
+    },(err)=>{
+      this.toastr.error('Changes not Saved.','Failed');
     });
   }
   upsertScrumComment(event: any){
@@ -36,6 +40,8 @@ export class ProgressCommentComponent implements OnInit{
     };
     this.featureService.upsertScrumComment(input).subscribe(res => {
       console.log(res,"respo");
+    },(err)=>{
+      this.toastr.error('Changes not Saved.','Failed');
     });
   }
 }

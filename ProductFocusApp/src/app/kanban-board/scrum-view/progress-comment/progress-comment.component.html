@@ -4,13 +4,13 @@
     style="height: 20px; width: 100%; border-bottom: 1px dotted gray"
     placeholder="Enter work %"
     (focusout)="upsertScrumWorkCompletionPercentage($event)"
-  >{{scrumDay?.workCompletionPercentage}}
-  </div>
+    >{{scrumDay?.workCompletionPercentage}}</div>
+    <!--Do not add any space in data binding-->
   <div
     contenteditable="true"
     style="flex-grow: 1; width: 100%"
     placeholder="Write comment here..."
     (focusout)="upsertScrumComment($event)"
-  >{{scrumDay?.comment}}
-</div>
+  >{{scrumDay?.comment}}</div>
+  <!--Do not add any space in data binding-->
 </div>

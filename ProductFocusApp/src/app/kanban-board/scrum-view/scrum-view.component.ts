@@ -70,7 +70,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     for(let curr of this.sprintDates){
       if(tempScrumDays.get(new Date(curr).getTime()) === undefined)
         tempScrumDays.set(new Date(curr).getTime(),{
-          comment: '',
+          comment: null,
           date: new Date(curr),
           featureId: -1,
           workCompletionPercentage: 0
@@ -80,7 +80,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     for(let curr of tempScrumDays){
       modifiedScrumDays.push(curr[1]);
     }
-    console.log(modifiedScrumDays,'hii');
+    console.log(modifiedScrumDays);
     return modifiedScrumDays;
   }
 

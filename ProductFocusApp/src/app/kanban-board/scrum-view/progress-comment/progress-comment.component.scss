@@ -9,10 +9,8 @@
   flex-flow: column;
 }
 
-[contenteditable=true]:empty:before{
+div[contenteditable=true]:empty:before{
   content: attr(placeholder);
-  pointer-events: none;
-  display: block;
   color: gray;
 }
 

@@ -139,7 +139,7 @@ export interface IScrumDay {
   featureId: number,
   date: Date,
   workCompletionPercentage: number,
-  comment: string
+  comment: string | null
 }
 
 export enum InvitationStatus {
