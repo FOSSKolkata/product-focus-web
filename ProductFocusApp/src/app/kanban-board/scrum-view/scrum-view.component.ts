@@ -71,7 +71,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     for(let curr of this.sprintDates){
       var currScrumDay = scrumDaysMap.get(new Date(curr).getTime());
       if(currScrumDay === undefined){
-        scrumDaysMap.set(new Date(curr).getTime(),{
+        modifiedScrumDays.push({
           comment: null,
           date: new Date(curr),
           featureId: -1,
