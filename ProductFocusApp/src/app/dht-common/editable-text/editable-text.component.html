@@ -1,1 +1,7 @@
-<div contenteditable="true" (focusout)="fireEvent($event)">{{textContent}}</div>
+<div
+  contenteditable="true"
+  [ngStyle]="labelStyle"
+  (focusout)="fireEvent($event)"
+>
+  {{ textContent }}
+</div>

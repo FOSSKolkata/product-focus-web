@@ -85,7 +85,8 @@
             [id]="module.id"
           >
             <div *ngFor="let feature of module[3]" cdkDrag>
-              <app-feature [feature]="feature"> </app-feature>
+              <app-feature (modal-closed)="fireChanges()" [feature]="feature">
+              </app-feature>
             </div>
           </div>
         </div>

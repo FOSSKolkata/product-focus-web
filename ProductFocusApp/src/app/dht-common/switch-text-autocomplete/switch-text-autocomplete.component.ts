@@ -55,10 +55,10 @@ export class SwitchTextAutocompleteComponent implements OnInit {
   }
 
   removeAddedUser() {
-    console.log('before other', this.otherUsers, 'added', this.addedUsers);
+    // console.log('before other', this.otherUsers, 'added', this.addedUsers);
     this.otherUsers = this.removeHelper(this.otherUsers, this.addedUsers);
     this.addedUsers = this.removeHelper(this.addedUsers, this.otherUsers);
-    console.log('after other', this.otherUsers, 'added', this.addedUsers);
+    // console.log('after other', this.otherUsers, 'added', this.addedUsers);
   }
 
   removeHelper(a: any[], b: any[]): any[] {

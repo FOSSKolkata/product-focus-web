@@ -39,7 +39,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     }
     this.countOfFeatureInModule.clear();
     this.board = [];
-    console.log(this.kanbanBoard);
+    // console.log(this.kanbanBoard);
     for(let module of this.kanbanBoard){
       for(let feature of module.featureDetails){
         let currentFeature = {
@@ -49,7 +49,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
           storyPoint: feature.storyPoint,
           startDate: feature.plannedStartDate,
           endDate: feature.plannedEndDate,
-          durationInDays: this.getNumberOfDaysBetweenTwoDates(new Date(feature.plannedEndDate),new Date(feature.plannedStartDate)),
+          durationInDays: feature.plannedEndDate && feature.plannedStartDate ? this.getNumberOfDaysBetweenTwoDates(new Date(feature.plannedEndDate),new Date(feature.plannedStartDate)): null,
           assignee: feature.assignees,
           scrumDays: this.sortByDateAndAddExtra(feature.scrumDays)
         };
@@ -63,24 +63,25 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     }
   }
   sortByDateAndAddExtra(scrumDays: IScrumDay[]) {
-    let tempScrumDays = new Map<number,IScrumDay>();
+    let scrumDaysMap = new Map<number,IScrumDay>();
+    let modifiedScrumDays: IScrumDay[] = [];
     for(let curr of scrumDays){
-      tempScrumDays.set(new Date(curr.date).getTime(),curr);
+      scrumDaysMap.set(new Date(curr.date).getTime(),curr);
     }
     for(let curr of this.sprintDates){
-      if(tempScrumDays.get(new Date(curr).getTime()) === undefined)
-        tempScrumDays.set(new Date(curr).getTime(),{
+      var currScrumDay = scrumDaysMap.get(new Date(curr).getTime());
+      if(currScrumDay === undefined){
+        scrumDaysMap.set(new Date(curr).getTime(),{
           comment: null,
           date: new Date(curr),
           featureId: -1,
           workCompletionPercentage: 0
         });
+      }
+      else{
+        modifiedScrumDays.push(currScrumDay);
+      }
     }
-    let modifiedScrumDays: IScrumDay[] = [];
-    for(let curr of tempScrumDays){
-      modifiedScrumDays.push(curr[1]);
-    }
-    console.log(modifiedScrumDays);
     return modifiedScrumDays;
   }
 
@@ -125,8 +126,8 @@ export class ScrumViewComponent implements OnInit, OnChanges {
       this.modifyFeatureDates(feature,ModifyColumnIdentifier.plannedEndDate,new Date(value.getTime()));
       feature.durationInDays = this.getNumberOfDaysBetweenTwoDates(new Date(feature.startDate),new Date(value));
     } else if(key == ModifyColumnIdentifier.storyPoint){
-      changedFeaturedInfo.storyPoint = value;
-      changedFeaturedInfoEvent.storyPoint = value;
+      changedFeaturedInfo.storyPoint = +value;
+      changedFeaturedInfoEvent.storyPoint = +value;
     } else if(key == ModifyColumnIdentifier.includeAssignee){
       changedFeaturedInfo.emailOfAssignee = value.email;
       changedFeaturedInfoEvent.assignee = value;

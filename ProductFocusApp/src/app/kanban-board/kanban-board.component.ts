@@ -115,7 +115,9 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   }
 
   setKanbanBoard() {
-    if (this.productId === undefined) return;
+    if (this.productId === undefined) {
+      this.router.navigate(['/']);
+    }
     this.isLoading = true;
     this.productService
       .getKanbanViewByProductIdAndQuery(this.productId,this.currentSprint.id,this.selectedUserIds)

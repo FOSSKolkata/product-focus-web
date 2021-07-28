@@ -7,17 +7,18 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./switch-text-datepick.component.scss']
 })
 export class SwitchTextDatepickComponent implements OnInit, OnChanges {
-  @Input('date') date!: Date;
+  @Input('date') date: Date | null = null;
   @Output('date-changed') dateChange = new EventEmitter<Date>();
   @Input('min') minDate: Date | null = null;
   @Input('max') maxDate: Date | null = null;
   curr: FormControl;
   constructor() {
     const currentYear = new Date().getFullYear();
-    this.curr = new FormControl(new Date());
+    this.curr = new FormControl();
   }
   ngOnChanges(changes: SimpleChanges): void {
-    this.curr = new FormControl(new Date(this.date));
+    if(this.date != null)
+      this.curr = new FormControl(new Date(this.date));
   }
 
   ngOnInit(): void {

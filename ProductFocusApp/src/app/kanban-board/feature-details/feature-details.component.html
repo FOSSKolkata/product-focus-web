@@ -13,13 +13,13 @@
   </div>
   <div class="col">
     <div class="modal-title w-100" id="modal-basic-title">
-      <app-switch-text-textarea
+      <app-editable-text
         *ngIf="featureDetails"
-        [title]="featureDetails.title"
-        [label-style]="{ 'font-weight': 'bold' }"
-        (is-text-changed)="modifyFeature(modifyColumnIdentifier.title, $event)"
+        [text-content]="featureDetails.title"
+        [dh-style]="{ 'max-width': '650px', 'font-size': '20px' }"
+        (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent)"
       >
-      </app-switch-text-textarea>
+      </app-editable-text>
       <span
         *ngIf="featureDetails && featureDetails.isBlocked"
         style="
@@ -48,14 +48,14 @@
     <div class="row">
       <div class="col-1" style="padding-top: 2px"></div>
       <div class="col" style="font-size: var(--global-text-size)">
-        <app-switch-text-textarea
+        <app-editable-text
           *ngIf="featureDetails"
-          [title]="featureDetails.description"
-          (is-text-changed)="
-            modifyFeature(modifyColumnIdentifier.description, $event)
-          "
-        >
-        </app-switch-text-textarea>
+          [text-content]="featureDetails.description"
+          [dh-style]="{'max-width':'500px'}"
+          (changed)="
+            modifyFeature(modifyColumnIdentifier.description, $event.target.textContent)
+          ">
+        </app-editable-text>
       </div>
     </div>
     <div class="row">
@@ -65,14 +65,15 @@
       <div class="col" style="font-size: var(--global-text-size)">
         <b>Acceptance Criteria</b>
         <div class="form-group">
-          <app-switch-text-textarea
+          <app-editable-text
             *ngIf="featureDetails"
-            [title]="featureDetails.acceptanceCriteria"
-            (is-text-changed)="
-              modifyFeature(modifyColumnIdentifier.acceptanceCriteria, $event)
+            [text-content]="featureDetails.acceptanceCriteria"
+            [dh-style]="{'max-width': '500px'}"
+            (changed)="
+              modifyFeature(modifyColumnIdentifier.acceptanceCriteria, $event.target.textContent)
             "
           >
-          </app-switch-text-textarea>
+          </app-editable-text>
         </div>
       </div>
     </div>
@@ -80,284 +81,269 @@
       <div style="position: absolute; color: red; top: -18px;"> <!--Remove this div-->
         Not Implemented
       </div>
-    <div class="row" style="margin-top: 20px; margin-bottom: 10px">
-      <div class="col-1">
-        <i class="fa fa-tasks"></i>
+      <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+        <div class="col-1">
+          <i class="fa fa-tasks"></i>
+        </div>
+        <div class="col">
+          <b>Developers Tasks</b>
+        </div>
       </div>
-      <div class="col">
-        <b>Developers Tasks</b>
+      <!-- starting of task -->
+      <div class="row">
+        <div class="col-1">
+          <input
+            type="checkbox"
+            name="task1"
+            id="task1"
+            value="Need User information using PNR number"
+          />
+        </div>
+        <div class="col-8 col-md-9">
+          <label for="task1">Need User information using PNR number</label>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-user-plus"></i>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-window-close"></i>
+        </div>
       </div>
-    </div>
-    <!-- starting of task -->
-    <div class="row">
-      <div class="col-1">
-        <input
-          type="checkbox"
-          name="task1"
-          id="task1"
-          value="Need User information using PNR number"
-        />
+      <!-- ending of task -->
+      <!-- starting of task -->
+      <div class="row">
+        <div class="col-1">
+          <input
+            type="checkbox"
+            name="task2"
+            id="task2"
+            value="Need User information using PNR number"
+          />
+        </div>
+        <div class="col-8 col-md-9">
+          <label for="task2">API integration with the front end.</label>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-user-plus"></i>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-window-close"></i>
+        </div>
       </div>
-      <div class="col-8 col-md-9">
-        <label for="task1">Need User information using PNR number</label>
+      <!-- ending of task -->
+      <!-- starting of task -->
+      <div class="row">
+        <div class="col-1">
+          <input
+            type="checkbox"
+            name="task3"
+            id="task3"
+            value="Need User information using PNR number"
+          />
+        </div>
+        <div class="col-8 col-md-9">
+          <label for="task3"
+            >On Clicking create it should create a new tab.</label
+          >
+        </div>
+        <div class="col-1">
+          <i class="fa fa-user-plus"></i>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-window-close"></i>
+        </div>
       </div>
-      <div class="col-1">
-        <i class="fa fa-user-plus"></i>
+      <!-- ending of task -->
+      <!-- add task button -->
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col">
+          <button class="btn good-btn" style="font-size: x-small">
+            Add Task
+          </button>
+        </div>
       </div>
-      <div class="col-1">
-        <i class="fa fa-window-close"></i>
+      <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+        <div class="col-1">
+          <i class="fa fa-tasks"></i>
+        </div>
+        <div class="col">
+          <b>QA Tasks</b>
+        </div>
       </div>
-    </div>
-    <!-- ending of task -->
-    <!-- starting of task -->
-    <div class="row">
-      <div class="col-1">
-        <input
-          type="checkbox"
-          name="task2"
-          id="task2"
-          value="Need User information using PNR number"
-        />
+      <!-- starting of task -->
+      <div class="row">
+        <div class="col-1">
+          <input
+            type="checkbox"
+            name="task1"
+            id="task1"
+            value="Need User information using PNR number"
+          />
+        </div>
+        <div class="col-8 col-md-9">
+          <label for="task1">Need User information using PNR number</label>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-user-plus"></i>
+        </div>
+        <div class="col-1">
+          <i class="fa fa-window-close"></i>
+        </div>
       </div>
-      <div class="col-8 col-md-9">
-        <label for="task2">API integration with the front end.</label>
+      <!-- ending of task -->
+      <!-- add task button -->
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col">
+          <button class="btn good-btn" style="font-size: x-small">
+            Add Task
+          </button>
+        </div>
       </div>
-      <div class="col-1">
-        <i class="fa fa-user-plus"></i>
+      <!-- comment Heading -->
+      <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+        <div class="col-1">
+          <i class="fa fa-comments"></i>
+        </div>
+        <div class="col">
+          <b>Comments</b>
+        </div>
       </div>
-      <div class="col-1">
-        <i class="fa fa-window-close"></i>
+      <!-- comments -->
+      <!-- all the comments -->
+      <!-- single comment starting -->
+      <div class="row">
+        <div class="col-1 p-0">
+          <div class="avatar" style="padding-top: 4px; background-color: #66241c">
+            KT
+          </div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-5 col-sm-4 h-25">
+              <small><b>Kartik Tiwari </b></small>
+            </div>
+            <div class="col-6 col-sm-7">
+              <small class="text-muted">1 minutes ago</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col h-75">
+              <small
+                >I need an end point of user name, phone no along with medication
+                id.</small
+              >
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-    <!-- ending of task -->
-    <!-- starting of task -->
-    <div class="row">
-      <div class="col-1">
-        <input
-          type="checkbox"
-          name="task3"
-          id="task3"
-          value="Need User information using PNR number"
-        />
+      <!-- single comment ending -->
+      <!-- single comment starting -->
+      <div class="row">
+        <div class="col-1 p-0">
+          <div class="avatar" style="padding-top: 4px">AS</div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-5 col-sm-4 h-25">
+              <small><b>Amit Shaw </b></small>
+            </div>
+            <div class="col-6 col-sm-7">
+              <small class="text-muted">10 minutes ago</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col h-75">
+              <small>I need mobile number along with user details.</small>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-8 col-md-9">
-        <label for="task3"
-          >On Clicking create it should create a new tab.</label
+      <!-- single comment ending -->
+      <!-- single comment starting -->
+      <div class="row">
+        <div class="col-1 p-0">
+          <div class="avatar" style="padding-top: 4px; background-color: #1a5021">
+            R.S
+          </div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-5 col-sm-4 h-25">
+              <small><b>Rahul Shrivastav </b></small>
+            </div>
+            <div class="col-6 col-sm-7">
+              <small class="text-muted">yesterday at 2:33 p.m</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col h-75">
+              <small
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                ex, iste amet, pariatur ea odit dolores a illo adipisci
+                consectetur itaque ad consequuntur provident excepturi aut
+                quibusdam? Fuga, animi non.</small
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- single comment ending -->
+      <!-- single comment starting -->
+      <div class="row">
+        <div class="col-1 p-0">
+          <div class="avatar" style="padding-top: 4px; background-color: #6547d3">
+            PS
+          </div>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div class="col-5 col-sm-4 h-25">
+              <small><b>Pappu Singh </b></small>
+            </div>
+            <div class="col-6 col-sm-7">
+              <small class="text-muted">2nd Jan at 3:45 p.m</small>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col h-75">
+              <small
+                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                ex, iste amet, pariatur ea odit dolores a illo adipisci
+                consectetur itaque ad consequuntur provident excepturi aut
+                quibusdam? Fuga, animi non.</small
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- single comment ending -->
+      <div class="row">
+        <div class="col-1 p-0">
+          <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
+        </div>
+        <div
+          class="col-10 col-md-10"
+          style="
+            height: 74px;
+            background-color: white;
+            padding: 0px;
+            margin: 10px;
+          "
         >
-      </div>
-      <div class="col-1">
-        <i class="fa fa-user-plus"></i>
-      </div>
-      <div class="col-1">
-        <i class="fa fa-window-close"></i>
-      </div>
-    </div>
-    <!-- ending of task -->
-    <!-- add task button -->
-    <div class="row">
-      <div class="col-1"></div>
-      <div class="col">
-        <button class="btn good-btn" style="font-size: x-small">
-          Add Task
-        </button>
-      </div>
-    </div>
-    <div class="row" style="margin-top: 20px; margin-bottom: 10px">
-      <div class="col-1">
-        <i class="fa fa-tasks"></i>
-      </div>
-      <div class="col">
-        <b>QA Tasks</b>
-      </div>
-    </div>
-    <!-- starting of task -->
-    <div class="row">
-      <div class="col-1">
-        <input
-          type="checkbox"
-          name="task1"
-          id="task1"
-          value="Need User information using PNR number"
-        />
-      </div>
-      <div class="col-8 col-md-9">
-        <label for="task1">Need User information using PNR number</label>
-      </div>
-      <div class="col-1">
-        <i class="fa fa-user-plus"></i>
-      </div>
-      <div class="col-1">
-        <i class="fa fa-window-close"></i>
-      </div>
-    </div>
-    <!-- ending of task -->
-    <!-- add task button -->
-    <div class="row">
-      <div class="col-1"></div>
-      <div class="col">
-        <button class="btn good-btn" style="font-size: x-small">
-          Add Task
-        </button>
-      </div>
-    </div>
-    <!-- comment Heading -->
-    <div class="row" style="margin-top: 20px; margin-bottom: 10px">
-      <div class="col-1">
-        <i class="fa fa-comments"></i>
-      </div>
-      <div class="col">
-        <b>Comments</b>
-      </div>
-    </div>
-    <!-- comments -->
-    <!-- all the comments -->
-    <!-- single comment starting -->
-    <div class="row">
-      <div class="col-1 p-0">
-        <div class="avatar" style="padding-top: 4px; background-color: #66241c">
-          KT
-        </div>
-      </div>
-      <div class="col">
-        <div class="row">
-          <div class="col-5 col-sm-4 h-25">
-            <small><b>Kartik Tiwari </b></small>
-          </div>
-          <div class="col-6 col-sm-7">
-            <small class="text-muted">1 minutes ago</small>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col h-75">
-            <small
-              >I need an end point of user name, phone no along with medication
-              id.</small
-            >
-          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Write a comment..."
+            style="border: none"
+          />
+          <button class="btn good-btn" style="margin: 3px">
+            <small>Comment</small>
+          </button>
         </div>
       </div>
     </div>
-    <!-- single comment ending -->
-    <!-- single comment starting -->
-    <div class="row">
-      <div class="col-1 p-0">
-        <div class="avatar" style="padding-top: 4px">AS</div>
-      </div>
-      <div class="col">
-        <div class="row">
-          <div class="col-5 col-sm-4 h-25">
-            <small><b>Amit Shaw </b></small>
-          </div>
-          <div class="col-6 col-sm-7">
-            <small class="text-muted">10 minutes ago</small>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col h-75">
-            <small>I need mobile number along with user details.</small>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- single comment ending -->
-    <!-- single comment starting -->
-    <div class="row">
-      <div class="col-1 p-0">
-        <div class="avatar" style="padding-top: 4px; background-color: #1a5021">
-          R.S
-        </div>
-      </div>
-      <div class="col">
-        <div class="row">
-          <div class="col-5 col-sm-4 h-25">
-            <small><b>Rahul Shrivastav </b></small>
-          </div>
-          <div class="col-6 col-sm-7">
-            <small class="text-muted">yesterday at 2:33 p.m</small>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col h-75">
-            <small
-              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
-              ex, iste amet, pariatur ea odit dolores a illo adipisci
-              consectetur itaque ad consequuntur provident excepturi aut
-              quibusdam? Fuga, animi non.</small
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- single comment ending -->
-    <!-- single comment starting -->
-    <div class="row">
-      <div class="col-1 p-0">
-        <div class="avatar" style="padding-top: 4px; background-color: #6547d3">
-          PS
-        </div>
-      </div>
-      <div class="col">
-        <div class="row">
-          <div class="col-5 col-sm-4 h-25">
-            <small><b>Pappu Singh </b></small>
-          </div>
-          <div class="col-6 col-sm-7">
-            <small class="text-muted">2nd Jan at 3:45 p.m</small>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col h-75">
-            <small
-              >Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
-              ex, iste amet, pariatur ea odit dolores a illo adipisci
-              consectetur itaque ad consequuntur provident excepturi aut
-              quibusdam? Fuga, animi non.</small
-            >
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- single comment ending -->
-    <div class="row">
-      <div class="col-1 p-0">
-        <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
-      </div>
-      <div
-        class="col-10 col-md-10"
-        style="
-          height: 74px;
-          background-color: white;
-          padding: 0px;
-          margin: 10px;
-        "
-      >
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Write a comment..."
-          style="border: none"
-        />
-        <button class="btn good-btn" style="margin: 3px">
-          <small>Comment</small>
-        </button>
-      </div>
-    </div>
-  </div> <!--Remove this line-->
-    <!-- <div
-      style="
-        font-size: 70px;
-        transform: rotate(-60deg);
-        position: absolute;
-        bottom: 300px;
-        left: -30px;
-        padding-top: 15px;
-        height: 100px;
-        width: 600px;
-        color: rgba(0, 0, 0, 0.3);
-      "
-    >
-      Not Implemented
-    </div> -->
   </div>
   <div class="col-12 col-lg-3">
     <div style="margin-top: 10px">

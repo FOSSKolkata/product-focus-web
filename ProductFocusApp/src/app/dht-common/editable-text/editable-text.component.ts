@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class EditableTextComponent implements OnInit {
 
   @Input('text-content') textContent: string = '';
+  @Input('dh-style') labelStyle = {};
   @Output('changed') isTextChanged = new EventEmitter<any>();
   constructor() { }
 

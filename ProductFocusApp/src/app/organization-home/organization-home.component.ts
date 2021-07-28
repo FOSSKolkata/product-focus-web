@@ -128,6 +128,7 @@ export class OrganizationHomeComponent implements OnInit {
     var addProductInOrganizationInput: IAddProductInOrganizationInput = {
       name: this.productName,
     };
+    console.log('h');
     this.organizationService
       .addProductInOrganization(
         this.selectedOrganization.id,

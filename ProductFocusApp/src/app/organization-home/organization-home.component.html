@@ -25,7 +25,6 @@
                 name="organizationName"
                 placeholder="Enter Organization Name"
                 [(ngModel)]="organizationName"
-                (keyup.enter)="addOrganization()"
                 [readonly]="!enabledAdding"
                 required
                 minlength="4"
@@ -89,9 +88,8 @@
     </div>
       
     <app-spinner [is-spinner-active]="productSpinner"></app-spinner>
-    <div
-      [style.display]="!productSpinner"
-      *ngIf="selectedOrganization"
+    <div style="height: 80vh; overflow: hidden; overflow: auto;"
+      *ngIf="selectedOrganization && !productSpinner"
       class="row module-content ml-5"
     >
       <div
@@ -108,7 +106,7 @@
               class="fa fa-road fa-2x"
               style="position: absolute; top: 110px; left: 30px"
             ></i>
-          </a> -->
+          </a> --> 
           <a
             [routerLink]="['/products', product.id, 'kanban-board']"
             (click)="setLastProductId(product)"
@@ -118,7 +116,7 @@
       </div>
       <div
         class="col-lg-4 col-md-6 mt-3 mb-3 pointer"
-        *ngIf="!productAddView || !productSpinner"
+        *ngIf="!productSpinner"
       >
         <div
           *ngIf="!productAddView"
@@ -135,7 +133,6 @@
               class="form-control"
               #productname="ngModel"
               [(ngModel)]="productName"
-              (keyup.enter)="addProduct()"
               placeholder="Enter product name"
               [readonly]="!enabledAdding"
               required

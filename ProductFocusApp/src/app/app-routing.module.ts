@@ -12,7 +12,7 @@ import { OrganizationMembersComponent } from './organization/organization-member
 import { ErrorComponent } from './dht-common/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
-import { SecureGuard } from './dht-common/secure.guard';
+import { SecureGuard } from './guard/secure.guard';
 
 const SECURE_APP_ROUTES: Routes = [
   {
@@ -98,11 +98,11 @@ const routes: Routes = [
     canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: 'Invitation'}
   },
-  {
-    path: 'profile',
-    component: ProfileComponent,
-    data: {breadcrumb: 'Profile'}
-  },
+  // {
+  //   path: 'profile',
+  //   component: ProfileComponent,
+  //   data: {breadcrumb: 'Profile'}
+  // },
   {
     // Needed for hash routing
     path: 'error',

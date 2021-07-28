@@ -44,9 +44,9 @@
       </mat-radio-group>
     </div>
   </div>
-  <div style="display: inline-block; position: absolute; right: 30px">
-    <div ngbDropdown style="margin-top: 15px">
-      <i class="fa fa-cog fa-2x" id="settingsDropDown" ngbDropdownToggle></i>
+  <div class="d-inline-block" style="position: absolute; right: 30px;">
+    <div ngbDropdown class="d-inline-block float_right" placement="bottom-right" style="position: static;">
+      <i class="fa fa-cog fa-2x mt-3" id="settingsDropDown" ngbDropdownToggle></i>
       <div ngbDropdownMenu aria-labelledby="settingsDropDown">
         <button ngbDropdownItem (click)="openPopup(manageModuleContent)">
           Manage Modules
