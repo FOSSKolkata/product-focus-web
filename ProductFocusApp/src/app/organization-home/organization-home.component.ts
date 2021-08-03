@@ -87,7 +87,8 @@ export class OrganizationHomeComponent implements OnInit {
         this.enabledAdding = true;
       },
       (err) => {
-        this.toastr.error("Organization not added", "Failed");
+        console.log(err);
+        this.toastr.error(err.error, "Failed");
         this.enabledAdding = true;
       }
     );
@@ -127,7 +128,6 @@ export class OrganizationHomeComponent implements OnInit {
     var addProductInOrganizationInput: IAddProductInOrganizationInput = {
       name: this.productName,
     };
-    console.log('h');
     this.organizationService
       .addProductInOrganization(
         this.selectedOrganization.id,
@@ -143,7 +143,7 @@ export class OrganizationHomeComponent implements OnInit {
             this.setProductList(this.selectedOrganization.id);
         },
         (err) => {
-          this.toastr.error("Product not added","Failed");
+          this.toastr.error(err.error,"Failed");
           this.enabledAdding = true;
         }
       );
