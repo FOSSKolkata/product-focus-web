@@ -51,7 +51,9 @@ export class ScrumViewComponent implements OnInit, OnChanges {
           endDate: feature.plannedEndDate,
           durationInDays: feature.plannedEndDate && feature.plannedStartDate ? this.getNumberOfDaysBetweenTwoDates(new Date(feature.plannedEndDate),new Date(feature.plannedStartDate)): null,
           assignee: feature.assignees,
-          scrumDays: this.sortByDateAndAddExtra(feature.scrumDays)
+          scrumDays: this.sortByDateAndAddExtra(feature.scrumDays),
+          remarks: feature.remarks,
+          functionalTestability: feature.functionalTestability
         };
         var curr = this.countOfFeatureInModule.get(module.name);
         if(curr === undefined)
@@ -131,6 +133,12 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     } else if(key == ModifyColumnIdentifier.includeAssignee){
       changedFeaturedInfo.emailOfAssignee = value.email;
       changedFeaturedInfoEvent.assignee = value;
+    } else if(key == ModifyColumnIdentifier.remarks){
+      changedFeaturedInfo.remarks = value,
+      changedFeaturedInfoEvent.remarks = value
+    } else if(key == ModifyColumnIdentifier.functionalTestability){
+      changedFeaturedInfo.functionalTestability = value.target.checked;
+      changedFeaturedInfoEvent.functionalTestability = value.target.value;
     }
     this.featureService.modifyFeatureElement(changedFeaturedInfo).subscribe((x) => {
       this.fireChanges(changedFeaturedInfoEvent);

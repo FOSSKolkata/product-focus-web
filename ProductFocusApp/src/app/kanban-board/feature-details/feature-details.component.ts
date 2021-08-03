@@ -57,7 +57,9 @@ export class FeatureDetailsComponent implements OnInit {
       endDate: new Date(),
       name: '',
     },
-    scrumDays: []
+    scrumDays: [],
+    functionalTestability: false,
+    remarks: null
   };
 
   isAddTaskButtonActive: boolean = true;

@@ -33,6 +33,8 @@ export enum ModifyColumnIdentifier {
   plannedEndDate = 12,
   actualStartDate = 13,
   actualEndDate = 14,
+  remarks = 15,
+  functionalTestability = 16,
 }
 
 export interface IAddOrganizationInput {
@@ -77,7 +79,9 @@ export interface IFeatureDetails {
   members: IMember[],
   assignees: IAssignee[],
   sprint: ISprint,
-  scrumDays: IScrumDay[]
+  scrumDays: IScrumDay[],
+  functionalTestability: boolean,
+  remarks: string | null
 }
 
 export interface IFeatureAssignee{
