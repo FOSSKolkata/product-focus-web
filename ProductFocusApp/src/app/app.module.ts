@@ -45,7 +45,6 @@ import { DhtCommonModule } from './dht-common/dht-common.module';
 import { InvitationComponent } from './invitation/invitation.component';
 import { OrganizationMembersComponent } from './organization/organization-members/organization-members.component';
 import { StateComponent } from './garbage/state/state.component';
-import { ErrorComponent } from './dht-common/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { MatSortModule } from '@angular/material/sort';
 import { SprintService } from './_services/sprint.service';

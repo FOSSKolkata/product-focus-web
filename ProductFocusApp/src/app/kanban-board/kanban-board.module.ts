@@ -19,6 +19,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { BoardViewComponent } from './board-view/board-view.component';
 import { ScrumViewComponent } from './scrum-view/scrum-view.component';
 import { ProgressCommentComponent } from './scrum-view/progress-comment/progress-comment.component';
+import { MdePopoverModule } from '@material-extended/mde';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -33,6 +35,8 @@ import { ProgressCommentComponent } from './scrum-view/progress-comment/progress
     MatSelectModule,
     MatSliderModule,
     MatRadioModule,
+    MdePopoverModule,
+    MatCardModule,
     NgCircleProgressModule.forRoot({
       // set defaults here
       radius: 100,

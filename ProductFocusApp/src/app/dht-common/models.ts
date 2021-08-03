@@ -138,7 +138,7 @@ export interface IKanbanBoard {
 export interface IScrumDay {
   featureId: number,
   date: Date,
-  workCompletionPercentage: number,
+  workCompletionPercentage: number | null,
   comment: string | null
 }
 

@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbService } from 'angular-crumbs';
 import { ToastrService } from 'ngx-toastr';
-import { isVariableDeclarationList } from 'typescript';
 import {
   IAddOrganizationInput, IAddProductInOrganizationInput, IOrganization, IProduct,
 } from '../dht-common/models';

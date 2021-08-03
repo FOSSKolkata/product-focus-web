@@ -41,6 +41,7 @@ export class UserService {
   }
 
   async doesUserExistInApplicationDb(): Promise<boolean> {
+    console.log(this.authService.instance.getAllAccounts())
     const email = this.authService.instance.getAllAccounts()[0].username;
     if(this.isUserPresentInLocalDb != null && this.isUserPresentInLocalDb){
       return true;

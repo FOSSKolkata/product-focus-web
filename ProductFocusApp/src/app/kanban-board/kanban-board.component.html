@@ -28,7 +28,7 @@
       <mat-select
         multiple
         [(ngModel)]="selectedUserIds"
-        (closed)="setKanbanBoard()"
+        (selectionChange)="setKanbanBoard()"
       >
         <mat-option *ngFor="let user of organizationUser" [value]="user.id">{{
           user.name

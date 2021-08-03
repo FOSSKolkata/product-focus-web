@@ -8,7 +8,7 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Subject, OperatorFunction, Observable } from 'rxjs';
 import {
   debounceTime,
@@ -33,7 +33,7 @@ export class AddUserComponent implements OnInit, OnChanges {
   @Output('is-added') isUserAdded = new EventEmitter<IMember>();
   isAddUserActive: boolean = false;
 
-  constructor() {}
+  constructor(private modalService: NgbModal) {}
   ngOnChanges(changes: SimpleChanges): void {
     console.log('changes', changes);
     this.removeAddedUser();
@@ -75,13 +75,17 @@ export class AddUserComponent implements OnInit, OnChanges {
     console.log('after other', this.otherUsers, 'added', this.addedUsers);
   }
 
+  removeUser(user: any){
+    console.log(user);
+  }
+
   removeHelper(a: IMember[], b: IMember[]): IMember[] {
     //a-b
     var tempIMember: IMember[] = [];
     a.forEach((aUser) => {
       var found = false;
       b.forEach((bUser) => {
-        if (aUser.email == bUser.email) {
+        if (aUser.objectId == bUser.objectId) {
           found = true;
         }
       });
