@@ -31,12 +31,13 @@ export class AddUserComponent implements OnInit, OnChanges {
   @Input('added-users') addedUsers: IMember[] = [];
   @Input('other-users') otherUsers: IMember[] = [];
   @Output('is-added') isUserAdded = new EventEmitter<IMember>();
+  @Output('is-removed') isUserRemoved = new EventEmitter<IMember>();
   isAddUserActive: boolean = false;
 
   constructor(private modalService: NgbModal) {}
   ngOnChanges(changes: SimpleChanges): void {
     console.log('changes', changes);
-    this.removeAddedUser();
+    this.addUserHandler();
   }
 
   ngOnInit(): void {}
@@ -63,23 +64,36 @@ export class AddUserComponent implements OnInit, OnChanges {
 
   addUser(event: any) {
     this.addedUsers.push(event.item);
-    this.removeAddedUser();
+    this.addUserHandler();
     this.isUserAdded.emit(event.item);
     setTimeout(()=>this.fullUserName = '',0);
   }
 
-  removeAddedUser() {
+  private addUserHandler() {
     console.log('before other', this.otherUsers, 'added', this.addedUsers);
-    this.otherUsers = this.removeHelper(this.otherUsers, this.addedUsers);
-    this.addedUsers = this.removeHelper(this.addedUsers, this.otherUsers);
+    this.otherUsers = this.addHelper(this.otherUsers, this.addedUsers);
+    this.addedUsers = this.addHelper(this.addedUsers, this.otherUsers);
     console.log('after other', this.otherUsers, 'added', this.addedUsers);
   }
 
-  removeUser(user: any){
-    console.log(user);
+  removeUser(user: IMember){
+    this.isUserRemoved.emit(user);
+    this.removeHelper(user);
   }
 
-  removeHelper(a: IMember[], b: IMember[]): IMember[] {
+  removeHelper(user: IMember){
+    console.log('before other remove', this.otherUsers, 'added', this.addedUsers);
+    this.otherUsers.push(user);
+    for(let i=0;i<this.addedUsers.length;i++){
+      if(this.addedUsers[i].objectId == user.objectId){
+        this.addedUsers.splice(i,1);
+        break;
+      }
+    }
+    console.log('after other remove', this.otherUsers, 'added', this.addedUsers);
+  }
+
+  addHelper(a: IMember[], b: IMember[]): IMember[] {
     //a-b
     var tempIMember: IMember[] = [];
     a.forEach((aUser) => {

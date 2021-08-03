@@ -133,6 +133,8 @@ export class FeatureDetailsComponent implements OnInit {
       this.featureDetails.storyPoint = value.target.value;
     } else if (key == ModifyColumnIdentifier.sprint) {
       object.sprintName = value.name;
+    } else if(key == ModifyColumnIdentifier.excludeAssignee){
+      object.emailOfAssignee = value.email;
     }
     this.featureService.modifyFeatureElement(object).subscribe((x) => {
       console.log(x);

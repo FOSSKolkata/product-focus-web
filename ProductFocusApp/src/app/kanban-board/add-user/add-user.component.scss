@@ -11,3 +11,7 @@
 ::ng-deep .cdk-overlay-container{
   z-index: 2000 !important; // 1050 is minimum
 }
+
+.fa-times-circle{
+  cursor: pointer;
+}
