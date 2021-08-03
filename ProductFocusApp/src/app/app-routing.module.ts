@@ -72,6 +72,7 @@ const routes: Routes = [
   },{
     path: 'organization',
     component: OrganizationComponent,
+    canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: 'Organization'},
     children: [
       {
@@ -90,7 +91,6 @@ const routes: Routes = [
         data: {breadcrumb: 'Invitations'}
       },
     ],
-    canActivate: [MsalGuard,SecureGuard],
   },
   {
     path: 'invitation',
