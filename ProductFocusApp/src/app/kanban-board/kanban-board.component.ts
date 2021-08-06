@@ -268,6 +268,11 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     return this.sprintForm.value['name'];
   }
 
+  public get sprintValidate(){
+    console.log(this.sprintForm);
+    return this.sprintForm;
+  }
+
   changeMode(isKanbanMode: boolean){
     this.isKanbanMode = isKanbanMode;
     localStorage.isKanbanMode = isKanbanMode;

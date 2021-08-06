@@ -200,20 +200,21 @@
             />
             <div
               *ngIf="
-                sprintname.invalid && (sprintname.dirty || sprintname.touched)
+                sprintValidate.invalid && (sprintValidate.dirty || !sprintValidate.untouched)
               "
             >
               <div
                 class="text-danger"
-                *ngIf="sprintname.errors?.required"
+                style="transform: translateX(-155px)"
+                *ngIf="sprintForm.controls.name.errors?.required"
               >
                 Please Enter Sprint Name.
               </div>
               
               <div
                 class="text-danger"
-                style="transform: translateX(-131px)"
-                *ngIf="sprintname.errors?.pattern"
+                style="transform: translateX(-48px)"
+                *ngIf="sprintForm.controls.name.errors?.pattern"
               >
                 Two word is allowed without special character of length 2-20.
               </div>
@@ -240,6 +241,14 @@
             >
             </ngb-datepicker>
 
+            <div *ngIf="sprintValidate.invalid">
+              <div
+                class="text-danger"
+                style="transform: translateX(-131px)"
+                *ngIf="sprintForm.controls.dates.errors?.dateNotChosen">
+                Please select start and end dates.
+              </div>
+            </div>
             <ng-template #t let-date let-focused="focused">
               <span
                 class="custom-day"
