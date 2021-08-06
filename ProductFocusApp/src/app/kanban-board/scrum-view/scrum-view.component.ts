@@ -133,7 +133,10 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     } else if(key == ModifyColumnIdentifier.includeAssignee){
       changedFeaturedInfo.emailOfAssignee = value.email;
       changedFeaturedInfoEvent.assignee = value;
-    } else if(key == ModifyColumnIdentifier.remarks){
+    } else if(key == ModifyColumnIdentifier.excludeAssignee){
+      changedFeaturedInfo.emailOfAssignee = value.email;
+      changedFeaturedInfo.assignee = value;
+    }else if(key == ModifyColumnIdentifier.remarks){
       changedFeaturedInfo.remarks = value,
       changedFeaturedInfoEvent.remarks = value
     } else if(key == ModifyColumnIdentifier.functionalTestability){

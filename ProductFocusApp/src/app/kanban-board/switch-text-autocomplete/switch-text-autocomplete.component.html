@@ -2,8 +2,20 @@
   <div style="display: inline-block; min-width: 10px; min-height: 10px;">
     <span
       *ngFor="let user of addedUsers; index as i"
+      [mdePopoverTriggerFor]="appPopover"
+      mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
     >
       {{ user.name }}, &nbsp;
+      <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdePopoverPositionY]="'above'">
+        <mat-card>
+          <mat-card-header>
+            <app-user-avatar mat-card-avatar [name]="user.name"></app-user-avatar>
+            <mat-card-title>{{user.name}}</mat-card-title>
+            <mat-card-subtitle>{{user.email}}</mat-card-subtitle>
+            <i class="far fa-times-circle fa-2x text-danger" (click)="removeUser(user)"></i>
+          </mat-card-header>
+        </mat-card>
+      </mde-popover>
     </span>
   </div>
   

@@ -24,6 +24,7 @@ import { UserService } from '../_services/user.service';
 import { DateFunctionService } from '../dht-common/date-function.service';
 import { ModifyColumnIdentifier } from '../dht-common/models';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MdePopoverTrigger } from '@material-extended/mde';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -62,6 +63,8 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     dates: new FormControl('',this.DateValidate())
   });
   error!: HttpErrorResponse;
+  sprintExist = true;
+  isSprintAdding = false;
 
   constructor(
     private productService: ProductService,
@@ -76,12 +79,12 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     private router: Router,
     private dateService: DateFunctionService
   ) {
-    this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 14);
+    this.fromDate = this.calendar.getToday();
+    this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 14);
     this.isKanbanMode = localStorage.isKanbanMode === undefined?true:localStorage.isKanbanMode == "true"?true: false;
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.productId = this.activatedRoute.snapshot.params.id;
     if(localStorage.selectedOrganization === undefined || localStorage.selectedProduct === undefined)
       this.router.navigate(['/']);
@@ -90,7 +93,8 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
     this.breadcrumbService.changeBreadcrumb(this.route.snapshot,this.selectedProduct.name);
     this.setModules();
-    this.setSprint();
+    if(!this.doesSprintExistSetIt())
+      return;
     this.setAssignedTo();
   }
 
@@ -100,12 +104,19 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     });
   }
 
-  setSprint() {
-    this.sprintService.getSprintByProductId(this.productId).subscribe((x) => {
+  async doesSprintExistSetIt(): Promise<boolean> {
+    await this.sprintService.getSprintByProductId(this.productId).toPromise().then(x => {
+      if(x.length == 0)
+        this.sprintExist = false;
       this.allSprint = x;
-      this.currentSprint = this.allSprint[0];
-      this.selectSprint(this.currentSprint);
     });
+    if(!this.sprintExist){
+      return false;
+    }
+    
+    this.currentSprint = this.allSprint[0];
+    this.selectSprint(this.currentSprint);
+    return true;
   }
 
   selectSprint(sprint: ISprint) {
@@ -214,12 +225,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     if (this.toDate == null || this.fromDate == null) {
       alert('Please select proper date');
       return;
-    } else if (
-      this.sprintName == undefined ||
-      this.sprintName.trim().length == 0
-    ) {
-      alert('Sprint name cannot be empty');
-      return;
     }
     var input: ISprintInput = {
       productId: +this.productId,
@@ -227,16 +232,18 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       startDate: this.dateService.ngbDateToDate(this.fromDate),
       endDate: this.dateService.ngbDateToDate(this.toDate),
     };
-    console.log(input,"sprint data");
+    this.isSprintAdding = true;
     this.sprintService.addSprint(input).subscribe(
       (x) => {
+        this.sprintName = '';
         this.toastr.success('Sprint added','Success');
-        console.log(x);
-        this.setSprint();
-        this.sprintAddView = false;
+        this.isSprintAdding = false;
+        this.doesSprintExistSetIt();
       },
       (err) => {
-        this.toastr.error('Sprint not added','Failed');
+        this.sprintName = '';
+        this.toastr.error(err.error,'Failed');
+        this.isSprintAdding = false;
       }
     );
   }

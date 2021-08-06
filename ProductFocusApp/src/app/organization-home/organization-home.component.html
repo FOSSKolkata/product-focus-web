@@ -27,14 +27,14 @@
                 [(ngModel)]="organizationName"
                 [readonly]="!enabledAdding"
                 required
-                minlength="4"
+                pattern="[\w]{2,20}[\s|\-]?[\w]{2,20}?"
               />
               <div *ngIf="name.invalid && (name.dirty || name.touched)">
                 <div class="text-danger" *ngIf="name.errors?.required">
                   Name is required.
                 </div>
-                <div class="text-danger" *ngIf="name.errors?.minlength">
-                  Name must be at least 4 characters long.
+                <div class="text-danger" *ngIf="name.errors?.pattern">
+                  Two word is allowed without special character except - of length 2-20.
                 </div>
               </div>
               <div>
@@ -136,19 +136,19 @@
               placeholder="Enter product name"
               [readonly]="!enabledAdding"
               required
-              minlength="4"
+              pattern="[\w]{2,20}[\s|\-]?[\w]{2,20}?"
             />
             <div *ngIf="productname.invalid && (productname.dirty || productname.touched)">
               <div class="text-danger" *ngIf="productname.errors?.required">
                 Name is required.
               </div>
-              <div class="text-danger" *ngIf="productname.errors?.minlength">
-                Enter atleast 4 characters.
+              <div class="text-danger" *ngIf="productname.errors?.pattern">
+                Two word is allowed of length 2-20.
               </div>
             </div>
             <div>
               <button
-                [disabled]="productForm.invalid || !enabledAdding"
+              [disabled]="!productForm.valid || !enabledAdding"
                 type="submit"
                 class="btn good-btn"
               >

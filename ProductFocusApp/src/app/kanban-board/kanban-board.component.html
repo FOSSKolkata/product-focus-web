@@ -57,6 +57,12 @@
       </div>
     </div>
   </div>
+  <div *ngIf="!sprintExist" class="d-inline-block" style="position: absolute; right: 70px; margin-top: 20px;">
+    <div style="display: inline; box-shadow: 2px 2px; border: 1px solid black;">
+      Add a sprint here.
+    </div>
+    <i class="fa fa-arrow-right mt-1"></i>
+  </div>
 </div>
 <div *ngIf="!error"
   class="margin-for-navs"
@@ -181,6 +187,7 @@
               Name<span style="color: red">*</span>
             </div>
             <input
+              [attr.disabled]="isSprintAdding?'':null"
               type="text"
               [(ngModel)]="sprintName"
               name="sprintname"
@@ -188,7 +195,7 @@
               style="display: inline-block; width: 475px"
               placeholder="Enter Sprint Name"
               required
-              minlength="4"
+              pattern="[\w]{2,20}[\s|\-]?[\w]{1,20}?"
               formControlName="name"
             />
             <div
@@ -198,17 +205,17 @@
             >
               <div
                 class="text-danger"
-                style="transform: translateX(-155px)"
                 *ngIf="sprintname.errors?.required"
               >
                 Please Enter Sprint Name.
               </div>
+              
               <div
                 class="text-danger"
                 style="transform: translateX(-131px)"
-                *ngIf="sprintname.errors?.minlength"
+                *ngIf="sprintname.errors?.pattern"
               >
-                Please Enter Atleast 4 characters.
+                Two word is allowed without special character of length 2-20.
               </div>
             </div>
 
@@ -251,7 +258,10 @@
                 class="btn good-btn"
                 type="submit"
               >
-                Add
+              <div *ngIf="isSprintAdding" class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+                {{isSprintAdding?"Adding":"Add"}}
               </button>
               <button
                 class="btn reject-btn"

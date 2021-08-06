@@ -60,9 +60,9 @@
             class="form-control"
             placeholder="Search"
             [ngbTypeahead]="search"
-            (keyup.enter)="sendInvitation(invitationForm)"
             [readonly]="sendingInvitationActive"
             required
+            pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
             email
           />
       </div>

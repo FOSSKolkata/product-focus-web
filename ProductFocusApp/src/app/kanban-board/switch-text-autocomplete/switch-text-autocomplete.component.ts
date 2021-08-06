@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChil
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, OperatorFunction, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
-import { IMember, IMemberDetail } from '../models';
+import { IMember, IMemberDetail } from '../../dht-common/models';
 
 @Component({
   selector: 'app-switch-text-autocomplete',
@@ -18,11 +18,12 @@ export class SwitchTextAutocompleteComponent implements OnInit {
   @Input('added-users') addedUsers: IMember[] = [];
   @Input('other-users') otherUsers: IMemberDetail[] = [];
   @Output('is-added') isUserAdded = new EventEmitter<IMember>();
+  @Output('is-removed') isUserRemoved = new EventEmitter<IMember>();
   isAddUserActive: boolean = false;
 
   constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
-    this.removeAddedUser();
+    this.addUserHandler();
   }
 
   ngOnInit(): void {}
@@ -49,19 +50,41 @@ export class SwitchTextAutocompleteComponent implements OnInit {
 
   addUser(event: any) {
     this.addedUsers.push(event.item);
-    this.removeAddedUser();
+    this.addUserHandler();
     this.isUserAdded.emit(event.item);
     setTimeout(()=>this.fullUserName = '',0);
   }
 
-  removeAddedUser() {
+  addUserHandler() {
     // console.log('before other', this.otherUsers, 'added', this.addedUsers);
-    this.otherUsers = this.removeHelper(this.otherUsers, this.addedUsers);
-    this.addedUsers = this.removeHelper(this.addedUsers, this.otherUsers);
+    this.otherUsers = this.addHelper(this.otherUsers, this.addedUsers);
+    this.addedUsers = this.addHelper(this.addedUsers, this.otherUsers);
     // console.log('after other', this.otherUsers, 'added', this.addedUsers);
   }
 
-  removeHelper(a: any[], b: any[]): any[] {
+  removeUser(user: IMember){
+    this.isUserRemoved.emit(user);
+    this.removeHelper(user);
+  }
+  
+  removeHelper(user: IMember){
+    console.log('before other remove', this.otherUsers, 'added', this.addedUsers);
+    this.otherUsers.push({
+      email: user.email,
+      isOwner: false,
+      name: user.name,
+      id: -1
+    });
+    for(let i=0;i<this.addedUsers.length;i++){
+      if(this.addedUsers[i].email == user.email){
+        this.addedUsers.splice(i,1);
+        break;
+      }
+    }
+    console.log('after other remove', this.otherUsers, 'added', this.addedUsers);
+  }
+
+  addHelper(a: any[], b: any[]): any[] {
     //a-b
     var tempIMember: any[] = [];
     a.forEach((aUser) => {

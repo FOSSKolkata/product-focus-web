@@ -14,9 +14,10 @@ import { SwitchTextDatepickComponent } from './switch-text-datepick/switch-text-
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
-import { SwitchTextAutocompleteComponent } from './switch-text-autocomplete/switch-text-autocomplete.component';
 import { EditableTextComponent } from './editable-text/editable-text.component';
 import { ErrorComponent } from './error/error.component';
+import { MatCardModule } from '@angular/material/card';
+import { MdePopoverModule } from '@material-extended/mde';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,6 @@ import { ErrorComponent } from './error/error.component';
     SpinnerComponent,
     SwitchTextInputComponent,
     SwitchTextDatepickComponent,
-    SwitchTextAutocompleteComponent,
     EditableTextComponent,
     ErrorComponent
   ],
@@ -40,7 +40,9 @@ import { ErrorComponent } from './error/error.component';
     MatProgressSpinnerModule,
     MatDatepickerModule,
     MatInputModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatCardModule,
+    MdePopoverModule
   ],
   exports: [
     TagComponent,
@@ -48,7 +50,6 @@ import { ErrorComponent } from './error/error.component';
     SwitchTextDropdownComponent,
     SwitchTextInputComponent,
     SwitchTextDatepickComponent,
-    SwitchTextAutocompleteComponent,
     UserAvatarComponent,
     ShortnamePipe,
     SpinnerComponent,
