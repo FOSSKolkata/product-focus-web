@@ -13,6 +13,13 @@ import { IFeature, IFeatureDetails, ISprint, ModifyColumnIdentifier } from '../.
   styleUrls: ['./feature-details.component.scss'],
 })
 export class FeatureDetailsComponent implements OnInit {
+  restrictGreaterThan100(prevalue: any, currkey: any){
+    if(currkey < 48 || currkey > 57)
+      return false;
+    const currentValue = prevalue * 10 + (currkey - 48);
+    return currentValue <= 100;
+  }
+  
   @Output('any-changes') anyChanges = new EventEmitter<boolean>();
   productId!: number;
   allSprint!: ISprint[];

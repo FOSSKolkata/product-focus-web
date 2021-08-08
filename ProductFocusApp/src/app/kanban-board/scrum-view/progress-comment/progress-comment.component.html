@@ -3,6 +3,8 @@
     contenteditable="true"
     style="height: 20px; width: 100%; border-bottom: 1px dotted gray"
     placeholder="Enter work %"
+    #workpercent
+    (keypress)="restrictGreaterThan100(workpercent,$event.charCode)"
     (focusout)="upsertScrumWorkCompletionPercentage($event)"
     >{{scrumDay?.workCompletionPercentage}}</div>
     <!--Do not add any space in data binding-->

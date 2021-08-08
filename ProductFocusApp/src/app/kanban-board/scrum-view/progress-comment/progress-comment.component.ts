@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { IScrumDay, IUpsertScrumCommentInput, IUpsertScrumWorkCompletionPercentageInput } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
@@ -14,6 +15,13 @@ export class ProgressCommentComponent implements OnInit{
   @Input('scrum-day') scrumDay: IScrumDay | null = null;
   constructor(private featureService: FeatureService,
     private toastr: ToastrService) {}
+
+  restrictGreaterThan100(prevalue: any, currkey: any){
+    if(currkey < 48 || currkey > 57)
+      return false;
+    const currentValue = prevalue.innerText * 10 + (currkey - 48);
+    return currentValue <= 100;
+  }
 
   ngOnInit(): void {}
   upsertScrumWorkCompletionPercentage(event: any){
