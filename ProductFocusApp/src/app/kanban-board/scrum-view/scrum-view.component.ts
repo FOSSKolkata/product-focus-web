@@ -172,7 +172,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
   }
 
   getNumberOfDaysBetweenTwoDates(start: Date,end: Date): number {
-    return Math.ceil(Math.abs((start.getTime()-end.getTime())/(1000*60*60*24)));
+    return Math.ceil(Math.abs((start.getTime()-end.getTime())/(1000*60*60*24))) + 1;
   }
 
 }
