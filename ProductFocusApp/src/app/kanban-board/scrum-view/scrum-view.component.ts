@@ -174,5 +174,12 @@ export class ScrumViewComponent implements OnInit, OnChanges {
   getNumberOfDaysBetweenTwoDates(start: Date,end: Date): number {
     return Math.ceil(Math.abs((start.getTime()-end.getTime())/(1000*60*60*24))) + 1;
   }
+  
+  restrictGreaterThan100(prevalue: any, currkey: any){
+    if(currkey < 48 || currkey > 57)
+      return false;
+    const currentValue = prevalue.innerText * 10 + (currkey - 48);
+    return currentValue <= 100;
+  }
 
 }

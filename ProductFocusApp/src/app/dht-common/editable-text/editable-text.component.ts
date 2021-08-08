@@ -10,6 +10,7 @@ export class EditableTextComponent implements OnInit {
   @Input('text-content') textContent: string = '';
   @Input('dh-style') labelStyle = {};
   @Output('changed') isTextChanged = new EventEmitter<any>();
+  @Input('validate-function') validateFunction: Function = ()=> true;
   constructor() { }
 
   ngOnInit(): void {

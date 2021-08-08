@@ -1,6 +1,8 @@
 <div
   contenteditable="true"
   [ngStyle]="labelStyle"
+  #data
+  (keypress)="validateFunction(data,$event.charCode)"
   (focusout)="fireEvent($event)"
 >
   {{ textContent }}

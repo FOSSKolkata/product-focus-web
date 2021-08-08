@@ -20,7 +20,7 @@
       <tr *ngFor="let feature of board">
         <th *ngIf="feature.name != ''" [attr.rowspan]="requireColspan(feature.name)"><b>{{feature.name}}</b></th>
         <td><app-editable-text [text-content]="feature.title" (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent, feature)"></app-editable-text></td>
-        <td><app-editable-text [text-content]="feature.storyPoint" (changed)="modifyFeature(modifyColumnIdentifier.storyPoint, $event.target.textContent, feature)"></app-editable-text></td>
+        <td><app-editable-text [validate-function]="restrictGreaterThan100" [text-content]="feature.storyPoint" (changed)="modifyFeature(modifyColumnIdentifier.storyPoint, $event.target.textContent, feature)"></app-editable-text></td>
         <td><app-switch-text-datepick [date]="feature.startDate" [max]="feature.endDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedStartDate, $event,feature)"></app-switch-text-datepick></td>
         <td><app-switch-text-datepick [date]="feature.endDate" [min]="feature.startDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedEndDate, $event,feature)"></app-switch-text-datepick></td>
         <td>{{feature.durationInDays}}</td>
