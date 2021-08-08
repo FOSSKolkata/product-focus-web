@@ -120,13 +120,15 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     } else if (key == ModifyColumnIdentifier.plannedStartDate) {
       changedFeaturedInfo.plannedStartDate = new Date(value.getTime() + 86400000); // 1 day error correction
       changedFeaturedInfoEvent.plannedStartDate = new Date(value.getTime() + 86400000);
-      feature.durationInDays = this.getNumberOfDaysBetweenTwoDates(new Date(value),new Date(feature.endDate));
+      if(feature.endDate !== null)
+        feature.durationInDays = this.getNumberOfDaysBetweenTwoDates(new Date(value),new Date(feature.endDate));
       this.modifyFeatureDates(feature,ModifyColumnIdentifier.plannedStartDate,new Date(value.getTime()));
     } else if (key == ModifyColumnIdentifier.plannedEndDate) {
       changedFeaturedInfo.plannedEndDate = new Date(value.getTime() + 86400000);
       changedFeaturedInfoEvent.plannedEndDate = new Date(value.getTime() + 86400000);
       this.modifyFeatureDates(feature,ModifyColumnIdentifier.plannedEndDate,new Date(value.getTime()));
-      feature.durationInDays = this.getNumberOfDaysBetweenTwoDates(new Date(feature.startDate),new Date(value));
+      if(feature.startDate !== null)
+        feature.durationInDays = this.getNumberOfDaysBetweenTwoDates(new Date(feature.startDate),new Date(value));
     } else if(key == ModifyColumnIdentifier.storyPoint){
       changedFeaturedInfo.storyPoint = +value;
       changedFeaturedInfoEvent.storyPoint = +value;

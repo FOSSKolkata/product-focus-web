@@ -46,8 +46,8 @@ export class AddUserComponent implements OnInit, OnChanges {
     setTimeout(() => inputText.focus(), 0);
   }
 
-  formatter = (user: IMember) => `${user.name} (${user.email})`;
-  formatterEmail = (user: IMember) => user.name;
+  formatterEmail = (user: IMember) => `${user.name} (${user.email})`;
+  formatter = (user: IMember) => user.name;
 
   search: OperatorFunction<string, readonly IMember[]> = (
     text$: Observable<string>
