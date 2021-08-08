@@ -37,12 +37,14 @@
   
   .module-header {
     text-align: center;
-    text-overflow: ellipsis;
+    // text-overflow: ellipsis;
+    font-weight: bold;
     width: 200px;
-    height: 50px;
     padding-top: 10px;
     display: inline-block;
     vertical-align: top;
+    white-space: normal;
+    word-break: break-all;
   }
   
   .card {

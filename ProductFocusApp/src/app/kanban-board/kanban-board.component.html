@@ -101,14 +101,15 @@
               <input
                 type="text"
                 class="form-control"
-                style="display: inline-block; vertical-align: middle"
+                style="display: inline-block; vertical-align: middle; width: 75%"
                 [(ngModel)]="moduleName"
                 #module="ngModel"
                 name="module"
                 (keyup.enter)="addModule()"
                 placeholder="Enter module name"
                 required
-                minlength="4"
+                maxlength="50"
+                pattern="^[a-zA-Z0-9]+[a-zA-Z0-9\s\-_]*$"
               />
               <button
                 [disabled]="!enabledAdding || addModuleForm.invalid"
@@ -120,7 +121,10 @@
                   margin: 0 5px;
                 "
               >
-                Add
+                <div *ngIf="!enabledAdding" class="spinner-border spinner-border-sm" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                {{enabledAdding?"Add":"Adding"}}
               </button>
               <i
                 *ngIf="enabledAdding"
@@ -134,8 +138,11 @@
                 class="text-danger"
               >
                 <div *ngIf="module.errors?.required">Name is required.</div>
-                <div *ngIf="module.errors?.minlength">
-                  Name should be atleast 4 characters long.
+                <div *ngIf="module.errors?.pattern">
+                  Only spaces, '-', '_' and alphanumaric characters are allowed.
+                </div>
+                <div *ngIf="module.errors?.maxlength">
+                  Name should not be greater than 50 characters long.
                 </div>
               </div>
             </form>
