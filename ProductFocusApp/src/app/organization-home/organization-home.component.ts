@@ -75,7 +75,7 @@ export class OrganizationHomeComponent implements OnInit {
     }
     this.enabledAdding = false;
     var addOrganizationInput: IAddOrganizationInput = {
-      organizationName: this.organizationName
+      organizationName: this.organizationName.trim()
     };
     this.organizationService.addOrganization(addOrganizationInput).subscribe(
       (res) => {
@@ -126,7 +126,7 @@ export class OrganizationHomeComponent implements OnInit {
     if (this.selectedOrganization == undefined) return;
     this.enabledAdding = false;
     var addProductInOrganizationInput: IAddProductInOrganizationInput = {
-      name: this.productName,
+      name: this.productName.trim(),
     };
     this.organizationService
       .addProductInOrganization(

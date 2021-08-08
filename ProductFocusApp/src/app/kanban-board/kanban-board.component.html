@@ -195,7 +195,8 @@
               style="display: inline-block; width: 475px"
               placeholder="Enter Sprint Name"
               required
-              pattern="[\w]{2,20}[\s|\-]?[\w]{1,20}?"
+              maxlength="50"
+              pattern="^[a-zA-Z0-9]+[a-zA-Z0-9\s\-_]*$"
               formControlName="name"
             />
             <div
@@ -210,13 +211,15 @@
               >
                 Please Enter Sprint Name.
               </div>
-              
+              <div class="text-danger" style="transform: translateX(-155px);" *ngIf="sprintForm.controls.name.errors?.maxlength">
+                Only 50 characters are allowed.
+              </div>
               <div
                 class="text-danger"
                 style="transform: translateX(-48px)"
                 *ngIf="sprintForm.controls.name.errors?.pattern"
               >
-                Two word is allowed without special character of length 2-20.
+                Only spaces, '-', '_' and alphanumaric characters are allowed.
               </div>
             </div>
 

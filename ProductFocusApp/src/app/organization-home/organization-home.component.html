@@ -27,14 +27,18 @@
                 [(ngModel)]="organizationName"
                 [readonly]="!enabledAdding"
                 required
-                pattern="[\w]{2,20}[\s|\-]?[\w]{2,20}?"
+                maxlength="50"
+                pattern="^[a-zA-Z0-9]+[a-zA-Z0-9 \-_]*$"
               />
               <div *ngIf="name.invalid && (name.dirty || name.touched)">
                 <div class="text-danger" *ngIf="name.errors?.required">
                   Name is required.
                 </div>
+                <div class="text-danger" *ngIf="name.errors?.maxlength">
+                  Length should not be greater than 50.
+                </div>
                 <div class="text-danger" *ngIf="name.errors?.pattern">
-                  Two word is allowed without special character except - of length 2-20.
+                  Special characters are not allowed except '-', '_' and white spaces.
                 </div>
               </div>
               <div>
@@ -136,14 +140,18 @@
               placeholder="Enter product name"
               [readonly]="!enabledAdding"
               required
-              pattern="[\w]{2,20}[\s|\-]?[\w]{2,20}?"
+              maxlength="50"
+              pattern="^[a-zA-Z0-9]+[a-zA-Z0-9 \-_]*$"
             />
             <div *ngIf="productname.invalid && (productname.dirty || productname.touched)">
               <div class="text-danger" *ngIf="productname.errors?.required">
                 Name is required.
               </div>
+              <div class="text-danger" *ngIf="productname.errors?.maxlength">
+                Organization name should not exeed 50 character.
+              </div>
               <div class="text-danger" *ngIf="productname.errors?.pattern">
-                Two word is allowed of length 2-20.
+                Only spaces, '-', '_' and alphanumaric characters are allowed.
               </div>
             </div>
             <div>
