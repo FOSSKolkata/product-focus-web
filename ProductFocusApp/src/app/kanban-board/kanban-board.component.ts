@@ -65,6 +65,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   error!: HttpErrorResponse;
   sprintExist = true;
   isSprintAdding = false;
+  isDisabled = (date: NgbDate, current?: {year: number, month: number}) => this.isSprintAdding;
 
   constructor(
     private productService: ProductService,
