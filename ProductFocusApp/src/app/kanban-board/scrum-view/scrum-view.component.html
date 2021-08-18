@@ -16,8 +16,9 @@
         <th>Remarks</th>
         <th>Functional Testability</th>
         <th *ngFor="let sprintDate of sprintDates">{{sprintDate | date:'dd-MM-YYYY'}}</th>
+        <td></td>
       </tr>
-      <tr *ngFor="let feature of board">
+      <tr *ngFor="let feature of board; let i = index">
         <th *ngIf="feature.name != ''" [attr.rowspan]="requireColspan(feature.name)"><b>{{feature.name}}</b></th>
         <td><app-editable-text [text-content]="feature.title" (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent, feature)"></app-editable-text></td>
         <td><app-editable-text [validate-function]="restrictGreaterThan100" [text-content]="feature.storyPoint" (changed)="modifyFeature(modifyColumnIdentifier.storyPoint, $event.target.textContent, feature)"></app-editable-text></td>
@@ -31,6 +32,19 @@
         </td>
         <td *ngFor="let sprintDate of sprintDates; index as i">
           <app-progress-comment [feature-id]="feature.id" [date]="sprintDate" [scrum-day]="feature.scrumDays[i]"></app-progress-comment>
+        </td>
+        <td>
+          <div style="display: inline-block; margin-right: 20px;">
+            <div [style.visibility]="!feature.isFirst?'visible':'hidden'">
+              <i class="fa fa-angle-up" style="cursor: pointer;"></i>
+            </div>
+            <div [style.visibility]="!feature.isLast?'visible':'hidden'">
+              <i class="fa fa-angle-down" style="cursor: pointer;"></i>
+            </div>
+          </div>
+          <div style="display: inline-block; vertical-align: top;">
+            <i class="fa fa-trash" style="margin-top: 10px; cursor: pointer;"></i>
+          </div>
         </td>
       </tr>
     </table>

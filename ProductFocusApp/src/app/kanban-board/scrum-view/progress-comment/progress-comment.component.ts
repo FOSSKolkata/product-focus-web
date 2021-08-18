@@ -1,6 +1,8 @@
-import { ViewChild } from '@angular/core';
+import { OnDestroy, ViewChild } from '@angular/core';
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { IScrumDay, IUpsertScrumCommentInput, IUpsertScrumWorkCompletionPercentageInput } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
 
@@ -9,10 +11,11 @@ import { FeatureService } from 'src/app/_services/feature.service';
   templateUrl: './progress-comment.component.html',
   styleUrls: ['./progress-comment.component.scss']
 })
-export class ProgressCommentComponent implements OnInit{
+export class ProgressCommentComponent implements OnInit, OnDestroy{
   @Input('feature-id') featureId: number | null = null;
   @Input('date') date: Date | null = null;
   @Input('scrum-day') scrumDay: IScrumDay | null = null;
+  private componentDestroyed = new Subject();
   constructor(private featureService: FeatureService,
     private toastr: ToastrService) {}
 
@@ -32,7 +35,7 @@ export class ProgressCommentComponent implements OnInit{
       workCompletionPercentage: +event.target.textContent,
       scrumDate: new Date(Date.UTC(this.date.getFullYear(),this.date.getMonth(),this.date.getDate(),0,0,0))
     };
-    this.featureService.upsertScrumWorkCompletionPercentage(input).subscribe(res => {
+    this.featureService.upsertScrumWorkCompletionPercentage(input).pipe(takeUntil(this.componentDestroyed)).subscribe(res => {
       console.log(res,"respo");
     },(err)=>{
       this.toastr.error('Changes not Saved.','Failed');
@@ -46,10 +49,14 @@ export class ProgressCommentComponent implements OnInit{
       scrumComment: event.target.textContent,
       scrumDate: new Date(Date.UTC(this.date.getFullYear(),this.date.getMonth(),this.date.getDate(),0,0,0))
     };
-    this.featureService.upsertScrumComment(input).subscribe(res => {
+    this.featureService.upsertScrumComment(input).pipe(takeUntil(this.componentDestroyed)).subscribe(res => {
       console.log(res,"respo");
     },(err)=>{
       this.toastr.error('Changes not Saved.','Failed');
     });
+  }
+  ngOnDestroy(): void {
+    this.componentDestroyed.next();
+    this.componentDestroyed.unsubscribe();
   }
 }

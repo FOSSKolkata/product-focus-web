@@ -93,9 +93,11 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.selectedOrganization = JSON.parse(localStorage.selectedOrganization);
 
     this.breadcrumbService.changeBreadcrumb(this.route.snapshot,this.selectedProduct.name);
-    this.setModules();
-    if(!this.doesSprintExistSetIt())
+    await this.doesSprintExistSetIt();
+    if(!this.sprintExist){
       return;
+    }
+    this.setModules();
     this.setAssignedTo();
   }
 
@@ -163,8 +165,10 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
         this.moduleName = '';
         this.moduleAddView = false;
         this.enabledAdding = true;
-        this.setModules();
-        this.setKanbanBoard();
+        if(this.sprintExist) {
+          this.setModules();
+          this.setKanbanBoard();
+        }
       },
       (err) => {
         this.enabledAdding = true;

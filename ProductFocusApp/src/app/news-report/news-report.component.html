@@ -1,80 +1,77 @@
 <div
   class="margin-for-navs"
-  style="background-color: var(--light-gray)"
+  style="background-color: #F5F6F7;"
 >
-  <h3 class="text-center">News Report</h3>
-  <div>
-    <!-- div for menu -->
-    <div style="margin: 10px">
-      <div class="row">
-        <div class="col-sm-2 col-4">Start date</div>
-        <div class="col-sm-3 col-8">
-          <form class="form-inline">
-            <div class="form-group">
-              <div class="input-group">
-                <input
-                  class="form-control"
-                  placeholder="yyyy-mm-dd"
-                  [(ngModel)]="startDate"
-                  ngbDatepicker
-                  #start="ngbDatepicker"
-                />
-                <div class="input-group-append">
-                  <button
-                    class="btn btn-outline-secondary"
-                    (click)="start.toggle()"
-                    type="button"
-                  >
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="col-sm-2 col-4">End date</div>
-        <div class="col-sm-3 col-8">
-          <form class="form-inline">
-            <div class="form-group">
-              <div class="input-group">
-                <input
-                  class="form-control"
-                  placeholder="yyyy-mm-dd"
-                  [(ngModel)]="endDate"
-                  ngbDatepicker
-                  #end="ngbDatepicker"
-                />
-                <div class="input-group-append">
-                  <button
-                    class="btn btn-outline-secondary"
-                    (click)="end.toggle()"
-                    type="button"
-                  >
-                    <i class="fa fa-calendar" aria-hidden="true"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-        <div class="col-12 col-sm">
-          <select name="report" id="report" class="form-select">
-            <option value="None">None</option>
-            <option value="Module" selected>Module</option>
-            <option value="Developer">Developer</option>
-          </select>
+  <div style="height: 10vh;">
+    <!--add breadcrumbs here-->
+    <!-- <div style="padding: 20px;">Home > Product > Selected product name</div> -->
+  </div>
+  <div class="row" style="min-height: 80vh; overflow: auto;">
+    <div class="col-8" style="border-right: 1px solid #D2DCE4">
+      <div style="margin-left: 20px;">
+        <div style="font-size: 18px; font-weight: bold; padding-bottom: 23px;">News report</div>
+        <div class="imaginary-line" style="position: relative; margin-bottom: 35px;" *ngFor="let i of [1,2,3,4,5,6]">
+          <app-user-avatar [name]="'vikram shaw'"></app-user-avatar>
+          <div style="display: inline-block; position: absolute; margin-left: 15px; font-size: 16px; max-width: 260px;">Task make login page responsive is assigned to Mrinal Paswan</div>
+          <div style="display: inline-block; position: absolute; margin-left: 15px; bottom: -20px; color: gray;">by pritam singh</div>
+          <div style="display: inline-block; position: absolute; right: 200px;"> <span style="color: #B1B1B1">Module :</span> Medication</div>
+          <div style="display: inline-block; position: absolute; right: 0"><span style="color: #B1B1B1">Date :</span> 14-12-2021 10:43 AM</div>
+          <!-- <mat-card>
+            <mat-card-header>
+              <app-user-avatar mat-card-avatar [name]="'vikram shaw'"></app-user-avatar>
+              <mat-card-title>Task make login page responsive is assigned to Mrinal Paswan</mat-card-title>
+              <mat-card-subtitle>by vikram shaw</mat-card-subtitle>
+            </mat-card-header>
+          </mat-card> -->
         </div>
       </div>
-      <div style="padding: 10px; background-color: var(--light-gray)">
-        <h3 style="font-weight: bold; text-align: center">Canary</h3>
-        <!-- remove display:none to see the user activity according to None -->
-        <div style="padding: 10px; background-color: var(--dark-gray)">
-          <!-- This is an activity of a user -->
-          <app-domain-event></app-domain-event>
-          <app-domain-event></app-domain-event>
-          <app-domain-event></app-domain-event>
-        </div>
+    </div>
+    <div class="col-4">
+      <div style="font-weight: bold; font-size: 20; color: #130D30">
+        Filters
       </div>
+      <div style="margin-top: 20px; color: #76718D">
+        Date range
+      </div>
+      <div>
+        <input type="text" ngbDatepicker #from="ngbDatepicker" (click)="from.toggle()" placeholder="From" style="margin-right: 12px;"/>
+        <input type="text" ngbDatepicker #to="ngbDatepicker" (click)="to.toggle()" placeholder="To"/>
+      </div>
+      <div style="margin-top: 20px; color: #76718D">
+        User
+      </div>
+      <!-- <div style="border: 1px solid #D2DCE4; background-color: #f5f6f8; padding: 5px 0; border-radius: 2px;"> -->
+        <!-- <div *ngFor="let item of [1,2,3,4,5]" style="display: inline-block; margin: 5px; padding: 5px 10px; border: 1px solid #eeecf1; background-color: #eeecf1;">
+          <span style="margin-right: 5px; background-color: #EEEBF1;">Joydeep Pasi</span>
+          <i class="fa fa-times" style="-webkit-text-stroke: 0.5px #eeecf1; background-color: #eeecf1; color: gray"></i>
+        </div> -->
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Users'"
+          [settings]="dropdownSettings"
+          [data]="userList"
+          [(ngModel)]="selectedUsers"
+          (onSelect)="onItemSelect($event)"
+          (onSelectAll)="onSelectAll($event)">
+        </ng-multiselect-dropdown>
+      <!-- </div> -->
+      <div style="margin-top: 20px; color: #76718D">
+        Module
+      </div>
+      <!-- <div style="border: 1px solid #D2DCE4; background-color: #f5f6f8; padding: 5px 0;"> -->
+        <!-- <div *ngFor="let item of [1,2,3]" style="display: inline-block; margin: 5px; padding: 5px 10px; border: 1px solid #eeecf1; background-color: #eeecf1;">
+          <span style="margin-right: 5px; background-color: #eeecf1;">Lorem ipsum</span>
+          <i class="fa fa-times" style="-webkit-text-stroke: 0.5px #eeecf1; background-color: #eeecf1; color: gray"></i>
+        </div> -->
+        
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Module'"
+          [settings]="dropdownSettings"
+          [data]="moduleList"
+          [(ngModel)]="selectedModules"
+          (onSelect)="onItemSelect($event)"
+          (onSelectAll)="onSelectAll($event)">
+        </ng-multiselect-dropdown>
+      <!-- </div> -->
     </div>
   </div>
 </div>

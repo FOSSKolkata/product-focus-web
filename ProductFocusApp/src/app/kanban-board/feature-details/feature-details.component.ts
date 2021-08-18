@@ -14,10 +14,10 @@ import { IFeature, IFeatureDetails, ISprint, ModifyColumnIdentifier } from '../.
 })
 export class FeatureDetailsComponent implements OnInit {
   restrictGreaterThan100(prevalue: any, currkey: any){
-    if(currkey < 48 || currkey > 57)
+    if(currkey.charCode < 48 || currkey.charCode > 57)
       return false;
-    const currentValue = prevalue * 10 + (currkey - 48);
-    return currentValue <= 100;
+    const currentValue = prevalue * 10 + (currkey.charCode - 48);
+    return currentValue > 0 && currentValue <= 100;
   }
   
   @Output('any-changes') anyChanges = new EventEmitter<boolean>();

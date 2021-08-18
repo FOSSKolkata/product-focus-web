@@ -97,6 +97,9 @@
       *ngIf="!board.length && !kanbanBoardSpinner"
       style="text-align: center; margin-top: 10px"
     >
-      No module found!!
+      <span *ngIf="selectedSprint.name == ''">
+        Please add a sprint to view the existing module. 
+      </span>
+        No module found!!
     </div>
   </div>

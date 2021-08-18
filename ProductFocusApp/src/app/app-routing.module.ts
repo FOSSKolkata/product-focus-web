@@ -5,7 +5,6 @@ import { OrganizationHomeComponent } from './organization-home/organization-home
 import { OrganizationComponent } from './organization/organization.component';
 import { LayoutComponent } from './layout/layout.component';
 import { MsalGuard } from '@azure/msal-angular';
-import { ProfileComponent } from './profile/profile.component';
 import { RediectComponent } from './rediect/rediect.component';
 import { InvitationComponent } from './invitation/invitation.component';
 import { OrganizationMembersComponent } from './organization/organization-members/organization-members.component';

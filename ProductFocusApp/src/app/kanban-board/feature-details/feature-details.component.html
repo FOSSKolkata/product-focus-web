@@ -356,9 +356,10 @@
         [value]="featureDetails.storyPoint"
         [(ngModel)]="featureDetails.storyPoint"
         id="storyPoint"
+        onPaste="return false"
         min="1"
         max="99"
-        (keypress)="restrictGreaterThan100(storypoints.value,$event.charCode)"
+        (keypress)="restrictGreaterThan100(storypoints.value,$event)"
         (focusout)="modifyFeature(modifyColumnIdentifier.storyPoint, $event)"
       />
     </div>

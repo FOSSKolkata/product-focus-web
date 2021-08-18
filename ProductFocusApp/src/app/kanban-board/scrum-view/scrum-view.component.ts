@@ -41,6 +41,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     this.board = [];
     // console.log(this.kanbanBoard);
     for(let module of this.kanbanBoard){
+      var counter = 0;
       for(let feature of module.featureDetails){
         let currentFeature = {
           id: feature.id,
@@ -53,8 +54,11 @@ export class ScrumViewComponent implements OnInit, OnChanges {
           assignee: feature.assignees,
           scrumDays: this.sortByDateAndAddExtra(feature.scrumDays),
           remarks: feature.remarks,
-          functionalTestability: feature.functionalTestability
+          functionalTestability: feature.functionalTestability,
+          isFirst: counter == 0,
+          isLast: counter == module.featureDetails.length - 1
         };
+        counter++;
         var curr = this.countOfFeatureInModule.get(module.name);
         if(curr === undefined)
           this.countOfFeatureInModule.set(module.name,1);
@@ -179,7 +183,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     if(currkey < 48 || currkey > 57)
       return false;
     const currentValue = prevalue.innerText * 10 + (currkey - 48);
-    return currentValue <= 100;
+    return currentValue > 0 && currentValue <= 100;
   }
 
 }
