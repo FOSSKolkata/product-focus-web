@@ -1,21 +1,16 @@
 <div *ngIf="!error">
-  <div
-    class="vertical-nav bg-white"
-    id="sidebar"
-    style="overflow: auto; display: inline-block;"
-  >
+  <div class="vertical-nav" id="sidebar" style="overflow: auto; display: inline-block;">
     <app-spinner [is-spinner-active]="organizationSpinner"></app-spinner>
-    <ul *ngIf="!organizationSpinner" class="nav flex-column bg-white">
+    <ul *ngIf="!organizationSpinner" class="nav flex-column">
       <li class="nav-item">
         <form #organizationForm="ngForm">
-          <div class="nav-link success add-organization">
+          <div class="nav-link add-organization">
             <div
               *ngIf="!organizationAddView"
               type="button"
               (click)="organizationAddView = true"
-              class="create"
             >
-              <b>Create an organization</b>
+              <b style="text-transform: uppercase; font-size: x-small;"><i class="fa fa-plus"></i> Add new organization</b>
             </div>
             <div *ngIf="organizationAddView" class="add">
               <input
@@ -76,14 +71,14 @@
     </ul>
   </div>
 
-  <div style="display: inline-block; vertical-align: top; width: calc(100vw - 19rem);">
-    <div *ngIf="selectedOrganization" class="row mt-3" style="margin-left: 35px;">
+  <div style="display: inline-block; vertical-align: top; width: 81vw;">
+    <div *ngIf="selectedOrganization" class="row pb-2">
       <div class="col">
-        <b>{{ selectedOrganization.name }}</b>
+        <b style="font-size: large;">{{ selectedOrganization.name }}</b>
       </div>
-      <div class="col">
+      <div class="col-auto">
         <div *ngIf="!!this.selectedOrganization">
-          <a routerLink="/organization" class="nav-link text-dark float-right">
+          <a routerLink="/organization" class="text-dark">
             <i class="fa fa-cog"></i>
             Settings
           </a>
@@ -92,27 +87,27 @@
     </div>
       
     <app-spinner [is-spinner-active]="productSpinner"></app-spinner>
-    <div style="height: 80vh; overflow: hidden; overflow: auto;"
+    <div style="height: 78.5vh; overflow: hidden; overflow: auto;"
       *ngIf="selectedOrganization && !productSpinner"
-      class="row module-content ml-5"
+      class="row module-content"
     >
       <div
         *ngFor="let product of productList"
         class="col-lg-4 col-md-6 mt-3 mb-3"
       >
         <div class="column-control">
-          <!-- <i
+          <i
             class="fa fa-ellipsis-h"
             style="position: absolute; right: 20px; top: 0px"
           ></i>
-          <a routerLink="/product-roadmap">
+          <a routerLink="/news-report">
             <i
-              class="fa fa-road fa-2x"
+              class="fas fa-chart-bar fa-2x"
               style="position: absolute; top: 110px; left: 30px"
             ></i>
-          </a> --> 
+          </a> 
           <a style="word-break: break-all;"
-            [routerLink]="['/products', product.id, 'kanban-board']"
+            [routerLink]="['./products', product.id, 'kanban-board']"
             (click)="setLastProductId(product)"
             >{{ product.name }}</a
           >

@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: 'kanban-board',
     component: KanbanBoardComponent,
-    data: {breadcrumb: 'Kanban Board'}
+    data: {breadcrumb: {alias: 'kanbanboard'}}
   }
 ];
 

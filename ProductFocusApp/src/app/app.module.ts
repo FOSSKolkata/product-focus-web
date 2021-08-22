@@ -50,8 +50,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { SprintService } from './_services/sprint.service';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { ToastrModule } from 'ngx-toastr';
-import {BreadcrumbModule} from 'angular-crumbs';
 import { SecureGuard } from './guard/secure.guard';
+import { BreadcrumbModule } from 'xng-breadcrumb';
+import { MatIconModule } from '@angular/material/icon';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -137,7 +138,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
-    BreadcrumbModule
+    BreadcrumbModule,
+    MatIconModule
   ],
   providers: [
     {

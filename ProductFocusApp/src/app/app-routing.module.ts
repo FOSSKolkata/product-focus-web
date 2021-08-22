@@ -20,6 +20,7 @@ const SECURE_APP_ROUTES: Routes = [
       import('./kanban-board/kanban-board.module').then(
         (m) => m.KanbanBoardModule
       ),
+    data: {breadcrumb: {skip: true}}
   },
   {
     path: '',
@@ -46,28 +47,31 @@ const routes: Routes = [
   {
     path: 'id_token',
     redirectTo: 'organizations',
-    pathMatch: 'full',
-    data: {breadcrumb: 'Organizations'}
-  },{
-    path: '',
-    component: LayoutComponent,
-    canActivate: [MsalGuard,SecureGuard],
-    children: SECURE_APP_ROUTES,
-    runGuardsAndResolvers: 'always',
+    pathMatch: 'full'
   },{
     path: 'home',
     component: HomeComponent,
-  },
-  {
+  },{
+    path: 'organizations/:organization-name',
+    canActivate: [MsalGuard,SecureGuard],
+    data: {breadcrumb: (resolvedId: string) => `${resolvedId}`},
+    children:[
+      {
+        path: '',
+        component: OrganizationHomeComponent,
+      },{
+        path: '',
+        component: LayoutComponent,
+        canActivate: [MsalGuard,SecureGuard],
+        children: SECURE_APP_ROUTES,
+        runGuardsAndResolvers: 'always'
+      },
+    ],
+  },{
     path: 'organizations',
     component: OrganizationHomeComponent,
     canActivate: [MsalGuard,SecureGuard],
-    data: {breadcrumb: 'Organization Home'}
-  },{
-    path: 'organizations/:organization-name',
-    component: OrganizationHomeComponent,
-    canActivate: [MsalGuard,SecureGuard],
-    data: {breadcrumb: ' '}
+    data: {breadcrumb: (resolvedId: string) => `${resolvedId}`},
   },{
     path: 'organization',
     component: OrganizationComponent,

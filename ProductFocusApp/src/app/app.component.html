@@ -1,3 +1,7 @@
 <!--This is to avoid reload during acquireTokenSilent() because of hidden iframe -->
 <app-top-nav [user]="currentUserName"></app-top-nav>
+<xng-breadcrumb [separator]="iconTemplate"></xng-breadcrumb>
+<ng-template #iconTemplate>
+  <mat-icon>keyboard_arrow_right</mat-icon>
+</ng-template>
 <router-outlet *ngIf="!isIframe"></router-outlet>

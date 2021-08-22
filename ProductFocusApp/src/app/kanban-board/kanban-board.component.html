@@ -1,68 +1,70 @@
 <div class="margin-for-navs mid-nav">
-  <div
-    style="
-      display: inline-block;
-      vertical-align: top;
-      margin: 0 10px;
-      padding-top: 15px;
-    "
+<div>
+</div>
+<div
+style="
+  display: inline-block;
+  vertical-align: top;
+  margin: 0 10px;
+  padding-top: 15px;
+"
+>
+Filters
+</div>
+<div style="display: inline-block; vertical-align: top; margin: 0 10px">
+<mat-form-field>
+  <mat-label>Sprint</mat-label>
+  <mat-select [(value)]="selectedSprint.name">
+    <mat-option
+      *ngFor="let sprint of allSprint"
+      (click)="selectSprint(sprint)"
+      [value]="sprint.name"
+      >{{ sprint.name }}</mat-option
+    >
+  </mat-select>
+</mat-form-field>
+</div>
+<div style="display: inline-block; vertical-align: top; margin: 0 10px">
+<mat-form-field>
+  <mat-label>Assigned To</mat-label>
+  <mat-select
+    multiple
+    [(ngModel)]="selectedUserIds"
+    (selectionChange)="setKanbanBoard()"
   >
-    Filters
+    <mat-option *ngFor="let user of organizationUser" [value]="user.id">{{
+      user.name
+    }}</mat-option>
+  </mat-select>
+</mat-form-field>
+</div>
+<div style="display: inline-block; height: 57px;">
+<div style="display: grid; align-items: center; height: 100%;">
+  <mat-radio-group aria-label="Select an option">
+    <mat-radio-button value="isKanbanMode" [checked]="isKanbanMode" (change)="changeMode(true)">Board View</mat-radio-button>
+    <mat-radio-button value="!isKanbanMode" [checked]="!isKanbanMode" (change)="changeMode(false)">Scrum View</mat-radio-button>
+  </mat-radio-group>
+</div>
+</div>
+<div class="d-inline-block" style="position: absolute; right: 30px;">
+<div ngbDropdown class="d-inline-block float_right" placement="bottom-right" style="position: static;">
+  <i class="fa fa-cog fa-2x mt-3" id="settingsDropDown" ngbDropdownToggle></i>
+  <div ngbDropdownMenu aria-labelledby="settingsDropDown">
+    <button ngbDropdownItem (click)="openPopup(manageModuleContent)">
+      Manage Modules
+    </button>
+    <button ngbDropdownItem (click)="openPopup(manageSprintContent, 'lg')">
+      Manage Sprint
+    </button>
   </div>
-  <div style="display: inline-block; vertical-align: top; margin: 0 10px">
-    <mat-form-field>
-      <mat-label>Sprint</mat-label>
-      <mat-select [(value)]="selectedSprint.name">
-        <mat-option
-          *ngFor="let sprint of allSprint"
-          (click)="selectSprint(sprint)"
-          [value]="sprint.name"
-          >{{ sprint.name }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div style="display: inline-block; vertical-align: top; margin: 0 10px">
-    <mat-form-field>
-      <mat-label>Assigned To</mat-label>
-      <mat-select
-        multiple
-        [(ngModel)]="selectedUserIds"
-        (selectionChange)="setKanbanBoard()"
-      >
-        <mat-option *ngFor="let user of organizationUser" [value]="user.id">{{
-          user.name
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div style="display: inline-block; height: 57px;">
-    <div style="display: grid; align-items: center; height: 100%;">
-      <mat-radio-group aria-label="Select an option">
-        <mat-radio-button value="isKanbanMode" [checked]="isKanbanMode" (change)="changeMode(true)">Board View</mat-radio-button>
-        <mat-radio-button value="!isKanbanMode" [checked]="!isKanbanMode" (change)="changeMode(false)">Scrum View</mat-radio-button>
-      </mat-radio-group>
-    </div>
-  </div>
-  <div class="d-inline-block" style="position: absolute; right: 30px;">
-    <div ngbDropdown class="d-inline-block float_right" placement="bottom-right" style="position: static;">
-      <i class="fa fa-cog fa-2x mt-3" id="settingsDropDown" ngbDropdownToggle></i>
-      <div ngbDropdownMenu aria-labelledby="settingsDropDown">
-        <button ngbDropdownItem (click)="openPopup(manageModuleContent)">
-          Manage Modules
-        </button>
-        <button ngbDropdownItem (click)="openPopup(manageSprintContent, 'lg')">
-          Manage Sprint
-        </button>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="!sprintExist" class="d-inline-block" style="position: absolute; right: 70px; margin-top: 20px;">
-    <div style="display: inline; box-shadow: 2px 2px; border: 1px solid black;">
-      Add a sprint here.
-    </div>
-    <i class="fa fa-arrow-right mt-1"></i>
-  </div>
+</div>
+</div>
+<div *ngIf="!sprintExist" class="d-inline-block" style="position: absolute; right: 70px; margin-top: 20px;">
+<div style="display: inline; box-shadow: 2px 2px; border: 1px solid black;">
+  Add a sprint here.
+</div>
+<i class="fa fa-arrow-right mt-1"></i>
+</div>
 </div>
 <div *ngIf="!error"
   class="margin-for-navs"

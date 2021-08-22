@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumbService } from 'angular-crumbs';
 import { ToastrService } from 'ngx-toastr';
+import { BreadcrumbService } from 'xng-breadcrumb';
 import {
   IAddOrganizationInput, IAddProductInOrganizationInput, IOrganization, IProduct,
 } from '../dht-common/models';
@@ -20,7 +20,8 @@ export class OrganizationHomeComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute,
-    private breadcrumb: BreadcrumbService
+    private breadcrumbService: BreadcrumbService
+    // private breadcrumb: BreadcrumbService
   ) { }
   organizationAddView: boolean = false;
   organizationName: string | undefined;
@@ -98,8 +99,8 @@ export class OrganizationHomeComponent implements OnInit {
     this.selectedOrganization = organization;
     localStorage.lastSelctedOrganizationId = this.selectedOrganization.id;
     localStorage.selectedOrganization = JSON.stringify(this.selectedOrganization);
+    this.breadcrumbService.set('organizations/:organization-name', organization.name);
     this.router.navigate(['organizations', organization.name]);
-    this.breadcrumb.changeBreadcrumb(this.route.snapshot,organization.name);
     if(this.selectedOrganization !== undefined){
       this.setProductList(this.selectedOrganization.id);
     }

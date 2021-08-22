@@ -17,14 +17,13 @@ import {
   ISprintInput,
 } from '../dht-common/models';
 import { ToastrService } from 'ngx-toastr';
-import { BreadcrumbService } from 'angular-crumbs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { UserService } from '../_services/user.service';
 import { DateFunctionService } from '../dht-common/date-function.service';
 import { ModifyColumnIdentifier } from '../dht-common/models';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MdePopoverTrigger } from '@material-extended/mde';
+import { BreadcrumbService } from 'xng-breadcrumb';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -74,11 +73,10 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     private sprintService: SprintService,
     private calendar: NgbCalendar,
     private toastr: ToastrService,
-    private route: ActivatedRoute,
-    private breadcrumbService: BreadcrumbService,
     private userService: UserService,
     private router: Router,
-    private dateService: DateFunctionService
+    private dateService: DateFunctionService,
+    private breadcrumbService: BreadcrumbService
   ) {
     this.fromDate = this.calendar.getToday();
     this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 14);
@@ -92,13 +90,26 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.selectedProduct = JSON.parse(localStorage.selectedProduct);
     this.selectedOrganization = JSON.parse(localStorage.selectedOrganization);
 
-    this.breadcrumbService.changeBreadcrumb(this.route.snapshot,this.selectedProduct.name);
+    // this.breadcrumbService.changeBreadcrumb(this.route.snapshot,this.selectedProduct.name);
+    this.breadcrumbService.set('@kanbanboard', {
+      label: this.selectedProduct.name,
+      routeInterceptor: (routeLink, breadcrumb) =>
+        this.selectedProduct.name
+    });
     await this.doesSprintExistSetIt();
     if(!this.sprintExist){
       return;
     }
     this.setModules();
     this.setAssignedTo();
+  }
+
+  fun(data:any){
+    console.log(data);
+  }
+
+  decode(url: string){
+    return decodeURI(url);
   }
 
   setAssignedTo(){

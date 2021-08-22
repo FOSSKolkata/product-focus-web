@@ -6,16 +6,6 @@
     src="../../assets/ProductFocus.png"
     alt="image"
   />
-  <breadcrumb #parent>  
-    <ol class="breadcrumb mt-0 mb-0" style="background-color: transparent;">
-      <ng-template ngFor let-route [ngForOf]="parent.breadcrumbs">
-        <li *ngIf="!route.terminal" class="breadcrumb-item">
-          <a href="" [routerLink]="[route.url]">{{ route.displayName }}</a>
-        </li>
-        <li *ngIf="route.terminal" class="breadcrumb-item" aria-current="page">{{ route.displayName }}</li>
-      </ng-template>
-    </ol>
-  </breadcrumb>
   <button
     class="navbar-toggler hidden-sm-up"
     type="button"
