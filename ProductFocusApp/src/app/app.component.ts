@@ -16,7 +16,6 @@ import {
   EventType,
   AuthError,
 } from '@azure/msal-browser';
-import { Breadcrumb, BreadcrumbService } from 'angular-crumbs';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { b2cPolicies } from './b2c-config';
@@ -176,21 +175,6 @@ export class AppComponent implements OnInit, OnDestroy {
     };
 
     this.login(editProfileFlowRequest);
-  }
-  private createTitle(routesCollection: Breadcrumb[]) {
-    const title = 'Product Focus';
-    const titles = routesCollection.filter((route) => route.displayName);
-
-    if (!titles.length) { return title; }
-
-    const routeTitle = this.titlesToString(titles);
-    return `${routeTitle} ${title}`;
-  }
-
-  private titlesToString(titles:Breadcrumb[]) {
-      return titles.reduce((prev, curr) => {
-          return `${curr.displayName} - ${prev}`;
-      }, '');
   }
 
   ngOnDestroy(): void {
