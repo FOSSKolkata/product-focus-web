@@ -89,8 +89,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       this.router.navigate(['/']);
     this.selectedProduct = JSON.parse(localStorage.selectedProduct);
     this.selectedOrganization = JSON.parse(localStorage.selectedOrganization);
-
-    // this.breadcrumbService.changeBreadcrumb(this.route.snapshot,this.selectedProduct.name);
     this.breadcrumbService.set('@kanbanboard', {
       label: this.selectedProduct.name,
       routeInterceptor: (routeLink, breadcrumb) =>

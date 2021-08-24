@@ -42,14 +42,10 @@ export class AppComponent implements OnInit, OnDestroy {
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService,
     private msalBroadcastService: MsalBroadcastService,
-    // private breadcrumbService: BreadcrumbService,
     private titleService: Title
   ) {}
 
   ngOnInit(): void {
-    // this.breadcrumbService.breadcrumbChanged.subscribe((crumbs) => {
-    //   this.titleService.setTitle(this.createTitle(crumbs));
-    // });
     this.isIframe = window !== window.parent && !window.opener;
 
     this.msalBroadcastService.inProgress$

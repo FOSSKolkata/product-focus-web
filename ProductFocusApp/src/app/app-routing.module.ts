@@ -43,8 +43,7 @@ const routes: Routes = [
     path: '',
     redirectTo: 'organizations',
     pathMatch: 'full'
-  },
-  {
+  },{
     path: 'id_token',
     redirectTo: 'organizations',
     pathMatch: 'full'
@@ -52,26 +51,31 @@ const routes: Routes = [
     path: 'home',
     component: HomeComponent,
   },{
-    path: 'organizations/:organization-name',
+    path: 'organizations',
     canActivate: [MsalGuard,SecureGuard],
-    data: {breadcrumb: (resolvedId: string) => `${resolvedId}`},
-    children:[
+    data: {breadcrumb: {skip: true}},
+    children: [
       {
         path: '',
         component: OrganizationHomeComponent,
+        data: {breadcrumb: (resolvedId: string) => `${resolvedId}`, skip: true},
       },{
-        path: '',
-        component: LayoutComponent,
-        canActivate: [MsalGuard,SecureGuard],
-        children: SECURE_APP_ROUTES,
-        runGuardsAndResolvers: 'always'
-      },
+        path: ':organization-name',
+        data: {breadcrumb: {label: (resolvedId: string) => `${resolvedId}`}},
+        children:[
+          {
+            path: '',
+            component: OrganizationHomeComponent,
+          },{
+            path: '',
+            component: LayoutComponent,
+            canActivate: [MsalGuard,SecureGuard],
+            children: SECURE_APP_ROUTES,
+            runGuardsAndResolvers: 'always'
+          },
+        ],
+      }
     ],
-  },{
-    path: 'organizations',
-    component: OrganizationHomeComponent,
-    canActivate: [MsalGuard,SecureGuard],
-    data: {breadcrumb: (resolvedId: string) => `${resolvedId}`},
   },{
     path: 'organization',
     component: OrganizationComponent,
@@ -100,26 +104,21 @@ const routes: Routes = [
     component: InvitationComponent,
     canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: 'Invitation'}
-  },
-  // {
-  //   path: 'profile',
-  //   component: ProfileComponent,
-  //   data: {breadcrumb: 'Profile'}
-  // },
-  {
+  },{
     // Needed for hash routing
     path: 'error',
     component: ErrorComponent,
-  },
-  {
+    data: {breadcrumb: {skip: true}}
+  },{
     // Needed for hash routing
     path: 'state',
     component: RediectComponent,
-  },
-  {
+    data: {breadcrumb: {skip: true}}
+  },{
     // Needed for hash routing
     path: 'code',
     component: CodeComponent,
+    data: {breadcrumb: {skip: true}}
   },
 ];
 

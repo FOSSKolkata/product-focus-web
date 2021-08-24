@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbService } from 'xng-breadcrumb';
-// import { BreadcrumbService } from 'angular-crumbs';
 
 @Component({
   selector: 'app-organization',
@@ -9,12 +7,9 @@ import { BreadcrumbService } from 'xng-breadcrumb';
   styleUrls: ['./organization.component.scss'],
 })
 export class OrganizationComponent implements OnInit {
-  active: boolean = false;
   organization!: any;
 
-  constructor(private route: ActivatedRoute,
-    private breadcrumbService: BreadcrumbService
-    ) {}
+  constructor(private breadcrumbService: BreadcrumbService) {}
 
   ngOnInit(): void {
     this.organization = JSON.parse(localStorage.selectedOrganization);

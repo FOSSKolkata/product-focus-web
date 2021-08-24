@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { IClosedInvitation, IGetClosedInvitation, IGetPendingInvitation, InvitationStatus, IPendingInvitation } from 'src/app/dht-common/models';

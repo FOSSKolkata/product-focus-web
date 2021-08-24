@@ -21,7 +21,6 @@ export class OrganizationHomeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private breadcrumbService: BreadcrumbService
-    // private breadcrumb: BreadcrumbService
   ) { }
   organizationAddView: boolean = false;
   organizationName: string | undefined;
