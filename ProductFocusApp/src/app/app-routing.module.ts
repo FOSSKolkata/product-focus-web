@@ -48,6 +48,7 @@ const routes: Routes = [
   },{
     path: 'home',
     component: HomeComponent,
+    data: {breadcrumb: {skip: true}}
   },{
     path: 'organizations',
     canActivate: [MsalGuard,SecureGuard],

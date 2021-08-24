@@ -1,25 +1,23 @@
-<div style="padding: 80px 20px 0 20px; background-color: var(--light-gray)">
-  <h1 style="font-size: 35px; font-weight: 450">Product Focus</h1>
+<div class="page-container">
+  <h1 class="title">Product Focus</h1>
   <p>Now, focus on your work with product focus.</p>
-  <div class="row" style="margin-top: 20px">
-    <div class="col-sm-6" style="padding-top: 5%">
+  <div class="row mt-4">
+    <div class="col-sm-6 pt-5">
       <p>Sign In to Product Focus</p>
-      <button class="btn good-btn" style="width: 150px" (click)="login()">
-        Login
-      </button>
+      <button class="btn good-btn login-button" (click)="login()">Login</button>
     </div>
     <div class="col-sm-6">
       <img
         src="../../assets/Product Focus/modules.PNG"
         alt="Module"
-        style="width: 90%"
+        class="image"
       />
     </div>
   </div>
-  <div class="row" style="margin-top: 20px">
+  <div class="row mt-4">
     <div class="col-sm-4">
-      <div style="color: var(--nav-dark-blue)">
-        <i class="fa fa-tasks fa-2x" style="margin: 5px 5px 5px 0"></i>
+      <div class="about-product">
+        <i class="fa fa-tasks fa-2x"></i>
         <h3>Product Focus Modules</h3>
       </div>
       <p>
@@ -28,39 +26,32 @@
       </p>
     </div>
     <div class="col-sm-4">
-      <div style="color: var(--nav-dark-blue)">
-        <i class="fa fa-newspaper fa-2x" style="margin: 5px 5px 5px 0"></i>
+      <div class="about-product">
+        <i class="fa fa-newspaper fa-2x"></i>
         <h3>Product Focus News Report</h3>
       </div>
       <p>Every major event is tracked and can be seen in the news report.</p>
     </div>
     <div class="col-sm-4">
-      <div style="color: var(--nav-dark-blue)">
-        <i class="fa fa-road fa-2x" style="margin: 5px 5px 5px 0"></i>
+      <div class="about-product">
+        <i class="fa fa-road fa-2x"></i>
         <h3>Product Focus RoadMap</h3>
       </div>
       <p>Adjust the timeline of your feature accordingly with RoadMap.</p>
     </div>
   </div>
-  <h1
-    style="
-      font-size: 35px;
-      font-weight: 450;
-      text-align: center;
-      margin: 20px 0;
-    "
-  >
+  <h1 class="heading">
     Use all the features provided by product focus to speed up your work
     progress
   </h1>
   <div class="row" style="margin-top: 20px">
     <div class="col-sm-7">
       <div>
-        <div style="color: var(--nav-dark-blue)">
-          <i class="fa fa-tasks fa-2x" style="margin: 5px 5px 5px 0"></i>
-          <span style="font-size: large">Product Focus Modules</span>
+        <div class="about-product">
+          <i class="fa fa-tasks fa-2x"></i>
+          <span class="h5">Product Focus Modules</span>
         </div>
-        <p style="width: 200px">
+        <p class="details">
           You can split your product into multiple modules and place it on a
           card which further can be divide into multiple features. Every feature
           can also be divide into multiple task and assigned to the existing
@@ -72,39 +63,39 @@
       <img
         src="../../assets/Product Focus/comments.PNG"
         alt="Modules"
-        style="width: 90%"
+        class="image"
       />
     </div>
   </div>
-  <div class="row" style="margin-top: 20px">
+  <div class="row mt-4">
     <div class="col-sm-6">
       <img
         src="../../assets/Product Focus/news_report.PNG"
         alt="Modules"
-        style="width: 90%"
+        class="image"
       />
     </div>
-    <div class="col-sm-6" style="position: relative; height: 120px">
-      <div style="position: absolute; left: 5px">
-        <div style="color: var(--nav-dark-blue)">
-          <i class="fa fa-newspaper fa-2x" style="margin: 5px 5px 5px 0"></i>
-          <span style="font-size: large">Product Focus News Report</span>
+    <div class="col-sm-6 news-report">
+      <div class="news-report-content">
+        <div class="about-product">
+          <i class="fa fa-newspaper fa-2x"></i>
+          <span class="h5">Product Focus News Report</span>
         </div>
-        <p style="width: 200px">
+        <p class="details">
           If you add a module, is will be tracked. Adding a comment is also
           tracked. Every event log is seen in the news report section.
         </p>
       </div>
     </div>
   </div>
-  <div class="row" style="margin-top: 20px">
+  <div class="row mt-4">
     <div class="col-sm-6">
       <div>
-        <div style="color: var(--nav-dark-blue)">
-          <i class="fa fa-tasks fa-2x" style="margin: 5px 5px 5px 0"></i>
-          <span style="font-size: large">Product Focus RoadMap</span>
+        <div class="about-product">
+          <i class="fa fa-tasks fa-2x"></i>
+          <span class="h5">Product Focus RoadMap</span>
         </div>
-        <p style="width: 200px">
+        <p class="details">
           Adjust expected starting and ending date accordingly just by dragging
           your mouse. Every feature of the module can be seen on the RoadMap.
         </p>
@@ -114,26 +105,15 @@
       <img
         src="../../assets/Product Focus/roadmap.PNG"
         alt="Modules"
-        style="width: 90%"
+        class="image"
       />
     </div>
   </div>
 </div>
-<footer
-  style="
-    background-color: #3a3a3a;
-    color: var(--white);
-    position: relative;
-    height: 90px;
-  "
->
-  <div style="right: 10px; margin-top: 5px; position: absolute">
-    <img
-      src="../../assets/ProductFocus.png"
-      alt="Dumanhill Technologies"
-      style="width: auto; height: 50px"
-    />
-    <div style="margin-top: 5px">
+<footer class="footer">
+  <div class="footer-content">
+    <img src="../../assets/ProductFocus.png" alt="Dumanhill Technologies" />
+    <div class="mt-1">
       <small>&copy; 2021 Product Focus</small>
     </div>
   </div>
