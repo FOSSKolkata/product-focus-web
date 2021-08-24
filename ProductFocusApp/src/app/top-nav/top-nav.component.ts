@@ -6,15 +6,11 @@ import { MsalService } from '@azure/msal-angular';
   templateUrl: './top-nav.component.html',
   styleUrls: ['./top-nav.component.scss'],
 })
-export class TopNavComponent implements OnInit {
+export class TopNavComponent {
   isNavbarCollapsed = true;
   @Input('user')currentUserName!: string;
 
   constructor(private authService: MsalService) {}
-
-  ngOnInit(): void {
-    
-  }
 
   logout() {
     localStorage.clear();

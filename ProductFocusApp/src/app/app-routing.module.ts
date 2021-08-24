@@ -13,7 +13,7 @@ import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { SecureGuard } from './guard/secure.guard';
 
-const SECURE_APP_ROUTES: Routes = [
+const layoutRoutes: Routes = [
   {
     path: 'products/:id',
     loadChildren: () =>
@@ -21,15 +21,13 @@ const SECURE_APP_ROUTES: Routes = [
         (m) => m.KanbanBoardModule
       ),
     data: {breadcrumb: {skip: true}}
-  },
-  {
+  },{
     path: '',
     loadChildren: () =>
       import('./product-roadmap/product-roadmap.module').then(
         (m) => m.ProductRoadmapModule
       ),
-  },
-  {
+  },{
     path: '',
     loadChildren: () =>
       import('./news-report/news-report.module').then(
@@ -70,7 +68,7 @@ const routes: Routes = [
             path: '',
             component: LayoutComponent,
             canActivate: [MsalGuard,SecureGuard],
-            children: SECURE_APP_ROUTES,
+            children: layoutRoutes,
             runGuardsAndResolvers: 'always'
           },
         ],
@@ -86,20 +84,17 @@ const routes: Routes = [
         path: '',
         redirectTo: 'members',
         pathMatch: 'full',
-      },
-      {
+      },{
         path: 'members',
         component: OrganizationMembersComponent,
         data: {breadcrumb: 'Members'}
-      },
-      {
+      },{
         path: 'invitations',
         component: InvitationsComponent,
         data: {breadcrumb: 'Invitations'}
       },
     ],
-  },
-  {
+  },{
     path: 'invitation',
     component: InvitationComponent,
     canActivate: [MsalGuard,SecureGuard],
@@ -134,8 +129,4 @@ const isIframe = window !== window.parent && !window.opener;
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-  constructor() {
-    console.log('AppRouting module is loaded.');
-  }
-}
+export class AppRoutingModule {}

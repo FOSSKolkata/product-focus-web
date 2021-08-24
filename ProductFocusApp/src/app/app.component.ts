@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import {
   MsalService,
   MSAL_GUARD_CONFIG,
@@ -41,8 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
     private authService: MsalService,
-    private msalBroadcastService: MsalBroadcastService,
-    private titleService: Title
+    private msalBroadcastService: MsalBroadcastService
   ) {}
 
   ngOnInit(): void {
@@ -63,12 +61,6 @@ export class AppComponent implements OnInit, OnDestroy {
             .concat(' ')
             .concat(userInfo.family_name);
         }
-        // var account = this.authService.instance.getAllAccounts()[0];
-        // var claims: any = account.idTokenClaims;
-        // var key = account.homeAccountId + "-dumanhillb2c.b2clogin.com-refreshtoken-" + claims.aud + "--";
-        // var client: any = localStorage.getItem(key)
-        // var clientJSON: any = JSON.parse(client);
-        // console.log(clientJSON.secret);
       });
 
     this.msalBroadcastService.msalSubject$
@@ -158,10 +150,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.authService.loginRedirect(userFlowRequest);
       }
     }
-  }
-
-  logout() {
-    this.authService.logout();
   }
 
   editProfile() {

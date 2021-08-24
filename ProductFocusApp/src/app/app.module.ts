@@ -58,10 +58,7 @@ const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
   window.navigator.userAgent.indexOf('Trident/') > -1;
 
-export function loggerCallback(logLevel: LogLevel, message: string) {
-  // console.log("LOg:::",logLevel);
-  // console.log("MEss:::",message);
-}
+export function loggerCallback(logLevel: LogLevel, message: string) {}
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({

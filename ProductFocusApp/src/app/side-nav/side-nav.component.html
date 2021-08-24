@@ -1,22 +1,16 @@
 <div class="side-nav">
   <ul>
     <li>
-      <a [routerLink]="['/products', productId, 'kanban-board']">
+      <a [routerLink]="['/organizations',organizationName,'products', productId, 'kanban-board']">
         <span class="icon"><i class="fa fa-list"></i></span>
         <span class="title">Kanban board</span>
       </a>
     </li>
-    <!-- <li>
-      <a routerLink="/news-report">
-        <span class="icon"><i class="fa fa-newspaper"></i></span>
+    <li>
+      <a [routerLink]="['/organizations',organizationName,'news-report']">
+        <span class="icon"><i class="fa fa-chart-bar"></i></span>
         <span class="title">News Report</span>
       </a>
     </li>
-    <li>
-      <a routerLink="/product-roadmap">
-        <span class="icon"><i class="fa fa-road"></i></span>
-        <span class="title">Product Roadmap</span>
-      </a>
-    </li> -->
   </ul>
 </div>
