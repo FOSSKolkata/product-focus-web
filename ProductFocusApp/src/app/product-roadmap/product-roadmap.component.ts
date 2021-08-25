@@ -5,13 +5,6 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './product-roadmap.component.html',
   styleUrls: ['./product-roadmap.component.scss'],
 })
-export class ProductRoadmapComponent implements OnInit {
-  line: Number = 60;
-  constructor() {}
-
-  ngOnInit(): void {}
-
-  onMoving(event: Object) {
-    console.log(event);
-  }
+export class ProductRoadmapComponent {
+  line = 60;
 }

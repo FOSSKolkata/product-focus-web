@@ -8,6 +8,7 @@ import { BreadcrumbService } from 'xng-breadcrumb';
 })
 export class OrganizationComponent implements OnInit {
   organization!: any;
+  memberActive = true;
 
   constructor(private breadcrumbService: BreadcrumbService) {}
 

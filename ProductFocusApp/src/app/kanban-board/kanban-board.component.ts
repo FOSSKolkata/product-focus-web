@@ -30,13 +30,12 @@ import { BreadcrumbService } from 'xng-breadcrumb';
   templateUrl: './kanban-board.component.html',
   styleUrls: ['./kanban-board.component.scss'],
 })
-export class KanbanBoardComponent implements OnInit, OnDestroy {
+export class KanbanBoardComponent implements OnInit {
   hoveredDate: NgbDate | null = null;
   fromDate: NgbDate;
   toDate: NgbDate | null = null;
   modules: IModule[] = [];
   kanbanBoard: IKanbanBoard[] = [];
-  moduleServiceSubscriptions: SubSink = new SubSink();
   moduleAddView: boolean = false;
   sprintAddView: boolean = false;
   moduleName: string | undefined;
@@ -102,14 +101,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.setAssignedTo();
   }
 
-  fun(data:any){
-    console.log(data);
-  }
-
-  decode(url: string){
-    return decodeURI(url);
-  }
-
   setAssignedTo(){
     this.userService.getUserListByOrganization(this.selectedOrganization.id).subscribe(x => {
       this.organizationUser = x.members;
@@ -145,7 +136,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.productService
       .getKanbanViewByProductIdAndQuery(this.productId,this.currentSprint.id,this.selectedUserIds)
       .subscribe((x) => {
-        console.log(x);
         this.kanbanBoard = x;
         this.isLoading = false;
       },(err)=>{
@@ -159,10 +149,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     this.productService.getModulesByProductId(this.productId).subscribe((x) => {
       this.modules = x;
     });
-  }
-
-  ngOnDestroy(): void {
-    this.moduleServiceSubscriptions.unsubscribe();
   }
 
   addModule() {
@@ -197,7 +183,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
   isFocusMode: boolean = false;
   onDateSelection(date: NgbDate) {
-    // console.log(date);
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
     } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
@@ -283,7 +268,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   }
 
   public get sprintValidate(){
-    console.log(this.sprintForm);
     return this.sprintForm;
   }
 
@@ -292,7 +276,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     localStorage.isKanbanMode = isKanbanMode;
   }
 
-  updateChanges(modifiedFeatureInfo: any){ // Id, fieldName(enum value), fieldname
+  updateChanges(modifiedFeatureInfo: any) { // Id, fieldName(enum value), fieldname
     for(let module of this.kanbanBoard){
       for(let feature of module.featureDetails){
         if(feature.id === modifiedFeatureInfo.id){

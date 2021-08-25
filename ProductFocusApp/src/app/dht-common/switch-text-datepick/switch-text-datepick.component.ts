@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormControl } from '@angular/forms';
   templateUrl: './switch-text-datepick.component.html',
   styleUrls: ['./switch-text-datepick.component.scss']
 })
-export class SwitchTextDatepickComponent implements OnInit, OnChanges {
+export class SwitchTextDatepickComponent implements OnChanges {
   @Input('date') date: Date | null = null;
   @Output('date-changed') dateChange = new EventEmitter<Date>();
   @Input('min') minDate: Date | null = null;
@@ -19,10 +19,6 @@ export class SwitchTextDatepickComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if(this.date != null)
       this.curr = new FormControl(new Date(this.date));
-  }
-
-  ngOnInit(): void {
-    
   }
 
   dateChanged(event: any){

@@ -42,7 +42,6 @@ export class OrganizationHomeComponent implements OnInit {
     this.organizationSpinner = true;
     this.organizationService.getOrganizationListByUser().subscribe(
       (res) => {
-        console.log("orga: ", res);
         this.organizationSpinner = false;
         this.organizationList = res;
         if(this.paramOrganization !== undefined && this.isValidOrganization(this.paramOrganization,this.organizationList)){
@@ -56,7 +55,6 @@ export class OrganizationHomeComponent implements OnInit {
       (err) => {
         this.organizationSpinner = false;
         this.error = err;
-        console.log(err);
       }
     );
   }
@@ -79,7 +77,6 @@ export class OrganizationHomeComponent implements OnInit {
     };
     this.organizationService.addOrganization(addOrganizationInput).subscribe(
       (res) => {
-        // success
         this.toastr.success("Organization added.", "Success");
         this.organizationAddView = false;
         this.organizationName = '';
@@ -87,7 +84,6 @@ export class OrganizationHomeComponent implements OnInit {
         this.enabledAdding = true;
       },
       (err) => {
-        console.log(err);
         this.toastr.error(err.error, "Failed");
         this.enabledAdding = true;
       }
@@ -112,10 +108,9 @@ export class OrganizationHomeComponent implements OnInit {
       (res) => {
         this.productSpinner = false;
         this.productList = res;
-        console.log(res);
       },
       (err) => {
-        alert(err);
+        this.error = err;
       }
     );
   }
@@ -162,4 +157,3 @@ export class OrganizationHomeComponent implements OnInit {
     return false;
   }
 }
-

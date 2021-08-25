@@ -12,7 +12,7 @@ export class TopNavComponent {
 
   constructor(private authService: MsalService) {}
 
-  logout() {
+  logout(): void {
     localStorage.clear();
     this.authService.logout();
   }

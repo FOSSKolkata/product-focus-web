@@ -3,7 +3,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -13,7 +12,7 @@ import {
   templateUrl: './switch-text-textarea.component.html',
   styleUrls: ['./switch-text-textarea.component.scss'],
 })
-export class SwitchTextTextareaComponent implements OnInit {
+export class SwitchTextTextareaComponent {
   @Input('title') title: string = '';
   @Output('is-text-changed') isTextChanged = new EventEmitter<string>();
   @ViewChild('textArea') set textAreaRef(ref: ElementRef) {
@@ -25,10 +24,6 @@ export class SwitchTextTextareaComponent implements OnInit {
   oldText!: string;
   @Input('input-style') inputStyle = {};
   @Input('label-style') labelStyle = {};
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   onFocusOut(event: any) {
     this.isTextVisible = true;

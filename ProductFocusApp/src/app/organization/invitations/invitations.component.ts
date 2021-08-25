@@ -31,6 +31,7 @@ export class InvitationsComponent implements OnInit {
   cancellingInvitation = false;
   loadingClosed = false;
   sortedData!: IClosedInvitation[];
+  
   constructor(
     private invitationService: InvitationService,
     private router: Router,
@@ -46,6 +47,7 @@ export class InvitationsComponent implements OnInit {
     this.initializePendingInvitation();
     this.initializeClosedInvitation();
   }
+
   reset(){
     this.pendingInvitationList = {
       pendingInvitations : [],
@@ -76,7 +78,6 @@ export class InvitationsComponent implements OnInit {
       this.offset,
       this.count
     ).subscribe(x => {
-      console.log("getClosedInvitation",x);
       this.loadingClosed = false;
       this.closedInvitationList = x;
       if(this.closedInvitationContainer.length == 0){
@@ -97,24 +98,19 @@ export class InvitationsComponent implements OnInit {
   changeClosedInvitationPage(event: any) {
     this.count = event.pageSize;
     var start = event.pageSize * event.pageIndex;
-    console.log("count & closed",this.count,start);
-    console.log("closedInvicon",this.closedInvitationContainer[start]);
     // Check if container contains currently selected page data
     // If doesn't contain then call the api else add old data in pendinglist from container
     if(this.closedInvitationContainer[start].length == 0){
       this.loadingClosed = true;
       this.invitationService.getClosedInvitationList(this.lastSelctedOrganizationId,start,event.pageSize).subscribe(x => {
         this.loadingClosed = false;
-        console.log("res closed",x);
         for(var i=0, j=start; i<x.closedInvitations.length; i++, j++){
           this.closedInvitationContainer[j] = x.closedInvitations[i];
         }
-        console.log("container",this.closedInvitationContainer);
         this.clearClosedInvitationsList();
         for(var i=start, j=0;i<this.closedInvitationList.recordCount && i < start + this.count; i++,j++){
           this.closedInvitationList.closedInvitations[j] = this.closedInvitationContainer[i];
         }
-        console.log("closed",this.closedInvitationList);
         this.sortedData = this.closedInvitationList.closedInvitations.slice();
       });
     }
@@ -137,7 +133,6 @@ export class InvitationsComponent implements OnInit {
       )
       .subscribe(
         (x) => {
-          console.log("getPendingInvitation",x);
           this.loadingPending = false;
           this.pendingInvitationList = x;
           if(this.pendingInvitationContainer.length == 0){
@@ -192,11 +187,10 @@ export class InvitationsComponent implements OnInit {
     this.sortedData = data.sort((a, b) => {
       const isAsc = sort.direction === 'asc';
       switch (sort.active) {
-        // case 'name': return compare(a.name, b.name, isAsc);
         case 'invitedOn':
-          return compare(a.invitedOn, b.invitedOn, isAsc);
+          return this.compare(a.invitedOn, b.invitedOn, isAsc);
         case 'actionedOn':
-          return compare(a.actionedOn, b.actionedOn, isAsc);
+          return this.compare(a.actionedOn, b.actionedOn, isAsc);
         default:
           return 0;
       }
@@ -227,16 +221,15 @@ export class InvitationsComponent implements OnInit {
     });
   }
 
-
   invitationStatus(position: number): string {
     return InvitationStatus[position];
   }
 
+  compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
+    if(a instanceof Date && b instanceof Date){
+      return (a.getTime() < b.getTime() ? -1 : 1) * (isAsc ? 1 : -1);
+    }
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  }  
 }
 
-function compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
-  if(a instanceof Date && b instanceof Date){
-    return (a.getTime() < b.getTime() ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-}

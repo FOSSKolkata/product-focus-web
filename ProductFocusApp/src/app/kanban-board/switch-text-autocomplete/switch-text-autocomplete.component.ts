@@ -9,7 +9,7 @@ import { IMember, IMemberDetail } from '../../dht-common/models';
   templateUrl: './switch-text-autocomplete.component.html',
   styleUrls: ['./switch-text-autocomplete.component.scss']
 })
-export class SwitchTextAutocompleteComponent implements OnInit {
+export class SwitchTextAutocompleteComponent {
 
   @ViewChild('instance', { static: true }) instance!: NgbTypeahead;
   focus$ = new Subject<string>();
@@ -21,12 +21,9 @@ export class SwitchTextAutocompleteComponent implements OnInit {
   @Output('is-removed') isUserRemoved = new EventEmitter<IMember>();
   isAddUserActive: boolean = false;
 
-  constructor() {}
   ngOnChanges(changes: SimpleChanges): void {
     this.addUserHandler();
   }
-
-  ngOnInit(): void {}
 
   inputTextFocus(inputText: any): void {
     setTimeout(() => inputText.focus(), 0);
@@ -56,10 +53,8 @@ export class SwitchTextAutocompleteComponent implements OnInit {
   }
 
   addUserHandler() {
-    // console.log('before other', this.otherUsers, 'added', this.addedUsers);
     this.otherUsers = this.addHelper(this.otherUsers, this.addedUsers);
     this.addedUsers = this.addHelper(this.addedUsers, this.otherUsers);
-    // console.log('after other', this.otherUsers, 'added', this.addedUsers);
   }
 
   removeUser(user: IMember){
@@ -68,7 +63,6 @@ export class SwitchTextAutocompleteComponent implements OnInit {
   }
   
   removeHelper(user: IMember){
-    console.log('before other remove', this.otherUsers, 'added', this.addedUsers);
     this.otherUsers.push({
       email: user.email,
       isOwner: false,
@@ -81,7 +75,6 @@ export class SwitchTextAutocompleteComponent implements OnInit {
         break;
       }
     }
-    console.log('after other remove', this.otherUsers, 'added', this.addedUsers);
   }
 
   addHelper(a: any[], b: any[]): any[] {
@@ -100,5 +93,4 @@ export class SwitchTextAutocompleteComponent implements OnInit {
     });
     return tempIMember;
   }
-
 }

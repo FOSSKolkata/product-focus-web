@@ -136,7 +136,6 @@ export interface IKanbanBoard {
   id: number,
   name: string,
   featureDetails: IFeatureDetails[],
-
 }
 
 export interface IScrumDay {

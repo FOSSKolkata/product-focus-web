@@ -1,5 +1,5 @@
 import { EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
 import { ISprint } from '../models';
 
@@ -8,7 +8,7 @@ import { ISprint } from '../models';
   templateUrl: './switch-text-dropdown.component.html',
   styleUrls: ['./switch-text-dropdown.component.scss'],
 })
-export class SwitchTextDropdownComponent implements OnInit {
+export class SwitchTextDropdownComponent {
   @ViewChild(NgbDropdown) private dropdown!: NgbDropdown;
   @Input('text-data') textData: ISprint = {
     id: -1,
@@ -19,9 +19,6 @@ export class SwitchTextDropdownComponent implements OnInit {
   @Input('list-data') listData: ISprint[] = [];
   @Output('select') selection = new EventEmitter<ISprint>();
   isTextVisible: boolean = true;
-
-  constructor() {}
-  ngOnInit(): void {}
 
   onLabelClick() {
     this.dropdown.open();

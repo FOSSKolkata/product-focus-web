@@ -40,21 +40,21 @@ export class OrganizationMembersComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!localStorage.lastSelctedOrganizationId) this.router.navigate(['/']);
+    if (!localStorage.lastSelctedOrganizationId) {
+      this.router.navigate(['/']);
+    }
     this.lastSelctedOrganizationId = localStorage.lastSelctedOrganizationId;
     this.userService.getUserListByOrganization(this.lastSelctedOrganizationId).subscribe(x => {
-      console.log("organization user",x);
       this.organizationMemberList = x;
     });
 
     this.gettingUserList = true;
     this.invitationService.getUserListNotPartOfOrganization(this.lastSelctedOrganizationId).subscribe(x => {
-      console.log("user",x);
       this.usersMail = this.getEmails(x);
       this.gettingUserList = false;
     });
   }
-  open(content: any) {
+  open(content: any): void {
     this.modalService
       .open(content, { ariaLabelledBy: 'modal-basic-title' })
       .result.then(
@@ -89,11 +89,11 @@ export class OrganizationMembersComponent implements OnInit {
           .filter((usermail) => usermail.toLowerCase().indexOf(term.toLowerCase()) > -1)
           .slice(0, 10)
       )
-    );
+    )
 
-  sendInvitation(invitationForm: NgForm) {
+  sendInvitation(invitationForm: NgForm): void {
     this.sendingInvitationActive = true;
-    var invitationInput: ISendInvitationInput = {
+    const invitationInput: ISendInvitationInput = {
       email: this.selectedMail,
       orgId: this.lastSelctedOrganizationId
     };
@@ -109,14 +109,13 @@ export class OrganizationMembersComponent implements OnInit {
         this.sendingInvitationActive = false;
       }
     );
-
   }
   
   getEmails(users: IUser[]): string[] {
-    var mails= new Array();
-    for(var user of users)
+    let mails= new Array();
+    for(var user of users) {
       mails.push(user.email);
+    }
     return mails;
   }
 }
-

@@ -39,7 +39,6 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     }
     this.countOfFeatureInModule.clear();
     this.board = [];
-    // console.log(this.kanbanBoard);
     for(let module of this.kanbanBoard){
       var counter = 0;
       for(let feature of module.featureDetails){

@@ -2,7 +2,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -15,7 +14,7 @@ import { IFeature } from '../../dht-common/models';
   templateUrl: './feature.component.html',
   styleUrls: ['./feature.component.scss'],
 })
-export class FeatureComponent implements OnInit, OnDestroy {
+export class FeatureComponent implements OnInit {
   @Input('feature') feature: IFeature = {
     id: -1,
     moduleId: -1,
@@ -33,7 +32,6 @@ export class FeatureComponent implements OnInit, OnDestroy {
   };
 
   @Output('modal-closed') modalClosed = new EventEmitter<boolean>();
-
   detailsChanged: boolean = false;
   closeResult = '';
 
@@ -46,10 +44,7 @@ export class FeatureComponent implements OnInit, OnDestroy {
   }
   content: any;
 
-  ngOnDestroy(): void {}
-
   openFeatureDetailsModal(content: any) {
-    console.log(content);
     this.modalService
       .open(content, { ariaLabelledBy: 'Feature details', size: 'lg' })
       .result.then(
@@ -58,7 +53,6 @@ export class FeatureComponent implements OnInit, OnDestroy {
         },
         (reason) => {
           this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-          console.log(this.closeResult);
           if (this.detailsChanged) this.modalClosed.emit(true);
         }
       );

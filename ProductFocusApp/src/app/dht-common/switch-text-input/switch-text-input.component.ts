@@ -1,11 +1,11 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-switch-text-input',
   templateUrl: './switch-text-input.component.html',
   styleUrls: ['./switch-text-input.component.scss']
 })
-export class SwitchTextInputComponent implements OnInit {
+export class SwitchTextInputComponent {
   @Input('title') title: string = '';
   @Output('is-text-changed') isTextChanged = new EventEmitter<string>();
 
@@ -18,10 +18,6 @@ export class SwitchTextInputComponent implements OnInit {
   oldText!: string;
   @Input('input-style') inputStyle = {};
   @Input('label-style') labelStyle = {};
-
-  constructor() {}
-
-  ngOnInit(): void {}
 
   onFocusOut(event: any) {
     this.isTextVisible = true;

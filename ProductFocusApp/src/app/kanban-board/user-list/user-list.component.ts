@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { IFeatureAssignee } from 'src/app/dht-common/models';
 
 @Component({
@@ -6,14 +6,11 @@ import { IFeatureAssignee } from 'src/app/dht-common/models';
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })
-export class UserListComponent implements OnInit, OnChanges {
+export class UserListComponent implements OnChanges {
 
   @Input('user-list') userList: IFeatureAssignee[] = [];
   userListShow: IFeatureAssignee[] = [];
-  constructor() { }
-  ngOnInit(): void {
-    
-  }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.removeDuplicateUser();
     this.userListShow = [];

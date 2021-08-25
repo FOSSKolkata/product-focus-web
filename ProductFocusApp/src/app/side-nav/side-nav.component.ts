@@ -12,8 +12,9 @@ export class SideNavComponent implements OnInit {
   productId: number | undefined;
   organizationName: string | undefined;
   ngOnInit(): void {
-    if (localStorage.getItem('productId') === undefined || localStorage.getItem('selectedOrganization') === undefined)
+    if (localStorage.getItem('productId') === undefined || localStorage.getItem('selectedOrganization') === undefined) {
       this.router.navigate(['/organization-home']);
+    }
     else {
       this.productId = Number(localStorage.getItem('productId'));
       this.organizationName = JSON.parse(localStorage.selectedOrganization).name;

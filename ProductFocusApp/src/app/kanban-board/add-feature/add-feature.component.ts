@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ModuleService } from 'src/app/_services/module.service';
 import { IFeatureInput, ISprint } from '../../dht-common/models';
@@ -8,7 +8,7 @@ import { IFeatureInput, ISprint } from '../../dht-common/models';
   templateUrl: './add-feature.component.html',
   styleUrls: ['./add-feature.component.scss'],
 })
-export class AddFeatureComponent implements OnInit, OnChanges {
+export class AddFeatureComponent {
   @Input('module-id') moduleId!: number;
   @Input('selected-sprint') selectedSprint: ISprint = {
     id: -1,
@@ -19,11 +19,6 @@ export class AddFeatureComponent implements OnInit, OnChanges {
   @Output('is-feature-added') isFeatureAdded = new EventEmitter();
   constructor(private moduleService: ModuleService,
               private toastr: ToastrService) {}
-  ngOnChanges(changes: SimpleChanges): void {
-    // console.log("sel sp",this.selectedSprint);
-  }
-
-  ngOnInit(): void {}
 
   addFeatureOrBugStep: Number = 0;
   workItemType: string = '';

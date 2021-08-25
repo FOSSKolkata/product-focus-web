@@ -3,7 +3,6 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  OnInit,
   Output,
   SimpleChanges,
   ViewChild,
@@ -23,7 +22,7 @@ import { IMember } from 'src/app/dht-common/models';
   templateUrl: './add-user.component.html',
   styleUrls: ['./add-user.component.scss'],
 })
-export class AddUserComponent implements OnInit, OnChanges {
+export class AddUserComponent implements OnChanges {
   @ViewChild('instance', { static: true }) instance!: NgbTypeahead;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
@@ -36,11 +35,8 @@ export class AddUserComponent implements OnInit, OnChanges {
 
   constructor(private modalService: NgbModal) {}
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes);
     this.addUserHandler();
   }
-
-  ngOnInit(): void {}
 
   inputTextFocus(inputText: any): void {
     setTimeout(() => inputText.focus(), 0);
@@ -71,10 +67,8 @@ export class AddUserComponent implements OnInit, OnChanges {
   }
 
   private addUserHandler() {
-    console.log('before other', this.otherUsers, 'added', this.addedUsers);
     this.otherUsers = this.addHelper(this.otherUsers, this.addedUsers);
     this.addedUsers = this.addHelper(this.addedUsers, this.otherUsers);
-    console.log('after other', this.otherUsers, 'added', this.addedUsers);
   }
 
   removeUser(user: IMember){
@@ -83,7 +77,6 @@ export class AddUserComponent implements OnInit, OnChanges {
   }
 
   removeHelper(user: IMember){
-    console.log('before other remove', this.otherUsers, 'added', this.addedUsers);
     this.otherUsers.push(user);
     for(let i=0;i<this.addedUsers.length;i++){
       if(this.addedUsers[i].objectId == user.objectId){
@@ -91,7 +84,6 @@ export class AddUserComponent implements OnInit, OnChanges {
         break;
       }
     }
-    console.log('after other remove', this.otherUsers, 'added', this.addedUsers);
   }
 
   addHelper(a: IMember[], b: IMember[]): IMember[] {

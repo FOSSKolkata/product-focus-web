@@ -98,7 +98,6 @@ export class FeatureDetailsComponent implements OnInit {
     this.featureService
       .getFeatureDetailsById(parseInt(lastSelectedOrgId), this.feature.id)
       .subscribe((x) => {
-        console.log('FeatureDetails Res', x);
         this.featureDetails = x;
         this.startDate = this.dateService.dateToNgbDate(
           new Date(this.featureDetails.plannedStartDate)
@@ -109,7 +108,7 @@ export class FeatureDetailsComponent implements OnInit {
       });
 
     this.sprintService.getSprintByProductId(this.productId).subscribe((x) => {
-      console.log('Sprints response', x);
+
       this.allSprint = x;
     });
   }
@@ -146,7 +145,7 @@ export class FeatureDetailsComponent implements OnInit {
       object.emailOfAssignee = value.email;
     }
     this.featureService.modifyFeatureElement(object).subscribe((x) => {
-      console.log(x);
+
     },(err)=>{
       this.toastr.error('Update is not saved!!','Not modified')
     });

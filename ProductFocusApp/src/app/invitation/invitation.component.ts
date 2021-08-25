@@ -16,10 +16,10 @@ export class InvitationComponent implements OnInit {
   rejecting = false;
 
   constructor(private dataRoute: ActivatedRoute,
-              private authService: MsalService,
-              private invitationService: InvitationService,
-              private router: Router,
-              private modalService: NgbModal) {}
+    private authService: MsalService,
+    private invitationService: InvitationService,
+    private router: Router,
+    private modalService: NgbModal) {}
 
   ngOnInit(): void {
     const invitationInfo = JSON.parse(this.dataRoute.snapshot.params.invitationInfo);
@@ -30,7 +30,6 @@ export class InvitationComponent implements OnInit {
       orgId: invitationInfo['orId'],
       email: email
     };
-    console.log("invitation data",this.invitationData);
   }
 
   acceptInvitation(){
@@ -39,7 +38,6 @@ export class InvitationComponent implements OnInit {
       this.accepting = false;
       this.router.navigate(['/']);
     }, err => {
-      alert(err);
       this.accepting = false;
     })
   }
@@ -55,7 +53,6 @@ export class InvitationComponent implements OnInit {
   rejectInvitation(modal: any){
     this.rejecting = true;
     this.invitationService.rejectInvitation(this.invitationData).subscribe(x => {
-      console.log("Rejected res",x);
       modal.close();
       this.rejecting = false;
       this.router.navigate(["/"]);

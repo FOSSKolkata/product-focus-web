@@ -4,17 +4,14 @@
     <div class="col-sm-3">
       <div>
         <ul class="list-group pl-3" style="cursor: pointer">
-          <li class="list-group-item" [routerLink]="['members']">Members</li>
-          <li class="list-group-item" [routerLink]="['invitations']">
-            Invitations
-          </li>
+          <li class="list-group-item" [class.active-item]="memberActive" (click)="memberActive = true;" [routerLink]="['members']">Members</li>
+          <li class="list-group-item" [class.active-item]="!memberActive" (click)="memberActive = false" [routerLink]="['invitations']">Invitations</li>
         </ul>
       </div>
     </div>
     <div class="col">
       <div class="p-1" style="background-color: var(--light-gray)">
         <div class="p-3" style="background-color: var(--white)">
-          <!-- <h6 class="p-3">All User</h6> -->
           <router-outlet></router-outlet>
         </div>
       </div>

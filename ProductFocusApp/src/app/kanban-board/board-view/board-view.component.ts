@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FeatureStatus, IKanbanBoard, ISprint, ModifyColumnIdentifier } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
 
@@ -8,7 +8,7 @@ import { FeatureService } from 'src/app/_services/feature.service';
   templateUrl: './board-view.component.html',
   styleUrls: ['./board-view.component.scss']
 })
-export class BoardViewComponent implements OnInit, OnChanges {
+export class BoardViewComponent implements OnChanges {
 
   @Output('changed') changed = new EventEmitter<boolean>();
   @Input('is-loading')kanbanBoardSpinner: boolean = false;
@@ -21,9 +21,10 @@ export class BoardViewComponent implements OnInit, OnChanges {
     endDate: new Date()
   }
   selectedUserIds = [];
-  
   productId!: number;
+  
   constructor(private featureService: FeatureService) { }
+
   ngOnChanges(changes: SimpleChanges): void {
     this.board = [];
     for (var module of this.kanbanBoard) {
@@ -41,11 +42,7 @@ export class BoardViewComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnInit(): void {
-
-  }
   drop(event: CdkDragDrop<any[]>, status: FeatureStatus) {
-    console.log(event, status);
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -72,7 +69,7 @@ export class BoardViewComponent implements OnInit, OnChanges {
             fieldName: ModifyColumnIdentifier.status,
           })
           .subscribe((x) => {
-            console.log(x);
+
           });
       }
     }
@@ -85,5 +82,4 @@ export class BoardViewComponent implements OnInit, OnChanges {
   public get featureStatus(): typeof FeatureStatus {
     return FeatureStatus;
   }
-
 }
