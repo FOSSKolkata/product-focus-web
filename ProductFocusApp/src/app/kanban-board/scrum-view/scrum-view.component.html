@@ -18,35 +18,44 @@
         <th *ngFor="let sprintDate of sprintDates">{{sprintDate | date:'dd-MM-YYYY'}}</th>
         <td></td>
       </tr>
-      <tr *ngFor="let feature of board; let i = index">
-        <th *ngIf="feature.name != ''" [attr.rowspan]="requireColspan(feature.name)"><b>{{feature.name}}</b></th>
-        <td><app-editable-text [text-content]="feature.title" (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent, feature)"></app-editable-text></td>
-        <td><app-editable-text [validate-function]="restrictGreaterThan100" [text-content]="feature.storyPoint" (changed)="modifyFeature(modifyColumnIdentifier.storyPoint, $event.target.textContent, feature)"></app-editable-text></td>
-        <td><app-switch-text-datepick [date]="feature.startDate" [max]="feature.endDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedStartDate, $event,feature)"></app-switch-text-datepick></td>
-        <td><app-switch-text-datepick [date]="feature.endDate" [min]="feature.startDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedEndDate, $event,feature)"></app-switch-text-datepick></td>
-        <td>{{feature.durationInDays}}</td>
-        <td><app-switch-text-autocomplete [added-users]="feature.assignee" [other-users]="organizationUser" (is-added)="modifyFeature(modifyColumnIdentifier.includeAssignee,$event,feature)" (is-removed)="modifyFeature(modifyColumnIdentifier.excludeAssignee,$event,feature)"></app-switch-text-autocomplete></td>
-        <td><app-editable-text [text-content]="feature.remarks" (changed)="modifyFeature(modifyColumnIdentifier.remarks, $event.target.textContent, feature)"></app-editable-text></td>
-        <td>
-          <input type="checkbox" [checked]="feature.functionalTestability" (change)="modifyFeature(modifyColumnIdentifier.functionalTestability, $event, feature)">
-        </td>
-        <td *ngFor="let sprintDate of sprintDates; index as i">
-          <app-progress-comment [feature-id]="feature.id" [date]="sprintDate" [scrum-day]="feature.scrumDays[i]"></app-progress-comment>
-        </td>
-        <td>
-          <div style="display: inline-block; margin-right: 20px;">
-            <div [style.visibility]="!feature.isFirst?'visible':'hidden'">
-              <i class="fa fa-angle-up" style="cursor: pointer;"></i>
+      <!-- <ng-template *ngFor="let feature of board; let i = index"> -->
+      <ng-template ngFor let-feature [ngForOf]="board">
+        <tr *ngIf="feature.create">
+          <td *ngIf="feature.size == 0"><b>{{feature.moduleName}}</b></td>
+          <td><input class="tasks-title" type="text" #content placeholder="Feature / Bug title"/></td>
+          <td><button class="btn btn-primary" (click)="addRow('Feature',feature.moduleId,content)">Feature</button></td>
+          <td><button class="btn btn-danger" (click)="addRow('Bug',feature.moduleId,content)">Bug</button></td>
+        </tr>
+        <tr *ngIf="!feature.create">
+          <th *ngIf="feature.name != ''" [attr.rowspan]="requireColspan(feature.name)"><b>{{feature.name}}</b></th>
+          <td><app-editable-text [text-content]="feature.title" (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent, feature)"></app-editable-text></td>
+          <td><app-editable-text [validate-function]="restrictGreaterThan100" [text-content]="feature.storyPoint" (changed)="modifyFeature(modifyColumnIdentifier.storyPoint, $event.target.textContent, feature)"></app-editable-text></td>
+          <td><app-switch-text-datepick [date]="feature.startDate" [max]="feature.endDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedStartDate, $event,feature)"></app-switch-text-datepick></td>
+          <td><app-switch-text-datepick [date]="feature.endDate" [min]="feature.startDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedEndDate, $event,feature)"></app-switch-text-datepick></td>
+          <td>{{feature.durationInDays}}</td>
+          <td><app-switch-text-autocomplete [added-users]="feature.assignee" [other-users]="organizationUser" (is-added)="modifyFeature(modifyColumnIdentifier.includeAssignee,$event,feature)" (is-removed)="modifyFeature(modifyColumnIdentifier.excludeAssignee,$event,feature)"></app-switch-text-autocomplete></td>
+          <td><app-editable-text [text-content]="feature.remarks" (changed)="modifyFeature(modifyColumnIdentifier.remarks, $event.target.textContent, feature)"></app-editable-text></td>
+          <td>
+            <input type="checkbox" [checked]="feature.functionalTestability" (change)="modifyFeature(modifyColumnIdentifier.functionalTestability, $event, feature)">
+          </td>
+          <td *ngFor="let sprintDate of sprintDates; index as i">
+            <app-progress-comment [feature-id]="feature.id" [date]="sprintDate" [scrum-day]="feature.scrumDays[i]"></app-progress-comment>
+          </td>
+          <td>
+            <div style="display: inline-block; margin-right: 20px;">
+              <div [style.visibility]="!feature.isFirst?'visible':'hidden'">
+                <i class="fa fa-angle-up" style="cursor: pointer;"></i>
+              </div>
+              <div [style.visibility]="!feature.isLast?'visible':'hidden'">
+                <i class="fa fa-angle-down" style="cursor: pointer;"></i>
+              </div>
             </div>
-            <div [style.visibility]="!feature.isLast?'visible':'hidden'">
-              <i class="fa fa-angle-down" style="cursor: pointer;"></i>
+            <div style="display: inline-block; vertical-align: top;">
+              <i class="fa fa-trash" style="margin-top: 10px; cursor: pointer;"></i>
             </div>
-          </div>
-          <div style="display: inline-block; vertical-align: top;">
-            <i class="fa fa-trash" style="margin-top: 10px; cursor: pointer;"></i>
-          </div>
-        </td>
-      </tr>
+          </td>
+        </tr>
+      </ng-template>
     </table>
     <app-spinner [is-spinner-active]="kanbanBoardSpinner"></app-spinner>
   </div>

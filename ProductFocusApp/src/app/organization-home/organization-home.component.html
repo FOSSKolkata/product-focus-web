@@ -100,12 +100,13 @@
             class="fa fa-ellipsis-h"
             style="position: absolute; right: 20px; top: 0px"
           ></i>
-          <a routerLink="./news-report">
+          <a routerLink="./news-report"
+            (click)="setLastProductId(product)">
             <i
               class="fas fa-chart-bar fa-2x"
               style="position: absolute; top: 110px; left: 30px"
             ></i>
-          </a> 
+          </a>
           <a style="word-break: break-all;"
             [routerLink]="['./products', product.id, 'kanban-board']"
             (click)="setLastProductId(product)"

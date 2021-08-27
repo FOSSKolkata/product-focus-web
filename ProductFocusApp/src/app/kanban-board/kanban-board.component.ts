@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SubSink } from 'subsink';
 import { ProductService } from '../_services/product.service';
 import {
   NgbCalendar,
@@ -247,10 +246,10 @@ export class KanbanBoardComponent implements OnInit {
     );
   }
 
-
   public get featureStatus(): typeof FeatureStatus {
     return FeatureStatus;
   }
+  
   DateValidate(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       console.log(control,this.fromDate,this.toDate);
@@ -263,6 +262,7 @@ export class KanbanBoardComponent implements OnInit {
       return null;
     }
   }
+
   public get sprintname() {
     return this.sprintForm.value['name'];
   }

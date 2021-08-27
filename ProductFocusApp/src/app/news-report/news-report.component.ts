@@ -12,6 +12,7 @@ export class NewsReportComponent implements OnInit {
   moduleList: any[] = [];
   selectedModules: any[] = [];
   dropdownSettings: IDropdownSettings = {};
+  item = [1,2,3,4,5,6,7];
   constructor() {}
   ngOnInit(): void {
     this.userList = [
@@ -59,5 +60,12 @@ export class NewsReportComponent implements OnInit {
   }
   onSelectAll(items: any) {
     console.log(items);
+  }
+  onScroll() {
+    if(this.item.length > 100)
+      return;
+    for(let i=0;i<5;i++){
+      this.item.push(i);
+    }
   }
 }
