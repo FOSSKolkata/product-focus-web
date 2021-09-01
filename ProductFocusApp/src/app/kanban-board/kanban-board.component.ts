@@ -47,12 +47,13 @@ export class KanbanBoardComponent implements OnInit {
   organizationUser: IMemberDetail[] = [];
   isKanbanMode:boolean;
   isLoading = false;
-  currentSprint: ISprint = {
-    id: -1,
-    name: '',
-    startDate: new Date(),
-    endDate: new Date()
-  }
+  currentSprint: ISprint | null = null;
+  // {
+  //   id: -1,
+  //   name: '',
+  //   startDate: new Date(),
+  //   endDate: new Date()
+  // }
   selectedSprint = this.currentSprint;
   selectedUserIds = [];
   sprintForm = new FormGroup({
@@ -131,6 +132,8 @@ export class KanbanBoardComponent implements OnInit {
     if (this.productId === undefined) {
       this.router.navigate(['/']);
     }
+    if(this.currentSprint === null)
+      return
     this.isLoading = true;
     this.productService
       .getKanbanViewByProductIdAndQuery(this.productId,this.currentSprint.id,this.selectedUserIds)

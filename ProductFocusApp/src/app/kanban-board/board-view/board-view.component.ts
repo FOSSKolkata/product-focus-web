@@ -14,12 +14,13 @@ export class BoardViewComponent implements OnChanges {
   @Input('is-loading')kanbanBoardSpinner: boolean = false;
   @Input('kanban-board')kanbanBoard: IKanbanBoard[] = [];
   board: any = [];
-  @Input('selected-sprint') selectedSprint: ISprint = {
-    id: -1,
-    name: '',
-    startDate: new Date(),
-    endDate: new Date()
-  }
+  @Input('selected-sprint') selectedSprint: ISprint | null = null;
+  // {
+  //   id: -1,
+  //   name: '',
+  //   startDate: new Date(),
+  //   endDate: new Date()
+  // }
   selectedUserIds = [];
   productId!: number;
   
