@@ -1,10 +1,24 @@
 <div class="infinite-scroll-x-axis">
-  <div style="overflow-y:auto; height:74vh;">
+  <div style="height: 4vh; width: 92vw;">
+    <div style="display: inline-block;" class="p-1">{{currentSprint?.startDate | date:'dd-MM-YYYY'}}</div>
+    <div style="display: inline-block;" class="p-1">Release: <b>{{currentSprint?.name}}</b></div>
+    <div style="display: inline-block; cursor: pointer;" class="float-right pt-1">
+      <i class="fa fa-plus-circle" [popover]="myPopover" [popoverCloseOnMouseOutside]="true" [popoverOnHover]="false">Add Feature / Bug</i>
+      <popover-content #myPopover
+        placement="bottom-left"
+        [animation]="true"
+        [closeOnClickOutside]="true">
+        <select style="width: 135px; display: block;" class="m-1" (change)="selectModuleOnAddFeature($event)">
+          <ng-template ngFor let-module [ngForOf]="kanbanBoard">
+            <option value="{{module.id}}">{{module.name}}</option>
+          </ng-template>
+        </select>
+        <app-add-feature [module-id]="addFeatureModuleId" [selected-sprint]="currentSprint" (is-feature-added)="changeAll()"></app-add-feature>
+      </popover-content>
+    </div>
+  </div>
+  <div style="overflow-y:auto; height:70vh;">
     <table>
-    <tr>
-      <th>{{currentSprint?.startDate | date:'dd-MM-YYYY'}}</th>
-      <th>Release {{currentSprint?.name}}</th>
-    </tr>
       <tr>
         <th>Modules</th>
         <th>Tasks</th>
@@ -20,13 +34,7 @@
       </tr>
       <!-- <ng-template *ngFor="let feature of board; let i = index"> -->
       <ng-template ngFor let-feature [ngForOf]="board">
-        <tr *ngIf="feature.create">
-          <td *ngIf="feature.size == 0"><b>{{feature.moduleName}}</b></td>
-          <td><input class="tasks-title" type="text" #content placeholder="Feature / Bug title"/></td>
-          <td><button class="btn btn-primary" (click)="addRow('Feature',feature.moduleId,content)">Feature</button></td>
-          <td><button class="btn btn-danger" (click)="addRow('Bug',feature.moduleId,content)">Bug</button></td>
-        </tr>
-        <tr *ngIf="!feature.create">
+        <tr>
           <th *ngIf="feature.name != ''" [attr.rowspan]="requireColspan(feature.name)"><b>{{feature.name}}</b></th>
           <td><app-editable-text [text-content]="feature.title" (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent, feature)"></app-editable-text></td>
           <td><app-editable-text [validate-function]="restrictGreaterThan100" [text-content]="feature.storyPoint" (changed)="modifyFeature(modifyColumnIdentifier.storyPoint, $event.target.textContent, feature)"></app-editable-text></td>

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ModuleService } from 'src/app/_services/module.service';
 import { IFeatureInput, ISprint } from '../../dht-common/models';
@@ -10,13 +10,16 @@ import { IFeatureInput, ISprint } from '../../dht-common/models';
 })
 export class AddFeatureComponent {
   @Input('module-id') moduleId!: number;
-  @Input('selected-sprint') selectedSprint: ISprint = {
-    id: -1,
-    name: '',
-    startDate: new Date(),
-    endDate: new Date()
-  }
+  @Input('selected-sprint') selectedSprint: ISprint | null = null;
   @Output('is-feature-added') isFeatureAdded = new EventEmitter();
+  @ViewChild('addFeatureRef') addFeatureRef!: ElementRef;
+  @HostListener('document:click',['$event'])
+  click(event: any): any {
+    if(!this.addFeatureRef.nativeElement.contains(event.target)) {
+      this.title = '';
+      this.addFeatureOrBugStep = 0;
+    }
+  }
   constructor(private moduleService: ModuleService,
               private toastr: ToastrService) {}
 
@@ -29,6 +32,8 @@ export class AddFeatureComponent {
   }
   isFocusMode: boolean = false;
   addFeature() {
+    if(this.selectedSprint === null)
+      return;
     var featureInput: IFeatureInput = {
       title: this.title,
       workItemType: this.workItemType,
@@ -40,6 +45,7 @@ export class AddFeatureComponent {
       .subscribe(
         (x) => {
           //emit event
+          this.title = '';
           this.addingFeature = false;
           this.isFeatureAdded.emit('true');
           this.addFeatureOrBugStep = 0;

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BreadcrumbService } from 'xng-breadcrumb';
@@ -15,6 +15,20 @@ import { OrganizationService } from '../_services/organization.service';
 })
 export class OrganizationHomeComponent implements OnInit {
   error!: HttpErrorResponse;
+  @ViewChild('addOrganizationRef') addOrganizationRef!: ElementRef;
+  @ViewChild('addProductRef') addProductRef!: ElementRef;
+  @HostListener('document:click',['$event'])
+  click(event: any): void {
+    if(!this.addOrganizationRef.nativeElement.contains(event.target)) {
+      this.organizationAddView = false;
+      this.organizationName = '';
+    }
+    if(!this.addProductRef.nativeElement.contains(event.target)) {
+      this.productAddView = false;
+      this.productName = '';
+    }
+  }
+
   constructor(
     private organizationService: OrganizationService,
     private toastr: ToastrService,
@@ -22,6 +36,7 @@ export class OrganizationHomeComponent implements OnInit {
     private route: ActivatedRoute,
     private breadcrumbService: BreadcrumbService
   ) { }
+
   organizationAddView: boolean = false;
   organizationName: string | undefined;
   selectedOrganization: any;
@@ -34,10 +49,12 @@ export class OrganizationHomeComponent implements OnInit {
   productName: string | undefined;
   productAddView: boolean = false;
   paramOrganization: string | undefined;
+  
   ngOnInit(): void {
     this.paramOrganization = this.route.snapshot.params["organization-name"];
     this.setOrganizationList();
   }
+
   setOrganizationList() {
     this.organizationSpinner = true;
     this.organizationService.getOrganizationListByUser().subscribe(
@@ -58,6 +75,7 @@ export class OrganizationHomeComponent implements OnInit {
       }
     );
   }
+  
   getParamOrganization(paramOrganization: string, organizationList: IOrganization[]): IOrganization {
     for(let org of organizationList){
       if(org.name == paramOrganization){
@@ -114,6 +132,7 @@ export class OrganizationHomeComponent implements OnInit {
       }
     );
   }
+  
   addProduct() {
     if (this.productName === undefined || this.productName == '') {
       return;
@@ -148,6 +167,7 @@ export class OrganizationHomeComponent implements OnInit {
     localStorage.setItem('productId', product.id.toString());
     localStorage.selectedProduct = JSON.stringify(product);
   }
+  
   isValidOrganization(paramOrganization: string, organizationList: IOrganization[]): boolean {
     for(let org of organizationList){
       if(org.name == paramOrganization){
@@ -156,4 +176,5 @@ export class OrganizationHomeComponent implements OnInit {
     }
     return false;
   }
+
 }

@@ -70,7 +70,7 @@ Filters
   class="margin-for-navs"
 >
   <app-board-view *ngIf="isKanbanMode" [is-loading]="isLoading" [kanban-board]="kanbanBoard" (changed)="setKanbanBoard()" [selected-sprint]="selectedSprint"></app-board-view>
-  <app-scrum-view *ngIf="!isKanbanMode" [is-loading]="isLoading" [kanban-board]="kanbanBoard" (changed)="updateChanges($event)" (row-added)="setKanbanBoard()" [selected-sprint]="selectedSprint"></app-scrum-view>
+  <app-scrum-view *ngIf="!isKanbanMode" [is-loading]="isLoading" [kanban-board]="kanbanBoard" (changed)="updateChanges($event)" (changed-all)="setKanbanBoard()" [selected-sprint]="selectedSprint"></app-scrum-view>
 </div>
 <ng-template #manageModuleContent let-modal>
   <div class="modal-header">

@@ -3,10 +3,10 @@
     <app-spinner [is-spinner-active]="organizationSpinner"></app-spinner>
     <ul *ngIf="!organizationSpinner" class="nav flex-column">
       <li class="nav-item">
-        <form #organizationForm="ngForm">
+        <form #organizationForm="ngForm" #addOrganizationRef>
           <div class="nav-link add-organization">
             <div
-              *ngIf="!organizationAddView"
+              [style.display]="!organizationAddView?'block':'none'"
               type="button"
               (click)="organizationAddView = true"
             >
@@ -117,11 +117,12 @@
       <div
         class="col-lg-4 col-md-6 mt-3 mb-3 pointer"
         *ngIf="!productSpinner"
+        #addProductRef
       >
         <div
-          *ngIf="!productAddView"
           (click)="productAddView = true"
           class="column-control"
+          [style.display]="!productAddView?'block':'none'"
         >
           <a><i class="fa fa-plus">Add</i></a>
         </div>

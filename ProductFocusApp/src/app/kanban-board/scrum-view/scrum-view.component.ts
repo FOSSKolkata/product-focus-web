@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IFeatureInput, IKanbanBoard, IMemberDetail, IScrumDay, ISprint, ModifyColumnIdentifier } from 'src/app/dht-common/models';
+import { IKanbanBoard, IMemberDetail, IScrumDay, ISprint, ModifyColumnIdentifier } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
-import { ModuleService } from 'src/app/_services/module.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -12,24 +11,23 @@ import { UserService } from 'src/app/_services/user.service';
   styleUrls: ['./scrum-view.component.scss']
 })
 export class ScrumViewComponent implements OnInit, OnChanges {
-
   @Input('kanban-board') kanbanBoard: IKanbanBoard[] = [];
   @Input('selected-sprint') currentSprint: ISprint | null = null;
   @Output('changed') changes = new EventEmitter<any>();
   @Input('is-loading')kanbanBoardSpinner: boolean = false;
-  @Output('row-added') rowAdded = new EventEmitter<boolean>();
+  @Output('changed-all') changedAll = new EventEmitter<any>();
 
   sprintDates: Date[] = [];
   board:any[] = [];
   organizationUser: IMemberDetail[] = [];
   organization: any | null = null;
   countOfFeatureInModule = new Map<string,number>();
+  addFeatureModuleId = -1;
 
   constructor(private featureService: FeatureService,
     private toastr: ToastrService,
     private userService: UserService,
-    private router: Router,
-    private moduleService: ModuleService) { }
+    private router: Router) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     this.sprintDates = [];
@@ -37,17 +35,19 @@ export class ScrumViewComponent implements OnInit, OnChanges {
       return;
     var startDate: Date = new Date(this.currentSprint?.startDate);
     var endDate: Date = new Date(this.currentSprint?.endDate);
-    while(startDate <= endDate){
+    while(startDate <= endDate) {
       this.sprintDates.push(new Date(startDate));
       startDate.setDate(startDate.getDate() + 1);
     }
     this.countOfFeatureInModule.clear();
     this.board = [];
-    for(let module of this.kanbanBoard){
+    if(this.kanbanBoard.length >= 1) {
+      this.selectModuleOnAddFeature(this.kanbanBoard[0].id);
+    }
+    for(let module of this.kanbanBoard) {
       var counter = 0;
-      for(let feature of module.featureDetails){
+      for(let feature of module.featureDetails) {
         let currentFeature = {
-          create: false,
           id: feature.id,
           name: this.countOfFeatureInModule.has(module.name)?'':module.name,
           title: feature.title,
@@ -65,20 +65,14 @@ export class ScrumViewComponent implements OnInit, OnChanges {
         counter++;
         var curr = this.countOfFeatureInModule.get(module.name);
         if(curr === undefined)
-          this.countOfFeatureInModule.set(module.name,2);
+          this.countOfFeatureInModule.set(module.name,1);
         else
           this.countOfFeatureInModule.set(module.name,curr + 1);
         this.board.push(currentFeature);
       }
-      let createBugFeature = {
-        moduleId: module.id,
-        create: true,
-        moduleName: module.name,
-        size: module.featureDetails.length
-      }
-      this.board.push(createBugFeature);
     }
   }
+
   sortByDateAndAddExtra(scrumDays: IScrumDay[]) {
     let scrumDaysMap = new Map<number,IScrumDay>();
     let modifiedScrumDays: IScrumDay[] = [];
@@ -178,8 +172,13 @@ export class ScrumViewComponent implements OnInit, OnChanges {
       }
     }
   }
-  fireChanges(modifiedFeature: any) {
+
+  fireChanges(modifiedFeature: any): void {
     this.changes.emit(modifiedFeature);
+  }
+
+  changeAll(): void{
+    this.changedAll.emit();
   }
   
   public get modifyColumnIdentifier(): typeof ModifyColumnIdentifier {
@@ -197,19 +196,12 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     return currentValue > 0 && currentValue <= 100;
   }
 
-  addRow(workItemType: string, moduleId: number, titleEvent: any):void{
-    var featureInput: IFeatureInput = {
-      title: titleEvent.value,
-      workItemType: workItemType,
-      sprintId: this.currentSprint?.id || -1
-    };
-    this.moduleService.addFeatureInModule(moduleId, featureInput).subscribe(x => {
-      titleEvent.value = '';
-      this.rowAdded.emit(true);
-      this.toastr.success('Feature added','success');
-    },err=>{
-      this.toastr.error(err.error,'Failed');
-    });
+  selectModuleOnAddFeature(event: any | number) {
+    if(typeof event === 'number') {
+      this.addFeatureModuleId = event;
+    }else {
+      this.addFeatureModuleId = event.target.value;
+    }
   }
 
 }

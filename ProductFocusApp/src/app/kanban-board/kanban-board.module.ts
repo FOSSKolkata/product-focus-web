@@ -21,6 +21,7 @@ import { ProgressCommentComponent } from './scrum-view/progress-comment/progress
 import { MdePopoverModule } from '@material-extended/mde';
 import { MatCardModule } from '@angular/material/card';
 import { SwitchTextAutocompleteComponent } from './switch-text-autocomplete/switch-text-autocomplete.component';
+import { PopoverModule } from 'ngx-smart-popover';
 
 @NgModule({
   imports: [
@@ -36,7 +37,8 @@ import { SwitchTextAutocompleteComponent } from './switch-text-autocomplete/swit
     MatSliderModule,
     MatRadioModule,
     MdePopoverModule,
-    MatCardModule
+    MatCardModule,
+    PopoverModule
   ],
   declarations: [
     KanbanBoardComponent,
