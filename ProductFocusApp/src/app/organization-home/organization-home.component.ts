@@ -19,11 +19,11 @@ export class OrganizationHomeComponent implements OnInit {
   @ViewChild('addProductRef') addProductRef!: ElementRef;
   @HostListener('document:click',['$event'])
   click(event: any): void {
-    if(!this.addOrganizationRef.nativeElement.contains(event.target)) {
+    if(!!this.addOrganizationRef && !this.addOrganizationRef.nativeElement.contains(event.target)) {
       this.organizationAddView = false;
       this.organizationName = '';
     }
-    if(!this.addProductRef.nativeElement.contains(event.target)) {
+    if(!!this.addProductRef && !this.addProductRef.nativeElement.contains(event.target)) {
       this.productAddView = false;
       this.productName = '';
     }
