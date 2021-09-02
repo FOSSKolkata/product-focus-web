@@ -1,7 +1,11 @@
 *{
     margin: 0;
 }
-.active-item,
-.nav-item:hover {
-  background-color: var(--dark-gray);
+
+.active-item {
+  border-left: 2px solid #fe9600;
+}
+
+.list-group-item:hover {
+  background-color: var(--light-gray);
 }

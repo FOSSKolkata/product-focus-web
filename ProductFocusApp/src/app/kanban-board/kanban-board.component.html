@@ -1,17 +1,6 @@
 <div class="margin-for-navs mid-nav">
-<div>
-</div>
-<div
-style="
-  display: inline-block;
-  vertical-align: top;
-  margin: 0 10px;
-  padding-top: 15px;
-"
->
-Filters
-</div>
-<div style="display: inline-block; vertical-align: top; margin: 0 10px">
+<div class="mid-nav-item">Filters</div>
+<div class="mid-nav-item">
 <mat-form-field *ngIf="!!selectedSprint">
   <mat-label>Sprint</mat-label>
   <mat-select [(value)]="selectedSprint.name">
@@ -24,7 +13,7 @@ Filters
   </mat-select>
 </mat-form-field>
 </div>
-<div style="display: inline-block; vertical-align: top; margin: 0 10px">
+<div class="mid-nav-item">
 <mat-form-field>
   <mat-label>Assigned To</mat-label>
   <mat-select
@@ -38,16 +27,14 @@ Filters
   </mat-select>
 </mat-form-field>
 </div>
-<div style="display: inline-block; height: 57px;">
-<div style="display: grid; align-items: center; height: 100%;">
+<div class="mid-nav-item">
   <mat-radio-group aria-label="Select an option">
     <mat-radio-button value="isKanbanMode" [checked]="isKanbanMode" (change)="changeMode(true)">Board View</mat-radio-button>
     <mat-radio-button value="!isKanbanMode" [checked]="!isKanbanMode" (change)="changeMode(false)">Scrum View</mat-radio-button>
   </mat-radio-group>
 </div>
-</div>
-<div class="d-inline-block" style="position: absolute; right: 30px;">
-<div ngbDropdown class="d-inline-block float_right" placement="bottom-right" style="position: static;">
+<div class="d-inline-block position-absolute move-right">
+<div ngbDropdown class="d-inline-block float_right position-static" placement="bottom-right">
   <i class="fa fa-cog fa-2x mt-3" id="settingsDropDown" ngbDropdownToggle></i>
   <div ngbDropdownMenu aria-labelledby="settingsDropDown">
     <button ngbDropdownItem (click)="openPopup(manageModuleContent)">
@@ -59,11 +46,11 @@ Filters
   </div>
 </div>
 </div>
-<div *ngIf="!sprintExist" class="d-inline-block" style="position: absolute; right: 70px; margin-top: 20px;">
-<div style="display: inline; box-shadow: 2px 2px; border: 1px solid black;">
-  Add a sprint here.
-</div>
-<i class="fa fa-arrow-right mt-1"></i>
+<div *ngIf="!sprintExist" class="sprint-traveller">
+  <div>
+    Add a sprint here.
+  </div>
+  <i class="fa fa-arrow-right mt-1"></i>
 </div>
 </div>
 <div *ngIf="!error"
@@ -102,8 +89,7 @@ Filters
             <form #addModuleForm="ngForm" (ngSubmit)="addModule()">
               <input
                 type="text"
-                class="form-control"
-                style="display: inline-block; vertical-align: middle; width: 75%"
+                class="form-control add-module-input"
                 [(ngModel)]="moduleName"
                 #module="ngModel"
                 name="module"
@@ -116,12 +102,7 @@ Filters
               <button
                 [disabled]="!enabledAdding || addModuleForm.invalid"
                 type="submit"
-                class="btn good-btn"
-                style="
-                  display: inline-block;
-                  vertical-align: middle;
-                  margin: 0 5px;
-                "
+                class="btn good-btn add-module-btn"
               >
                 <div *ngIf="!enabledAdding" class="spinner-border spinner-border-sm" role="status">
                   <span class="sr-only">Loading...</span>
@@ -131,9 +112,8 @@ Filters
               <i
                 *ngIf="enabledAdding"
                 (click)="moduleAddView = false"
-                class="fa fa-times"
+                class="fa fa-times add-module-close"
                 id="cancel-task"
-                style="display: inline-block; vertical-align: middle"
               ></i>
               <div
                 *ngIf="module.invalid && (module.dirty || module.touched)"
@@ -175,33 +155,25 @@ Filters
         <i
           *ngIf="!sprintAddView"
           (click)="sprintAddView = true"
-          class="fa fa-plus"
-          style="cursor: pointer"
+          class="fa fa-plus pointer"
         >
           Add Sprint</i
         >
-        <div style="text-align: center">
+        <div class="add-sprint-container">
           <div *ngIf="sprintAddView">
-            <div
-              style="
-                font-size: large;
-                transform: translateX(-185px);
-                margin-bottom: 20px;
-              "
-            >
+            <div class="add-sprint-heading">
               <i class="fa fa-bolt"></i>
               New Sprint
             </div>
-            <div style="transform: translateX(-213px)">
-              Name<span style="color: red">*</span>
+            <div class="name">
+              Name<span>*</span>
             </div>
             <input
               [attr.disabled]="isSprintAdding?'':null"
               type="text"
               [(ngModel)]="sprintName"
               name="sprintname"
-              class="form-control"
-              style="display: inline-block; width: 475px"
+              class="form-control input"
               placeholder="Enter Sprint Name"
               required
               maxlength="50"
@@ -214,32 +186,28 @@ Filters
               "
             >
               <div
-                class="text-danger"
-                style="transform: translateX(-155px)"
+                class="text-danger error"
                 *ngIf="sprintForm.controls.name.errors?.required"
               >
                 Please Enter Sprint Name.
               </div>
-              <div class="text-danger" style="transform: translateX(-155px);" *ngIf="sprintForm.controls.name.errors?.maxlength">
+              <div class="text-danger error" *ngIf="sprintForm.controls.name.errors?.maxlength">
                 Only 50 characters are allowed.
               </div>
               <div
-                class="text-danger"
-                style="transform: translateX(-48px)"
+                class="text-danger error-special"
                 *ngIf="sprintForm.controls.name.errors?.pattern"
               >
                 Only spaces, '-', '_' and alphanumaric characters are allowed.
               </div>
             </div>
 
-            <div style="transform: translateX(-195px)">
-              <div style="display: inline-block">
-                Start<span style="color: red">*</span>
+            <div class="add-sprint-dates">
+              <div>
+                Start<span>*</span>
               </div>
-              <div
-                style="display: inline-block; transform: translateX(190px)"
-              >
-                End<span style="color: red">*</span>
+              <div class="end">
+                End<span>*</span>
               </div>
             </div>
             <ngb-datepicker
@@ -250,14 +218,12 @@ Filters
               outsideDays="hidden"
               name="sprintdates"
               formControlName="dates"
-              [markDisabled]="isDisabled"
-            >
+              [markDisabled]="isDisabled">
             </ngb-datepicker>
 
             <div *ngIf="sprintValidate.invalid">
               <div
-                class="text-danger"
-                style="transform: translateX(-131px)"
+                class="text-danger date-error"
                 *ngIf="sprintForm.controls.dates.errors?.dateNotChosen">
                 Please select start and end dates.
               </div>
@@ -274,7 +240,7 @@ Filters
                 {{ date.day }}
               </span>
             </ng-template>
-            <div style="transform: translateX(170px)">
+            <div class="sprint-form-container">
               <button
                 [disabled]="sprintForm.invalid || isSprintAdding"
                 class="btn good-btn"
@@ -302,7 +268,7 @@ Filters
       <div class="table-responsive-sm">
         <table class="table">
           <thead>
-            <tr style="color: var(--gray)">
+            <tr>
               <th scope="col">Name</th>
               <th scope="col">Sprint Dates</th>
               <!-- <th scope="col">Edit</th> -->

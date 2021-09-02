@@ -18,7 +18,10 @@
   background-color: rgba(17, 17, 17, 0.007);
 }
 
-.active-item,
+.active-item {
+  border-left: 2px solid #fe9600;
+}
+
 .nav-item:hover {
   background-color: var(--dark-gray);
 }

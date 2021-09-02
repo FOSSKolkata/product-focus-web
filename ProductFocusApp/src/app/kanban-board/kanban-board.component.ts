@@ -48,12 +48,6 @@ export class KanbanBoardComponent implements OnInit {
   isKanbanMode:boolean;
   isLoading = false;
   currentSprint: ISprint | null = null;
-  // {
-  //   id: -1,
-  //   name: '',
-  //   startDate: new Date(),
-  //   endDate: new Date()
-  // }
   selectedSprint = this.currentSprint;
   selectedUserIds = [];
   sprintForm = new FormGroup({
