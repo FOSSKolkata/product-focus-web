@@ -1,21 +1,23 @@
+.switch-container {
+  height: 25px;
+}
 .text-item {
   width: 100%;
   cursor: pointer;
   height: 30px;
-  border: 1px solid rgba(0, 0, 0, 0);
-  padding: 5px 5px 5px 0;
+  outline: 1px solid rgba(0, 0, 0, 0);
+  padding: 5px 5px 5px 2px;
 }
 
 .text-item:hover {
-  /* background-color: var(--light-gray); */
-  border: 1px dotted var(--dark-gray);
+  outline: 1px dotted var(--dark-gray);
 }
 
 .dropdown-item {
   width: 100%;
-  border: 1px dotted var(--dark-gray);
+  outline: 1px dotted var(--dark-gray);
   text-align: left;
-  padding: 5px 5px 5px 0;
+  padding: 5px 5px 5px 2px;
   height: 30px;
   float: left;
 }

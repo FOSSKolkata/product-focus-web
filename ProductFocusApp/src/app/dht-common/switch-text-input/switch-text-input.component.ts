@@ -6,28 +6,28 @@ import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@
   styleUrls: ['./switch-text-input.component.scss']
 })
 export class SwitchTextInputComponent {
-  @Input('title') title: string = '';
-  @Output('is-text-changed') isTextChanged = new EventEmitter<string>();
+  // @Input('title') title: string = '';
+  // @Output('is-text-changed') isTextChanged = new EventEmitter<string>();
 
-  @ViewChild('inputText') set inputTextRef(ref: ElementRef) {
-    if (!!ref) {
-      ref.nativeElement.focus();
-    }
-  }
-  isTextVisible: boolean = true;
-  oldText!: string;
-  @Input('input-style') inputStyle = {};
-  @Input('label-style') labelStyle = {};
+  // @ViewChild('inputText') set inputTextRef(ref: ElementRef) {
+  //   if (!!ref) {
+  //     ref.nativeElement.focus();
+  //   }
+  // }
+  // isTextVisible: boolean = true;
+  // oldText!: string;
+  // @Input('input-style') inputStyle = {};
+  // @Input('label-style') labelStyle = {};
 
-  onFocusOut(event: any) {
-    this.isTextVisible = true;
-    if (this.oldText != this.title) {
-      this.isTextChanged.emit(this.title);
-    }
-  }
+  // onFocusOut(event: any) {
+  //   this.isTextVisible = true;
+  //   if (this.oldText != this.title) {
+  //     this.isTextChanged.emit(this.title);
+  //   }
+  // }
 
-  onLabelClick() {
-    this.oldText = this.title;
-    this.isTextVisible = false;
-  }
+  // onLabelClick() {
+  //   this.oldText = this.title;
+  //   this.isTextVisible = false;
+  // }
 }

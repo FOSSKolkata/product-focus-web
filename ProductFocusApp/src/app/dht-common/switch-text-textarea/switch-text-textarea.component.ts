@@ -13,27 +13,27 @@ import {
   styleUrls: ['./switch-text-textarea.component.scss'],
 })
 export class SwitchTextTextareaComponent {
-  @Input('title') title: string = '';
-  @Output('is-text-changed') isTextChanged = new EventEmitter<string>();
-  @ViewChild('textArea') set textAreaRef(ref: ElementRef) {
-    if (!!ref) {
-      ref.nativeElement.focus();
-    }
-  }
-  isTextVisible: boolean = true;
-  oldText!: string;
-  @Input('input-style') inputStyle = {};
-  @Input('label-style') labelStyle = {};
+  // @Input('title') title: string = '';
+  // @Output('is-text-changed') isTextChanged = new EventEmitter<string>();
+  // @ViewChild('textArea') set textAreaRef(ref: ElementRef) {
+  //   if (!!ref) {
+  //     ref.nativeElement.focus();
+  //   }
+  // }
+  // isTextVisible: boolean = true;
+  // oldText!: string;
+  // @Input('input-style') inputStyle = {};
+  // @Input('label-style') labelStyle = {};
 
-  onFocusOut(event: any) {
-    this.isTextVisible = true;
-    if (this.oldText != this.title) {
-      this.isTextChanged.emit(this.title);
-    }
-  }
+  // onFocusOut(event: any) {
+  //   this.isTextVisible = true;
+  //   if (this.oldText != this.title) {
+  //     this.isTextChanged.emit(this.title);
+  //   }
+  // }
 
-  onLabelClick() {
-    this.oldText = this.title;
-    this.isTextVisible = false;
-  }
+  // onLabelClick() {
+  //   this.oldText = this.title;
+  //   this.isTextVisible = false;
+  // }
 }

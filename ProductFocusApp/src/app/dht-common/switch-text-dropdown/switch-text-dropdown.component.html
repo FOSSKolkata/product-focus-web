@@ -1,4 +1,4 @@
-<div style="width: initial">
+<div class="switch-container">
   <div [style.display]="!isTextVisible ? 'none' : 'inline'">
     <div
       *ngIf="!!textData && textData.name"
@@ -12,7 +12,7 @@
       class="text-item"
       (click)="onLabelClick()"
     >
-      Assign Sprint`
+      Assign Sprint
     </div>
   </div>
   <div
@@ -28,14 +28,14 @@
       <div id="dropdownBasic1" ngbDropdownToggle>{{ textData.name }}</div>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <div *ngFor="let item of listData">
-          <button
+          <div
             *ngIf="item.name != textData.name"
             ngbDropdownItem
             (click)="select(item)"
           >
             {{ item.name }}
             <!-- <small *ngIf="item.name == title">current</small> -->
-          </button>
+          </div>
         </div>
       </div>
     </div>

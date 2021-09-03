@@ -4,12 +4,10 @@ import { CommonModule } from '@angular/common';
 import { TagComponent } from './tag/tag.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SwitchTextTextareaComponent } from './switch-text-textarea/switch-text-textarea.component';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 import { ShortnamePipe } from './shortname.pipe';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { SwitchTextDropdownComponent } from './switch-text-dropdown/switch-text-dropdown.component';
-import { SwitchTextInputComponent } from './switch-text-input/switch-text-input.component';
 import { SwitchTextDatepickComponent } from './switch-text-datepick/switch-text-datepick.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -21,13 +19,13 @@ import { MdePopoverModule } from '@material-extended/mde';
 
 @NgModule({
   declarations: [
-    TagComponent,
-    SwitchTextTextareaComponent,
+    // TagComponent,
+    // SwitchTextTextareaComponent,
     SwitchTextDropdownComponent,
     UserAvatarComponent,
     ShortnamePipe,
     SpinnerComponent,
-    SwitchTextInputComponent,
+    // SwitchTextInputComponent,
     SwitchTextDatepickComponent,
     EditableTextComponent,
     ErrorComponent
@@ -45,10 +43,10 @@ import { MdePopoverModule } from '@material-extended/mde';
     MdePopoverModule
   ],
   exports: [
-    TagComponent,
-    SwitchTextTextareaComponent,
+    // TagComponent,
+    // SwitchTextTextareaComponent,
     SwitchTextDropdownComponent,
-    SwitchTextInputComponent,
+    // SwitchTextInputComponent,
     SwitchTextDatepickComponent,
     UserAvatarComponent,
     ShortnamePipe,
