@@ -1,14 +1,14 @@
 <div class="infinite-scroll-x-axis">
-  <div style="height: 4vh; width: 92vw;">
-    <div style="display: inline-block;" class="p-1">{{currentSprint?.startDate | date:'dd-MM-YYYY'}}</div>
-    <div style="display: inline-block;" *ngIf="currentSprint" class="p-1">Release: <b>{{currentSprint?.name}}</b></div>
-    <div style="display: inline-block; cursor: pointer;" class="float-right pt-1">
+  <div class="scrum-container">
+    <div class="p-1 d-inline-block">{{currentSprint?.startDate | date:'dd-MM-YYYY'}}</div>
+    <div *ngIf="currentSprint" class="p-1 d-inline-block">Release: <b>{{currentSprint?.name}}</b></div>
+    <div class="float-right pt-1 d-inline-block pointer">
       <i class="fa fa-plus-circle" [popover]="myPopover" [popoverCloseOnMouseOutside]="true" [popoverOnHover]="false">Add Feature / Bug</i>
       <popover-content #myPopover
         placement="bottom-left"
         [animation]="true"
         [closeOnClickOutside]="true">
-        <select style="width: 135px; display: block;" class="m-1" (change)="selectModuleOnAddFeature($event)">
+        <select class="m-1 d-block w-100" (change)="selectModuleOnAddFeature($event)">
           <ng-template ngFor let-module [ngForOf]="kanbanBoard">
             <option value="{{module.id}}">{{module.name}}</option>
           </ng-template>
@@ -17,7 +17,7 @@
       </popover-content>
     </div>
   </div>
-  <div style="overflow-y:auto; height:70vh; width: 100%;">
+  <div class="table-container w-100">
     <table>
       <tr>
         <th>Modules</th>
@@ -50,16 +50,16 @@
             <app-progress-comment [feature-id]="feature.id" [date]="sprintDate" [scrum-day]="feature.scrumDays[i]"></app-progress-comment>
           </td>
           <td>
-            <div style="display: inline-block; margin-right: 20px;">
+            <div class="d-inline-block mr-3">
               <div [style.visibility]="!feature.isFirst?'visible':'hidden'">
-                <i class="fa fa-angle-up" style="cursor: pointer;"></i>
+                <i class="fa fa-angle-up pointer"></i>
               </div>
               <div [style.visibility]="!feature.isLast?'visible':'hidden'">
-                <i class="fa fa-angle-down" style="cursor: pointer;"></i>
+                <i class="fa fa-angle-down pointer"></i>
               </div>
             </div>
-            <div style="display: inline-block; vertical-align: top;">
-              <i class="fa fa-trash" style="margin-top: 10px; cursor: pointer;"></i>
+            <div class="d-inline-block align-top">
+              <i class="fa fa-trash trash-position"></i>
             </div>
           </td>
         </tr>

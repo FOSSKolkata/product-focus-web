@@ -1,188 +1,192 @@
 .infinite-scroll-x-axis {
-    white-space: nowrap;
-  }
+  white-space: nowrap;
+  overflow-y:auto;
+  height: 74vh;
+}
+
+.sprint-not-found-message {
+  text-align: center;
+  margin-top: 10px;
+}
   
-  /*Improving UI*/
-  
-  .state-section {
+.state-section {
     margin-left: 200px;
-  }
+}
   
-  .state-header {
-    display: inline-block;
-    text-align: center;
-    width: 300px;
-  }
-  
-  .feature-section {
-    text-align: left;
-    display: inline-block;
-    width: 300px;
-    vertical-align: top;
-    min-height: 57px;
-  }
-  
-  .module {
-    display: inline;
-    vertical-align: bottom;
-  }
-  
-  .module-section {
-    background-color: skyblue;
-    margin: 5px 0;
-    width: fit-content;
-    /* border: 1px dashed black; */
-    border-radius: 3px;
-  }
-  
-  .module-header {
-    text-align: center;
-    // text-overflow: ellipsis;
-    font-weight: bold;
-    width: 200px;
-    padding-top: 10px;
-    display: inline-block;
-    vertical-align: top;
-    white-space: normal;
-    word-break: break-all;
-  }
-  
-  .card {
-    margin: 5px;
-    cursor: pointer;
-  }
-  
-  .card-footer {
-    color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .card-footer:hover {
-    color: rgba(0, 0, 0, 0.8);
-    background-color: var(--light-gray);
-  }
-  
-  i::after,
-  #checklistDropDown::after {
-    display: none;
-  }
-  
-  .mid-nav {
-    background-color: var(--light-gray);
-    z-index: 1;
-    width: calc(100vw - 75px);
-    padding: 5px 0px;
-  }
-  
-  .cdk-drag-placeholder {
-    opacity: 0.3;
-  }
-  
-  .cdk-drag-animating {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-  }
-  
-  .cdk-drop-list-dragging :not(.cdk-drag-placeholder) {
-    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-  }
-  
-  .add-module {
-    /* background-color: var(--light-gray); */
-    cursor: pointer;
-  }
-  
-  .add-module,
-  .add-sprint * {
-    margin: 2px;
-  }
-  
-  .add-module input,
-  .add-sprint input {
-    width: 80%;
-    display: inline;
-  }
-  
-  .add div button {
-    margin: 5px 5px 5px 0;
-  }
-  
-  .remove-hover-effect:hover {
-    background-color: #fff !important;
-  }
-  
-  div[ngbDropdownMenu] {
-    max-height: 200px;
-    overflow: auto;
-  }
-  
-  .has-search .form-control-feedback {
-    position: absolute;
-    display: block;
-    width: 2.375rem;
-    height: 2.375rem;
-    line-height: 2.375rem;
-    text-align: center;
-    pointer-events: none;
-    color: #aaa;
-  }
-  
-  .pointer {
-    cursor: pointer;
-  }
-  
-  .effect:hover {
-    background-color: cyan;
-    cursor: pointer;
-  }
-  
-  .reason {
-    position: absolute;
-    font-size: 11px;
-    width: 80px;
-    top: 5px;
-    text-align: center;
-  }
-  
-  .change-info {
-    position: absolute;
-    width: 80px;
-    text-align: center;
-  }
-  
-  .change-info-user {
-    position: absolute;
-    width: 80px;
-    text-align: center;
-    bottom: 15px;
-    font-size: 11px;
-  }
-  
-  .change-info-date {
-    position: absolute;
-    bottom: 0px;
-    font-size: 11px;
-    width: 80px;
-    text-align: center;
-  }
-  
-  .custom-day {
-    text-align: center;
-    padding: 0.185rem 0.25rem;
-    display: inline-block;
-    height: 2rem;
-    width: 2rem;
-  }
-  .custom-day.focused {
-    background-color: #e6e6e6;
-  }
-  .custom-day.range,
-  .custom-day:hover {
-    background-color: rgb(2, 117, 216);
-    color: white;
-  }
-  .custom-day.faded {
-    background-color: rgba(2, 117, 216, 0.5);
-  }
-  .mat-radio-button ~ .mat-radio-button {
-    margin-left: 16px;
-  }
-  
+.state-header {
+  display: inline-block;
+  text-align: center;
+  width: 300px;
+}
+
+.feature-section {
+  text-align: left;
+  display: inline-block;
+  width: 300px;
+  vertical-align: top;
+  min-height: 57px;
+}
+
+.module {
+  display: inline;
+  vertical-align: bottom;
+}
+
+.module-section {
+  background-color: skyblue;
+  margin: 5px 0;
+  width: fit-content;
+  /* border: 1px dashed black; */
+  border-radius: 3px;
+}
+
+.module-header {
+  text-align: center;
+  // text-overflow: ellipsis;
+  font-weight: bold;
+  width: 200px;
+  padding-top: 10px;
+  display: inline-block;
+  vertical-align: top;
+  white-space: normal;
+  word-break: break-all;
+}
+
+.card {
+  margin: 5px;
+  cursor: pointer;
+}
+
+.card-footer {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.card-footer:hover {
+  color: rgba(0, 0, 0, 0.8);
+  background-color: var(--light-gray);
+}
+
+i::after,
+#checklistDropDown::after {
+  display: none;
+}
+
+.mid-nav {
+  background-color: var(--light-gray);
+  z-index: 1;
+  width: calc(100vw - 75px);
+  padding: 5px 0px;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0.3;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging :not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.add-module {
+  /* background-color: var(--light-gray); */
+  cursor: pointer;
+}
+
+.add-module,
+.add-sprint * {
+  margin: 2px;
+}
+
+.add-module input,
+.add-sprint input {
+  width: 80%;
+  display: inline;
+}
+
+.add div button {
+  margin: 5px 5px 5px 0;
+}
+
+.remove-hover-effect:hover {
+  background-color: #fff !important;
+}
+
+div[ngbDropdownMenu] {
+  max-height: 200px;
+  overflow: auto;
+}
+
+.has-search .form-control-feedback {
+  position: absolute;
+  display: block;
+  width: 2.375rem;
+  height: 2.375rem;
+  line-height: 2.375rem;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.effect:hover {
+  background-color: cyan;
+  cursor: pointer;
+}
+
+.reason {
+  position: absolute;
+  font-size: 11px;
+  width: 80px;
+  top: 5px;
+  text-align: center;
+}
+
+.change-info {
+  position: absolute;
+  width: 80px;
+  text-align: center;
+}
+
+.change-info-user {
+  position: absolute;
+  width: 80px;
+  text-align: center;
+  bottom: 15px;
+  font-size: 11px;
+}
+
+.change-info-date {
+  position: absolute;
+  bottom: 0px;
+  font-size: 11px;
+  width: 80px;
+  text-align: center;
+}
+
+.custom-day {
+  text-align: center;
+  padding: 0.185rem 0.25rem;
+  display: inline-block;
+  height: 2rem;
+  width: 2rem;
+}
+.custom-day.focused {
+  background-color: #e6e6e6;
+}
+.custom-day.range,
+.custom-day:hover {
+  background-color: rgb(2, 117, 216);
+  color: white;
+}
+.custom-day.faded {
+  background-color: rgba(2, 117, 216, 0.5);
+}
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}

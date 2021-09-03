@@ -1,5 +1,5 @@
 <div (click)="isAddUserActive = true; inputTextFocus(inputText)" class="section">
-  <div style="display: inline-block; min-width: 10px; min-height: 10px;">
+  <div class="autocomplete-container">
     <span
       *ngFor="let user of addedUsers; index as i"
       [mdePopoverTriggerFor]="appPopover"
@@ -19,8 +19,7 @@
     </span>
   </div>
   
-  <input style="display: inline-block;"
-    #inputText
+  <input #inputText
     [style.display]="isAddUserActive ? 'inline' : 'none'"
     class="good-border"
     [(ngModel)]="fullUserName"

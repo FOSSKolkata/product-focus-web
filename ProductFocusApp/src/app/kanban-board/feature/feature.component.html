@@ -1,39 +1,36 @@
 <div
   class="card"
-  style="margin: 5px"
   [class.feature]="feature.workItemType == 1"
   [class.bug]="feature.workItemType == 2"
   (click)="openFeatureDetailsModal(content)"
 >
   <div class="card-body">
-    <div style="position: relative; height: 15px; margin-top: -30px;">
-      <hr style="height:5px;border-width:1;background-color:#78C000;" [style.width]="feature.workCompletionPercentage + '%'">
-      <hr style="margin-top: -20px;">
+    <div class="progress-container">
+      <hr class="real-line" [style.width]="feature.workCompletionPercentage + '%'">
+      <hr class="virtual-line">
     </div>
-    <div class="card-text">
-      <div style="float: right;">
+    <div class="card-text feature-card">
+      <div class="float-right">
         S.P {{feature.storyPoint}}
       </div>
       <span
         *ngIf="feature.isBlocked"
-        style="background-color: var(--blocked); color: white"
+        class="blocked-theme"
       >
         Blocked
       </span>
       <div>
         <i
           *ngIf="feature.workItemType == 1"
-          class="fa fa-life-ring"
-          style="color: blue; padding: 0 5px 0 0"
+          class="fa fa-life-ring feature-theme"
         ></i>
         <i
           *ngIf="feature.workItemType == 2"
-          class="fa fa-bug"
-          style="color: red; padding: 0 5px 0 0"
+          class="fa fa-bug bug-theme"
         ></i>
-        <div style="display: inline-block; color: gray">#{{ feature.id }}</div>
+        <div class="feature-id-color">#{{ feature.id }}</div>
       </div>
-      <div style="font-weight: bold">{{ feature.title | titlecase }}</div>
+      <div class="title">{{ feature.title | titlecase }}</div>
       <div class="row">
         <div class="col-12">
           <i class="far fa-clock"></i>
@@ -50,7 +47,6 @@
           <app-user-list [user-list]="feature.assignees"></app-user-list>
         </div>
       </div>
-      <!-- {{feature | json}} -->
     </div>
   </div>
 </div>

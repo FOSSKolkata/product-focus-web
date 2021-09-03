@@ -1,4 +1,4 @@
-.full-space{
+.progress-comment-container {
   min-width: 20px;
   min-height: 100%;
   max-width: 300px;
@@ -7,6 +7,15 @@
   align-items: center;
   display: flex;
   flex-flow: column;
+  .percentage {
+    height: 20px;
+    width: 100%;
+    // border-bottom: 1px dotted gray;
+  }
+  .comment {
+    flex-grow: 1;
+    width: 100%;
+  }
 }
 
 div[contenteditable=true]:empty:before{

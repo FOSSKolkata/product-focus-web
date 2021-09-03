@@ -2,13 +2,11 @@
   <div class="col-1">
     <i
       *ngIf="feature.workItemType == 1"
-      class="fa fa-life-ring fa-2x"
-      style="color: blue"
+      class="fa fa-life-ring fa-2x feature-color"
     ></i>
     <i
       *ngIf="feature.workItemType == 2"
-      class="fa fa-bug fa-2x"
-      style="color: red"
+      class="fa fa-bug fa-2x bug-color"
     ></i>
   </div>
   <div class="col">
@@ -22,23 +20,16 @@
       </app-editable-text>
       <span
         *ngIf="featureDetails && featureDetails.isBlocked"
-        style="
-          background-color: var(--blocked);
-          margin-left: 5px;
-          padding: 2px;
-          color: white;
-          cursor: pointer;
-        "
-      >
+        class="blocked">
         blocked
       </span>
     </div>
   </div>
 </div>
-<div class="row" style="margin-left: 10px; margin-top: 20px">
+<div class="row ml-2 mt-4">
   <div class="col-12 col-lg-8">
     <div class="row">
-      <div class="col-1" style="padding-top: 2px">
+      <div class="col-1">
         <i class="fa fa-file"></i>
       </div>
       <div class="col">
@@ -46,8 +37,8 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-1" style="padding-top: 2px"></div>
-      <div class="col" style="font-size: var(--global-text-size)">
+      <div class="col-1"></div>
+      <div class="col">
         <app-editable-text
           *ngIf="featureDetails"
           [text-content]="featureDetails.description"
@@ -62,7 +53,7 @@
       <div class="col-1">
         <i class="fa fa-clipboard-list-check"></i>
       </div>
-      <div class="col" style="font-size: var(--global-text-size)">
+      <div class="col">
         <b>Acceptance Criteria</b>
         <div class="form-group">
           <app-editable-text
@@ -81,7 +72,7 @@
       <div style="position: absolute; color: red; top: -18px;"> <!--Remove this div-->
         Not Implemented
       </div>
-      <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+      <div class="row">
         <div class="col-1">
           <i class="fa fa-tasks"></i>
         </div>
@@ -346,8 +337,8 @@
     </div>
   </div>
   <div class="col-12 col-lg-3">
-    <div style="margin-top: 10px">
-      <label style="display: block; font-weight: bold; margin-bottom: 0;" for="storyPoint">Story Point</label>
+    <div class="mt-2">
+      <div class="label" for="storyPoint">Story Point</div>
       <input
         name="storyPoint"
         style="width: 100%"
@@ -363,16 +354,16 @@
         (focusout)="modifyFeature(modifyColumnIdentifier.storyPoint, $event)"
       />
     </div>
-    <div style="margin-top: 10px">
-      <b style="margin-bottom: -5px;">Sprint</b>
+    <div class="mt-2">
+      <div class="label">Sprint</div>
       <app-switch-text-dropdown
         [list-data]="allSprint"
         [text-data]="featureDetails.sprint"
         (select)="modifyFeature(modifyColumnIdentifier.sprint, $event)"
       ></app-switch-text-dropdown>
     </div>
-    <div style="margin-top: 10px">
-      <label for="startdate" style="font-weight: bold; margin-bottom: -5px;">Start date </label>
+    <div class="mt-2">
+      <div for="startdate" class="label">Start date </div>
       <div *ngIf="featureDetails" class="input-group">
         <input
           class="form-control"
@@ -398,8 +389,8 @@
       </div>
       <!-- <input type="date" id="startdate" name="startdate"> -->
     </div>
-    <div style="margin-top: 10px">
-      <label for="enddate" style="font-weight: bold; margin-bottom: -5px;">End date&nbsp;&nbsp;</label>
+    <div class="mt-2">
+      <div class="label" for="enddate">End date&nbsp;&nbsp;</div>
       <div class="input-group">
         <input
           class="form-control"
@@ -425,11 +416,12 @@
       </div>
       <!-- <input type="date" id="enddate" name="enddate"> -->
     </div>
-    <div style="margin-top: 10px">
+    <div class="mt-2">
       Work progress ({{ featureDetails.workCompletionPercentage }} %)
     </div>
     <div>
       <input
+        class="w-100"
         type="range"
         min="1"
         max="100"
@@ -438,11 +430,8 @@
           modifyFeature(
             modifyColumnIdentifier.workCompletionPercentage,
             featureDetails.workCompletionPercentage
-          )
-        "
-        style="width: 165px"
+          )"
       />
-      <!-- <mat-slider></mat-slider> -->
     </div>
     <div
       *ngIf="!featureDetails.isBlocked"
@@ -458,13 +447,13 @@
       <i class="fa fa-ban"></i>
       Unblock
     </div>
-    <div *ngIf="isBlocked" (click)="isBlocked = false" style="margin-top: 10px">
+    <div *ngIf="isBlocked" (click)="isBlocked = false" class="mt-2">
       <div class="lists">
         <i class="fa fa-unlock"></i>
         Unblock
       </div>
     </div>
-    <div style="margin-top: 10px">
+    <div class="mt-2">
       <div>
         <small>Owners</small>
       </div>

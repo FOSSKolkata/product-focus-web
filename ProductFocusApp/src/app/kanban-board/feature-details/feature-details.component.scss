@@ -25,3 +25,25 @@ i::after,
   outline: none !important;
   border: 1px solid var(--dark-gray);
 }
+
+.feature-color {
+  color: blue;
+}
+
+.bug-color {
+  color: red;
+}
+
+.blocked {
+  background-color: var(--blocked);
+  margin-left: 5px;
+  padding: 2px;
+  color: white;
+  cursor: pointer;
+}
+
+.label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0;
+}

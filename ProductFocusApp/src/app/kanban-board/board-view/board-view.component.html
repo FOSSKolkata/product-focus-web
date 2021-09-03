@@ -1,4 +1,4 @@
-<div style="overflow-y:auto; height: 74vh;" class="infinite-scroll-x-axis">
+<div class="infinite-scroll-x-axis">
     <div class="state-section">
       <div class="state-header">
         <div class="card">
@@ -42,7 +42,7 @@
               <app-feature (modal-closed)="fireChanges()" [feature]="feature">
               </app-feature>
             </div>
-            <div class="card" style="margin: 5px">
+            <div class="card">
               <div class="card-footer">
                 <app-add-feature
                   *ngIf="board"
@@ -93,9 +93,8 @@
       </div>
     </div>
 
-    <div
+    <div class="sprint-not-found-message"
       *ngIf="!board.length && !kanbanBoardSpinner"
-      style="text-align: center; margin-top: 10px"
     >
       <span *ngIf="selectedSprint === null">
         Please add a sprint to view the existing module. 

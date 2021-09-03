@@ -1,7 +1,7 @@
-<div class="full-space">
+<div class="progress-comment-container">
   <div
+    class="percentage"
     contenteditable="true"
-    style="height: 20px; width: 100%; border-bottom: 1px dotted gray"
     placeholder="Enter work %"
     #workpercent
     (keypress)="restrictGreaterThan100(workpercent,$event.charCode)"
@@ -9,8 +9,8 @@
     >{{scrumDay?.workCompletionPercentage}}</div>
     <!--Do not add any space in data binding-->
   <div
+    class="comment"
     contenteditable="true"
-    style="flex-grow: 1; width: 100%"
     placeholder="Write comment here..."
     (focusout)="upsertScrumComment($event)"
   >{{scrumDay?.comment}}</div>

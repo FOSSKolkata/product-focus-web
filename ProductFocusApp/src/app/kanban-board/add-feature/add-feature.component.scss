@@ -1,3 +1,9 @@
 .add div button {
   margin: 5px 5px 5px 0;
 }
+
+.feature-margin-btn {
+  * {
+    margin: 5px;
+  }
+}

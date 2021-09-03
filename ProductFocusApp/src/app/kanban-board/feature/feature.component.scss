@@ -15,6 +15,7 @@
 .card {
   cursor: pointer;
   white-space: normal;
+  margin: 5px;
 }
 
 .bug {
@@ -23,4 +24,44 @@
 
 .feature {
   border-left: 5px solid blue;
+}
+
+.progress-container {
+  position: relative;
+  height: 15px;
+  margin-top: -30px;
+  .virtual-line {
+    margin-top: -20px;
+  }
+  .read-line {
+    height:5px;
+    border-width:1;
+    background-color:#78C000;
+  }
+}
+
+
+.feature-theme {
+  color: blue;
+  padding-right: 5px;
+}
+
+.bug-theme {
+  color: red;
+  padding-right: 5px;
+}
+
+
+.feature-card {
+  .title {
+    font-weight: bold;
+  }
+  div > .feature-id-color {
+    display: inline-block;
+    color: gray;
+  }
+  .blocked-theme {
+    background-color: var(--blocked);
+    color: white
+  }
 }

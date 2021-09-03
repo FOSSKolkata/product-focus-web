@@ -29,3 +29,9 @@ div:focus{
     cursor:text;
     background-color: var(--dark-gray);
 }
+
+.autocomplete-container {
+    display: inline-block;
+    min-width: 10px;
+    min-height: 10px;
+}
