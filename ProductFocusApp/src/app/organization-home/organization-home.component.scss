@@ -20,10 +20,11 @@
 
 .active-item {
   border-left: 2px solid #fe9600;
+  background-color: var(--dark-gray);
 }
 
 .nav-item:hover {
-  background-color: var(--dark-gray);
+  background-color: var(--light-gray);
 }
 
 a:link {
@@ -33,6 +34,8 @@ a:link {
 .vertical-nav {
   width: 17vw;
   height: 83vh;
+  overflow: auto;
+  display: inline-block;
 }
 
 .column-control {
@@ -40,9 +43,20 @@ a:link {
   padding: 65px 25px 65px 25px;
   height: 150px;
   text-align: center;
-}
-.module-content {
-  background-color: var(--light-gray);
+  i.ellipsis {
+    position: absolute;
+    right: 20px;
+    top: 0px;
+  }
+  a > i.news-report {
+    position: absolute;
+    top: 110px;
+    left: 30px;
+  }
+  .product-name {
+    word-break: break-all;
+    color: #007bff;
+  }
 }
 
 .add-product {
@@ -54,4 +68,28 @@ a:link {
 .row{
   margin-left: 0;
   margin-right: 0;
+}
+
+.add-organization {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: x-small;
+}
+
+.organization-container {
+  display: inline-block;
+  vertical-align: top;
+  width: 81vw;
+}
+
+.organization-head {
+  font-size: large;
+  font-weight: bold;
+}
+
+.product-container {
+  height: 78.5vh;
+  overflow: hidden;
+  overflow: auto;
+  background-color: var(--light-gray);
 }
