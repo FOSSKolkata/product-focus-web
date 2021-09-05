@@ -4,21 +4,21 @@
     Invite Member
   </button></span
 >
-<div class="m-3 p-3" style="background-color: var(--white);">
+<div class="m-3 p-3 organization-member-container">
   <div class="table-responsive-sm">
     <table class="table">
       <thead>
-        <tr style="color: var(--gray)">
+        <tr class="table-head">
           <th scope="col">Name</th>
           <th scope="col">Membership Type</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let user of organizationMemberList.members">
-          <td>
+          <td class="user-data">
             <app-user-avatar [name]="user.name"></app-user-avatar>
-            <div style="margin: -45px 0 0 50px">{{user.name}}</div>
-            <small style="margin: -10px 0 0 50px">{{user.email}}</small>
+            <div class="user-name">{{user.name}}</div>
+            <small class="user-email">{{user.email}}</small>
           </td>
           <td>{{user.isOwner?"Owner":"User"}}</td>
         </tr>

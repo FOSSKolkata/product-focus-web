@@ -9,3 +9,14 @@
 .list-group-item:hover {
   background-color: var(--light-gray);
 }
+
+.organization-setting-container {
+  overflow: auto;
+  height: 75vh;
+  div {
+    background-color: var(--light-gray);
+    div {
+      background-color: var(--white);
+    }
+  }
+}

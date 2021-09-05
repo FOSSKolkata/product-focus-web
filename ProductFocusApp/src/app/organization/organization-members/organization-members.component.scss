@@ -16,3 +16,20 @@
 ::ng-deep .dropdown-menu {
   width: 93.5%;
 }
+
+.organization-member-container {
+  background-color: var(--white);
+}
+
+.table-head {
+  color: var(--gray);
+}
+
+.user-data {
+  .user-name {
+    margin: -45px 0 0 50px;
+  }
+  .user-email {
+    margin: -10px 0 0 50px;
+  }
+}

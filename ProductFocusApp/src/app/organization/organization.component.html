@@ -3,15 +3,15 @@
   <div class="row">
     <div class="col-sm-3">
       <div>
-        <ul class="list-group pl-3" style="cursor: pointer">
+        <ul class="list-group pl-3 pointer">
           <li class="list-group-item" [class.active-item]="memberActive" (click)="memberActive = true;" [routerLink]="['members']">Members</li>
           <li class="list-group-item" [class.active-item]="!memberActive" (click)="memberActive = false" [routerLink]="['invitations']">Invitations</li>
         </ul>
       </div>
     </div>
-    <div class="col" style="overflow: auto; height: 75vh;">
-      <div class="p-1" style="background-color: var(--light-gray);">
-        <div class="p-3" style="background-color: var(--white);">
+    <div class="col organization-setting-container">
+      <div class="p-1">
+        <div class="p-3">
           <router-outlet></router-outlet>
         </div>
       </div>

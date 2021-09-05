@@ -1,11 +1,11 @@
-<div class="m-3 p-3" style="background-color: var(--white);">
+<div class="m-3 p-3 invitation-container">
   <div class="table-responsive-sm">
     <table class="table">
-      <caption style="caption-side: top; text-decoration: underline">
+      <caption class="caption-decorate">
         Pending Invitations
       </caption>
       <thead>
-        <tr style="color: var(--gray)">
+        <tr class="table-head">
           <th scope="col">Email</th>
           <th scope="col">Date/Time</th>
           <th scope="col">Re Invite</th>
@@ -14,7 +14,7 @@
       <tbody>
         <tr *ngFor="let pendingInvitation of pendingInvitationList.pendingInvitations">
           <td>
-            <i class="fa fa-envelope" style="margin-right: 5px"></i>
+            <i class="fa fa-envelope mr-2"></i>
             <span>{{ pendingInvitation.email }}</span>
           </td>
           <td>
@@ -41,7 +41,7 @@
   </div>
 </div>
 
-<div class="m-3 p-3" style="background-color: var(--white)">
+<div class="m-3 p-3 invitation-container">
   <div class="table-responsive-sm">
     <table class="table" matSort (matSortChange)="sortData($event)">
       <caption style="caption-side: top; text-decoration: underline">
