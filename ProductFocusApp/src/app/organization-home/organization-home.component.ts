@@ -28,6 +28,17 @@ export class OrganizationHomeComponent implements OnInit {
       this.productName = '';
     }
   }
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: any): void {
+    this.route.params.subscribe(param => {
+      let organizationName = param.organizationName;
+      for(let currOrg of this.organizationList){
+        if(currOrg.name == organizationName) {
+          this.selectOrganization(currOrg);
+        }
+      }
+    });
+  }
 
   constructor(
     private organizationService: OrganizationService,
@@ -51,7 +62,7 @@ export class OrganizationHomeComponent implements OnInit {
   paramOrganization: string | undefined;
   
   ngOnInit(): void {
-    this.paramOrganization = this.route.snapshot.params["organization-name"];
+    this.paramOrganization = this.route.snapshot.params["organizationName"];
     this.setOrganizationList();
   }
 

@@ -59,12 +59,12 @@ const routes: Routes = [
         component: OrganizationHomeComponent,
         data: {breadcrumb: (resolvedId: string) => `${resolvedId}`, skip: true},
       },{
-        path: ':organization-name',
+        path: ':organizationName',
         data: {breadcrumb: {label: (resolvedId: string) => `${resolvedId}`}},
         children:[
           {
             path: '',
-            component: OrganizationHomeComponent,
+            component: OrganizationHomeComponent
           },{
             path: '',
             component: LayoutComponent,
@@ -99,7 +99,7 @@ const routes: Routes = [
     path: 'invitation',
     component: InvitationComponent,
     canActivate: [MsalGuard,SecureGuard],
-    data: {breadcrumb: 'Invitation'}
+    data: {breadcrumb: {skip: true}}
   },{
     // Needed for hash routing
     path: 'error',
@@ -115,7 +115,11 @@ const routes: Routes = [
     path: 'code',
     component: CodeComponent,
     data: {breadcrumb: {skip: true}}
-  },
+  },{
+    path: '**',
+    component: ErrorComponent,
+    data: {breadcrumb: {skip: true}}
+  }
 ];
 
 const isIframe = window !== window.parent && !window.opener;

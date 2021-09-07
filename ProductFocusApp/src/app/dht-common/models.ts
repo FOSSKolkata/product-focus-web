@@ -188,9 +188,7 @@ export interface IGetClosedInvitation {
 }
 
 export interface IInvitationInput {
-  invitationId: number,
-  orgId: number,
-  email: string
+  invitationId: number
 }
 
 export interface IUser {

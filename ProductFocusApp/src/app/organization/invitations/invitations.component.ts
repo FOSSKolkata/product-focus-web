@@ -208,7 +208,7 @@ export class InvitationsComponent implements OnInit {
 
   cancelInvitation(modal: any) {
     this.cancellingInvitation = true;
-    this.invitationService.cancelInvitation({invitationId: this.cancelInvitationItem.id, orgId: this.lastSelctedOrganizationId, email: this.cancelInvitationItem.email }).subscribe(res => {
+    this.invitationService.cancelInvitation({invitationId: this.cancelInvitationItem.id }).subscribe(res => {
       this.toastr.success("Invitation cancelled.","Success");
       modal.close();
       this.cancellingInvitation = false;

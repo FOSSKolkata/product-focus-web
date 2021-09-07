@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MsalService } from '@azure/msal-angular';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IInvitationInput } from '../dht-common/models';
 import { InvitationService } from '../_services/invitation.service';
@@ -16,20 +15,20 @@ export class InvitationComponent implements OnInit {
   rejecting = false;
 
   constructor(private dataRoute: ActivatedRoute,
-    private authService: MsalService,
     private invitationService: InvitationService,
     private router: Router,
     private modalService: NgbModal) {}
 
   ngOnInit(): void {
-    const invitationInfo = JSON.parse(this.dataRoute.snapshot.params.invitationInfo);
-    const email = this.authService.instance.getAllAccounts()[0].username;
+    this.invitationData = {invitationId: this.dataRoute.snapshot.queryParams.iid};
+    // const invitationInfo = JSON.parse(this.dataRoute.snapshot.params.invitationInfo);
+    // const email = this.authService.instance.getAllAccounts()[0].username;
 
-    this.invitationData = {
-      invitationId: invitationInfo['inId'],
-      orgId: invitationInfo['orId'],
-      email: email
-    };
+    // this.invitationData = {
+    //   invitationId: invitationInfo['inId'],
+    //   orgId: invitationInfo['orId'],
+    //   email: email
+    // };
   }
 
   acceptInvitation(){
