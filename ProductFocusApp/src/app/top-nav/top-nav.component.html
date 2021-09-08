@@ -1,8 +1,7 @@
 <nav class="navbar navbar-expand-sm navbar-light top-nav">
   <img
-    style="cursor: pointer"
     [routerLink]="['/']"
-    class="nav-link navbar-brand"
+    class="nav-link navbar-brand pointer"
     src="../../assets/ProductFocus.png"
     alt="image"
   />
@@ -25,16 +24,14 @@
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown" ngbDropdown>
         <a
-          class="nav-link dropdown-toggle"
-          style="margin-top: 5px"
+          class="nav-link dropdown-toggle mt-2"
           id="id01"
           ngbDropdownToggle
         >
           <app-user-avatar [name]="currentUserName"></app-user-avatar>
         </a>
         <div
-          class="dropdown-menu"
-          style="right: 0; left: auto"
+          class="dropdown-menu dropdown-popup-left"
           aria-labelledby="id01"
           ngbDropdownMenu
         >
