@@ -27,7 +27,7 @@
       *ngFor="let module of board; let i = index"
     >
       <div class="module-section">
-        <div cdkDropListGroup>
+        <div cdkDropListGroup class="feature-container">
           <div *ngIf="module" class="module-header">
             {{ module.name }}
           </div>
