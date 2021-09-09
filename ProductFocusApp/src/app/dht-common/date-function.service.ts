@@ -6,7 +6,7 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DateFunctionService {
   ngbDateToDate(ngbDate: NgbDateStruct) {
-    return new Date(ngbDate.year, ngbDate.month - 1, ngbDate.day + 1);
+    return new Date(Date.UTC(ngbDate.year,ngbDate.month - 1,ngbDate.day));
   }
   
   dateToNgbDate(date: Date): NgbDateStruct {

@@ -34,7 +34,7 @@ export class ProgressCommentComponent implements OnInit {
     this.featureService.upsertScrumWorkCompletionPercentage(input).subscribe(res => {
       
     },(err)=>{
-      this.toastr.error('Changes not Saved.','Failed');
+      this.toastr.error(err.error,'Failed');
     });
   }
   upsertScrumComment(event: any){
@@ -48,7 +48,7 @@ export class ProgressCommentComponent implements OnInit {
     this.featureService.upsertScrumComment(input).subscribe(res => {
       
     },(err)=>{
-      this.toastr.error('Changes not Saved.','Failed');
+      this.toastr.error(err.error,'Failed');
     });
   }
 }

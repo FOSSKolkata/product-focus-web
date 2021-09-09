@@ -157,7 +157,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     this.featureService.modifyFeatureElement(changedFeaturedInfo).subscribe((x) => {
       this.fireChanges(changedFeaturedInfoEvent);
     },(err)=>{
-      this.toastr.error('Update is not saved!!','Not Modified');
+      this.toastr.error(err.error,'Not Modified');
     });
   }
 
