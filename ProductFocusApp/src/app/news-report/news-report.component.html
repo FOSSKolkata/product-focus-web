@@ -1,7 +1,4 @@
-<div
-  class="margin-for-navs"
-  style="background-color: #F5F6F7;"
->
+<div class="margin-for-navs">
   <div
       class="search-results"
       infiniteScroll
@@ -10,70 +7,60 @@
       (scrolled)="onScroll()"
       [scrollWindow]="false"
 >
-    <div class="row" style="min-height: 80vh; overflow: auto;">
-      <div class="col-8" style="border-right: 1px solid #D2DCE4">
-        <div style="margin-left: 20px;">
-          <div style="font-size: 18px; font-weight: bold; padding-bottom: 23px;">News report</div>
-          <div class="imaginary-line" style="position: relative; margin-bottom: 35px;" *ngFor="let i of item">
-            <app-user-avatar [name]="'vikram shaw'"></app-user-avatar>
-            <div style="display: inline-block; position: absolute; margin-left: 15px; font-size: 16px; max-width: 260px;">Task make login page responsive is assigned to Mrinal Paswan</div>
-            <div style="display: inline-block; position: absolute; margin-left: 15px; bottom: -20px; color: gray;">by pritam singh</div>
-            <div style="display: inline-block; position: absolute; right: 200px;"> <span style="color: #B1B1B1">Module :</span> Medication</div>
-            <div style="display: inline-block; position: absolute; right: 0"><span style="color: #B1B1B1">Date :</span> 14-12-2021 10:43 AM</div>
-            <!-- <mat-card>
-              <mat-card-header>
-                <app-user-avatar mat-card-avatar [name]="'vikram shaw'"></app-user-avatar>
-                <mat-card-title>Task make login page responsive is assigned to Mrinal Paswan</mat-card-title>
-                <mat-card-subtitle>by vikram shaw</mat-card-subtitle>
-              </mat-card-header>
-            </mat-card> -->
+    <div class="row news-report-container">
+      <div class="col-8 side-border">
+        <div class="news-report-content">
+          <div class="heading">News report</div>
+          <div class="imaginary-line body" *ngFor="let event of eventList">
+            <app-user-avatar [name]="event.createdBy"></app-user-avatar>
+            <div class="title">'{{event.domainEventJson.Title}}' is marked as blocked.</div>
+            <div class="created-by">by {{event.createdBy}}</div>
+            <div class="module"> <span>Module :</span> {{event.moduleName}}</div>
+            <div class="date"><span>Date :</span> {{event.createdOn | date:'short'}}</div>
+            <div class="owners">
+              <span class="partial-avatar" *ngFor="let owner of event.owners">
+                <app-user-avatar [name]="owner.name"></app-user-avatar>
+              </span>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-4">
-        <div style="font-weight: bold; font-size: 20; color: #130D30">
+        <div class="filter-head">
           Filters
         </div>
-        <div style="margin-top: 20px; color: #76718D">
+        <div class="heading">
           Date range
         </div>
         <div>
-          <input type="text" ngbDatepicker #from="ngbDatepicker" (click)="from.toggle()" placeholder="From" style="margin-right: 12px;"/>
-          <input type="text" ngbDatepicker #to="ngbDatepicker" (click)="to.toggle()" placeholder="To"/>
+          <input type="text" ngbDatepicker #from="ngbDatepicker" (click)="from.toggle()" placeholder="From" style="margin-right: 12px;" (dateSelect)="selectDate($event,'start')"/>
+          <input type="text" ngbDatepicker #to="ngbDatepicker" (click)="to.toggle()" placeholder="To" (dateSelect)="selectDate($event,'end')"/>
         </div>
-        <div style="margin-top: 20px; color: #76718D">
+        <div class="heading">
           User
         </div>
-        <!-- <div style="border: 1px solid #D2DCE4; background-color: #f5f6f8; padding: 5px 0; border-radius: 2px;"> -->
-          <!-- <div *ngFor="let item of [1,2,3,4,5]" style="display: inline-block; margin: 5px; padding: 5px 10px; border: 1px solid #eeecf1; background-color: #eeecf1;">
-            <span style="margin-right: 5px; background-color: #EEEBF1;">Joydeep Pasi</span>
-            <i class="fa fa-times" style="-webkit-text-stroke: 0.5px #eeecf1; background-color: #eeecf1; color: gray"></i>
-          </div> -->
           <ng-multiselect-dropdown
             [placeholder]="'Select Users'"
             [settings]="dropdownSettings"
             [data]="userList"
             [(ngModel)]="selectedUsers"
-            (onSelect)="onItemSelect($event)"
-            (onSelectAll)="onSelectAll($event)">
+            (onSelect)="onUserSelectionDeselection()"
+            (onDeSelect)="onUserSelectionDeselection()"
+            (onSelectAll)="onUserSelectionDeselection()"
+            (onDeSelectAll)="onUserSelectionDeselection()">
           </ng-multiselect-dropdown>
-        <!-- </div> -->
-        <div style="margin-top: 20px; color: #76718D">
+        <div class="heading">
           Module
         </div>
-        <!-- <div style="border: 1px solid #D2DCE4; background-color: #f5f6f8; padding: 5px 0;"> -->
-          <!-- <div *ngFor="let item of [1,2,3]" style="display: inline-block; margin: 5px; padding: 5px 10px; border: 1px solid #eeecf1; background-color: #eeecf1;">
-            <span style="margin-right: 5px; background-color: #eeecf1;">Lorem ipsum</span>
-            <i class="fa fa-times" style="-webkit-text-stroke: 0.5px #eeecf1; background-color: #eeecf1; color: gray"></i>
-          </div> -->
-          
           <ng-multiselect-dropdown
             [placeholder]="'Select Module'"
             [settings]="dropdownSettings"
             [data]="moduleList"
             [(ngModel)]="selectedModules"
-            (onSelect)="onItemSelect($event)"
-            (onSelectAll)="onSelectAll($event)">
+            (onSelect)="onModuleSelectionDeselection()"
+            (onDeSelect)="onModuleSelectionDeselection()"
+            (onSelectAll)="onModuleSelectionDeselection()"
+            (onDeSelectAll)="onModuleSelectionDeselection()">
           </ng-multiselect-dropdown>
         <!-- </div> -->
       </div>

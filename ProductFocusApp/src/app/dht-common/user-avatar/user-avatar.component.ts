@@ -7,12 +7,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class UserAvatarComponent implements OnInit {
   @Input('name') name!: string;
-  @Input('color') color: string = '';
+  @Input('color') color: string | null = null;
 
   ngOnInit(): void {
-    this.color = localStorage.color;
-    if (!this.color || this.color == '') {
-      localStorage.color = this.color = this.getRandomColor();
+    if(this.color === null) {
+      //this.color = localStorage.color;
+      if (!this.color || this.color == '') {
+        localStorage.color = this.color = this.getRandomColor();
+      }
     }
   }
 

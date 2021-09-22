@@ -34,7 +34,7 @@ export class ProductService {
     return throwError(error);
   }
   getKanbanViewByProductIdAndQuery(id: number, sprintId: number, userIds: number[] ):Observable<IKanbanBoard[]> {
-    var userParam = "";
+    let userParam = "";
     for(let uid of userIds){
       userParam += `UserIds=${uid}&`;
     }

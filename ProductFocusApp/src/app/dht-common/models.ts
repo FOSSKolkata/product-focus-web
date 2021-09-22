@@ -220,3 +220,23 @@ export interface IUpsertScrumWorkCompletionPercentageInput{
   workCompletionPercentage: number,
   scrumDate: Date
 }
+
+export interface EventLog {
+  id: number;
+  moduleId: number;
+  moduleName: string;
+  productId: number;
+  eventTypeName: string;
+  domainEventJson: any,
+  createdOn: Date,
+  createdBy: string,
+  owners: Owner[]
+}
+
+export interface Owner {
+  email: string,
+  eventId : string,
+  name: string,
+  objectId: string,
+  userId: number
+}

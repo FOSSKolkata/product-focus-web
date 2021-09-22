@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { EventLogService } from '../_services/event-log.service';
+import * as moment from 'moment';
+import { EventLog, IMemberDetailsList } from '../dht-common/models';
+import { UserService } from '../_services/user.service';
+import { ProductService } from '../_services/product.service';
+import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { DateFunctionService } from '../dht-common/date-function.service';
 
 @Component({
   selector: 'app-news-report',
@@ -7,45 +15,55 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
   styleUrls: ['./news-report.component.scss'],
 })
 export class NewsReportComponent implements OnInit {
+  selectedProduct!: { id: number; name: string; };
+  selectedOrganization! : {id: number; isOwner: boolean, name: string};
+  eventList: EventLog[] = [];
   userList: any[] = [];
   selectedUsers: any[] = [];
   moduleList: any[] = [];
   selectedModules: any[] = [];
+  selectedModuleIds: number[] = [];
+  selectedUserIds: number[] = [];
+  fromDate!: NgbDate;
+  toDate!: NgbDate;
+  offset = 0;
+  count = 5;
   dropdownSettings: IDropdownSettings = {};
-  item = [1,2,3,4,5,6,7];
-  constructor() {}
+  constructor(private eventLogService: EventLogService,
+    private router: Router,
+    private userService: UserService,
+    private productService: ProductService,
+    private dateService: DateFunctionService) {}
   ngOnInit(): void {
-    this.userList = [
-      { item_id: 1, item_text: 'Joydeep Pasi' },
-      { item_id: 2, item_text: 'Priyam Singh' },
-      { item_id: 3, item_text: 'Ruhi Shaw' },
-      { item_id: 4, item_text: 'Pritam Shaw' },
-      { item_id: 5, item_text: 'Vikram Shaw' },
-      { item_id: 6, item_text: 'Rahul Mondal' },
-      { item_id: 7, item_text: 'Akash Sharma' },
-      { item_id: 8, item_text: 'Navneet Pandey' },
-      { item_id: 9, item_text: 'Arun Gupta' }
-    ];
+    let storedSelectedProduct = localStorage.getItem('selectedProduct');
+    let storedSelectedOrganization = localStorage.getItem('selectedOrganization');
+    if(storedSelectedProduct === null || storedSelectedOrganization === null) {
+      this.router.navigate(['/']);
+      return;
+    }
+    this.selectedOrganization = JSON.parse(storedSelectedOrganization?storedSelectedOrganization:'');
+    this.selectedProduct = JSON.parse(storedSelectedProduct?storedSelectedProduct:'');
+
+    this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(res => {
+      this.moduleList = res;
+      this.moduleList.map((module) => {
+        module.item_id = module.id;
+        module.item_text = module.name;
+        return module;
+      })
+    })
+
+    this.userService.getUserListByOrganization(this.selectedOrganization.id).subscribe((res: IMemberDetailsList)  => {
+      this.userList = res.members;
+      this.userList.map((member) => {
+        member.item_id = member.id;
+        member.item_text = member.name;
+        return member;
+      });
+    });
     
-    this.selectedUsers = [
-      { item_id: 1, item_text: 'Joydeep Pasi' },
-      { item_id: 2, item_text: 'Priyam Singh' },
-      { item_id: 3, item_text: 'Ruhi Shaw' }
-    ];
+    this.fetchNextLogs();
 
-    this.moduleList = [
-      { item_id: 1, item_text: 'Lorem ipsum' },
-      { item_id: 2, item_text: 'Lorem ipsum' },
-      { item_id: 3, item_text: 'Scrum View' },
-      { item_id: 4, item_text: 'Login & Signup' },
-      { item_id: 5, item_text: 'Kanban board' },
-      { item_id: 6, item_text: 'Board View' }
-    ];
-
-    this.selectedModules = [
-      { item_id: 1, item_text: 'Lorem ipsum' },
-      { item_id: 2, item_text: 'Lorem ipsum' }
-    ];
     this.dropdownSettings = {
       singleSelection: false,
       idField: 'item_id',
@@ -55,17 +73,64 @@ export class NewsReportComponent implements OnInit {
       allowSearchFilter: true,
     };
   }
-  onItemSelect(item: any) {
-    console.log(item);
-  }
-  onSelectAll(items: any) {
-    console.log(items);
-  }
-  onScroll() {
-    if(this.item.length > 100)
-      return;
-    for(let i=0;i<5;i++){
-      this.item.push(i);
+  
+  selectDate(event: any, type: string) {
+    if(type === 'start') {
+      this.fromDate = event;
+    } else {
+      this.toDate = event;
     }
+    if(!!this.fromDate && !!this.toDate) {
+      this.offset = 0;
+      this.eventList = [];
+      this.fetchNextLogs();
+    }
+  }
+
+  onUserSelectionDeselection() {
+    this.offset = 0;
+    this.eventList = [];
+    this.selectedUserIds = [];
+    for(var user of this.selectedUsers) {
+      this.selectedUserIds.push(user.item_id);
+    }
+    this.fetchNextLogs();
+  }
+
+  onModuleSelectionDeselection() {
+    this.offset = 0;
+    this.eventList = [];
+    this.selectedModuleIds = [];
+    for(var module of this.selectedModules) {
+      this.selectedModuleIds.push(module.item_id);
+    }
+    this.fetchNextLogs();
+  }
+
+  onScroll() {
+    this.fetchNextLogs();
+  }
+
+  fetchNextLogs() {
+    let fromDate: Date | undefined = undefined, toDate: Date | undefined = undefined;
+    if(this.fromDate !== undefined) {
+      fromDate = this.dateService.ngbDateToDate(this.fromDate);
+    }
+
+    if(this.toDate !== undefined) {
+      toDate = this.dateService.ngbDateToDate(this.toDate);
+    }
+
+    this.eventLogService.getEventLog(this.selectedProduct.id, this.offset, this.count, this.selectedModuleIds, this.selectedUserIds, fromDate, toDate).subscribe((res: any) => {
+      this.offset += this.count;
+      res.map((item: any) => {
+        item.domainEventJson = JSON.parse(item.domainEventJson);
+        item.createdOn = moment.utc(item.createdOn).local().toDate();
+        return item;
+      });
+      for(let curr of res) {
+        this.eventList.push(curr);
+      }
+    });
   }
 }
