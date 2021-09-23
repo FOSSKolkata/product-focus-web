@@ -4,6 +4,7 @@
       infiniteScroll
       [infiniteScrollDistance]="2"
       [infiniteScrollThrottle]="50"
+      [alwaysCallback]="true"
       (scrolled)="onScroll()"
       [scrollWindow]="false"
 >
@@ -44,10 +45,10 @@
             [settings]="dropdownSettings"
             [data]="userList"
             [(ngModel)]="selectedUsers"
-            (onSelect)="onUserSelectionDeselection()"
-            (onDeSelect)="onUserSelectionDeselection()"
-            (onSelectAll)="onUserSelectionDeselection()"
-            (onDeSelectAll)="onUserSelectionDeselection()">
+            (onSelect)="OnChangeOwnerFilter()"
+            (onDeSelect)="OnChangeOwnerFilter()"
+            (onSelectAll)="OnChangeOwnerFilter()"
+            (onDeSelectAll)="OnChangeOwnerFilter()">
           </ng-multiselect-dropdown>
         <div class="heading">
           Module
@@ -57,10 +58,10 @@
             [settings]="dropdownSettings"
             [data]="moduleList"
             [(ngModel)]="selectedModules"
-            (onSelect)="onModuleSelectionDeselection()"
-            (onDeSelect)="onModuleSelectionDeselection()"
-            (onSelectAll)="onModuleSelectionDeselection()"
-            (onDeSelectAll)="onModuleSelectionDeselection()">
+            (onSelect)="OnChangeModuleFilter()"
+            (onDeSelect)="OnChangeModuleFilter()"
+            (onSelectAll)="OnChangeModuleFilter()"
+            (onDeSelectAll)="OnChangeModuleFilter()">
           </ng-multiselect-dropdown>
         <!-- </div> -->
       </div>

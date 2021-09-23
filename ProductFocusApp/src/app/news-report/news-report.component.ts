@@ -26,7 +26,7 @@ export class NewsReportComponent implements OnInit {
   selectedUserIds: number[] = [];
   fromDate!: NgbDate;
   toDate!: NgbDate;
-  offset = 0;
+  recordOffset = 0;
   count = 5;
   dropdownSettings: IDropdownSettings = {};
   constructor(private eventLogService: EventLogService,
@@ -73,7 +73,7 @@ export class NewsReportComponent implements OnInit {
       allowSearchFilter: true,
     };
   }
-  
+  // Filter by date
   selectDate(event: any, type: string) {
     if(type === 'start') {
       this.fromDate = event;
@@ -81,27 +81,28 @@ export class NewsReportComponent implements OnInit {
       this.toDate = event;
     }
     if(!!this.fromDate && !!this.toDate) {
-      this.offset = 0;
+      this.recordOffset = 0;
       this.eventList = [];
       this.fetchNextLogs();
     }
   }
-
-  onUserSelectionDeselection() {
-    this.offset = 0;
+  // Filter by Owner
+  OnChangeOwnerFilter() {
+    this.recordOffset = 0;
     this.eventList = [];
     this.selectedUserIds = [];
-    for(var user of this.selectedUsers) {
+    for(let user of this.selectedUsers) {
       this.selectedUserIds.push(user.item_id);
     }
     this.fetchNextLogs();
   }
 
-  onModuleSelectionDeselection() {
-    this.offset = 0;
+  // Filter by Module
+  OnChangeModuleFilter() {
+    this.recordOffset = 0;
     this.eventList = [];
     this.selectedModuleIds = [];
-    for(var module of this.selectedModules) {
+    for(let module of this.selectedModules) {
       this.selectedModuleIds.push(module.item_id);
     }
     this.fetchNextLogs();
@@ -121,8 +122,8 @@ export class NewsReportComponent implements OnInit {
       toDate = this.dateService.ngbDateToDate(this.toDate);
     }
 
-    this.eventLogService.getEventLog(this.selectedProduct.id, this.offset, this.count, this.selectedModuleIds, this.selectedUserIds, fromDate, toDate).subscribe((res: any) => {
-      this.offset += this.count;
+    this.eventLogService.getEventLog(this.selectedProduct.id, this.recordOffset, this.count, this.selectedModuleIds, this.selectedUserIds, fromDate, toDate).subscribe((res: any) => {
+      this.recordOffset += this.count;
       res.map((item: any) => {
         item.domainEventJson = JSON.parse(item.domainEventJson);
         item.createdOn = moment.utc(item.createdOn).local().toDate();
