@@ -2,9 +2,7 @@
   <div
       class="search-results"
       infiniteScroll
-      [infiniteScrollDistance]="2"
-      [infiniteScrollThrottle]="50"
-      [alwaysCallback]="true"
+      [fromRoot]="true"
       (scrolled)="onScroll()"
       [scrollWindow]="false"
 >
@@ -14,7 +12,30 @@
           <div class="heading">News report</div>
           <div class="imaginary-line body" *ngFor="let event of eventList">
             <app-user-avatar [name]="event.createdBy"></app-user-avatar>
-            <div class="title">'{{event.domainEventJson.Title}}' is marked as blocked.</div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemBlockedDomainEvent'">"{{event.domainEventJson.Title}}" is marked as blocked.</div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkInProgressDomainEvent'">Work progress of "{{event.domainEventJson.Title}}"" is updated from {{event.domainEventJson.OldWorkProgress}}% to {{event.domainEventJson.NewWorkProgress}}%.</div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemEndDateChangedDomainEvent'">
+              <div *ngIf="!!event.domainEventJson.PreviousEndDate">
+                The end date of "{{event.domainEventJson.Title}}'s" has been changed from {{event.domainEventJson.PreviousEndDate | date:'shortDate'}} to {{event.domainEventJson.CurrentEndDate | date:'shortDate'}}
+              </div>
+              <div *ngIf="!event.domainEventJson.PreviousEndDate">
+                The end date of "{{event.domainEventJson.Title}}" is set to {{event.domainEventJson.CurrentEndDate | date:'shortDate'}}.
+              </div>
+            </div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemStartDateChangedDomainEvent'">
+              <div *ngIf="!!event.domainEventJson.PreviousStartDate">
+                The start date of "{{event.domainEventJson.Title}}'s" has been changed from {{event.domainEventJson.PreviousStartDate | date:'shortDate'}} to {{event.domainEventJson.CurrentStartDate | date:'shortDate'}}
+              </div>
+              <div *ngIf="!event.domainEventJson.PreviousStartDate">
+                The start date of "{{event.domainEventJson.Title}}" is set to {{event.domainEventJson.CurrentStartDate | date:'shortDate'}}.
+              </div>
+            </div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemStoryPointChangedDomainEvent'">Story point of "{{event.domainEventJson.Title}}" has been changed form {{event.domainEventJson.PreviousStoryPoint}} to {{event.domainEventJson.CurrentStoryPoint}}.</div>
+            <div class="title" *ngIf="event.eventTypeName == 'AddWorkItemToSprintDomainEvent'">"{{event.domainEventJson.Title}}" moved from {{event.domainEventJson.PreviousSprint}} to {{event.domainEventJson.CurrentSprint}}.</div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemTitleChangedDomainEvent'">Title changed from "{{event.domainEventJson.PreviousTitle}}" to "{{event.domainEventJson.CurrentTitle}}".</div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemDescriptionChangedDomainEvent'">Description of "{{event.domainEventJson.Title}}" changed from "{{event.domainEventJson.PreviousDescription}}" to "{{event.domainEventJson.CurrentDescription}}".</div>
+            <div class="title" *ngIf="event.eventTypeName == 'AddOwnerToWorkItemDomainEvent'">{{event.domainEventJson.OwnerName}}({{event.domainEventJson.OwnerEmail}}) is added to "{{event.domainEventJson.Title}}".</div>
+            <div class="title" *ngIf="event.eventTypeName == 'RemoveOwnerFromWorkItemDomainEvent'">{{event.domainEventJson.OwnerName}}({{event.domainEventJson.OwnerEmail}}) is removed from "{{event.domainEventJson.Title}}".</div>
             <div class="created-by">by {{event.createdBy}}</div>
             <div class="module"> <span>Module :</span> {{event.moduleName}}</div>
             <div class="date"><span>Date :</span> {{event.createdOn | date:'short'}}</div>
@@ -40,30 +61,47 @@
         <div class="heading">
           Owners
         </div>
-          <ng-multiselect-dropdown
-            [placeholder]="'Select Users'"
-            [settings]="dropdownSettings"
-            [data]="userList"
-            [(ngModel)]="selectedUsers"
-            (onSelect)="OnChangeOwnerFilter()"
-            (onDeSelect)="OnChangeOwnerFilter()"
-            (onSelectAll)="OnChangeOwnerFilter()"
-            (onDeSelectAll)="OnChangeOwnerFilter()">
-          </ng-multiselect-dropdown>
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Users'"
+          [settings]="dropdownSettings"
+          [data]="userList"
+          [(ngModel)]="selectedUsers"
+          (onSelect)="OnChangeOwnerFilter()"
+          (onDeSelect)="OnChangeOwnerFilter()"
+          (onSelectAll)="OnChangeOwnerFilter()"
+          (onDeSelectAll)="OnChangeOwnerFilter()">
+        </ng-multiselect-dropdown>
         <div class="heading">
           Module
         </div>
-          <ng-multiselect-dropdown
-            [placeholder]="'Select Module'"
-            [settings]="dropdownSettings"
-            [data]="moduleList"
-            [(ngModel)]="selectedModules"
-            (onSelect)="OnChangeModuleFilter()"
-            (onDeSelect)="OnChangeModuleFilter()"
-            (onSelectAll)="OnChangeModuleFilter()"
-            (onDeSelectAll)="OnChangeModuleFilter()">
-          </ng-multiselect-dropdown>
-        <!-- </div> -->
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Module'"
+          [settings]="dropdownSettings"
+          [data]="moduleList"
+          [(ngModel)]="selectedModules"
+          (onSelect)="OnChangeModuleFilter()"
+          (onDeSelect)="OnChangeModuleFilter()"
+          (onSelectAll)="OnChangeModuleFilter()"
+          (onDeSelectAll)="OnChangeModuleFilter()">
+        </ng-multiselect-dropdown>
+        <div class="heading">
+          Event
+        </div>
+        <mat-form-field class="w-100">
+          <mat-select [(value)]="selected" (selectionChange)="onEventChange(selected)">
+            <mat-option value="All">All Event</mat-option>
+            <mat-option value="WorkItemBlockedDomainEvent">Work blocked event</mat-option>
+            <mat-option value="WorkInProgressDomainEvent">Work progress event</mat-option>
+            <mat-option value="AddOwnerToWorkItemDomainEvent">Add owner event</mat-option>
+            <mat-option value="RemoveOwnerFromWorkItemDomainEvent">Remove owner event</mat-option>
+            <mat-option value="AddWorkItemToSprintDomainEvent">Sprint changed event</mat-option>
+            <mat-option value="WorkItemTitleChangedDomainEvent">Title changed event</mat-option>
+            <mat-option value="WorkItemDescriptionChangedDomainEvent">Description changed event</mat-option>
+            <mat-option value="WorkItemStoryPointChangedDomainEvent">Story point changed event</mat-option>
+            <mat-option value="WorkItemStartDateChangedDomainEvent">Start date changed event</mat-option>
+            <mat-option value="WorkItemEndDateChangedDomainEvent">End date changed event</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
     </div>
   </div>

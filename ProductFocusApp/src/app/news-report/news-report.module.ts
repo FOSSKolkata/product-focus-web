@@ -9,6 +9,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { DhtCommonModule } from '../dht-common/dht-common.module';
 import { MatCardModule } from '@angular/material/card';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [NewsReportComponent, DomainEventComponent],
@@ -20,7 +22,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     NgMultiSelectDropDownModule,
     DhtCommonModule,
     MatCardModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    MatOptionModule,
+    MatSelectModule
   ],
 })
 export class NewsReportModule {}

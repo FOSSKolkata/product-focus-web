@@ -15,6 +15,7 @@ import { DateFunctionService } from '../dht-common/date-function.service';
   styleUrls: ['./news-report.component.scss'],
 })
 export class NewsReportComponent implements OnInit {
+  selected = 'All';
   selectedProduct!: { id: number; name: string; };
   selectedOrganization! : {id: number; isOwner: boolean, name: string};
   eventList: EventLog[] = [];
@@ -107,6 +108,12 @@ export class NewsReportComponent implements OnInit {
     }
     this.fetchNextLogs();
   }
+  
+  onEventChange(type: string) {
+    this.recordOffset = 0;
+    this.eventList = [];
+    this.fetchNextLogs();
+  }
 
   onScroll() {
     this.fetchNextLogs();
@@ -122,13 +129,16 @@ export class NewsReportComponent implements OnInit {
       toDate = this.dateService.ngbDateToDate(this.toDate);
     }
 
-    this.eventLogService.getEventLog(this.selectedProduct.id, this.recordOffset, this.count, this.selectedModuleIds, this.selectedUserIds, fromDate, toDate).subscribe((res: any) => {
+    let eventType = this.selected == 'All'? null : this.selected;
+
+    this.eventLogService.getEventLog(this.selectedProduct.id, this.recordOffset, this.count, this.selectedModuleIds, this.selectedUserIds, fromDate, toDate, eventType).subscribe((res: any) => {
       this.recordOffset += this.count;
       res.map((item: any) => {
         item.domainEventJson = JSON.parse(item.domainEventJson);
         item.createdOn = moment.utc(item.createdOn).local().toDate();
         return item;
       });
+      console.log(res);
       for(let curr of res) {
         this.eventList.push(curr);
       }

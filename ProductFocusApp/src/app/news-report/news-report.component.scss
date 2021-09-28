@@ -19,7 +19,7 @@ input{
   content: "";
   display: block;
   position: absolute;
-  height: 80px;
+  height: 110px;
   background: #D2DCE4;
   width: 1px;
   left: 17px;
@@ -53,7 +53,7 @@ input{
 
 .search-results {
     height: 84vh;
-    overflow: auto;
+    overflow-y: scroll;
 }
 
 .partial-avatar:not(:first-child) {
@@ -62,7 +62,6 @@ input{
 
 .news-report-container {
     min-height: 80vh;
-    overflow: auto;
     .side-border {
         border-right: 1px solid #D2DCE4;
     }
@@ -77,19 +76,19 @@ input{
     }
     .body {
         position: relative;
-        margin-bottom: 65px;
+        margin-bottom: 100px;
         .title {
             display: inline-block;
             position: absolute;
             margin-left: 15px;
             font-size: 16px;
-            max-width: 260px;
+            max-width: 300px;
         }
         .created-by {
             display: inline-block;
             position: absolute;
             margin-left: 15px;
-            bottom: -20px;
+            bottom: -40px;
             color: gray;
         }
         .module {
@@ -112,7 +111,7 @@ input{
             display: inline-block;
             position: absolute;
             left: 50px;
-            bottom: -60px;
+            bottom: -80px;
         }
     }
 }
