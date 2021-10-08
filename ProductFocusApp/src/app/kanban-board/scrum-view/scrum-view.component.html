@@ -13,7 +13,7 @@
             <option value="{{module.id}}">{{module.name}}</option>
           </ng-template>
         </select>
-        <app-add-feature [module-id]="addFeatureModuleId" [selected-sprint]="currentSprint" (is-feature-added)="changeAll()"></app-add-feature>
+        <app-add-feature [module-id]="addFeatureModuleId" [selected-sprint]="currentSprint" (is-feature-added)="setKanbanBoard()"></app-add-feature>
       </popover-content>
     </div>
   </div>
@@ -32,7 +32,6 @@
         <th *ngFor="let sprintDate of sprintDates">{{sprintDate | date:'dd-MM-YYYY'}}</th>
         <td></td>
       </tr>
-      <!-- <ng-template *ngFor="let feature of board; let i = index"> -->
       <ng-template ngFor let-feature [ngForOf]="board">
         <tr>
           <th *ngIf="feature.name != ''" [attr.rowspan]="requireColspan(feature.name)"><b>{{feature.name}}</b></th>
@@ -52,10 +51,10 @@
           <td>
             <div class="d-inline-block mr-3">
               <div [style.visibility]="!feature.isFirst?'visible':'hidden'">
-                <i class="fa fa-angle-up pointer"></i>
+                <i class="fa fa-angle-up pointer" (click)="moveUp(feature.order)"></i>
               </div>
               <div [style.visibility]="!feature.isLast?'visible':'hidden'">
-                <i class="fa fa-angle-down pointer"></i>
+                <i class="fa fa-angle-down pointer" (click)="moveDown(feature.order)"></i>
               </div>
             </div>
             <div class="d-inline-block align-top">

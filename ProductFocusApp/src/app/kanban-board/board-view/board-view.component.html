@@ -39,7 +39,7 @@
             [id]="module.id"
           >
             <div *ngFor="let feature of module[0]" cdkDrag>
-              <app-feature (modal-closed)="fireChanges()" [feature]="feature">
+              <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
               </app-feature>
             </div>
             <div class="card">
@@ -48,7 +48,7 @@
                   *ngIf="board"
                   [module-id]="module.id"
                   [selected-sprint]="selectedSprint"
-                  (is-feature-added)="fireChanges()"
+                  (is-feature-added)="setKanbanBoard()"
                 ></app-add-feature>
               </div>
             </div>
@@ -61,7 +61,7 @@
             [id]="module.id"
           >
             <div *ngFor="let feature of module[1]" cdkDrag>
-              <app-feature (modal-closed)="fireChanges()" [feature]="feature">
+              <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
               </app-feature>
             </div>
           </div>
@@ -73,7 +73,7 @@
             [id]="module.id"
           >
             <div *ngFor="let feature of module[2]" cdkDrag>
-              <app-feature (modal-closed)="fireChanges()" [feature]="feature">
+              <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
               </app-feature>
             </div>
           </div>
@@ -85,7 +85,7 @@
             [id]="module.id"
           >
             <div *ngFor="let feature of module[3]" cdkDrag>
-              <app-feature (modal-closed)="fireChanges()" [feature]="feature">
+              <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
               </app-feature>
             </div>
           </div>

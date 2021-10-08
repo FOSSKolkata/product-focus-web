@@ -44,11 +44,13 @@ export class FeatureDetailsComponent implements OnInit {
   };
 
   featureDetails: IFeatureDetails = {
+    featureOrderNumber: null,
     id: -1,
     description: '',
     isBlocked: false,
     status: 0,
     storyPoint: 0,
+    OrderNumber: Infinity,
     workCompletionPercentage: 0,
     title: '',
     assignees: [],

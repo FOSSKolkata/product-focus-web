@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IKanbanBoard, IMemberDetail, IScrumDay, ISprint, ModifyColumnIdentifier } from 'src/app/dht-common/models';
+import { Observable, Subscription } from 'rxjs';
+import { IKanbanBoard, IMemberDetail, IScrumDay, ISprint, ModifyColumnIdentifier, OrderingCategoryEnum } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
+import { ProductService } from 'src/app/_services/product.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -10,12 +13,12 @@ import { UserService } from 'src/app/_services/user.service';
   templateUrl: './scrum-view.component.html',
   styleUrls: ['./scrum-view.component.scss']
 })
-export class ScrumViewComponent implements OnInit, OnChanges {
+export class ScrumViewComponent implements OnInit, OnDestroy {
   @Input('kanban-board') kanbanBoard: IKanbanBoard[] = [];
   @Input('selected-sprint') currentSprint: ISprint | null = null;
-  @Output('changed') changes = new EventEmitter<any>();
   @Input('is-loading')kanbanBoardSpinner: boolean = false;
-  @Output('changed-all') changedAll = new EventEmitter<any>();
+  @Input('selected-userids') selectedUserIds = [];
+  @Input() events: Observable<void> | undefined;
 
   sprintDates: Date[] = [];
   board:any[] = [];
@@ -23,55 +26,16 @@ export class ScrumViewComponent implements OnInit, OnChanges {
   organization: any | null = null;
   countOfFeatureInModule = new Map<string,number>();
   addFeatureModuleId = -1;
-
+  selectedProduct!: {id: number, name: string};
+  featureOrder = new Map<number,number>();
+  eventsSubscription!: Subscription;
+  error!: HttpErrorResponse;
+  
   constructor(private featureService: FeatureService,
     private toastr: ToastrService,
     private userService: UserService,
-    private router: Router) { }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.sprintDates = [];
-    if(!this.currentSprint?.startDate || !this.currentSprint?.endDate)
-      return;
-    var startDate: Date = new Date(this.currentSprint?.startDate);
-    var endDate: Date = new Date(this.currentSprint?.endDate);
-    while(startDate <= endDate) {
-      this.sprintDates.push(new Date(startDate));
-      startDate.setDate(startDate.getDate() + 1);
-    }
-    this.countOfFeatureInModule.clear();
-    this.board = [];
-    if(this.kanbanBoard.length >= 1) {
-      this.selectModuleOnAddFeature(this.kanbanBoard[0].id);
-    }
-    for(let module of this.kanbanBoard) {
-      var counter = 0;
-      for(let feature of module.featureDetails) {
-        let currentFeature = {
-          id: feature.id,
-          name: this.countOfFeatureInModule.has(module.name)?'':module.name,
-          title: feature.title,
-          storyPoint: feature.storyPoint,
-          startDate: feature.plannedStartDate,
-          endDate: feature.plannedEndDate,
-          durationInDays: feature.plannedEndDate && feature.plannedStartDate ? this.getNumberOfDaysBetweenTwoDates(new Date(feature.plannedEndDate),new Date(feature.plannedStartDate)): null,
-          assignee: feature.assignees,
-          scrumDays: this.sortByDateAndAddExtra(feature.scrumDays),
-          remarks: feature.remarks,
-          functionalTestability: feature.functionalTestability,
-          isFirst: counter == 0,
-          isLast: counter == module.featureDetails.length - 1
-        };
-        counter++;
-        var curr = this.countOfFeatureInModule.get(module.name);
-        if(curr === undefined)
-          this.countOfFeatureInModule.set(module.name,1);
-        else
-          this.countOfFeatureInModule.set(module.name,curr + 1);
-        this.board.push(currentFeature);
-      }
-    }
-  }
+    private router: Router,
+    private productService: ProductService) { }
 
   sortByDateAndAddExtra(scrumDays: IScrumDay[]) {
     let scrumDaysMap = new Map<number,IScrumDay>();
@@ -96,11 +60,60 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     return modifiedScrumDays;
   }
 
+  moveUp(order: number){
+    for(let i=1;i<this.board.length;i++) {
+      if(this.board[i].order == order) {
+        let temp = this.board[i];
+        this.board[i] = this.board[i-1];
+        this.board[i-1] = temp;
+        let tempIsFirst = this.board[i].isFirst;
+        this.board[i].isFirst = this.board[i-1].isFirst;
+        this.board[i-1].isFirst = tempIsFirst;
+        let tempIsLast = this.board[i].isLast;
+        this.board[i].isLast = this.board[i-1].isLast;
+        this.board[i-1].isLast = tempIsLast;
+        let tempName = this.board[i].name;
+        this.board[i].name = this.board[i-1].name;
+        this.board[i-1].name = tempName;
+        let tempOrder = this.board[i].order;
+        this.board[i].order = this.board[i-1].order;
+        this.board[i-1].order = tempOrder;
+      }
+    }
+  }
+
+  moveDown(order: number){
+    for(let i=0;i<this.board.length;i++) {
+      if(this.board[i].order == order) {
+        let temp = this.board[i+1]
+        this.board[i+1] = this.board[i];
+        this.board[i] = temp;
+        let tempIsFirst = this.board[i].isFirst;
+        this.board[i].isFirst = this.board[i+1].isFirst;
+        this.board[i+1].isFirst = tempIsFirst;
+        let tempIsLast = this.board[i].isLast;
+        this.board[i].isLast = this.board[i+1].isLast;
+        this.board[i+1].isLast = tempIsLast;
+        let tempName = this.board[i].name;
+        this.board[i].name = this.board[i+1].name;
+        this.board[i+1].name = tempName;
+        let tempOrder = this.board[i].order;
+        this.board[i].order = this.board[i-1].order;
+        this.board[i-1].order = tempOrder;
+      }
+    }
+  }
+
   requireColspan(featureName: string){
     return this.countOfFeatureInModule.get(featureName);
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    let selectedProductJSONString = localStorage.getItem('selectedProduct');
+    if(!selectedProductJSONString) {
+      this.router.navigate(["/"]);
+    }
+    this.selectedProduct = JSON.parse(selectedProductJSONString?selectedProductJSONString:'');
     this.organization = JSON.parse(localStorage.selectedOrganization);
     if(this.organization === undefined || this.organization === null){
       this.router.navigate(['/']);
@@ -108,6 +121,88 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     this.userService.getUserListByOrganization(this.organization.id).subscribe(x=>{
       this.organizationUser = x.members;
     });
+    
+    if(this.events) {
+      this.eventsSubscription = this.events.subscribe(() => {
+        setTimeout(()=> {
+          this.setKanbanBoard();
+        },0);
+      });
+    }
+    
+    while(!this.currentSprint) {
+      await new Promise(resolve => setTimeout(resolve,100));
+    }
+    this.setKanbanBoard();
+  }
+  setKanbanBoard() {
+    if (this.selectedProduct === undefined) {
+      this.router.navigate(['/']);
+    }
+    if(!this.currentSprint)
+      return
+    this.kanbanBoardSpinner = true;
+    this.productService
+      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, OrderingCategoryEnum.ScrumView, this.currentSprint.id, this.selectedUserIds)
+      .subscribe((x) => {
+        console.log(x);
+        this.kanbanBoard = x;
+        this.kanbanBoardSpinner = false;
+        this.setBoard();
+      },(err)=>{
+        this.kanbanBoardSpinner = false;
+        this.error = err;
+      });
+  }
+
+  setBoard() {
+    this.sprintDates = [];
+    if(!this.currentSprint?.startDate || !this.currentSprint?.endDate)
+      return;
+    var startDate: Date = new Date(this.currentSprint?.startDate);
+    var endDate: Date = new Date(this.currentSprint?.endDate);
+    while(startDate <= endDate) {
+      this.sprintDates.push(new Date(startDate));
+      startDate.setDate(startDate.getDate() + 1);
+    }
+    this.countOfFeatureInModule.clear();
+    this.board = [];
+    if(this.kanbanBoard.length >= 1) {
+      this.selectModuleOnAddFeature(this.kanbanBoard[0].id);
+    }
+    let previousIndex = 0;
+    for(let module of this.kanbanBoard) {
+      let counter = 0;
+      for(let feature of module.featureDetails) {
+        let currentFeature = {
+          id: feature.id,
+          name: this.countOfFeatureInModule.has(module.name)?'':module.name,
+          title: feature.title,
+          storyPoint: feature.storyPoint,
+          startDate: feature.plannedStartDate,
+          endDate: feature.plannedEndDate,
+          durationInDays: feature.plannedEndDate && feature.plannedStartDate ? this.getNumberOfDaysBetweenTwoDates(new Date(feature.plannedEndDate),new Date(feature.plannedStartDate)): null,
+          assignee: feature.assignees,
+          scrumDays: this.sortByDateAndAddExtra(feature.scrumDays),
+          remarks: feature.remarks,
+          functionalTestability: feature.functionalTestability,
+          isFirst: counter == 0,
+          isLast: counter == module.featureDetails.length - 1,
+          order: feature.OrderNumber !== 0 ? feature.OrderNumber : counter + 1
+        };
+        counter++;
+        var curr = this.countOfFeatureInModule.get(module.name);
+        if(curr === undefined)
+          this.countOfFeatureInModule.set(module.name,1);
+        else
+          this.countOfFeatureInModule.set(module.name,curr + 1);
+        this.board.push(currentFeature);
+        if(currentFeature.isLast) {
+          this.partialSort(this.board,previousIndex, counter - 1);
+          previousIndex = counter + 1;
+        }
+      }
+    }
   }
 
   modifyFeature(key: number, value: any, feature: any) {
@@ -155,7 +250,7 @@ export class ScrumViewComponent implements OnInit, OnChanges {
       changedFeaturedInfoEvent.functionalTestability = value.target.value;
     }
     this.featureService.modifyFeatureElement(changedFeaturedInfo).subscribe((x) => {
-      this.fireChanges(changedFeaturedInfoEvent);
+
     },(err)=>{
       this.toastr.error(err.error,'Not Modified');
     });
@@ -171,14 +266,6 @@ export class ScrumViewComponent implements OnInit, OnChanges {
         }
       }
     }
-  }
-
-  fireChanges(modifiedFeature: any): void {
-    this.changes.emit(modifiedFeature);
-  }
-
-  changeAll(): void{
-    this.changedAll.emit();
   }
   
   public get modifyColumnIdentifier(): typeof ModifyColumnIdentifier {
@@ -204,4 +291,25 @@ export class ScrumViewComponent implements OnInit, OnChanges {
     }
   }
 
+  partialSort(arr: any, l: number, r: number): void {
+    let size = r - l + 1;
+    let temp = new Array(size);
+    let tempName = new Array(size);
+    let j = 0;
+    for(let i=l;i<=r;i++) {
+      tempName[j] = {name: arr[i].name, isFirst: arr[i].isFirst, isLast: arr[i].isLast};
+      temp[j++] = arr[i];
+    }
+    temp.sort((a,b) => a.order - b.order);
+    for(let i=0;i<size;i++) {
+      arr[l+i] = temp[i];
+      arr[l+i].name = tempName[i].name;
+      arr[l+i].isFirst = tempName[i].isFirst;
+      arr[l+i].isLast = tempName[i].isLast;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.eventsSubscription.unsubscribe();
+  }
 }

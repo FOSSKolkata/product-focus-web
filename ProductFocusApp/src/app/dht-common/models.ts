@@ -68,9 +68,11 @@ export interface IFeatureDetails {
   title: string,
   description: string,
   workCompletionPercentage: number,
+  featureOrderNumber: number | null,
   status: number,
   storyPoint: number,
   isBlocked: boolean,
+  OrderNumber: number,
   acceptanceCriteria: string,
   plannedStartDate: Date,
   plannedEndDate: Date,
@@ -239,4 +241,20 @@ export interface Owner {
   name: string,
   objectId: string,
   userId: number
+}
+
+export interface OrderingInfo {
+  featuresOrder: FeatureOrdering[],
+  orderingCategory: OrderingCategoryEnum,
+  sprintId: number
+}
+
+export interface FeatureOrdering {
+  featureId: number,
+  orderNumber: number
+}
+
+export enum OrderingCategoryEnum {
+  BoardView = 1,
+  ScrumView = 2
 }

@@ -1,28 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../_services/product.service';
-import {
-  NgbCalendar,
-  NgbDate,
-  NgbModal,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SprintService } from '../_services/sprint.service';
-import {
-  FeatureStatus,
-  IKanbanBoard,
-  IMemberDetail,
-  IModule,
-  ISprint,
-  ISprintInput,
-} from '../dht-common/models';
+import { FeatureStatus, IKanbanBoard, IMemberDetail, IModule, ISprint, ISprintInput } from '../dht-common/models';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { UserService } from '../_services/user.service';
 import { DateFunctionService } from '../dht-common/date-function.service';
-import { ModifyColumnIdentifier } from '../dht-common/models';
-import { HttpErrorResponse } from '@angular/common/http';
 import { BreadcrumbService } from 'xng-breadcrumb';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -34,7 +22,9 @@ export class KanbanBoardComponent implements OnInit {
   fromDate: NgbDate;
   toDate: NgbDate | null = null;
   modules: IModule[] = [];
-  kanbanBoard: IKanbanBoard[] = [];
+  eventsSubject: Subject<void> = new Subject<void>();
+  subject = new Subject<number>();
+  kanbanBoardWithoutFilter: IKanbanBoard[] = [];
   moduleAddView: boolean = false;
   sprintAddView: boolean = false;
   moduleName: string | undefined;
@@ -46,7 +36,7 @@ export class KanbanBoardComponent implements OnInit {
   allSprint: ISprint[] = [];
   organizationUser: IMemberDetail[] = [];
   isKanbanMode:boolean;
-  isLoading = false;
+  isFocusMode: boolean = false;
   currentSprint: ISprint | null = null;
   selectedSprint = this.currentSprint;
   selectedUserIds = [];
@@ -54,7 +44,6 @@ export class KanbanBoardComponent implements OnInit {
     name: new FormControl(''),
     dates: new FormControl('',this.DateValidate())
   });
-  error!: HttpErrorResponse;
   sprintExist = true;
   isSprintAdding = false;
   isDisabled = (date: NgbDate, current?: {year: number, month: number}) => this.isSprintAdding;
@@ -119,25 +108,6 @@ export class KanbanBoardComponent implements OnInit {
   selectSprint(sprint: ISprint) {
     this.currentSprint = sprint;
     this.selectedSprint = JSON.parse(JSON.stringify(this.currentSprint));
-    this.setKanbanBoard();
-  }
-
-  setKanbanBoard() {
-    if (this.productId === undefined) {
-      this.router.navigate(['/']);
-    }
-    if(this.currentSprint === null)
-      return
-    this.isLoading = true;
-    this.productService
-      .getKanbanViewByProductIdAndQuery(this.productId,this.currentSprint.id,this.selectedUserIds)
-      .subscribe((x) => {
-        this.kanbanBoard = x;
-        this.isLoading = false;
-      },(err)=>{
-        this.isLoading = false;
-        this.error = err;
-      });
   }
 
   setModules() {
@@ -158,7 +128,7 @@ export class KanbanBoardComponent implements OnInit {
         this.enabledAdding = true;
         if(this.sprintExist) {
           this.setModules();
-          this.setKanbanBoard();
+          // this.setKanbanBoard();
         }
       },
       (err) => {
@@ -177,7 +147,6 @@ export class KanbanBoardComponent implements OnInit {
       );
   }
 
-  isFocusMode: boolean = false;
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromDate = date;
@@ -249,7 +218,6 @@ export class KanbanBoardComponent implements OnInit {
   
   DateValidate(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      console.log(control,this.fromDate,this.toDate);
       if(this.toDate == null)
         return {dateNotChosen: true};
       if (this.fromDate && this.toDate) {
@@ -273,27 +241,7 @@ export class KanbanBoardComponent implements OnInit {
     localStorage.isKanbanMode = isKanbanMode;
   }
 
-  updateChanges(modifiedFeatureInfo: any) { // Id, fieldName(enum value), fieldname
-    for(let module of this.kanbanBoard){
-      for(let feature of module.featureDetails){
-        if(feature.id === modifiedFeatureInfo.id){
-          if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.storyPoint){
-            feature.storyPoint = modifiedFeatureInfo.storyPoint;
-          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.includeAssignee){
-            feature.assignees.push(modifiedFeatureInfo.assignee);
-          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.actualStartDate){
-            feature.actualStartDate = modifiedFeatureInfo.plannedStartDate;
-          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.actualEndDate){
-            feature.actualEndDate = modifiedFeatureInfo.plannedEndDate;
-          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.description){
-            feature.description = modifiedFeatureInfo.description;
-          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.title){
-            feature.title = modifiedFeatureInfo.title;
-          }else if(modifiedFeatureInfo.fieldName === ModifyColumnIdentifier.workCompletionPercentage){
-            feature.workCompletionPercentage = modifiedFeatureInfo.workCompletionPercentage
-          }
-        }
-      }
-    }
+  emitEventToChild() {
+    this.eventsSubject.next();
   }
 }
