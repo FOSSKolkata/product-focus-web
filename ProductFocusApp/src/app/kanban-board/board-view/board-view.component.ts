@@ -146,7 +146,8 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     let counter = 0;
     // Reordering in which card is moved.
     for(let column = 0; column < 4; column++) {
-      for(let card of this.boardWithoutFilter[modulePosition][column]) {
+      for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
+          let card = this.boardWithoutFilter[modulePosition][column][row];
         orderInfo.push({featureId: card.id, orderNumber:  ++counter});
         map.set(card.id, counter);
         card.orderNumber = counter;
@@ -156,21 +157,26 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     // Reordering other module's card
     for(let moduleIndex = 0; moduleIndex <  this.boardWithoutFilter.length; moduleIndex++) {
       if(moduleIndex != modulePosition) {
-        counter = 0;
         for(let column = 0; column < 4; column++) {
-          for(let card of this.boardWithoutFilter[moduleIndex]??[column]) { // ?? sign because if there is no card
-            orderInfo.push({featureId: card.id, orderNumber: ++counter});
-            map.set(card.id, counter);
-            card.orderNumber = counter;
+          for(let row = 0; row < this.boardWithoutFilter[moduleIndex][column].length; row++) {
+              let card = this.boardWithoutFilter[moduleIndex][column][row];
+              orderInfo.push({featureId: card.id, orderNumber:  ++counter});
+              map.set(card.id, counter);
+              card.orderNumber = counter;
           }
         }
       }
     }
 
     // set filtered board order
-    for(let column = 0; column < 4; column++) {
-      for(let card of this.board[modulePosition][column]) {
-        card.orderNumber = map.get(card.id);
+    for(let moduleIndex = 0; moduleIndex < this.board.length; moduleIndex++) {
+      if(moduleIndex != modulePosition) {
+        for(let column = 0; column < 4; column++) {
+          for(let row = 0; row < this.board[moduleIndex][column].length; row++) {
+              let card = this.board[moduleIndex][column][row];
+              card.orderNumber = map.get(card.id);
+          }
+        }
       }
     }
     
@@ -247,9 +253,12 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     let placedCardId = event.container.data[event.currentIndex].id;
 
     // Iterate on every features where featureElement is dropped
+
+    let isStatusChanging = false;
     for (let feature of event.container.data) {
       if (feature.status != status) {
         // Since the status of element where it is dropped is not equal to the status of that column
+        isStatusChanging = true;
         feature.status = status;
         this.featureService
           .modifyFeatureElement({
@@ -258,12 +267,14 @@ export class BoardViewComponent implements OnInit, OnDestroy {
             fieldName: ModifyColumnIdentifier.status,
           })
           .subscribe((x) => {
-            
+            this.updateKanbanBoardOrdering(moduleId, placedCardId , previousToCardPlacedCardId);
           });
         break;
       }
     }
-    this.updateKanbanBoardOrdering(moduleId, placedCardId , previousToCardPlacedCardId);
+    if(!isStatusChanging) {
+      this.updateKanbanBoardOrdering(moduleId, placedCardId , previousToCardPlacedCardId);
+    }
   }
  
   public get featureStatus(): typeof FeatureStatus {
