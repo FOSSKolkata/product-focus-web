@@ -50,7 +50,7 @@ export class FeatureDetailsComponent implements OnInit {
     isBlocked: false,
     status: 0,
     storyPoint: 0,
-    OrderNumber: Infinity,
+    orderNumber: Infinity,
     workCompletionPercentage: 0,
     title: '',
     assignees: [],
@@ -84,7 +84,6 @@ export class FeatureDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.generateStoryPoints();
     var date = this.featureDetails.actualStartDate;
-    console.log(this.featureDetails.plannedStartDate);
     var lastProductId: any = localStorage.getItem('productId');
     var lastSelectedOrgId = localStorage.lastSelctedOrganizationId;
     this.productId = lastProductId;

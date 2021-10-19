@@ -1,9 +1,10 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
-import { IKanbanBoard, IMemberDetail, IScrumDay, ISprint, ModifyColumnIdentifier, OrderingCategoryEnum } from 'src/app/dht-common/models';
+import { FeatureOrdering, IFeatureDetails, IKanbanBoard, IMemberDetail, IScrumDay, ISprint, ModifyColumnIdentifier, OrderingCategoryEnum, OrderingInfo } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { UserService } from 'src/app/_services/user.service';
@@ -60,50 +61,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     return modifiedScrumDays;
   }
 
-  moveUp(order: number){
-    for(let i=1;i<this.board.length;i++) {
-      if(this.board[i].order == order) {
-        let temp = this.board[i];
-        this.board[i] = this.board[i-1];
-        this.board[i-1] = temp;
-        let tempIsFirst = this.board[i].isFirst;
-        this.board[i].isFirst = this.board[i-1].isFirst;
-        this.board[i-1].isFirst = tempIsFirst;
-        let tempIsLast = this.board[i].isLast;
-        this.board[i].isLast = this.board[i-1].isLast;
-        this.board[i-1].isLast = tempIsLast;
-        let tempName = this.board[i].name;
-        this.board[i].name = this.board[i-1].name;
-        this.board[i-1].name = tempName;
-        let tempOrder = this.board[i].order;
-        this.board[i].order = this.board[i-1].order;
-        this.board[i-1].order = tempOrder;
-      }
-    }
-  }
-
-  moveDown(order: number){
-    for(let i=0;i<this.board.length;i++) {
-      if(this.board[i].order == order) {
-        let temp = this.board[i+1]
-        this.board[i+1] = this.board[i];
-        this.board[i] = temp;
-        let tempIsFirst = this.board[i].isFirst;
-        this.board[i].isFirst = this.board[i+1].isFirst;
-        this.board[i+1].isFirst = tempIsFirst;
-        let tempIsLast = this.board[i].isLast;
-        this.board[i].isLast = this.board[i+1].isLast;
-        this.board[i+1].isLast = tempIsLast;
-        let tempName = this.board[i].name;
-        this.board[i].name = this.board[i+1].name;
-        this.board[i+1].name = tempName;
-        let tempOrder = this.board[i].order;
-        this.board[i].order = this.board[i-1].order;
-        this.board[i-1].order = tempOrder;
-      }
-    }
-  }
-
   requireColspan(featureName: string){
     return this.countOfFeatureInModule.get(featureName);
   }
@@ -145,14 +102,56 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     this.productService
       .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, OrderingCategoryEnum.ScrumView, this.currentSprint.id, this.selectedUserIds)
       .subscribe((x) => {
-        console.log(x);
         this.kanbanBoard = x;
+        for(let module of this.kanbanBoard) {
+          module.featureDetails.sort((item1: IFeatureDetails, item2: IFeatureDetails) => {
+            if(item1.orderNumber < item2.orderNumber)
+              return -1;
+            if(item1.orderNumber > item2.orderNumber)
+              return 1;
+            return 0;
+          });
+        }
         this.kanbanBoardSpinner = false;
         this.setBoard();
       },(err)=>{
         this.kanbanBoardSpinner = false;
         this.error = err;
       });
+  }
+
+  onDrop(event: CdkDragDrop<any[]>) {
+    let index = +event.container.id.substring(event.container.id.length - 1);
+    
+    moveItemInArray(this.board[index], event.previousIndex, event.currentIndex);
+    if(event.previousIndex === 0) {
+      let name = this.board[index][event.currentIndex].name;
+      this.board[index][event.currentIndex].name = '';
+      this.board[index][0].name = name;
+    }
+    if(event.currentIndex === 0) {
+      let name = this.board[index][1].name;
+      this.board[index][1].name = '';
+      this.board[index][0].name = name;
+    }
+    let counter = 0;
+    let featureOrder: FeatureOrdering[] = [];
+    for(let module of this.board) {
+      for(let feature of module) {
+        featureOrder.push({featureId: feature.id, orderNumber: ++counter});
+        feature.order = counter;
+      }
+    }
+    
+    let orderingInfo: OrderingInfo = {
+      sprintId: this.currentSprint?this.currentSprint.id:-1,
+      orderingCategory: OrderingCategoryEnum.ScrumView,
+      featuresOrder: featureOrder
+    };
+
+    this.featureService.modifyFeatureOrder(orderingInfo).subscribe(x => {
+
+    });
   }
 
   setBoard() {
@@ -170,8 +169,9 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     if(this.kanbanBoard.length >= 1) {
       this.selectModuleOnAddFeature(this.kanbanBoard[0].id);
     }
-    let previousIndex = 0;
+    let orderNumber = 0;
     for(let module of this.kanbanBoard) {
+      let temp = [];
       let counter = 0;
       for(let feature of module.featureDetails) {
         let currentFeature = {
@@ -188,20 +188,18 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
           functionalTestability: feature.functionalTestability,
           isFirst: counter == 0,
           isLast: counter == module.featureDetails.length - 1,
-          order: feature.OrderNumber !== 0 ? feature.OrderNumber : counter + 1
+          order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1
         };
         counter++;
+        orderNumber++;
         var curr = this.countOfFeatureInModule.get(module.name);
         if(curr === undefined)
           this.countOfFeatureInModule.set(module.name,1);
         else
           this.countOfFeatureInModule.set(module.name,curr + 1);
-        this.board.push(currentFeature);
-        if(currentFeature.isLast) {
-          this.partialSort(this.board,previousIndex, counter - 1);
-          previousIndex = counter + 1;
-        }
+        temp.push(currentFeature);
       }
+      this.board.push(temp);
     }
   }
 
@@ -288,24 +286,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       this.addFeatureModuleId = event;
     }else {
       this.addFeatureModuleId = event.target.value;
-    }
-  }
-
-  partialSort(arr: any, l: number, r: number): void {
-    let size = r - l + 1;
-    let temp = new Array(size);
-    let tempName = new Array(size);
-    let j = 0;
-    for(let i=l;i<=r;i++) {
-      tempName[j] = {name: arr[i].name, isFirst: arr[i].isFirst, isLast: arr[i].isLast};
-      temp[j++] = arr[i];
-    }
-    temp.sort((a,b) => a.order - b.order);
-    for(let i=0;i<size;i++) {
-      arr[l+i] = temp[i];
-      arr[l+i].name = tempName[i].name;
-      arr[l+i].isFirst = tempName[i].isFirst;
-      arr[l+i].isLast = tempName[i].isLast;
     }
   }
 

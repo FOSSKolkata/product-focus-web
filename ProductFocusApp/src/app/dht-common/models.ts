@@ -72,7 +72,7 @@ export interface IFeatureDetails {
   status: number,
   storyPoint: number,
   isBlocked: boolean,
-  OrderNumber: number,
+  orderNumber: number,
   acceptanceCriteria: string,
   plannedStartDate: Date,
   plannedEndDate: Date,
