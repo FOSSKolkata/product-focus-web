@@ -18,7 +18,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
   @Input('selected-sprint') selectedSprint: ISprint | null = null;
   @Input('selected-userids')selectedUserIds = [];
   @Input() events: Observable<void> | undefined;
-  kanbanBoardSpinner: boolean = false;
+  kanbanBoardSpinner: boolean = true;
   kanbanBoard: IKanbanBoard[] = [];
   board: any = [];
   boardWithoutFilter: any = [];
@@ -58,7 +58,6 @@ export class BoardViewComponent implements OnInit, OnDestroy {
       this.router.navigate(['/']);
       return;
     }
-    //this.kanbanBoardSpinner = true;
     this.productService
       .getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
         OrderingCategoryEnum.BoardView,
