@@ -6,6 +6,7 @@
     #workpercent
     (keypress)="restrictGreaterThan100(workpercent,$event.charCode)"
     (focusout)="upsertScrumWorkCompletionPercentage($event)"
+    (mousedown)="$event.stopPropagation()"
     >{{scrumDay?.workCompletionPercentage}}</div>
     <!--Do not add any space in data binding-->
   <div
@@ -13,6 +14,7 @@
     contenteditable="true"
     placeholder="Write comment here..."
     (focusout)="upsertScrumComment($event)"
+    (mousedown)="$event.stopPropagation()"
   >{{scrumDay?.comment}}</div>
   <!--Do not add any space in data binding-->
 </div>

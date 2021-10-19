@@ -122,7 +122,9 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
 
   onDrop(event: CdkDragDrop<any[]>) {
     let index = +event.container.id.substring(event.container.id.length - 1);
-    
+    if(event.previousIndex === event.currentIndex) {
+      return;
+    }
     moveItemInArray(this.board[index], event.previousIndex, event.currentIndex);
     if(event.previousIndex === 0) {
       let name = this.board[index][event.currentIndex].name;
@@ -172,7 +174,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     let orderNumber = 0;
     for(let module of this.kanbanBoard) {
       let temp = [];
-      let counter = 0;
       for(let feature of module.featureDetails) {
         let currentFeature = {
           id: feature.id,
@@ -186,11 +187,8 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
           scrumDays: this.sortByDateAndAddExtra(feature.scrumDays),
           remarks: feature.remarks,
           functionalTestability: feature.functionalTestability,
-          isFirst: counter == 0,
-          isLast: counter == module.featureDetails.length - 1,
           order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1
         };
-        counter++;
         orderNumber++;
         var curr = this.countOfFeatureInModule.get(module.name);
         if(curr === undefined)
