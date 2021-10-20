@@ -22,6 +22,7 @@
       <thead>
         <tr>
           <th>Modules</th>
+          <th>#</th>
           <th>Tasks</th>
           <th>Story Points</th>
           <th>Estimated Start Date</th>
@@ -36,13 +37,20 @@
       </thead>
       
       <tbody *ngFor="let module of board" cdkDropList (cdkDropListDropped)="onDrop($event)">
-        <tr *ngFor="let feature of module;" cdkDrag cdkDragLockAxis="y">
+        <tr *ngFor="let feature of module; index as i" cdkDrag cdkDragLockAxis="y">
           <th *ngIf="feature.name != ''" [attr.rowspan]="requireColspan(feature.name)"><b>{{feature.name}}</b></th>
+          <th cdkDragHandle style="vertical-align: top; text-align: center;">
+            <div class="whole-space">
+              <ng-container [ngTemplateOutlet]="dragHandleTmpl">
+              </ng-container>
+              {{i + 1}}
+            </div>
+          </th>
           <td><app-editable-text [text-content]="feature.title" (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent, feature)"></app-editable-text></td>
           <td><app-editable-text [validate-function]="restrictGreaterThan100" [text-content]="feature.storyPoint" (changed)="modifyFeature(modifyColumnIdentifier.storyPoint, $event.target.textContent, feature)"></app-editable-text></td>
           <td><app-switch-text-datepick [date]="feature.startDate" [max]="feature.endDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedStartDate, $event,feature)"></app-switch-text-datepick></td>
           <td><app-switch-text-datepick [date]="feature.endDate" [min]="feature.startDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedEndDate, $event,feature)"></app-switch-text-datepick></td>
-          <td>{{feature.durationInDays}}</td>
+          <td class="align-top">{{feature.durationInDays}}</td>
           <td><app-switch-text-autocomplete [added-users]="feature.assignee" [other-users]="organizationUser" (is-added)="modifyFeature(modifyColumnIdentifier.includeAssignee,$event,feature)" (is-removed)="modifyFeature(modifyColumnIdentifier.excludeAssignee,$event,feature)"></app-switch-text-autocomplete></td>
           <td><app-editable-text [text-content]="feature.remarks" (changed)="modifyFeature(modifyColumnIdentifier.remarks, $event.target.textContent, feature)"></app-editable-text></td>
           <td>
@@ -60,3 +68,11 @@
     <app-spinner [is-spinner-active]="kanbanBoardSpinner"></app-spinner>
   </div>
 </div>
+<ng-template #dragHandleTmpl>
+	<svg class="bi bi-list handle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
+		xmlns="http://www.w3.org/2000/svg">
+		<path fill-rule="evenodd"
+			d="M2.5 11.5A.5.5 0 013 11h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 7h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 3h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5z"
+			clip-rule="evenodd" />
+	</svg>
+</ng-template>

@@ -118,3 +118,13 @@ td>button:focus{
 .col-md {
   width: 20%;  
 }
+
+.whole-space {
+  min-width: 20px;
+  min-height: 100%;
+  max-width: 300px;
+  overflow-x: auto;
+  height: auto;
+  align-items: center;
+  cursor: move;
+}
