@@ -5,6 +5,7 @@ import { IClosedInvitation, IGetClosedInvitation, IGetPendingInvitation, Invitat
 import { InvitationService } from 'src/app/_services/invitation.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-invitations',
@@ -78,6 +79,9 @@ export class InvitationsComponent implements OnInit {
       this.offset,
       this.count
     ).subscribe(x => {
+      x.closedInvitations.map(invitation => {
+        invitation.invitedOn = moment.utc(invitation.invitedOn).local().toDate();
+      });
       this.loadingClosed = false;
       this.closedInvitationList = x;
       if(this.closedInvitationContainer.length == 0){
@@ -103,6 +107,10 @@ export class InvitationsComponent implements OnInit {
     if(this.closedInvitationContainer[start].length == 0){
       this.loadingClosed = true;
       this.invitationService.getClosedInvitationList(this.lastSelctedOrganizationId,start,event.pageSize).subscribe(x => {
+        x.closedInvitations.map(invitation => {
+          invitation.invitedOn = moment.utc(invitation.invitedOn).local().toDate();
+        });
+
         this.loadingClosed = false;
         for(var i=0, j=start; i<x.closedInvitations.length; i++, j++){
           this.closedInvitationContainer[j] = x.closedInvitations[i];
@@ -133,6 +141,9 @@ export class InvitationsComponent implements OnInit {
       )
       .subscribe(
         (x) => {
+          x.pendingInvitations.map(invitation => {
+            invitation.invitedOn = moment.utc(invitation.invitedOn).local().toDate();
+          });
           this.loadingPending = false;
           this.pendingInvitationList = x;
           if(this.pendingInvitationContainer.length == 0){
@@ -160,6 +171,11 @@ export class InvitationsComponent implements OnInit {
       this.loadingPending = true;
       this.invitationService.getPendingInvitationList(this.lastSelctedOrganizationId,start,event.pageSize).subscribe(x => {
         this.loadingPending = false;
+
+        x.pendingInvitations.map(invitation => {
+          invitation.invitedOn = moment.utc(invitation.invitedOn).local().toDate();
+        });
+        
         for(var i=0, j=start; i<x.pendingInvitations.length; i++, j++){
           this.pendingInvitationContainer[j] = x.pendingInvitations[i];
         }

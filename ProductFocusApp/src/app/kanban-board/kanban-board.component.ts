@@ -128,7 +128,6 @@ export class KanbanBoardComponent implements OnInit {
         this.enabledAdding = true;
         if(this.sprintExist) {
           this.setModules();
-          // this.setKanbanBoard();
         }
       },
       (err) => {

@@ -136,6 +136,10 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       this.board[index][1].name = '';
       this.board[index][0].name = name;
     }
+    this.reOrdering();
+  }
+
+  reOrdering() {
     let counter = 0;
     let featureOrder: FeatureOrdering[] = [];
     for(let module of this.board) {
@@ -153,6 +157,8 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
 
     this.featureService.modifyFeatureOrder(orderingInfo).subscribe(x => {
 
+    },err => {
+      this.toastr.error('Not Updated',err.error);
     });
   }
 
@@ -173,7 +179,7 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     }
     let orderNumber = 0;
     for(let module of this.kanbanBoard) {
-      let temp = [];
+      let tempModuleContainer = [];
       for(let feature of module.featureDetails) {
         let currentFeature = {
           id: feature.id,
@@ -195,9 +201,9 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
           this.countOfFeatureInModule.set(module.name,1);
         else
           this.countOfFeatureInModule.set(module.name,curr + 1);
-        temp.push(currentFeature);
+        tempModuleContainer.push(currentFeature);
       }
-      this.board.push(temp);
+      this.board.push(tempModuleContainer);
     }
   }
 
