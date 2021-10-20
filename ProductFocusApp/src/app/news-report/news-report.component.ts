@@ -138,7 +138,6 @@ export class NewsReportComponent implements OnInit {
         item.createdOn = moment.utc(item.createdOn).local().toDate();
         return item;
       });
-      console.log(res);
       for(let curr of res) {
         this.eventList.push(curr);
       }

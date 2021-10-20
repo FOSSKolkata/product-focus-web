@@ -2,7 +2,7 @@
   <div
     class="percentage"
     contenteditable="true"
-    placeholder="Enter work %"
+    placeholder="Work %..."
     #workpercent
     (keypress)="restrictGreaterThan100(workpercent,$event.charCode)"
     (focusout)="upsertScrumWorkCompletionPercentage($event)"
@@ -12,7 +12,7 @@
   <div
     class="comment"
     contenteditable="true"
-    placeholder="Write comment here..."
+    placeholder="Comment..."
     (focusout)="upsertScrumComment($event)"
     (mousedown)="$event.stopPropagation()"
   >{{scrumDay?.comment}}</div>

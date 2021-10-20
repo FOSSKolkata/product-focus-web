@@ -5,6 +5,7 @@
   (keypress)="validateFunction(data,$event.charCode)"
   (focusout)="fireEvent($event)"
   (mousedown)="$event.stopPropagation()"
+  [textContent]="textContent"
 >
   {{ textContent }}
 </div>

@@ -13,6 +13,9 @@ export class EditableTextComponent {
   @Input('validate-function') validateFunction: Function = ()=> true;
 
   fireEvent(event: any){
-    this.isTextChanged.emit(event);
+    if(event.target.textContent !== this.textContent) {
+      this.isTextChanged.emit(event);
+    }
+    this.textContent = event.target.innerText;
   }
 }
