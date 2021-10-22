@@ -1,17 +1,15 @@
-<!-- <app-top-nav></app-top-nav> -->
-<div class="h-100" style="display: grid; place-items: center">
-  <div style="width: 600px; height: 300px; border: 2px solid var(--dark-gray)">
-    <div style="text-align: center; margin-top: 20px">
-      <div style="margin-top: 10px">
-        <app-user-avatar [name]="'Amit Shaw'"></app-user-avatar>
+<div class="h-100 content-conter">
+  <div class="invitation-container">
+    <div class="invitation-content" *ngIf="invitationDetails !== undefined">
+      <div>
+        <app-user-avatar [name]="invitationDetails.senderName"></app-user-avatar>
       </div>
-      <div style="margin-top: 10px">
-        <b>Amit Shaw</b> invited you to join <b>Dumanhill Technologies</b>
+      <div class="mt-2">
+        <b>{{invitationDetails.senderName}}</b> invited you to join <b>{{invitationDetails.organizationName}}</b>
       </div>
-      <div style="margin-top: 20px">
+      <div class="mt-4">
         <div
-          class="btn good-btn"
-          style="display: inline-block; margin-right: 10px"
+          class="btn good-btn mr-3 d-inline-block"
           (click)="acceptInvitation()"
         >
           <div
@@ -27,6 +25,12 @@
         (click)="openRejectInvitation(content)"
         >Decline</div>
       </div>
+    </div>
+    <div *ngIf="invalidLink !== undefined" class="invitation-content">
+      <h1>Oops!</h1>
+      <h2 class="invitation-error">{{invalidLink.error}}</h2>
+      <p>This invite may be expire, or you might not have permission to join.</p>
+      <div class="btn good-btn mt-2" [routerLink]="['/']">My Account</div>
     </div>
   </div>
 </div>

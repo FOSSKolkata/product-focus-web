@@ -4,7 +4,7 @@ import { throwError } from 'rxjs';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { IGetClosedInvitation, IGetPendingInvitation, IInvitationInput, ISendInvitationInput, IUser } from '../dht-common/models';
+import { IGetClosedInvitation, IGetPendingInvitation, IInvitationDetails, IInvitationInput, ISendInvitationInput, IUser } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root',
@@ -77,6 +77,14 @@ export class InvitationService {
     ).pipe(
       catchError(this.handleError)
     );
+  }
+
+  getInvitationById(id: number): Observable<IInvitationDetails> {
+    return this.http.get<IInvitationDetails>(
+      apiConfig.uri + `/Invitation/GetInvitationDetailsById/${id}`
+    ).pipe(
+      catchError(this.handleError)
+    )
   }
 
   handleError(error: HttpErrorResponse){

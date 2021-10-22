@@ -258,3 +258,9 @@ export enum OrderingCategoryEnum {
   BoardView = 1,
   ScrumView = 2
 }
+
+export interface IInvitationDetails {
+  senderName: string,
+  senderEmail: string,
+  organizationName: string
+}

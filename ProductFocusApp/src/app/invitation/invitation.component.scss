@@ -1,0 +1,18 @@
+.content-conter {
+    display: grid;
+    place-items: center;
+}
+
+.invitation-container {
+    width: 600px;
+    height: 300px;
+    border: 2px solid var(--dark-gray);
+    position: relative;
+    .invitation-content {
+        text-align: center;
+        margin-top: 20px;
+        .invitation-error {
+            color: gray;
+        }
+    }
+}

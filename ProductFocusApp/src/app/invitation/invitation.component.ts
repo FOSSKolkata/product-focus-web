@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { IInvitationInput } from '../dht-common/models';
+import { ToastrService } from 'ngx-toastr';
+import { IInvitationDetails, IInvitationInput } from '../dht-common/models';
 import { InvitationService } from '../_services/invitation.service';
 
 @Component({
@@ -11,24 +13,30 @@ import { InvitationService } from '../_services/invitation.service';
 })
 export class InvitationComponent implements OnInit {
   invitationData!: IInvitationInput;
+  invalidLink: HttpErrorResponse | undefined;
   accepting = false;
   rejecting = false;
+  invitationDetails: IInvitationDetails | undefined;
 
   constructor(private dataRoute: ActivatedRoute,
     private invitationService: InvitationService,
     private router: Router,
-    private modalService: NgbModal) {}
+    private modalService: NgbModal,
+    private tostr: ToastrService) {}
 
   ngOnInit(): void {
-    this.invitationData = {invitationId: this.dataRoute.snapshot.queryParams.iid};
-    // const invitationInfo = JSON.parse(this.dataRoute.snapshot.params.invitationInfo);
-    // const email = this.authService.instance.getAllAccounts()[0].username;
+    let invitationId = this.dataRoute.snapshot.queryParams.iid;
+    this.invitationData = {invitationId: invitationId};
+    this.setInvitationDetails(invitationId);
+  }
 
-    // this.invitationData = {
-    //   invitationId: invitationInfo['inId'],
-    //   orgId: invitationInfo['orId'],
-    //   email: email
-    // };
+  setInvitationDetails(invitationId: number) {
+    this.invitationService.getInvitationById(invitationId).subscribe(x => {
+        this.invitationDetails = x
+      },err => {
+        this.invalidLink = err;
+      }
+    );
   }
 
   acceptInvitation(){
@@ -38,6 +46,7 @@ export class InvitationComponent implements OnInit {
       this.router.navigate(['/']);
     }, err => {
       this.accepting = false;
+      this.tostr.error('Error', err.error);
     })
   }
 
@@ -57,6 +66,7 @@ export class InvitationComponent implements OnInit {
       this.router.navigate(["/"]);
     }, err => {
       this.rejecting = false;
+      this.tostr.error('Error', err.error);
     });
   }
 }
