@@ -15,14 +15,16 @@ import { UserService } from 'src/app/_services/user.service';
   styleUrls: ['./scrum-view.component.scss']
 })
 export class ScrumViewComponent implements OnInit, OnDestroy {
-  @Input('kanban-board') kanbanBoard: IKanbanBoard[] = [];
   @Input('selected-sprint') currentSprint: ISprint | null = null;
   @Input('is-loading')kanbanBoardSpinner: boolean = false;
   @Input('selected-userids') selectedUserIds = [];
   @Input() events: Observable<void> | undefined;
 
+  kanbanBoard: IKanbanBoard[] = [];
+  kanbanBoardWithoutFilter: IKanbanBoard[] = [];
   sprintDates: Date[] = [];
   board:any[] = [];
+  boardWithoutFilter: any[] = [];
   organizationUser: IMemberDetail[] = [];
   organization: any | null = null;
   countOfFeatureInModule = new Map<string,number>();
@@ -118,10 +120,38 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
         this.kanbanBoardSpinner = false;
         this.error = err;
       });
+
+    this.productService
+      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, OrderingCategoryEnum.ScrumView, this.currentSprint.id, [])
+      .subscribe((x) => {
+        this.kanbanBoardWithoutFilter = x;
+        for(let module of this.kanbanBoard) {
+          module.featureDetails.sort((item1: IFeatureDetails, item2: IFeatureDetails) => {
+            if(item1.orderNumber < item2.orderNumber)
+              return -1;
+            if(item1.orderNumber > item2.orderNumber)
+              return 1;
+            return 0;
+          });
+        }
+        this.setWithoutFilterBoard();
+      },(err)=>{
+
+      });
+  }
+
+  findIndex(moduleId: number): number {
+    for(let i = 0; i < this.board.length; i++) {
+      if(this.board[i].id == moduleId) {
+        return  i;
+      }
+    }
+    throw "No module found.";
   }
 
   onDrop(event: CdkDragDrop<any[]>) {
-    let index = +event.container.id.substring(event.container.id.length - 1);
+    let index = this.findIndex(+event.container.id);
+
     if(event.previousIndex === event.currentIndex) {
       return;
     }
@@ -131,21 +161,61 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       this.board[index][event.currentIndex].name = '';
       this.board[index][0].name = name;
     }
+    let previousToCardPlacedCardId = -1;
+    let placedCardId = this.board[index][event.currentIndex].id;
     if(event.currentIndex === 0) {
       let name = this.board[index][1].name;
       this.board[index][1].name = '';
       this.board[index][0].name = name;
+    } else {
+      previousToCardPlacedCardId = this.board[index][event.currentIndex - 1].id;
     }
+    let copyOfPlacedCard = {id: -1, order: Infinity};
+    for(let feature of this.boardWithoutFilter[index]) {
+      if(feature.id == placedCardId) {
+        copyOfPlacedCard = JSON.parse(JSON.stringify(feature));
+        feature.id = -1;
+        break;
+      }
+    }
+    if(previousToCardPlacedCardId === -1) {
+      this.boardWithoutFilter[index].splice(0, 0, copyOfPlacedCard);
+    }
+    else {
+      for(let i = 0; i < this.boardWithoutFilter[index].length; i++) {
+        if(this.boardWithoutFilter[index][i].id == previousToCardPlacedCardId) {
+          this.boardWithoutFilter[index].splice(i + 1, 0, copyOfPlacedCard);
+          break;
+        }
+      }
+    }
+
+    for(let i = 0; i < this.boardWithoutFilter[index].length; i++) {
+      if(this.boardWithoutFilter[index][i].id == -1) {
+        this.boardWithoutFilter[index].splice(i, 1);
+        break;
+      }
+    }
+    
     this.reOrdering();
   }
 
   reOrdering() {
     let counter = 0;
     let featureOrder: FeatureOrdering[] = [];
-    for(let module of this.board) {
-      for(let feature of module) {
-        featureOrder.push({featureId: feature.id, orderNumber: ++counter});
-        feature.order = counter;
+    let map = new Map<number,number>() // Store card id and order number after reordering
+    for(let i = 0; i < this.boardWithoutFilter.length; i++) {
+      for(let j = 0; j < this.boardWithoutFilter[i].length; j++) {
+        featureOrder.push({featureId: this.boardWithoutFilter[i][j].id, orderNumber: ++counter});
+        this.boardWithoutFilter[i][j].order = counter;
+        map.set(this.boardWithoutFilter[i][j].id, counter);
+      }
+    }
+
+
+    for(let i = 0; i < this.board.length; i++) {
+      for(let j = 0; j < this.board[i].length; j++) {
+        this.board[i][j].order = map.get(this.board[i][j].id);
       }
     }
     
@@ -160,6 +230,36 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     },err => {
       this.toastr.error('Not Updated',err.error);
     });
+  }
+
+
+  setWithoutFilterBoard() {
+    this.boardWithoutFilter = [];
+    let orderNumber = 0;
+    for(let module of this.kanbanBoardWithoutFilter) {
+      let tempModuleContainer: any = [];
+      tempModuleContainer['id'] = module.id;
+      for(let feature of module.featureDetails) {
+        let currentFeature = {
+          id: feature.id,
+          order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1
+        };
+        orderNumber++;
+        tempModuleContainer.push(currentFeature);
+      }
+      this.boardWithoutFilter.push(tempModuleContainer);
+    }
+    for(let i=0;i<this.boardWithoutFilter.length;i++) {
+      this.boardWithoutFilter[i].sort((item1: {id: number, order: number}, item2: {id: number, order: number}) => {
+        if(item1.order < item2.order) {
+          return -1;
+        }
+        if(item2. order > item2.order) {
+          return 1;
+        }
+        return 0;
+      });
+    }
   }
 
   setBoard() {
@@ -179,7 +279,8 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     }
     let orderNumber = 0;
     for(let module of this.kanbanBoard) {
-      let tempModuleContainer = [];
+      let tempModuleContainer: any = [];
+      tempModuleContainer['id'] = module.id;
       for(let feature of module.featureDetails) {
         let currentFeature = {
           id: feature.id,

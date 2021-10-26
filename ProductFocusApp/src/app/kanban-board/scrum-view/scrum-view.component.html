@@ -36,7 +36,7 @@
         </tr>
       </thead>
       
-      <tbody *ngFor="let module of board" cdkDropList (cdkDropListDropped)="onDrop($event)">
+      <tbody *ngFor="let module of board" cdkDropList [id]="module.id" (cdkDropListDropped)="onDrop($event)">
         <tr *ngFor="let feature of module; index as i" cdkDrag cdkDragLockAxis="y">
           <th *ngIf="feature.name != ''" [attr.rowspan]="requireColspan(feature.name)"><b>{{feature.name}}</b></th>
           <th cdkDragHandle style="vertical-align: top; text-align: center;">

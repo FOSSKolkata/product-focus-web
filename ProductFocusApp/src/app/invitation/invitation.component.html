@@ -29,7 +29,7 @@
     <div *ngIf="invalidLink !== undefined" class="invitation-content">
       <h1>Oops!</h1>
       <h2 class="invitation-error">{{invalidLink.error}}</h2>
-      <p>This invite may be expire, or you might not have permission to join.</p>
+      <p>The invitation may have expired, or you may not have permission to accept it.</p>
       <div class="btn good-btn mt-2" [routerLink]="['/']">My Account</div>
     </div>
   </div>
