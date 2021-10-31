@@ -49,7 +49,7 @@
 </div>
 <div *ngIf="!sprintExist" class="sprint-traveller">
   <div>
-    Add a sprint here.
+    Add a sprint / module here.
   </div>
   <i class="fa fa-arrow-right mt-1"></i>
 </div>
@@ -91,7 +91,6 @@
                 [(ngModel)]="moduleName"
                 #module="ngModel"
                 name="module"
-                (keyup.enter)="addModule()"
                 placeholder="Enter module name"
                 required
                 maxlength="50"

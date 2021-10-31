@@ -21,11 +21,10 @@
             <span>{{ pendingInvitation.invitedOn | date: "short" }}</span>
           </td>
           <td>
-            <span>Resend</span>
+            <span class="resend" (click)="resendInvitation(pendingInvitation.id)">Resend</span>
             <i
               class="fa fa-times float-right"
               (click)="openCancelPendingInvitation(content, pendingInvitation)"
-              
             ></i>
           </td>
         </tr>

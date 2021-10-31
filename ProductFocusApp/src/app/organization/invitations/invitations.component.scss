@@ -10,3 +10,9 @@
 .table-head {
     color: var(--gray);
 }
+
+.resend {
+    cursor: pointer;
+    padding: 2px;
+    border: 1px dotted var(--medium-gray);
+}

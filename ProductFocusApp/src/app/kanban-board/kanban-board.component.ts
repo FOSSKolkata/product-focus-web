@@ -129,6 +129,7 @@ export class KanbanBoardComponent implements OnInit {
         if(this.sprintExist) {
           this.setModules();
         }
+        this.emitEventToChild();
       },
       (err) => {
         this.enabledAdding = true;
@@ -202,6 +203,7 @@ export class KanbanBoardComponent implements OnInit {
         this.toastr.success('Sprint added','Success');
         this.isSprintAdding = false;
         this.doesSprintExistSetIt();
+        this.emitEventToChild();
       },
       (err) => {
         this.sprintName = '';

@@ -13,6 +13,7 @@ import { ProductService } from 'src/app/_services/product.service';
   templateUrl: './board-view.component.html',
   styleUrls: ['./board-view.component.scss']
 })
+
 export class BoardViewComponent implements OnInit, OnDestroy {
   @Input('kanban-board-without-filter') kanbanBoardWithoutFilter: IKanbanBoard[] = [];
   @Input('selected-sprint') selectedSprint: ISprint | null = null;
@@ -181,7 +182,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     
     let orderingInfo : OrderingInfo = {
       sprintId: this.selectedSprint?this.selectedSprint.id:-1,
-      featuresOrder: orderInfo,
+      featuresOrdering: orderInfo,
       orderingCategory: OrderingCategoryEnum.BoardView
     };
 

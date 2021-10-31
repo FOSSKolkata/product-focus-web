@@ -81,6 +81,7 @@ export class InvitationsComponent implements OnInit {
     ).subscribe(x => {
       x.closedInvitations.map(invitation => {
         invitation.invitedOn = moment.utc(invitation.invitedOn).local().toDate();
+        invitation.actionedOn = moment.utc(invitation.actionedOn).local().toDate();
       });
       this.loadingClosed = false;
       this.closedInvitationList = x;
@@ -241,11 +242,20 @@ export class InvitationsComponent implements OnInit {
     return InvitationStatus[position];
   }
 
+  resendInvitation(id: number) {
+    this.invitationService.resendInvitation({invitationId: id}).subscribe(succ => {
+      this.toastr.success('Invitation send successfully', 'Reinvited');
+    },
+    err => {
+      this.toastr.error(err.error,'Failed');
+    })
+  }
+
   compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
     if(a instanceof Date && b instanceof Date){
       return (a.getTime() < b.getTime() ? -1 : 1) * (isAsc ? 1 : -1);
     }
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }  
+  }
 }
 

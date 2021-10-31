@@ -21,6 +21,15 @@ export class InvitationService {
     );
   }
 
+  resendInvitation(invitation: {invitationId: number}) {
+    return this.http.post(
+      apiConfig.uri + '/Invitation/ResendInvitation',
+      invitation
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   getPendingInvitationList(
     orgid: number,
     offset: number,

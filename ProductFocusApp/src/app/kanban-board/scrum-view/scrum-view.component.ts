@@ -222,7 +222,7 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     let orderingInfo: OrderingInfo = {
       sprintId: this.currentSprint?this.currentSprint.id:-1,
       orderingCategory: OrderingCategoryEnum.ScrumView,
-      featuresOrder: featureOrder
+      featuresOrdering: featureOrder
     };
 
     this.featureService.modifyFeatureOrder(orderingInfo).subscribe(x => {

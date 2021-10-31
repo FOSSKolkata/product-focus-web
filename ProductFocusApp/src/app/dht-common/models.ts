@@ -244,7 +244,7 @@ export interface Owner {
 }
 
 export interface OrderingInfo {
-  featuresOrder: FeatureOrdering[],
+  featuresOrdering: FeatureOrdering[],
   orderingCategory: OrderingCategoryEnum,
   sprintId: number
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { FeatureOrdering, IFeatureDetails, OrderingCategoryEnum, OrderingInfo } from '../dht-common/models';
+import { IFeatureDetails, OrderingInfo } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root',
