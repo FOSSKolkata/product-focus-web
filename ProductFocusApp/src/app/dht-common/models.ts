@@ -135,8 +135,7 @@ export interface IModule {
 }
 
 export interface IKanbanBoard {
-  id: number,
-  name: string,
+  groupName: string,
   featureDetails: IFeatureDetails[],
 }
 
@@ -263,4 +262,9 @@ export interface IInvitationDetails {
   senderName: string,
   senderEmail: string,
   organizationName: string
+}
+
+export enum GroupCategory {
+  Module = 1,
+  Users = 2
 }

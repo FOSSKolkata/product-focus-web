@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../_services/product.service';
 import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SprintService } from '../_services/sprint.service';
-import { FeatureStatus, IKanbanBoard, IMemberDetail, IModule, ISprint, ISprintInput } from '../dht-common/models';
+import { FeatureStatus, GroupCategory, IKanbanBoard, IMemberDetail, IModule, ISprint, ISprintInput } from '../dht-common/models';
 import { ToastrService } from 'ngx-toastr';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
@@ -11,6 +11,9 @@ import { UserService } from '../_services/user.service';
 import { DateFunctionService } from '../dht-common/date-function.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
 import { Subject } from 'rxjs';
+import { MatSelectChange } from '@angular/material/select';
+import { BoardViewComponent } from './board-view/board-view.component';
+import { ScrumViewComponent } from './scrum-view/scrum-view.component';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -46,6 +49,9 @@ export class KanbanBoardComponent implements OnInit {
   });
   sprintExist = true;
   isSprintAdding = false;
+  selectedGroup = GroupCategory.Module;
+  @ViewChild(BoardViewComponent, { static: false }) boardViewViewChild: BoardViewComponent | undefined;
+  @ViewChild(ScrumViewComponent, {static: false }) scrumViewViewChild: ScrumViewComponent | undefined;
   isDisabled = (date: NgbDate, current?: {year: number, month: number}) => this.isSprintAdding;
 
   constructor(
@@ -215,6 +221,19 @@ export class KanbanBoardComponent implements OnInit {
 
   public get featureStatus(): typeof FeatureStatus {
     return FeatureStatus;
+  }
+  
+  public groupCategory(): Array<string> {
+    const keys = Object.keys(GroupCategory);
+    return keys.slice(keys.length / 2);
+  }
+
+  groupCategoryChange(event: MatSelectChange) {
+    this.selectedGroup = event.value;
+    setTimeout(()=> {
+      this.boardViewViewChild?.setKanbanBoard();
+      this.scrumViewViewChild?.setKanbanBoard();
+    });
   }
   
   DateValidate(): ValidatorFn {

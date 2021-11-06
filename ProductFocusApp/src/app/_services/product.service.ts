@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { IKanbanBoard, IModule, OrderingCategoryEnum } from '../dht-common/models';
+import { GroupCategory, IKanbanBoard, IModule, OrderingCategoryEnum } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +33,7 @@ export class ProductService {
   handleError(error: HttpErrorResponse) {
     return throwError(error);
   }
-  getKanbanViewByProductIdAndQuery(id: number, orderingCategory: OrderingCategoryEnum, sprintId: number, userIds: number[] ):Observable<IKanbanBoard[]> {
+  getKanbanViewByProductIdAndQuery(id: number, orderingCategory: OrderingCategoryEnum, sprintId: number, userIds: number[], groupCategory: GroupCategory):Observable<IKanbanBoard[]> {
     let userParam = "";
     for(let uid of userIds){
       userParam += `UserIds=${uid}&`;
@@ -43,7 +43,7 @@ export class ProductService {
     return this.http
       .get<IKanbanBoard[]>(
         apiConfig.uri +
-          `/Product/GetKanbanViewByProductIdAndQuery/${id}/${orderingCategory}/query`,options
+          `/Product/GetKanbanViewByProductIdAndQuery/${id}/${orderingCategory}/${groupCategory}/query`,options
       )
       .pipe(catchError(this.handleError));
   }

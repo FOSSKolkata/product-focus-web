@@ -1,10 +1,11 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
-import { FeatureOrdering, IFeatureDetails, IKanbanBoard, IMemberDetail, IScrumDay, ISprint, ModifyColumnIdentifier, OrderingCategoryEnum, OrderingInfo } from 'src/app/dht-common/models';
+import { FeatureOrdering, GroupCategory, IFeatureDetails, IKanbanBoard, IMemberDetail, IModule, IScrumDay, ISprint, ModifyColumnIdentifier, OrderingCategoryEnum, OrderingInfo } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { UserService } from 'src/app/_services/user.service';
@@ -27,12 +28,13 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
   boardWithoutFilter: any[] = [];
   organizationUser: IMemberDetail[] = [];
   organization: any | null = null;
-  countOfFeatureInModule = new Map<string,number>();
   addFeatureModuleId = -1;
   selectedProduct!: {id: number, name: string};
   featureOrder = new Map<number,number>();
   eventsSubscription!: Subscription;
   error!: HttpErrorResponse;
+  modules: IModule[] = [];
+  @Input('selected-group') selectedGroupCategory = GroupCategory.Module;
   
   constructor(private featureService: FeatureService,
     private toastr: ToastrService,
@@ -63,10 +65,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     return modifiedScrumDays;
   }
 
-  requireColspan(featureName: string){
-    return this.countOfFeatureInModule.get(featureName);
-  }
-
   async ngOnInit(): Promise<void> {
     let selectedProductJSONString = localStorage.getItem('selectedProduct');
     if(!selectedProductJSONString) {
@@ -79,6 +77,10 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     }
     this.userService.getUserListByOrganization(this.organization.id).subscribe(x=>{
       this.organizationUser = x.members;
+    });
+
+    this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(x => {
+      this.modules = x;
     });
     
     if(this.events) {
@@ -102,7 +104,7 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       return
     this.kanbanBoardSpinner = true;
     this.productService
-      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, OrderingCategoryEnum.ScrumView, this.currentSprint.id, this.selectedUserIds)
+      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, OrderingCategoryEnum.ScrumView, this.currentSprint.id, this.selectedUserIds, this.selectedGroupCategory)
       .subscribe((x) => {
         this.kanbanBoard = x;
         for(let module of this.kanbanBoard) {
@@ -122,7 +124,7 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       });
 
     this.productService
-      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, OrderingCategoryEnum.ScrumView, this.currentSprint.id, [])
+      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, OrderingCategoryEnum.ScrumView, this.currentSprint.id, [], this.selectedGroupCategory)
       .subscribe((x) => {
         this.kanbanBoardWithoutFilter = x;
         for(let module of this.kanbanBoard) {
@@ -140,9 +142,9 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       });
   }
 
-  findIndex(moduleId: number): number {
+  findIndex(moduleName: string): number {
     for(let i = 0; i < this.board.length; i++) {
-      if(this.board[i].id == moduleId) {
+      if(this.board[i][0].name == moduleName) {
         return  i;
       }
     }
@@ -150,24 +152,15 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
   }
 
   onDrop(event: CdkDragDrop<any[]>) {
-    let index = this.findIndex(+event.container.id);
+    let index = this.findIndex(event.container.id);
 
     if(event.previousIndex === event.currentIndex) {
       return;
     }
     moveItemInArray(this.board[index], event.previousIndex, event.currentIndex);
-    if(event.previousIndex === 0) {
-      let name = this.board[index][event.currentIndex].name;
-      this.board[index][event.currentIndex].name = '';
-      this.board[index][0].name = name;
-    }
     let previousToCardPlacedCardId = -1;
     let placedCardId = this.board[index][event.currentIndex].id;
-    if(event.currentIndex === 0) {
-      let name = this.board[index][1].name;
-      this.board[index][1].name = '';
-      this.board[index][0].name = name;
-    } else {
+    if(event.currentIndex !== 0) {
       previousToCardPlacedCardId = this.board[index][event.currentIndex - 1].id;
     }
     let copyOfPlacedCard = {id: -1, order: Infinity};
@@ -238,7 +231,7 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     let orderNumber = 0;
     for(let module of this.kanbanBoardWithoutFilter) {
       let tempModuleContainer: any = [];
-      tempModuleContainer['id'] = module.id;
+      tempModuleContainer.groupName = module.groupName;
       for(let feature of module.featureDetails) {
         let currentFeature = {
           id: feature.id,
@@ -272,19 +265,18 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       this.sprintDates.push(new Date(startDate));
       startDate.setDate(startDate.getDate() + 1);
     }
-    this.countOfFeatureInModule.clear();
     this.board = [];
     if(this.kanbanBoard.length >= 1) {
-      this.selectModuleOnAddFeature(this.kanbanBoard[0].id);
+      this.selectModuleOnAddFeature(this.modules[0].id);
     }
     let orderNumber = 0;
     for(let module of this.kanbanBoard) {
       let tempModuleContainer: any = [];
-      tempModuleContainer['id'] = module.id;
+      tempModuleContainer.groupName = module.groupName;
       for(let feature of module.featureDetails) {
         let currentFeature = {
           id: feature.id,
-          name: this.countOfFeatureInModule.has(module.name)?'':module.name,
+          name: module.groupName,
           title: feature.title,
           storyPoint: feature.storyPoint,
           startDate: feature.plannedStartDate,
@@ -297,11 +289,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
           order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1
         };
         orderNumber++;
-        var curr = this.countOfFeatureInModule.get(module.name);
-        if(curr === undefined)
-          this.countOfFeatureInModule.set(module.name,1);
-        else
-          this.countOfFeatureInModule.set(module.name,curr + 1);
         tempModuleContainer.push(currentFeature);
       }
       this.board.push(tempModuleContainer);
@@ -394,6 +381,10 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     }
   }
 
+  public get groupCategoryEnum(): typeof GroupCategory {
+    return GroupCategory;
+  }
+  
   ngOnDestroy(): void {
     this.eventsSubscription.unsubscribe();
   }

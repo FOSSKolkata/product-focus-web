@@ -1,10 +1,11 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
-import { FeatureOrdering, FeatureStatus, IKanbanBoard, ISprint, ModifyColumnIdentifier, OrderingCategoryEnum, OrderingInfo } from 'src/app/dht-common/models';
+import { FeatureOrdering, FeatureStatus, GroupCategory, IKanbanBoard, IModule, ISprint, ModifyColumnIdentifier, OrderingCategoryEnum, OrderingInfo } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { ProductService } from 'src/app/_services/product.service';
 
@@ -26,6 +27,9 @@ export class BoardViewComponent implements OnInit, OnDestroy {
   selectedProduct!: {id: number, name: string};
   error!: HttpErrorResponse;
   eventsSubscription!: Subscription;
+  @Input('selected-group') selectedGroup = GroupCategory.Module;
+  modules: IModule[] = [];
+  addFeatureModuleId = -1;
 
   constructor(private featureService: FeatureService,
     private router: Router,
@@ -38,6 +42,11 @@ export class BoardViewComponent implements OnInit, OnDestroy {
       this.router.navigate(["/"]);
     }
     this.selectedProduct = JSON.parse(selectedProductJSONString?selectedProductJSONString:'');
+    
+    this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(x => {
+      this.modules = x;
+    });
+    
     while(!this.selectedSprint) {
       await new Promise(resolve => setTimeout(resolve,100));
     }
@@ -63,7 +72,8 @@ export class BoardViewComponent implements OnInit, OnDestroy {
       .getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
         OrderingCategoryEnum.BoardView,
         this.selectedSprint.id,
-        this.selectedUserIds)
+        this.selectedUserIds,
+        this.selectedGroup)
       .subscribe((x) => {
         this.kanbanBoard = x;
         this.kanbanBoardSpinner = false;
@@ -75,7 +85,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     this.productService.getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
       OrderingCategoryEnum.BoardView,
       this.selectedSprint.id,
-      []).subscribe(x => {
+      [], this.selectedGroup).subscribe(x => {
         this.kanbanBoardWithoutFilter = x;
         this.boardWithoutFilter = this.setBoard(this.kanbanBoardWithoutFilter);
       })
@@ -85,8 +95,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     let board : any[] = [];
     for (let module of kBoard) {
       board.push([]);
-      board[board.length - 1].name = module.name;
-      board[board.length - 1].id = module.id;
+      board[board.length - 1].groupName = module.groupName;
       for (let feature of module.featureDetails) {
         if (board[board.length - 1].length == 0) {
           for (let i = 0; i < 4; i++) {
@@ -108,15 +117,21 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     return board;
   }
 
-  findModuleIndex(moduleId: number): number {
-    let modulePosition = -1;
+  findModuleIndex(moduleName: string): number {
     for(let moduleIndex = 0; moduleIndex < this.boardWithoutFilter.length; moduleIndex++) {
-      if(moduleId === this.boardWithoutFilter[moduleIndex].id) {
-        modulePosition = moduleIndex;
-        break;
+      if(moduleName === this.boardWithoutFilter[moduleIndex].groupName) {
+        return moduleIndex;
       }
     }
-    return modulePosition;
+    throw "module not found.";
+  }
+
+  selectModuleOnAddFeature(event: any | number) {
+    if(typeof event === 'number') {
+      this.addFeatureModuleId = event;
+    }else {
+      this.addFeatureModuleId = event.target.value;
+    }
   }
 
   getCardPlacedPosition(modulePosition: number): {row: number, column: number} {
@@ -158,11 +173,14 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     for(let moduleIndex = 0; moduleIndex <  this.boardWithoutFilter.length; moduleIndex++) {
       if(moduleIndex != modulePosition) {
         for(let column = 0; column < 4; column++) {
+          if(this.boardWithoutFilter[moduleIndex][column] === undefined) {
+            break;
+          }
           for(let row = 0; row < this.boardWithoutFilter[moduleIndex][column].length; row++) {
-              let card = this.boardWithoutFilter[moduleIndex][column][row];
-              orderInfo.push({featureId: card.id, orderNumber:  ++counter});
-              map.set(card.id, counter);
-              card.orderNumber = counter;
+            let card = this.boardWithoutFilter[moduleIndex][column][row];
+            orderInfo.push({featureId: card.id, orderNumber:  ++counter});
+            map.set(card.id, counter);
+            card.orderNumber = counter;
           }
         }
       }
@@ -172,6 +190,9 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     for(let moduleIndex = 0; moduleIndex < this.board.length; moduleIndex++) {
       if(moduleIndex != modulePosition) {
         for(let column = 0; column < 4; column++) {
+          if(this.boardWithoutFilter[moduleIndex][column] === undefined) {
+            break;
+          }
           for(let row = 0; row < this.board[moduleIndex][column].length; row++) {
               let card = this.board[moduleIndex][column][row];
               card.orderNumber = map.get(card.id);
@@ -193,8 +214,8 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateKanbanBoardOrdering(moduleId: number, movedCardId: number, previousToCardPlacedCardId: number) {
-    let modulePosition = this.findModuleIndex(moduleId);
+  updateKanbanBoardOrdering(moduleName: string, movedCardId: number, previousToCardPlacedCardId: number) {
+    let modulePosition = this.findModuleIndex(moduleName);
     let placedPosition = this.getCardPlacedPosition(modulePosition);
     
     let movedCardCopy : any;
@@ -221,6 +242,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
         }
       }
     }
+
     for(let column = 0; column < 4; column++) {
       for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
         if(this.boardWithoutFilter[modulePosition][column][row].id === -1) {
@@ -249,7 +271,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     }
 
     let previousToCardPlacedCardId = event.currentIndex === 0 ? -1 : event.container.data[event.currentIndex-1].id;
-    let moduleId = event.container.data[0].moduleId;
+    let moduleName = event.container.id;
     let placedCardId = event.container.data[event.currentIndex].id;
 
     // Iterate on every features where featureElement is dropped
@@ -267,18 +289,22 @@ export class BoardViewComponent implements OnInit, OnDestroy {
             fieldName: ModifyColumnIdentifier.status,
           })
           .subscribe((x) => {
-            this.updateKanbanBoardOrdering(moduleId, placedCardId , previousToCardPlacedCardId);
+            this.updateKanbanBoardOrdering(moduleName, placedCardId , previousToCardPlacedCardId);
           });
         break;
       }
     }
     if(!isStatusChanging) {
-      this.updateKanbanBoardOrdering(moduleId, placedCardId , previousToCardPlacedCardId);
+      this.updateKanbanBoardOrdering(moduleName, placedCardId , previousToCardPlacedCardId);
     }
   }
  
   public get featureStatus(): typeof FeatureStatus {
     return FeatureStatus;
+  }
+
+  public get groupCategoryEnum(): typeof GroupCategory {
+    return GroupCategory;
   }
   
   ngOnDestroy(): void {

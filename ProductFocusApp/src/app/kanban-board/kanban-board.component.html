@@ -29,6 +29,16 @@
 </mat-form-field>
 </div>
 <div class="mid-nav-item">
+  <mat-form-field>
+    <mat-label>Group by</mat-label>
+    <mat-select [(value)]="selectedGroup" (selectionChange)="groupCategoryChange($event)">
+      <mat-option *ngFor="let type of groupCategory(); index as i" [value]="i + 1">
+        {{type}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="mid-nav-item">
   <mat-radio-group aria-label="Select an option">
     <mat-radio-button value="isKanbanMode" [checked]="isKanbanMode" (change)="changeMode(true)">Board View</mat-radio-button>
     <mat-radio-button value="!isKanbanMode" [checked]="!isKanbanMode" (change)="changeMode(false)">Scrum View</mat-radio-button>
@@ -55,8 +65,8 @@
 </div>
 </div>
 <div class="margin-for-navs">
-  <app-board-view *ngIf="isKanbanMode" [events]="eventsSubject.asObservable()" [selected-sprint]="selectedSprint" [selected-userids]="selectedUserIds"></app-board-view>
-  <app-scrum-view *ngIf="!isKanbanMode" [selected-sprint]="selectedSprint" [events]="eventsSubject.asObservable()" [selected-userids]="selectedUserIds"></app-scrum-view>
+  <app-board-view *ngIf="isKanbanMode" [events]="eventsSubject.asObservable()" [selected-sprint]="selectedSprint" [selected-group]="selectedGroup" [selected-userids]="selectedUserIds"></app-board-view>
+  <app-scrum-view *ngIf="!isKanbanMode" [selected-sprint]="selectedSprint" [events]="eventsSubject.asObservable()" [selected-group]="selectedGroup" [selected-userids]="selectedUserIds"></app-scrum-view>
 </div>
 <ng-template #manageModuleContent let-modal>
   <div class="modal-header">

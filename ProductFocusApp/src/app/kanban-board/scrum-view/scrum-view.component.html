@@ -9,7 +9,7 @@
         [animation]="true"
         [closeOnClickOutside]="true">
         <select class="m-1 d-block w-100" (change)="selectModuleOnAddFeature($event)">
-          <ng-template ngFor let-module [ngForOf]="kanbanBoard">
+          <ng-template ngFor let-module [ngForOf]="modules">
             <option value="{{module.id}}">{{module.name}}</option>
           </ng-template>
         </select>
@@ -36,9 +36,9 @@
         </tr>
       </thead>
       
-      <tbody *ngFor="let module of board" cdkDropList [id]="module.id" (cdkDropListDropped)="onDrop($event)">
-        <tr *ngFor="let feature of module; index as i" cdkDrag cdkDragLockAxis="y">
-          <th *ngIf="feature.name != ''" [attr.rowspan]="requireColspan(feature.name)"><b>{{feature.name}}</b></th>
+      <tbody *ngFor="let module of board" cdkDropList [id]="module.groupName" (cdkDropListDropped)="onDrop($event)">
+        <tr *ngFor="let feature of module; index as i" cdkDrag cdkDragLockAxis="y" [cdkDragDisabled]="selectedGroupCategory !== groupCategoryEnum.Module">
+          <th *ngIf="i == 0" [attr.rowspan]="module.length"><b>{{feature.name}}</b></th>
           <th cdkDragHandle style="vertical-align: top; text-align: center;">
             <div class="whole-space">
               <ng-container [ngTemplateOutlet]="dragHandleTmpl">

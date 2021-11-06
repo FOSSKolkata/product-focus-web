@@ -1,104 +1,108 @@
 <div class="infinite-scroll-x-axis">
-    <div class="state-section">
-      <div class="state-header">
-        <div class="card">
-          <div class="card-header">New</div>
-        </div>
-      </div>
-      <div class="state-header">
-        <div class="card">
-          <div class="card-header">In Progress</div>
-        </div>
-      </div>
-      <div class="state-header">
-        <div class="card">
-          <div class="card-header">Hold</div>
-        </div>
-      </div>
-      <div class="state-header">
-        <div class="card">
-          <div class="card-header">Completed</div>
-        </div>
+  <div class="mt-2">
+    <div class="d-inline-block pointer state-section text-center">
+      <i class="fa fa-plus-circle" [popover]="myPopover" [popoverCloseOnMouseOutside]="true" [popoverOnHover]="false">Add Feature / Bug</i>
+      <popover-content #myPopover
+        placement="bottom-left"
+        [animation]="true"
+        [closeOnClickOutside]="true">
+        <select class="m-1 d-block w-100" (change)="selectModuleOnAddFeature($event)">
+          <ng-template ngFor let-module [ngForOf]="modules">
+            <option value="{{module.id}}">{{module.name}}</option>
+          </ng-template>
+        </select>
+        <app-add-feature [module-id]="addFeatureModuleId" [selected-sprint]="selectedSprint" (is-feature-added)="setKanbanBoard()"></app-add-feature>
+      </popover-content>
+    </div>
+    <div class="state-header">
+      <div class="card">
+        <div class="card-header">New</div>
       </div>
     </div>
-    <app-spinner [is-spinner-active]="kanbanBoardSpinner"></app-spinner>
-    <div
-      [style.display]="!kanbanBoardSpinner"
-      *ngFor="let module of board; let i = index"
-    >
-      <div class="module-section">
-        <div cdkDropListGroup class="feature-container">
-          <div *ngIf="module" class="module-header">
-            {{ module.name }}
-          </div>
-          <div
-            class="feature-section"
-            cdkDropList
-            (cdkDropListDropped)="drop($event, featureStatus.new)"
-            [cdkDropListData]="module[0]"
-            [id]="module.id"
-          >
-            <div *ngFor="let feature of module[0]" cdkDrag>
-              <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-              </app-feature>
-            </div>
-            <div class="card">
-              <div class="card-footer">
-                <app-add-feature
-                  *ngIf="board"
-                  [module-id]="module.id"
-                  [selected-sprint]="selectedSprint"
-                  (is-feature-added)="setKanbanBoard()"
-                ></app-add-feature>
-              </div>
-            </div>
-          </div>
-          <div
-            class="feature-section"
-            cdkDropList
-            [cdkDropListData]="module[1]"
-            (cdkDropListDropped)="drop($event, featureStatus.inProgress)"
-            [id]="module.id"
-          >
-            <div *ngFor="let feature of module[1]" cdkDrag>
-              <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-              </app-feature>
-            </div>
-          </div>
-          <div
-            class="feature-section"
-            cdkDropList
-            [cdkDropListData]="module[2]"
-            (cdkDropListDropped)="drop($event, featureStatus.hold)"
-            [id]="module.id"
-          >
-            <div *ngFor="let feature of module[2]" cdkDrag>
-              <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-              </app-feature>
-            </div>
-          </div>
-          <div
-            class="feature-section"
-            cdkDropList
-            [cdkDropListData]="module[3]"
-            (cdkDropListDropped)="drop($event, featureStatus.completed)"
-            [id]="module.id"
-          >
-            <div *ngFor="let feature of module[3]" cdkDrag>
-              <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-              </app-feature>
-            </div>
-          </div>
-        </div>
+    <div class="state-header">
+      <div class="card">
+        <div class="card-header">In Progress</div>
       </div>
     </div>
-
-    <div class="sprint-not-found-message"
-      *ngIf="!board.length && !kanbanBoardSpinner"
-    >
-      <span *ngIf="selectedSprint === null">
-        Please add a sprint to view the existing module. 
-      </span>
-        No module found!!
+    <div class="state-header">
+      <div class="card">
+        <div class="card-header">Hold</div>
+      </div>
+    </div>
+    <div class="state-header">
+      <div class="card">
+        <div class="card-header">Completed</div>
+      </div>
     </div>
   </div>
+  <app-spinner [is-spinner-active]="kanbanBoardSpinner"></app-spinner>
+  <div
+    [style.display]="!kanbanBoardSpinner"
+    *ngFor="let module of board; let i = index"
+  >
+    <div class="module-section">
+      <div cdkDropListGroup class="feature-container">
+        <div *ngIf="module" class="module-header">
+          {{ module.groupName }}
+        </div>
+        <div
+          class="feature-section"
+          cdkDropList
+          (cdkDropListDropped)="drop($event, featureStatus.new)"
+          [cdkDropListData]="module[0]"
+          [id]="module.groupName"
+        >
+          <div *ngFor="let feature of module[0]" cdkDrag [cdkDragDisabled]="selectedGroup !== groupCategoryEnum.Module">
+            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
+            </app-feature>
+          </div>
+        </div>
+        <div
+          class="feature-section"
+          cdkDropList
+          [cdkDropListData]="module[1]"
+          (cdkDropListDropped)="drop($event, featureStatus.inProgress)"
+          [id]="module.groupName"
+        >
+          <div *ngFor="let feature of module[1]" cdkDrag [cdkDragDisabled]="selectedGroup !== groupCategoryEnum.Module">
+            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
+            </app-feature>
+          </div>
+        </div>
+        <div
+          class="feature-section"
+          cdkDropList
+          [cdkDropListData]="module[2]"
+          (cdkDropListDropped)="drop($event, featureStatus.hold)"
+          [id]="module.groupName"
+        >
+          <div *ngFor="let feature of module[2]" cdkDrag [cdkDragDisabled]="selectedGroup !== groupCategoryEnum.Module">
+            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
+            </app-feature>
+          </div>
+        </div>
+        <div
+          class="feature-section"
+          cdkDropList
+          [cdkDropListData]="module[3]"
+          (cdkDropListDropped)="drop($event, featureStatus.completed)"
+          [id]="module.groupName"
+        >
+          <div *ngFor="let feature of module[3]" cdkDrag [cdkDragDisabled]="selectedGroup !== groupCategoryEnum.Module">
+            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
+            </app-feature>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sprint-not-found-message"
+    *ngIf="!board.length && !kanbanBoardSpinner"
+  >
+    <span *ngIf="selectedSprint === null">
+      Please add a sprint to view the existing module. 
+    </span>
+      No module found!!
+  </div>
+</div>
