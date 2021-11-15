@@ -28,7 +28,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
   boardWithoutFilter: any[] = [];
   organizationUser: IMemberDetail[] = [];
   organization: any | null = null;
-  addFeatureModuleId = -1;
   selectedProduct!: {id: number, name: string};
   featureOrder = new Map<number,number>();
   eventsSubscription!: Subscription;
@@ -225,7 +224,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     });
   }
 
-
   setWithoutFilterBoard() {
     this.boardWithoutFilter = [];
     let orderNumber = 0;
@@ -265,10 +263,8 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       this.sprintDates.push(new Date(startDate));
       startDate.setDate(startDate.getDate() + 1);
     }
+
     this.board = [];
-    if(this.kanbanBoard.length >= 1) {
-      this.selectModuleOnAddFeature(this.modules[0].id);
-    }
     let orderNumber = 0;
     for(let module of this.kanbanBoard) {
       let tempModuleContainer: any = [];
@@ -371,14 +367,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       return false;
     const currentValue = prevalue.innerText * 10 + (currkey - 48);
     return currentValue > 0 && currentValue <= 100;
-  }
-
-  selectModuleOnAddFeature(event: any | number) {
-    if(typeof event === 'number') {
-      this.addFeatureModuleId = event;
-    }else {
-      this.addFeatureModuleId = event.target.value;
-    }
   }
 
   public get groupCategoryEnum(): typeof GroupCategory {

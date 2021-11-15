@@ -57,7 +57,7 @@
   </div>
 </div>
 </div>
-<div *ngIf="!sprintExist" class="sprint-traveller">
+<div *ngIf="!sprintExist || modules.length === 0" class="sprint-traveller">
   <div>
     Add a sprint / module here.
   </div>
@@ -65,7 +65,7 @@
 </div>
 </div>
 <div class="margin-for-navs">
-  <app-board-view *ngIf="isKanbanMode" [events]="eventsSubject.asObservable()" [selected-sprint]="selectedSprint" [selected-group]="selectedGroup" [selected-userids]="selectedUserIds"></app-board-view>
+  <app-board-view *ngIf="isKanbanMode" [events]="eventsSubject.asObservable()" [selected-sprint]="selectedSprint" [selected-group]="selectedGroup" [selected-userids]="selectedUserIds" [kanban-board-spinner]="kanbanBoardSpinner"></app-board-view>
   <app-scrum-view *ngIf="!isKanbanMode" [selected-sprint]="selectedSprint" [events]="eventsSubject.asObservable()" [selected-group]="selectedGroup" [selected-userids]="selectedUserIds"></app-scrum-view>
 </div>
 <ng-template #manageModuleContent let-modal>

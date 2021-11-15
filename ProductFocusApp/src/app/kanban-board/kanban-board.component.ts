@@ -49,6 +49,7 @@ export class KanbanBoardComponent implements OnInit {
   });
   sprintExist = true;
   isSprintAdding = false;
+  kanbanBoardSpinner = true;
   selectedGroup = GroupCategory.Module;
   @ViewChild(BoardViewComponent, { static: false }) boardViewViewChild: BoardViewComponent | undefined;
   @ViewChild(ScrumViewComponent, {static: false }) scrumViewViewChild: ScrumViewComponent | undefined;
@@ -84,6 +85,7 @@ export class KanbanBoardComponent implements OnInit {
     });
     await this.doesSprintExistSetIt();
     if(!this.sprintExist){
+      this.kanbanBoardSpinner = false;
       return;
     }
     this.setModules();
@@ -100,6 +102,10 @@ export class KanbanBoardComponent implements OnInit {
     await this.sprintService.getSprintByProductId(this.productId).toPromise().then(x => {
       if(x.length == 0)
         this.sprintExist = false;
+      else{
+        this.selectedSprint = x[0];
+        this.sprintExist = true;
+      }
       this.allSprint = x;
     });
     if(!this.sprintExist){
@@ -136,6 +142,7 @@ export class KanbanBoardComponent implements OnInit {
           this.setModules();
         }
         this.emitEventToChild();
+        this.reloadChildComponents();
       },
       (err) => {
         this.enabledAdding = true;
@@ -191,6 +198,13 @@ export class KanbanBoardComponent implements OnInit {
     );
   }
 
+  reloadChildComponents() {
+    setTimeout(()=> {
+      this.boardViewViewChild?.setKanbanBoard();
+      this.scrumViewViewChild?.setKanbanBoard();
+    });
+  }
+
   addSprint() {
     if (this.toDate == null || this.fromDate == null) {
       alert('Please select proper date');
@@ -204,12 +218,13 @@ export class KanbanBoardComponent implements OnInit {
     };
     this.isSprintAdding = true;
     this.sprintService.addSprint(input).subscribe(
-      (x) => {
+      async (x) => {
         this.sprintName = '';
         this.toastr.success('Sprint added','Success');
         this.isSprintAdding = false;
-        this.doesSprintExistSetIt();
+        await this.doesSprintExistSetIt();
         this.emitEventToChild();
+        this.reloadChildComponents();
       },
       (err) => {
         this.sprintName = '';
@@ -230,10 +245,7 @@ export class KanbanBoardComponent implements OnInit {
 
   groupCategoryChange(event: MatSelectChange) {
     this.selectedGroup = event.value;
-    setTimeout(()=> {
-      this.boardViewViewChild?.setKanbanBoard();
-      this.scrumViewViewChild?.setKanbanBoard();
-    });
+    this.reloadChildComponents();
   }
   
   DateValidate(): ValidatorFn {

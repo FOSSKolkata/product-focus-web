@@ -6,12 +6,7 @@
         placement="bottom-left"
         [animation]="true"
         [closeOnClickOutside]="true">
-        <select class="m-1 d-block w-100" (change)="selectModuleOnAddFeature($event)">
-          <ng-template ngFor let-module [ngForOf]="modules">
-            <option value="{{module.id}}">{{module.name}}</option>
-          </ng-template>
-        </select>
-        <app-add-feature [module-id]="addFeatureModuleId" [selected-sprint]="selectedSprint" (is-feature-added)="setKanbanBoard()"></app-add-feature>
+        <app-add-feature [selected-sprint]="selectedSprint" (is-feature-added)="setKanbanBoard()"></app-add-feature>
       </popover-content>
     </div>
     <div class="state-header">

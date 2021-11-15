@@ -10,14 +10,12 @@ import { ISprint } from '../models';
 })
 export class SwitchTextDropdownComponent {
   @ViewChild(NgbDropdown) private dropdown!: NgbDropdown;
-  @Input('text-data') textData: ISprint = {
+  @Input('text-data') textData: any = {
     id: -1,
-    name: '',
-    startDate: new Date(),
-    endDate: new Date(),
+    name: ''
   };
-  @Input('list-data') listData: ISprint[] = [];
-  @Output('select') selection = new EventEmitter<ISprint>();
+  @Input('list-data') listData: any[] = [];
+  @Output('select') selection = new EventEmitter<any>();
   isTextVisible: boolean = true;
 
   onLabelClick() {
@@ -29,7 +27,7 @@ export class SwitchTextDropdownComponent {
     this.isTextVisible = !this.isTextVisible;
   }
 
-  select(current: ISprint) {
+  select(current: any) {
     this.textData = current;
     this.selection.emit(current);
   }

@@ -14,8 +14,9 @@ export class UserListComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.removeDuplicateUser();
     this.userListShow = [];
-    for(var i=0;i<this.userList.length && i<3;i++)
-    this.userListShow.push(this.userList[i]);
+    for(var i=0;i<this.userList.length && i<3;i++) {
+      this.userListShow.push(this.userList[i]);
+    }
   }
   removeDuplicateUser() {
     var set = new Set();

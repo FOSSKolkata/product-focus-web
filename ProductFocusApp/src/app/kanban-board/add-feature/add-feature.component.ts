@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ModuleService } from 'src/app/_services/module.service';
 import { IFeatureInput, ISprint } from '../../dht-common/models';
@@ -8,7 +9,7 @@ import { IFeatureInput, ISprint } from '../../dht-common/models';
   templateUrl: './add-feature.component.html',
   styleUrls: ['./add-feature.component.scss'],
 })
-export class AddFeatureComponent {
+export class AddFeatureComponent implements OnInit {
   @Input('module-id') moduleId!: number;
   @Input('selected-sprint') selectedSprint: ISprint | null = null;
   @Output('is-feature-added') isFeatureAdded = new EventEmitter();
@@ -20,20 +21,31 @@ export class AddFeatureComponent {
       this.addFeatureOrBugStep = 0;
     }
   }
-  constructor(private moduleService: ModuleService,
-              private toastr: ToastrService) {}
+  
 
   addFeatureOrBugStep: Number = 0;
   workItemType: string = '';
   title!: string;
   addingFeature = false;
+  selectedProduct!: {id: number, name: string};
+  constructor(private moduleService: ModuleService,
+              private toastr: ToastrService,
+              private router: Router) {}
+  ngOnInit(): void {
+    let selectedProductString = localStorage.getItem("selectedProduct");
+    if(selectedProductString === null || selectedProductString === undefined) {
+      this.router.navigate(['/']);
+      return;
+    }
+    this.selectedProduct = JSON.parse(selectedProductString);
+  }
   addType(workItemType: string) {
     this.workItemType = workItemType;
   }
   isFocusMode: boolean = false;
   addFeature() {
     if(this.selectedSprint === null)
-      return;
+      throw "No sprint selected.";
     var featureInput: IFeatureInput = {
       title: this.title,
       workItemType: this.workItemType,
@@ -41,7 +53,7 @@ export class AddFeatureComponent {
     };
     this.addingFeature = true;
     this.moduleService
-      .addFeatureInModule(this.moduleId, featureInput)
+      .addFeatureInModule(this.selectedProduct.id, featureInput)
       .subscribe(
         (x) => {
           //emit event

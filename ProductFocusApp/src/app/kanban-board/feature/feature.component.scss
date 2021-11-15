@@ -18,6 +18,10 @@
   margin: 5px;
 }
 
+.card:hover {
+  background-color: var(--light-gray);
+}
+
 .bug {
   border-left: 5px solid red;
 }

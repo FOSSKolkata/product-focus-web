@@ -35,6 +35,7 @@ export enum ModifyColumnIdentifier {
   actualEndDate = 14,
   remarks = 15,
   functionalTestability = 16,
+  updateModule = 17
 }
 
 export interface IAddOrganizationInput {

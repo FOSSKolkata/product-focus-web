@@ -355,12 +355,34 @@
       />
     </div>
     <div class="mt-2">
-      <div class="label">Sprint</div>
+      <!-- <div class="label">Sprint</div>
       <app-switch-text-dropdown
         [list-data]="allSprint"
         [text-data]="featureDetails.sprint"
         (select)="modifyFeature(modifyColumnIdentifier.sprint, $event)"
-      ></app-switch-text-dropdown>
+      ></app-switch-text-dropdown> -->
+      <mat-form-field>
+        <mat-label>Sprint</mat-label>
+        <mat-select [value]="featureDetails.sprint.name" (selectionChange)="modifyFeature(modifyColumnIdentifier.sprint, $event.value)">
+          <ng-template ngFor let-sprint [ngForOf]="allSprint">
+            <mat-option [value]="sprint.name">
+              {{sprint.name}}
+            </mat-option>
+          </ng-template>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="mt-2">
+      <mat-form-field>
+        <mat-label>Module</mat-label>
+        <mat-select [value]="selectedModule.name" (selectionChange)="moveToAnotherModule($event)">
+          <ng-template ngFor let-module [ngForOf]="modules">
+            <mat-option [value]="module.name">
+              {{module.name}}
+            </mat-option>
+          </ng-template>
+        </mat-select>
+      </mat-form-field>
     </div>
     <div class="mt-2">
       <div for="startdate" class="label">Start date </div>

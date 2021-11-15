@@ -8,12 +8,7 @@
         placement="bottom-left"
         [animation]="true"
         [closeOnClickOutside]="true">
-        <select class="m-1 d-block w-100" (change)="selectModuleOnAddFeature($event)">
-          <ng-template ngFor let-module [ngForOf]="modules">
-            <option value="{{module.id}}">{{module.name}}</option>
-          </ng-template>
-        </select>
-        <app-add-feature [module-id]="addFeatureModuleId" [selected-sprint]="currentSprint" (is-feature-added)="setKanbanBoard()"></app-add-feature>
+        <app-add-feature [selected-sprint]="currentSprint" (is-feature-added)="setKanbanBoard()"></app-add-feature>
       </popover-content>
     </div>
   </div>
@@ -43,7 +38,7 @@
             <div class="whole-space">
               <ng-container [ngTemplateOutlet]="dragHandleTmpl">
               </ng-container>
-              {{i + 1}}
+              {{feature.id}}
             </div>
           </th>
           <td><app-editable-text [text-content]="feature.title" (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent, feature)"></app-editable-text></td>

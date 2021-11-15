@@ -20,7 +20,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
   @Input('selected-sprint') selectedSprint: ISprint | null = null;
   @Input('selected-userids')selectedUserIds = [];
   @Input() events: Observable<void> | undefined;
-  kanbanBoardSpinner: boolean = true;
+  @Input('kanban-board-spinner') kanbanBoardSpinner: boolean = true;
   kanbanBoard: IKanbanBoard[] = [];
   board: any = [];
   boardWithoutFilter: any = [];
@@ -29,7 +29,6 @@ export class BoardViewComponent implements OnInit, OnDestroy {
   eventsSubscription!: Subscription;
   @Input('selected-group') selectedGroup = GroupCategory.Module;
   modules: IModule[] = [];
-  addFeatureModuleId = -1;
 
   constructor(private featureService: FeatureService,
     private router: Router,
@@ -43,9 +42,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     }
     this.selectedProduct = JSON.parse(selectedProductJSONString?selectedProductJSONString:'');
     
-    this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(x => {
-      this.modules = x;
-    });
+    this.setModules();
     
     while(!this.selectedSprint) {
       await new Promise(resolve => setTimeout(resolve,100));
@@ -60,35 +57,43 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     this.setKanbanBoard();
   }
 
+  setModules() {
+    this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(x => {
+      this.modules = x;
+    });
+  }
+
   setKanbanBoard() {
     if (this.selectedProduct === undefined) {
       this.router.navigate(['/']);
     }
     if(!this.selectedSprint) {
       this.router.navigate(['/']);
-      return;
     }
-    this.productService
-      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
+    else {
+      this.setModules();
+      this.productService
+        .getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
+          OrderingCategoryEnum.BoardView,
+          this.selectedSprint.id,
+          this.selectedUserIds,
+          this.selectedGroup)
+        .subscribe((x) => {
+          this.kanbanBoard = x;
+          this.kanbanBoardSpinner = false;
+          this.board = this.setBoard(this.kanbanBoard);
+        },(err)=>{
+          this.kanbanBoardSpinner = false;
+          this.error = err;
+        });
+      this.productService.getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
         OrderingCategoryEnum.BoardView,
         this.selectedSprint.id,
-        this.selectedUserIds,
-        this.selectedGroup)
-      .subscribe((x) => {
-        this.kanbanBoard = x;
-        this.kanbanBoardSpinner = false;
-        this.board = this.setBoard(this.kanbanBoard);
-      },(err)=>{
-        this.kanbanBoardSpinner = false;
-        this.error = err;
-      });
-    this.productService.getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
-      OrderingCategoryEnum.BoardView,
-      this.selectedSprint.id,
-      [], this.selectedGroup).subscribe(x => {
-        this.kanbanBoardWithoutFilter = x;
-        this.boardWithoutFilter = this.setBoard(this.kanbanBoardWithoutFilter);
-      })
+        [], this.selectedGroup).subscribe(x => {
+          this.kanbanBoardWithoutFilter = x;
+          this.boardWithoutFilter = this.setBoard(this.kanbanBoardWithoutFilter);
+        })
+    }
   }
 
   setBoard(kBoard: IKanbanBoard[]): any[] {
@@ -124,14 +129,6 @@ export class BoardViewComponent implements OnInit, OnDestroy {
       }
     }
     throw "module not found.";
-  }
-
-  selectModuleOnAddFeature(event: any | number) {
-    if(typeof event === 'number') {
-      this.addFeatureModuleId = event;
-    }else {
-      this.addFeatureModuleId = event.target.value;
-    }
   }
 
   getCardPlacedPosition(modulePosition: number): {row: number, column: number} {

@@ -88,7 +88,7 @@ a:link {
 }
 
 .product-container {
-  height: 78.5vh;
+  max-height: 78.5vh;
   overflow: hidden;
   overflow: auto;
   background-color: var(--light-gray);

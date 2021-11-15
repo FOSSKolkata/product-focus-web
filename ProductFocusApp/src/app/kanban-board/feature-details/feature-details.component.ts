@@ -1,11 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
+import { SwitchTextDropdownComponent } from 'src/app/dht-common/switch-text-dropdown/switch-text-dropdown.component';
 import { FeatureService } from 'src/app/_services/feature.service';
+import { ProductService } from 'src/app/_services/product.service';
 import { SprintService } from 'src/app/_services/sprint.service';
-import { IFeature, IFeatureDetails, ISprint, ModifyColumnIdentifier } from '../../dht-common/models';
+import { IFeature, IFeatureDetails, IModule, ISprint, ModifyColumnIdentifier } from '../../dht-common/models';
 
 @Component({
   selector: 'app-feature-details',
@@ -21,12 +23,17 @@ export class FeatureDetailsComponent implements OnInit {
   }
   
   @Output('any-changes') anyChanges = new EventEmitter<boolean>();
-  productId!: number;
+  selectedProduct! : {id: number, name: string};
   allSprint!: ISprint[];
   isBlocked = false;
   startDate!: NgbDateStruct;
   endDate!: NgbDateStruct;
   allStoryPoints: number[] = [];
+  modules: IModule[] = [];
+  selectedModule: IModule = {
+    id: -1,
+    name: ''
+  };
   @Input() feature: IFeature = {
     id: -1,
     moduleId: -1,
@@ -78,20 +85,21 @@ export class FeatureDetailsComponent implements OnInit {
     private sprintService: SprintService,
     private router: Router,
     private dateService: DateFunctionService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private productService: ProductService
   ) {}
 
   ngOnInit(): void {
     this.generateStoryPoints();
     var date = this.featureDetails.actualStartDate;
-    var lastProductId: any = localStorage.getItem('productId');
+    let selectedProductString = localStorage.getItem('selectedProduct');
+    this.selectedProduct = JSON.parse(selectedProductString?selectedProductString:'');
     var lastSelectedOrgId = localStorage.lastSelctedOrganizationId;
-    this.productId = lastProductId;
     if (
       lastSelectedOrgId == undefined ||
       lastSelectedOrgId == null ||
-      lastProductId == undefined ||
-      lastProductId == null
+      selectedProductString == undefined ||
+      selectedProductString == null
     ) {
       this.router.navigate(['/']);
     }
@@ -107,11 +115,27 @@ export class FeatureDetailsComponent implements OnInit {
           new Date(this.featureDetails.plannedEndDate)
         );
       });
+      
+    this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(x => {
+      this.modules = x;
+      this.selectModuleOfFeature();
+    });
 
-    this.sprintService.getSprintByProductId(this.productId).subscribe((x) => {
-
+    this.sprintService.getSprintByProductId(this.selectedProduct.id).subscribe((x) => {
       this.allSprint = x;
     });
+  }
+  
+  selectModuleOfFeature() {
+    let currentFeatureModule = this.modules.find((x) => x.id == this.feature.moduleId);
+    if(!!currentFeatureModule) {
+      this.selectedModule = currentFeatureModule;
+    }
+  }
+
+  moveToAnotherModule(event: any) {
+    let changedModule = this.modules.filter(x => x.name == event.value)[0];
+    this.modifyFeature(ModifyColumnIdentifier.updateModule, changedModule.id);
   }
   
   modifyFeature(key: number, value: any) {
@@ -141,9 +165,11 @@ export class FeatureDetailsComponent implements OnInit {
       object.storyPoint = value.target.value;
       this.featureDetails.storyPoint = value.target.value;
     } else if (key == ModifyColumnIdentifier.sprint) {
-      object.sprintName = value.name;
+      object.sprintName = value;
     } else if(key == ModifyColumnIdentifier.excludeAssignee){
       object.emailOfAssignee = value.email;
+    } else if(key == ModifyColumnIdentifier.updateModule) {
+      object.moduleId = value;
     }
     this.featureService.modifyFeatureElement(object).subscribe((x) => {
 
