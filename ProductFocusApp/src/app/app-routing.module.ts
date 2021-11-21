@@ -12,6 +12,19 @@ import { ErrorComponent } from './dht-common/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { SecureGuard } from './guard/secure.guard';
+import { BusinessRequirementListComponent } from './garbage/business-requirement-list/business-requirement-list.component';
+import { BusinessRequirementDetailsComponent } from './garbage/business-requirement-details/business-requirement-details.component';
+import { TemporaryRouterComponent } from './garbage/temporary-router/temporary-router.component';
+import { ProductDocumentationComponent } from './garbage/product-documentation/product-documentation.component';
+import { TestManagementComponent } from './garbage/test-management/test-management.component';
+import { ReleaseManagementComponent } from './garbage/release-management/release-management.component';
+import { TagManagementComponent } from './garbage/tag-management/tag-management.component';
+import { ReleaseDetailsComponent } from './garbage/release-management/release-details/release-details.component';
+import { RegressionTestComponent } from './garbage/test-management/regression-test/regression-test.component';
+import { ProductivityReportComponent } from './garbage/productivity-report/productivity-report.component';
+import { ProductRoadmapComponent } from './garbage/product-roadmap/product-roadmap.component';
+import { TestReportDetailsComponent } from './garbage/test-management/test-report-details/test-report-details.component';
+import { TestReportListComponent } from './garbage/test-management/test-report-list/test-report-list.component';
 
 const layoutRoutes: Routes = [
   {
@@ -33,6 +46,64 @@ const layoutRoutes: Routes = [
       import('./news-report/news-report.module').then(
         (m) => m.NewsReportModule
       ),
+  },{
+    path: '',
+    component: TemporaryRouterComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'business-requirement'
+      },{
+        path: 'business-requirement',
+        component: BusinessRequirementListComponent,
+        data: {breadcrumb: 'Business Requirement'}
+      },{
+        path: 'business-requirement-details',
+        component: BusinessRequirementDetailsComponent,
+        data: {breadcrumb: 'Business Requirement Details'}
+      },{
+        path: 'product-documentation',
+        component: ProductDocumentationComponent,
+        data: {breadcrumb: 'Product Documentation'}
+      },{
+        path: 'work-item-based-tests',
+        component: TestManagementComponent,
+        data: {breadcrumb: 'Work Item Based Tests'}
+      },{
+        path: 'release-management',
+        component: ReleaseManagementComponent,
+        data: {breadcrumb: 'Release Management'},
+      },{
+          path: 'release-details',
+          component: ReleaseDetailsComponent,
+          data: {breadcrumb: 'Release Details'}
+      },{
+        path: 'tag-management',
+        component: TagManagementComponent,
+        data: {breadcrumb: 'Tag Management'}
+      },{
+        path: 'regression-tests',
+        component: RegressionTestComponent,
+        data: {breadcrumb: 'Regression Tests'}
+      },{
+        path: 'productivity-report',
+        component: ProductivityReportComponent,
+        data: {breadcrumb: 'Productivity Report'}
+      },{
+        path: 'pipeline-report',
+        component: ProductRoadmapComponent,
+        data: {breadcrumb: 'Pipeline Report'}
+      },{
+        path: 'test-report-details',
+        component: TestReportDetailsComponent,
+        data: {breadcrumb: 'Test Report Details'}
+      },{
+        path: 'test-report-list',
+        component: TestReportListComponent,
+        data: {breadcumb: 'Test Report List'}
+      }
+    ],
+    data: {breadcrumb: {skip: true}}
   }
 ];
 

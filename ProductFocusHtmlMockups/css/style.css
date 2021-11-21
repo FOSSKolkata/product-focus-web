@@ -300,3 +300,42 @@ body{
 #focus-mode{
     display: none;
 }
+
+.business-requirement-details {
+    background-image: url('../img/BusinessRequirementBusinessRequirementDetails.png');
+}
+
+.business-requirement-list {
+    background-image: url('../img/BusinessRequirementBusinessRequirementListView.png');
+}
+
+.tag-management {
+    background-image: url('../img/BusinessRequirementBusinessRequirementTagManagement.png');
+}
+
+.release-list {
+    background-image: url('../img/BusinessRequirementReleaseList.png');
+}
+
+.release-details {
+    background-image: url('../img/BusinessRequirementReleaseDetails.png');
+}
+
+.product-documentation {
+    background-image: url('../img/BusinessRequirementProductDocumentation.png');
+}
+
+.test-report {
+    background-image: url('../img/BusinessRequirementTestExecutionReport.png');
+}
+
+.test-list {
+    background-image: url('../img/BusinessRequirementTestExecutionList.png');
+}
+
+.fit-image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    height: 175%;
+}

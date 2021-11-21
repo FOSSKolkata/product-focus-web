@@ -53,6 +53,19 @@ import { ToastrModule } from 'ngx-toastr';
 import { SecureGuard } from './guard/secure.guard';
 import { BreadcrumbModule } from 'xng-breadcrumb';
 import { MatIconModule } from '@angular/material/icon';
+import { BusinessRequirementListComponent } from './garbage/business-requirement-list/business-requirement-list.component';
+import { BusinessRequirementDetailsComponent } from './garbage/business-requirement-details/business-requirement-details.component';
+import { TemporaryRouterComponent } from './garbage/temporary-router/temporary-router.component';
+import { ProductDocumentationComponent } from './garbage/product-documentation/product-documentation.component';
+import { TagManagementComponent } from './garbage/tag-management/tag-management.component';
+import { ReleaseManagementComponent } from './garbage/release-management/release-management.component';
+import { TestManagementComponent } from './garbage/test-management/test-management.component';
+import { ReleaseDetailsComponent } from './garbage/release-management/release-details/release-details.component';
+import { RegressionTestComponent } from './garbage/test-management/regression-test/regression-test.component';
+import { ProductivityReportComponent } from './garbage/productivity-report/productivity-report.component';
+import { ProductRoadmapComponent } from './garbage/product-roadmap/product-roadmap.component';
+import { TestReportDetailsComponent } from './garbage/test-management/test-report-details/test-report-details.component';
+import { TestReportListComponent } from './garbage/test-management/test-report-list/test-report-list.component';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -117,7 +130,20 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     OrganizationMembersComponent,
     StateComponent,
     CodeComponent,
-    InvitationsComponent
+    InvitationsComponent,
+    BusinessRequirementListComponent,
+    BusinessRequirementDetailsComponent,
+    TemporaryRouterComponent,
+    ProductDocumentationComponent,
+    TagManagementComponent,
+    ReleaseManagementComponent,
+    TestManagementComponent,
+    ReleaseDetailsComponent,
+    RegressionTestComponent,
+    ProductivityReportComponent,
+    ProductRoadmapComponent,
+    TestReportDetailsComponent,
+    TestReportListComponent
   ],
   imports: [
     BrowserModule,
