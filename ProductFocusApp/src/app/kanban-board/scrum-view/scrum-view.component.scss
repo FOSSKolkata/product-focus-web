@@ -16,6 +16,14 @@ td{
   white-space: normal;
 }
 
+.bug {
+  border-left: 2px solid red;
+}
+
+.feature {
+  border-left: 2px solid blue;
+}
+
 // td:hover{
 //   background-color: var(--light-gray);
 // }

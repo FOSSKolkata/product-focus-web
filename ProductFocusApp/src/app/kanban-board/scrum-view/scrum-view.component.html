@@ -1,19 +1,34 @@
 <div class="infinite-scroll-x-axis">
   <div class="scrum-container">
-    <div class="p-1 d-inline-block">{{currentSprint?.startDate | date:'dd-MM-YYYY'}}</div>
-    <div *ngIf="currentSprint" class="p-1 d-inline-block">Release: <b>{{currentSprint?.name}}</b></div>
+    <div class="p-1 d-inline-block">
+      {{ currentSprint?.startDate | date: "dd-MM-YYYY" }}
+    </div>
+    <div *ngIf="currentSprint" class="p-1 d-inline-block">
+      Release: <b>{{ currentSprint?.name }}</b>
+    </div>
     <div class="float-right pt-1 d-inline-block pointer">
-      <i class="fa fa-plus-circle" [popover]="myPopover" [popoverCloseOnMouseOutside]="true" [popoverOnHover]="false">Add Feature / Bug</i>
-      <popover-content #myPopover
+      <i
+        class="fa fa-plus-circle"
+        [popover]="myPopover"
+        [popoverCloseOnMouseOutside]="true"
+        [popoverOnHover]="false"
+        >Add Feature / Bug</i
+      >
+      <popover-content
+        #myPopover
         placement="bottom-left"
         [animation]="true"
-        [closeOnClickOutside]="true">
-        <app-add-feature [selected-sprint]="currentSprint" (is-feature-added)="setKanbanBoard()"></app-add-feature>
+        [closeOnClickOutside]="true"
+      >
+        <app-add-feature
+          [selected-sprint]="currentSprint"
+          (is-feature-added)="setKanbanBoard()"
+        ></app-add-feature>
       </popover-content>
     </div>
   </div>
   <div class="table-container w-100">
-    <table>
+    <table cdkDropListGroup>
       <thead>
         <tr>
           <th>Modules</th>
@@ -26,33 +41,141 @@
           <th>Assigned To</th>
           <th>Remarks</th>
           <th>Functional Testability</th>
-          <th *ngFor="let sprintDate of sprintDates">{{sprintDate | date:'dd-MM-YYYY'}}</th>
+          <th *ngFor="let sprintDate of sprintDates">
+            {{ sprintDate | date: "dd-MM-YYYY" }}
+          </th>
           <td></td>
         </tr>
       </thead>
-      
-      <tbody *ngFor="let module of board" cdkDropList [id]="module.groupName" (cdkDropListDropped)="onDrop($event)">
-        <tr *ngFor="let feature of module; index as i" cdkDrag cdkDragLockAxis="y" [cdkDragDisabled]="selectedGroupCategory !== groupCategoryEnum.Module">
-          <th *ngIf="i == 0" [attr.rowspan]="module.length"><b>{{feature.name}}</b></th>
-          <th cdkDragHandle style="vertical-align: top; text-align: center;">
+
+      <tbody
+        *ngFor="let module of board"
+        cdkDropList
+        [id]="module.groupName"
+        [cdkDropListData]="module"
+        (cdkDropListDropped)="onDrop($event)"
+      >
+        <tr
+          *ngFor="let feature of module; index as i"
+          cdkDrag
+          cdkDragLockAxis="y"
+          [cdkDragDisabled]="selectedGroupCategory !== groupCategoryEnum.Module"
+        >
+          <th *ngIf="i == 0" [attr.rowspan]="module.length">
+            <b>{{ feature.name }}</b>
+          </th>
+          <th [class.feature]="feature.workItemType == 1"
+            [class.bug]="feature.workItemType == 2"
+         cdkDragHandle style="vertical-align: top; text-align: center">
             <div class="whole-space">
-              <ng-container [ngTemplateOutlet]="dragHandleTmpl">
-              </ng-container>
-              {{feature.id}}
+              <ng-container [ngTemplateOutlet]="dragHandleTmpl"> </ng-container>
+              {{ feature.id }}
             </div>
           </th>
-          <td><app-editable-text [text-content]="feature.title" (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent, feature)"></app-editable-text></td>
-          <td><app-editable-text [validate-function]="restrictGreaterThan100" [text-content]="feature.storyPoint" (changed)="modifyFeature(modifyColumnIdentifier.storyPoint, $event.target.textContent, feature)"></app-editable-text></td>
-          <td><app-switch-text-datepick [date]="feature.startDate" [max]="feature.endDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedStartDate, $event,feature)"></app-switch-text-datepick></td>
-          <td><app-switch-text-datepick [date]="feature.endDate" [min]="feature.startDate" (date-changed)="modifyFeature(modifyColumnIdentifier.plannedEndDate, $event,feature)"></app-switch-text-datepick></td>
-          <td class="align-top">{{feature.durationInDays}}</td>
-          <td><app-switch-text-autocomplete [added-users]="feature.assignee" [other-users]="organizationUser" (is-added)="modifyFeature(modifyColumnIdentifier.includeAssignee,$event,feature)" (is-removed)="modifyFeature(modifyColumnIdentifier.excludeAssignee,$event,feature)"></app-switch-text-autocomplete></td>
-          <td><app-editable-text [text-content]="feature.remarks" (changed)="modifyFeature(modifyColumnIdentifier.remarks, $event.target.textContent, feature)"></app-editable-text></td>
           <td>
-            <input type="checkbox" [checked]="feature.functionalTestability" (change)="modifyFeature(modifyColumnIdentifier.functionalTestability, $event, feature)">
+            <app-editable-text
+              [text-content]="feature.title"
+              (changed)="
+                modifyFeature(
+                  modifyColumnIdentifier.title,
+                  $event.target.textContent,
+                  feature
+                )
+              "
+            >
+            </app-editable-text>
+          </td>
+          <td>
+            <app-editable-text
+              [validate-function]="restrictGreaterThan100"
+              [text-content]="feature.storyPoint"
+              (changed)="
+                modifyFeature(
+                  modifyColumnIdentifier.storyPoint,
+                  $event.target.textContent,
+                  feature
+                )
+              "
+            ></app-editable-text>
+          </td>
+          <td>
+            <app-switch-text-datepick
+              [date]="feature.startDate"
+              [max]="feature.endDate"
+              (date-changed)="
+                modifyFeature(
+                  modifyColumnIdentifier.plannedStartDate,
+                  $event,
+                  feature
+                )
+              "
+            ></app-switch-text-datepick>
+          </td>
+          <td>
+            <app-switch-text-datepick
+              [date]="feature.endDate"
+              [min]="feature.startDate"
+              (date-changed)="
+                modifyFeature(
+                  modifyColumnIdentifier.plannedEndDate,
+                  $event,
+                  feature
+                )
+              "
+            ></app-switch-text-datepick>
+          </td>
+          <td class="align-top">{{ feature.durationInDays }}</td>
+          <td>
+            <app-switch-text-autocomplete
+              [added-users]="feature.assignee"
+              [other-users]="organizationUser"
+              (is-added)="
+                modifyFeature(
+                  modifyColumnIdentifier.includeAssignee,
+                  $event,
+                  feature
+                )
+              "
+              (is-removed)="
+                modifyFeature(
+                  modifyColumnIdentifier.excludeAssignee,
+                  $event,
+                  feature
+                )
+              "
+            ></app-switch-text-autocomplete>
+          </td>
+          <td>
+            <app-editable-text
+              [text-content]="feature.remarks"
+              (changed)="
+                modifyFeature(
+                  modifyColumnIdentifier.remarks,
+                  $event.target.textContent,
+                  feature
+                )
+              "
+            ></app-editable-text>
+          </td>
+          <td>
+            <input
+              type="checkbox"
+              [checked]="feature.functionalTestability"
+              (change)="
+                modifyFeature(
+                  modifyColumnIdentifier.functionalTestability,
+                  $event,
+                  feature
+                )
+              "
+            />
           </td>
           <td *ngFor="let sprintDate of sprintDates; index as i">
-            <app-progress-comment [feature-id]="feature.id" [date]="sprintDate" [scrum-day]="feature.scrumDays[i]"></app-progress-comment>
+            <app-progress-comment
+              [feature-id]="feature.id"
+              [date]="sprintDate"
+              [scrum-day]="feature.scrumDays[i]"
+            ></app-progress-comment>
           </td>
           <td>
             <i class="fa fa-trash trash-position"></i>
@@ -64,10 +187,18 @@
   </div>
 </div>
 <ng-template #dragHandleTmpl>
-	<svg class="bi bi-list handle" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-		xmlns="http://www.w3.org/2000/svg">
-		<path fill-rule="evenodd"
-			d="M2.5 11.5A.5.5 0 013 11h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 7h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 3h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5z"
-			clip-rule="evenodd" />
-	</svg>
+  <svg
+    class="bi bi-list handle"
+    width="1em"
+    height="1em"
+    viewBox="0 0 16 16"
+    fill="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M2.5 11.5A.5.5 0 013 11h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 7h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5zm0-4A.5.5 0 013 3h10a.5.5 0 010 1H3a.5.5 0 01-.5-.5z"
+      clip-rule="evenodd"
+    />
+  </svg>
 </ng-template>

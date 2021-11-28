@@ -1,7 +1,6 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
@@ -144,55 +143,91 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
   findIndex(moduleName: string): number {
     for(let i = 0; i < this.board.length; i++) {
       if(this.board[i][0].name == moduleName) {
-        return  i;
+        return i;
       }
     }
     throw "No module found.";
   }
 
-  onDrop(event: CdkDragDrop<any[]>) {
-    let index = this.findIndex(event.container.id);
-
-    if(event.previousIndex === event.currentIndex) {
-      return;
-    }
-    moveItemInArray(this.board[index], event.previousIndex, event.currentIndex);
-    let previousToCardPlacedCardId = -1;
-    let placedCardId = this.board[index][event.currentIndex].id;
-    if(event.currentIndex !== 0) {
-      previousToCardPlacedCardId = this.board[index][event.currentIndex - 1].id;
-    }
-    let copyOfPlacedCard = {id: -1, order: Infinity};
-    for(let feature of this.boardWithoutFilter[index]) {
-      if(feature.id == placedCardId) {
-        copyOfPlacedCard = JSON.parse(JSON.stringify(feature));
-        feature.id = -1;
+  geModuleDetailsByModuleName(moduleName: string): IModule | null{
+    let module = null;
+    for(let current of this.modules) {
+      if(current.name === moduleName) {
+        module = current;
         break;
       }
     }
-    if(previousToCardPlacedCardId === -1) {
-      this.boardWithoutFilter[index].splice(0, 0, copyOfPlacedCard);
+    return module;
+  }
+
+
+  onDrop(event: CdkDragDrop<any[]>) {
+    // let cardDroppedInModuleIndex = this.findIndex(event.container.id);
+    if(event.previousIndex === event.currentIndex && event.container.id === event.previousContainer.id) {
+      return;
     }
-    else {
-      for(let i = 0; i < this.boardWithoutFilter[index].length; i++) {
-        if(this.boardWithoutFilter[index][i].id == previousToCardPlacedCardId) {
-          this.boardWithoutFilter[index].splice(i + 1, 0, copyOfPlacedCard);
+
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
+
+    let previousToCardPlacedCardId = event.currentIndex === 0 ? -1 : event.container.data[event.currentIndex-1].id;
+    let placedCardId = event.container.data[event.currentIndex].id;
+    let cardDroppedInModule = this.geModuleDetailsByModuleName(event.container.id);
+    let doesCardDroppedInSameModule = true;
+
+    let copyOfPlacedCard: any = null; // Getting copyOfPlacedCard can be improved
+    for(let module of this.boardWithoutFilter) {
+      for(let index = 0; index < module.length; index++) {
+        if(module[index].id === placedCardId) {
+          copyOfPlacedCard = JSON.parse(JSON.stringify(module[index]));
+          if(copyOfPlacedCard.moduleId !== cardDroppedInModule?.id) {
+            doesCardDroppedInSameModule = false;
+            copyOfPlacedCard.moduleId = cardDroppedInModule?.id;
+          }
+          module.splice(index, 1);
           break;
         }
       }
     }
 
-    for(let i = 0; i < this.boardWithoutFilter[index].length; i++) {
-      if(this.boardWithoutFilter[index][i].id == -1) {
-        this.boardWithoutFilter[index].splice(i, 1);
+    for(let module of this.boardWithoutFilter) {
+      if(previousToCardPlacedCardId === -1 && module.groupName === event.container.id) {
+        module.splice(0, 0, copyOfPlacedCard);
         break;
       }
+      for(let index = 0; index < module.length; index++) {
+        if(module[index].id === previousToCardPlacedCardId) {
+          module.splice(index + 1, 0, copyOfPlacedCard);
+        }
+      }
     }
-    
-    this.reOrdering();
+
+    for(let module of this.board) {
+      for(let index = 0; index < module.length; index++) {
+        if(module[index].id === placedCardId) {
+          module[index].moduleId = copyOfPlacedCard.moduleId;
+        }
+      }
+    }
+    let orderingInfo = this.getReordering();
+    this.featureService.modifyFeatureOrder(orderingInfo).subscribe(x => {
+      if(!doesCardDroppedInSameModule) {
+        this.modifyFeature(ModifyColumnIdentifier.updateModule, cardDroppedInModule?.id, copyOfPlacedCard);
+      }
+    },err => {
+      this.toastr.error('Not Updated',err.error);
+    });
   }
 
-  reOrdering() {
+  getReordering(): OrderingInfo {
     let counter = 0;
     let featureOrder: FeatureOrdering[] = [];
     let map = new Map<number,number>() // Store card id and order number after reordering
@@ -203,7 +238,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
         map.set(this.boardWithoutFilter[i][j].id, counter);
       }
     }
-
 
     for(let i = 0; i < this.board.length; i++) {
       for(let j = 0; j < this.board[i].length; j++) {
@@ -217,11 +251,7 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       featuresOrdering: featureOrder
     };
 
-    this.featureService.modifyFeatureOrder(orderingInfo).subscribe(x => {
-
-    },err => {
-      this.toastr.error('Not Updated',err.error);
-    });
+    return orderingInfo;
   }
 
   setWithoutFilterBoard() {
@@ -233,7 +263,8 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       for(let feature of module.featureDetails) {
         let currentFeature = {
           id: feature.id,
-          order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1
+          order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1,
+          moduleId: feature.moduleId
         };
         orderNumber++;
         tempModuleContainer.push(currentFeature);
@@ -282,7 +313,9 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
           scrumDays: this.sortByDateAndAddExtra(feature.scrumDays),
           remarks: feature.remarks,
           functionalTestability: feature.functionalTestability,
-          order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1
+          order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1,
+          workItemType: feature.workItemType,
+          moduleId: feature.moduleId
         };
         orderNumber++;
         tempModuleContainer.push(currentFeature);
@@ -292,48 +325,38 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
   }
 
   modifyFeature(key: number, value: any, feature: any) {
-    var changedFeaturedInfo: any = {};
-    var changedFeaturedInfoEvent: any = {};
+    let changedFeaturedInfo: any = {};
     changedFeaturedInfo.id = feature.id;
-    changedFeaturedInfoEvent.id = feature.id;
     changedFeaturedInfo.fieldName = key;
-    changedFeaturedInfoEvent.fieldName = key;
     if (key == ModifyColumnIdentifier.title) {
       changedFeaturedInfo.title = value;
-      changedFeaturedInfoEvent.title = value;
     } else if (key == ModifyColumnIdentifier.workCompletionPercentage) {
       changedFeaturedInfo.workCompletionPercentage = value;
-      changedFeaturedInfoEvent.workCompletionPercentage = value;
     } else if (key == ModifyColumnIdentifier.acceptanceCriteria) {
       changedFeaturedInfo.acceptanceCriteria = value;
-      changedFeaturedInfoEvent.acceptanceCriteria = value;
     } else if (key == ModifyColumnIdentifier.plannedStartDate) {
       changedFeaturedInfo.plannedStartDate = new Date(value.getTime() + 86400000); // 1 day error correction
-      changedFeaturedInfoEvent.plannedStartDate = new Date(value.getTime() + 86400000);
       if(feature.endDate !== null)
         feature.durationInDays = this.getNumberOfDaysBetweenTwoDates(new Date(value),new Date(feature.endDate));
       this.modifyFeatureDates(feature,ModifyColumnIdentifier.plannedStartDate,new Date(value.getTime()));
     } else if (key == ModifyColumnIdentifier.plannedEndDate) {
       changedFeaturedInfo.plannedEndDate = new Date(value.getTime() + 86400000);
-      changedFeaturedInfoEvent.plannedEndDate = new Date(value.getTime() + 86400000);
       this.modifyFeatureDates(feature,ModifyColumnIdentifier.plannedEndDate,new Date(value.getTime()));
       if(feature.startDate !== null)
         feature.durationInDays = this.getNumberOfDaysBetweenTwoDates(new Date(feature.startDate),new Date(value));
     } else if(key == ModifyColumnIdentifier.storyPoint){
       changedFeaturedInfo.storyPoint = +value;
-      changedFeaturedInfoEvent.storyPoint = +value;
     } else if(key == ModifyColumnIdentifier.includeAssignee){
       changedFeaturedInfo.emailOfAssignee = value.email;
-      changedFeaturedInfoEvent.assignee = value;
     } else if(key == ModifyColumnIdentifier.excludeAssignee){
       changedFeaturedInfo.emailOfAssignee = value.email;
       changedFeaturedInfo.assignee = value;
     }else if(key == ModifyColumnIdentifier.remarks){
-      changedFeaturedInfo.remarks = value,
-      changedFeaturedInfoEvent.remarks = value
+      changedFeaturedInfo.remarks = value;
     } else if(key == ModifyColumnIdentifier.functionalTestability){
       changedFeaturedInfo.functionalTestability = value.target.checked;
-      changedFeaturedInfoEvent.functionalTestability = value.target.value;
+    } else if(key == ModifyColumnIdentifier.updateModule) {
+      changedFeaturedInfo.moduleId = value;
     }
     this.featureService.modifyFeatureElement(changedFeaturedInfo).subscribe((x) => {
 

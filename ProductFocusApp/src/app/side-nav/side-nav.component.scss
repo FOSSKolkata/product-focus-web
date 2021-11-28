@@ -9,6 +9,10 @@
   transition: 0.5s;
 }
 
+.side-nav::-webkit-scrollbar {
+  display: none;
+}
+
 .side-nav:hover {
   width: 300px;
 }

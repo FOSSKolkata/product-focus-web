@@ -16,76 +16,47 @@
     </div>
     <div class="state-header">
       <div class="card">
-        <div class="card-header">In Progress</div>
+        <div class="card-header">Planned</div>
       </div>
     </div>
     <div class="state-header">
       <div class="card">
-        <div class="card-header">Hold</div>
+        <div class="card-header">Dev In Progress</div>
       </div>
     </div>
     <div class="state-header">
       <div class="card">
-        <div class="card-header">Completed</div>
+        <div class="card-header">SFQ(Submited for QA)</div>
+      </div>
+    </div>
+    <div class="state-header">
+      <div class="card">
+        <div class="card-header">Done</div>
       </div>
     </div>
   </div>
   <app-spinner [is-spinner-active]="kanbanBoardSpinner"></app-spinner>
-  <div
-    [style.display]="!kanbanBoardSpinner"
-    *ngFor="let module of board; let i = index"
-  >
-    <div class="module-section">
-      <div cdkDropListGroup class="feature-container">
-        <div *ngIf="module" class="module-header">
-          {{ module.groupName }}
-        </div>
-        <div
-          class="feature-section"
-          cdkDropList
-          (cdkDropListDropped)="drop($event, featureStatus.new)"
-          [cdkDropListData]="module[0]"
-          [id]="module.groupName"
-        >
-          <div *ngFor="let feature of module[0]" cdkDrag [cdkDragDisabled]="selectedGroup !== groupCategoryEnum.Module">
-            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-            </app-feature>
+  <div cdkDropListGroup>
+    <div
+      [style.display]="!kanbanBoardSpinner"
+      *ngFor="let modules of board; let moduleIndex = index"
+    >
+      <div class="module-section">
+        <div class="feature-container">
+          <div *ngIf="modules" class="module-header">
+            {{ modules.groupName }}
           </div>
-        </div>
-        <div
-          class="feature-section"
-          cdkDropList
-          [cdkDropListData]="module[1]"
-          (cdkDropListDropped)="drop($event, featureStatus.inProgress)"
-          [id]="module.groupName"
-        >
-          <div *ngFor="let feature of module[1]" cdkDrag [cdkDragDisabled]="selectedGroup !== groupCategoryEnum.Module">
-            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-            </app-feature>
-          </div>
-        </div>
-        <div
-          class="feature-section"
-          cdkDropList
-          [cdkDropListData]="module[2]"
-          (cdkDropListDropped)="drop($event, featureStatus.hold)"
-          [id]="module.groupName"
-        >
-          <div *ngFor="let feature of module[2]" cdkDrag [cdkDragDisabled]="selectedGroup !== groupCategoryEnum.Module">
-            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-            </app-feature>
-          </div>
-        </div>
-        <div
-          class="feature-section"
-          cdkDropList
-          [cdkDropListData]="module[3]"
-          (cdkDropListDropped)="drop($event, featureStatus.completed)"
-          [id]="module.groupName"
-        >
-          <div *ngFor="let feature of module[3]" cdkDrag [cdkDragDisabled]="selectedGroup !== groupCategoryEnum.Module">
-            <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
-            </app-feature>
+          <div *ngFor="let group of modules; let status = index"
+            class="feature-section"
+            cdkDropList
+            (cdkDropListDropped)="drop($event, status)"
+            [cdkDropListData]="group"
+            [id]="moduleIndex.toString()"
+          >
+            <div *ngFor="let feature of group" cdkDrag [cdkDragDisabled]="selectedGroup !== groupCategoryEnum.Module">
+              <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
+              </app-feature>
+            </div>
           </div>
         </div>
       </div>

@@ -84,7 +84,16 @@ export interface IFeatureDetails {
   sprint: ISprint,
   scrumDays: IScrumDay[],
   functionalTestability: boolean,
-  remarks: string | null
+  remarks: string | null,
+  workItemType: WorkItemType,
+  moduleId: number
+}
+
+export enum WorkItemType {
+  Feature = 1,
+  Bug = 2,
+  Epic = 3,
+  PBI = 4
 }
 
 export interface IFeatureAssignee{
@@ -156,10 +165,11 @@ export enum InvitationStatus {
 }
 
 export enum FeatureStatus {
-  new = 0,
-  inProgress = 1,
-  hold = 2,
-  completed = 3,
+  New = 0,
+  Planned = 1,
+  DevInProgress = 2,
+  SFQ = 3,
+  Done = 4
 }
 
 export interface IPendingInvitation {

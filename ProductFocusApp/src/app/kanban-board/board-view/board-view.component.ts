@@ -100,16 +100,15 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     let board : any[] = [];
     for (let module of kBoard) {
       board.push([]);
+      for(let i = 0; i < 5; i++) {
+        board[board.length - 1].push([]);
+      }
       board[board.length - 1].groupName = module.groupName;
       for (let feature of module.featureDetails) {
-        if (board[board.length - 1].length == 0) {
-          for (let i = 0; i < 4; i++) {
-            board[board.length - 1].push([]);
-          }
-        }
         board[board.length - 1][feature.status].push(feature);
       }
     }
+
     for(let row of board) {
       for(let column of row){
         column.sort((item1: any, item2: any) => {
@@ -122,18 +121,18 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     return board;
   }
 
-  findModuleIndex(moduleName: string): number {
-    for(let moduleIndex = 0; moduleIndex < this.boardWithoutFilter.length; moduleIndex++) {
-      if(moduleName === this.boardWithoutFilter[moduleIndex].groupName) {
-        return moduleIndex;
-      }
-    }
-    throw "module not found.";
-  }
+  // findModuleIndex(moduleName: string): number {
+  //   for(let moduleIndex = 0; moduleIndex < this.boardWithoutFilter.length; moduleIndex++) {
+  //     if(moduleName === this.boardWithoutFilter[moduleIndex].groupName) {
+  //       return moduleIndex;
+  //     }
+  //   }
+  //   throw "module not found.";
+  // }
 
   getCardPlacedPosition(modulePosition: number): {row: number, column: number} {
     let placedPosition = {row: 0, column: 0};
-    for(let column = 0; column < 4; column++) {
+    for(let column = 0; column < 5; column++) {
       let filteredCardRowIndex = 0, withoutFilterCardRowIndex = 0;
       let numberOfFilteredCard = this.board[modulePosition][column].length;
       let numberOfWithoutFilterCard = this.boardWithoutFilter[modulePosition][column].length;
@@ -157,7 +156,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     let map = new Map<number,number>() // Store card id and order number after reordering
     let counter = 0;
     // Reordering in which card is moved.
-    for(let column = 0; column < 4; column++) {
+    for(let column = 0; column < 5; column++) {
       for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
           let card = this.boardWithoutFilter[modulePosition][column][row];
         orderInfo.push({featureId: card.id, orderNumber:  ++counter});
@@ -169,7 +168,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     // Reordering other module's card
     for(let moduleIndex = 0; moduleIndex <  this.boardWithoutFilter.length; moduleIndex++) {
       if(moduleIndex != modulePosition) {
-        for(let column = 0; column < 4; column++) {
+        for(let column = 0; column < 5; column++) {
           if(this.boardWithoutFilter[moduleIndex][column] === undefined) {
             break;
           }
@@ -186,7 +185,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     // set filtered board order
     for(let moduleIndex = 0; moduleIndex < this.board.length; moduleIndex++) {
       if(moduleIndex != modulePosition) {
-        for(let column = 0; column < 4; column++) {
+        for(let column = 0; column < 5; column++) {
           if(this.boardWithoutFilter[moduleIndex][column] === undefined) {
             break;
           }
@@ -211,12 +210,12 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateKanbanBoardOrdering(moduleName: string, movedCardId: number, previousToCardPlacedCardId: number) {
-    let modulePosition = this.findModuleIndex(moduleName);
+  updateKanbanBoardOrdering(modulePosition: number, movedCardId: number, previousToCardPlacedCardId: number) {
+    // let modulePosition = this.findModuleIndex(moduleName);
     let placedPosition = this.getCardPlacedPosition(modulePosition);
     
     let movedCardCopy : any;
-    for(let column = 0; column < 4; column++) {
+    for(let column = 0; column < 5; column++) {
       for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
         if(this.boardWithoutFilter[modulePosition][column][row].id == movedCardId) {
           movedCardCopy = JSON.parse(JSON.stringify(this.boardWithoutFilter[modulePosition][column][row]));
@@ -230,7 +229,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
       this.boardWithoutFilter[modulePosition][placedPosition.column].splice(0, 0, movedCardCopy);
     }
     else {
-      for(let column = 0; column < 4; column++) {
+      for(let column = 0; column < 5; column++) {
         for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
           if(this.boardWithoutFilter[modulePosition][column][row].id === previousToCardPlacedCardId) {
             this.boardWithoutFilter[modulePosition][column].splice(row + 1, 0, movedCardCopy); // Placed the card next to previous card
@@ -240,7 +239,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
       }
     }
 
-    for(let column = 0; column < 4; column++) {
+    for(let column = 0; column < 5; column++) {
       for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
         if(this.boardWithoutFilter[modulePosition][column][row].id === -1) {
           this.boardWithoutFilter[modulePosition][column].splice(row,1); // Remove the card
@@ -266,33 +265,153 @@ export class BoardViewComponent implements OnInit, OnDestroy {
         event.currentIndex
       );
     }
-
+    
     let previousToCardPlacedCardId = event.currentIndex === 0 ? -1 : event.container.data[event.currentIndex-1].id;
-    let moduleName = event.container.id;
+    // let moduleName = event.container.id;
+    let modulePosition = +event.container.id;
     let placedCardId = event.container.data[event.currentIndex].id;
-
-    // Iterate on every features where featureElement is dropped
-
-    let isStatusChanging = false;
-    for (let feature of event.container.data) {
-      if (feature.status != status) {
-        // Since the status of element where it is dropped is not equal to the status of that column
-        isStatusChanging = true;
-        feature.status = status;
-        this.featureService
-          .modifyFeatureElement({
-            id: feature.id,
-            status: status,
-            fieldName: ModifyColumnIdentifier.status,
-          })
-          .subscribe((x) => {
-            this.updateKanbanBoardOrdering(moduleName, placedCardId , previousToCardPlacedCardId);
-          });
-        break;
+    
+    if(event.previousContainer.id != event.container.id) {
+      let movedCardCopy;
+      let position = this.getCardPlacedPosition(modulePosition);
+      for(let column = 0; column < 5; column++) {
+        for(let row = 0; row < this.boardWithoutFilter[+event.previousContainer.id][column].length; row++) {
+          if(this.boardWithoutFilter[+event.previousContainer.id][column][row].id == placedCardId) {
+            movedCardCopy = JSON.parse(JSON.stringify(this.boardWithoutFilter[+event.previousContainer.id][column][row]));
+            this.boardWithoutFilter[+event.previousContainer.id][column].splice(row,1);
+            break;
+          }
+        }
       }
-    }
-    if(!isStatusChanging) {
-      this.updateKanbanBoardOrdering(moduleName, placedCardId , previousToCardPlacedCardId);
+      if(previousToCardPlacedCardId === -1) { // If the card is placed at the top
+        this.boardWithoutFilter[modulePosition][position.column].splice(0, 0, movedCardCopy);
+      }
+      else {
+        for(let column = 0; column < 5; column++) {
+          for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
+            if(this.boardWithoutFilter[modulePosition][column][row].id === previousToCardPlacedCardId) {
+              this.boardWithoutFilter[modulePosition][column].splice(row + 1, 0, movedCardCopy); // Placed the card next to previous card
+              break;
+            }
+          }
+        }
+      }
+      let cardDroppedInModule = null;
+      for(let module of this.modules) {
+        if(module.name === this.boardWithoutFilter[+event.container.id].groupName) {
+          cardDroppedInModule = module;
+          break;
+        }
+      }
+
+      let orderInfo: FeatureOrdering[] = [];
+      let map = new Map<number,number>() // Store card id and order number after reordering
+      let counter = 0;
+      for(let moduleIndex = 0; moduleIndex <  this.boardWithoutFilter.length; moduleIndex++) {
+        for(let column = 0; column < 5; column++) {
+          if(this.boardWithoutFilter[moduleIndex][column] === undefined) {
+            break;
+          }
+          for(let row = 0; row < this.boardWithoutFilter[moduleIndex][column].length; row++) {
+            let card = this.boardWithoutFilter[moduleIndex][column][row];
+            orderInfo.push({featureId: card.id, orderNumber:  ++counter});
+            map.set(card.id, counter);
+            card.orderNumber = counter;
+            if(card.id === placedCardId) {
+              card.moduleId = cardDroppedInModule?.id;
+            }
+          }
+        }
+      }
+      for(let moduleIndex = 0; moduleIndex <  this.board.length; moduleIndex++) {
+        for(let column = 0; column < 5; column++) {
+          if(this.board[moduleIndex][column] === undefined) {
+            break;
+          }
+          for(let row = 0; row < this.board[moduleIndex][column].length; row++) {
+            let card = this.board[moduleIndex][column][row];
+            card.orderNumber = map.get(card.id);
+            if(card.id === placedCardId) {
+              card.moduleId = cardDroppedInModule?.id;
+            }
+          }
+        }
+      }
+      let orderingInfo : OrderingInfo = {
+        sprintId: this.selectedSprint?this.selectedSprint.id:-1,
+        featuresOrdering: orderInfo,
+        orderingCategory: OrderingCategoryEnum.BoardView
+      };
+  
+      let object: any = {
+        id: placedCardId,
+        fieldName: ModifyColumnIdentifier.updateModule,
+        moduleId: cardDroppedInModule?.id
+      };
+
+      let isStatusChanging = false;
+      for (let feature of event.container.data) {
+        if (feature.status != status) {
+          // Since the status of element where it is dropped is not equal to the status of that column
+          isStatusChanging = true;
+          feature.status = status;
+          this.featureService
+            .modifyFeatureElement({
+              id: feature.id,
+              status: status,
+              fieldName: ModifyColumnIdentifier.status,
+            })
+            .subscribe((x) => {
+              this.featureService.modifyFeatureElement(object).subscribe((x) => {
+                this.featureService.modifyFeatureOrder(orderingInfo).subscribe(res => {
+          
+                }, err => {
+                  this.toStr.error('Unable to update.',err.error);
+                });
+              },(err)=>{
+                this.toStr.error('Update is not saved!!',err.error);
+              });
+            });
+          break;
+        }
+      }
+      if(!isStatusChanging) {
+        this.featureService.modifyFeatureElement(object).subscribe((x) => {
+          this.featureService.modifyFeatureOrder(orderingInfo).subscribe(res => {
+    
+          }, err => {
+            this.toStr.error('Unable to update.',err.error);
+          });
+        },(err)=>{
+          this.toStr.error('Update is not saved!!','Not modified')
+        });
+      }
+      
+    } else {
+
+      // Iterate on every features where featureElement is dropped
+
+      let isStatusChanging = false;
+      for (let feature of event.container.data) {
+        if (feature.status != status) {
+          // Since the status of element where it is dropped is not equal to the status of that column
+          isStatusChanging = true;
+          feature.status = status;
+          this.featureService
+            .modifyFeatureElement({
+              id: feature.id,
+              status: status,
+              fieldName: ModifyColumnIdentifier.status,
+            })
+            .subscribe((x) => {
+              this.updateKanbanBoardOrdering(modulePosition, placedCardId , previousToCardPlacedCardId);
+            });
+          break;
+        }
+      }
+      if(!isStatusChanging) {
+        this.updateKanbanBoardOrdering(modulePosition, placedCardId , previousToCardPlacedCardId);
+      }
     }
   }
  

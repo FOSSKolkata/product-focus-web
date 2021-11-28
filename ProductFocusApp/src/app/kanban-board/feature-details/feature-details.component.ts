@@ -1,13 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
-import { SwitchTextDropdownComponent } from 'src/app/dht-common/switch-text-dropdown/switch-text-dropdown.component';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { SprintService } from 'src/app/_services/sprint.service';
-import { IFeature, IFeatureDetails, IModule, ISprint, ModifyColumnIdentifier } from '../../dht-common/models';
+import { IFeature, IFeatureDetails, IModule, ISprint, ModifyColumnIdentifier, WorkItemType } from '../../dht-common/models';
 
 @Component({
   selector: 'app-feature-details',
@@ -75,9 +74,12 @@ export class FeatureDetailsComponent implements OnInit {
     },
     scrumDays: [],
     functionalTestability: false,
-    remarks: null
+    remarks: null,
+    workItemType: WorkItemType.Feature,
+    moduleId: -1
   };
 
+  loading = true;
   isAddTaskButtonActive: boolean = true;
 
   constructor(
@@ -89,22 +91,17 @@ export class FeatureDetailsComponent implements OnInit {
     private productService: ProductService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.generateStoryPoints();
     var date = this.featureDetails.actualStartDate;
     let selectedProductString = localStorage.getItem('selectedProduct');
     this.selectedProduct = JSON.parse(selectedProductString?selectedProductString:'');
     var lastSelectedOrgId = localStorage.lastSelctedOrganizationId;
-    if (
-      lastSelectedOrgId == undefined ||
-      lastSelectedOrgId == null ||
-      selectedProductString == undefined ||
-      selectedProductString == null
-    ) {
+    if (!lastSelectedOrgId || !selectedProductString) {
       this.router.navigate(['/']);
     }
 
-    this.featureService
+    await Promise.all([this.featureService
       .getFeatureDetailsById(parseInt(lastSelectedOrgId), this.feature.id)
       .subscribe((x) => {
         this.featureDetails = x;
@@ -114,16 +111,18 @@ export class FeatureDetailsComponent implements OnInit {
         this.endDate = this.dateService.dateToNgbDate(
           new Date(this.featureDetails.plannedEndDate)
         );
-      });
-      
-    this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(x => {
-      this.modules = x;
-      this.selectModuleOfFeature();
-    });
+      }),
+        
+      this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(x => {
+        this.modules = x;
+        this.selectModuleOfFeature();
+      }),
 
-    this.sprintService.getSprintByProductId(this.selectedProduct.id).subscribe((x) => {
-      this.allSprint = x;
-    });
+      this.sprintService.getSprintByProductId(this.selectedProduct.id).subscribe((x) => {
+        this.allSprint = x;
+      })
+    ]);
+    this.loading = false;
   }
   
   selectModuleOfFeature() {
@@ -134,13 +133,17 @@ export class FeatureDetailsComponent implements OnInit {
   }
 
   moveToAnotherModule(event: any) {
-    let changedModule = this.modules.filter(x => x.name == event.value)[0];
-    this.modifyFeature(ModifyColumnIdentifier.updateModule, changedModule.id);
+    if(!event.value) {
+      this.modifyFeature(ModifyColumnIdentifier.updateModule, null);
+    }else {
+      let changedModule = this.modules.filter(x => x.name == event.value)[0];
+      this.modifyFeature(ModifyColumnIdentifier.updateModule, changedModule.id);
+    }
   }
   
   modifyFeature(key: number, value: any) {
     this.anyChanges.emit(true);
-    var object: any = {};
+    let object: any = {};
     object.id = this.feature.id;
     object.fieldName = key;
     if (key == ModifyColumnIdentifier.title) {

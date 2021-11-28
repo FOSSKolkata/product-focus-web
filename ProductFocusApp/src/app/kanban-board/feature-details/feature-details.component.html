@@ -1,492 +1,494 @@
-<div class="row">
-  <div class="col-1">
-    <i
-      *ngIf="feature.workItemType == 1"
-      class="fa fa-life-ring fa-2x feature-color"
-    ></i>
-    <i
-      *ngIf="feature.workItemType == 2"
-      class="fa fa-bug fa-2x bug-color"
-    ></i>
-  </div>
-  <div class="col">
-    <div class="modal-title w-100" id="modal-basic-title">
-      <app-editable-text
-        *ngIf="featureDetails"
-        [text-content]="featureDetails.title"
-        [dh-style]="{ 'max-width': '650px', 'font-size': '20px' }"
-        (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent)"
-      >
-      </app-editable-text>
-      <span
-        *ngIf="featureDetails && featureDetails.isBlocked"
-        class="blocked">
-        blocked
-      </span>
-    </div>
-  </div>
+<div *ngIf="loading" style="min-height: 80vh; height: 100%; display: flex; justify-content: center; align-items: center;">
+  <app-spinner [is-spinner-active]="true"></app-spinner>
 </div>
-<div class="row ml-2 mt-4">
-  <div class="col-12 col-lg-8">
-    <div class="row">
-      <div class="col-1">
-        <i class="fa fa-file"></i>
-      </div>
-      <div class="col">
-        <b>Description</b>
-      </div>
+<div *ngIf="!loading">
+  <div class="row">
+    <div class="col-1">
+      <i
+        *ngIf="feature.workItemType == 1"
+        class="fa fa-life-ring fa-2x feature-color"
+      ></i>
+      <i
+        *ngIf="feature.workItemType == 2"
+        class="fa fa-bug fa-2x bug-color"
+      ></i>
     </div>
-    <div class="row">
-      <div class="col-1"></div>
-      <div class="col">
+    <div class="col">
+      <div class="modal-title w-100" id="modal-basic-title">
         <app-editable-text
           *ngIf="featureDetails"
-          [text-content]="featureDetails.description"
-          [dh-style]="{'max-width':'500px'}"
-          (changed)="
-            modifyFeature(modifyColumnIdentifier.description, $event.target.textContent)
-          ">
+          [text-content]="featureDetails.title"
+          [dh-style]="{ 'max-width': '650px', 'font-size': '20px' }"
+          (changed)="modifyFeature(modifyColumnIdentifier.title, $event.target.textContent)"
+        >
         </app-editable-text>
+        <span
+          *ngIf="featureDetails && featureDetails.isBlocked"
+          class="blocked">
+          blocked
+        </span>
       </div>
     </div>
-    <div class="row">
-      <div class="col-1">
-        <i class="fa fa-clipboard-list-check"></i>
+  </div>
+  <div class="row ml-2 mt-4">
+    <div class="col-12 col-lg-8">
+      <div class="row">
+        <div class="col-1">
+          <i class="fa fa-file"></i>
+        </div>
+        <div class="col">
+          <b>Description</b>
+        </div>
       </div>
-      <div class="col">
-        <b>Acceptance Criteria</b>
-        <div class="form-group">
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col">
           <app-editable-text
             *ngIf="featureDetails"
-            [text-content]="featureDetails.acceptanceCriteria"
-            [dh-style]="{'max-width': '500px'}"
+            [text-content]="featureDetails.description"
+            [dh-style]="{'max-width':'500px'}"
             (changed)="
-              modifyFeature(modifyColumnIdentifier.acceptanceCriteria, $event.target.textContent)
-            "
-          >
+              modifyFeature(modifyColumnIdentifier.description, $event.target.textContent)
+            ">
           </app-editable-text>
         </div>
       </div>
-    </div>
-    <div style="position: relative; width: 100%; height:inherit; border: 2px solid red;"><!--Remove this line-->
-      <div style="position: absolute; color: red; top: -18px;"> <!--Remove this div-->
-        Not Implemented
-      </div>
       <div class="row">
         <div class="col-1">
-          <i class="fa fa-tasks"></i>
+          <i class="fa fa-clipboard-list-check"></i>
         </div>
         <div class="col">
-          <b>Developers Tasks</b>
+          <b>Acceptance Criteria</b>
+          <div class="form-group">
+            <app-editable-text
+              *ngIf="featureDetails"
+              [text-content]="featureDetails.acceptanceCriteria"
+              [dh-style]="{'max-width': '500px'}"
+              (changed)="
+                modifyFeature(modifyColumnIdentifier.acceptanceCriteria, $event.target.textContent)
+              "
+            >
+            </app-editable-text>
+          </div>
         </div>
       </div>
-      <!-- starting of task -->
-      <div class="row">
-        <div class="col-1">
-          <input
-            type="checkbox"
-            name="task1"
-            id="task1"
-            value="Need User information using PNR number"
-          />
+      <div style="position: relative; width: 100%; height:inherit; border: 2px solid red;"><!--Remove this line-->
+        <div style="position: absolute; color: red; top: -18px;"> <!--Remove this div-->
+          Not Implemented
         </div>
-        <div class="col-8 col-md-9">
-          <label for="task1">Need User information using PNR number</label>
+        <div class="row">
+          <div class="col-1">
+            <i class="fa fa-tasks"></i>
+          </div>
+          <div class="col">
+            <b>Developers Tasks</b>
+          </div>
         </div>
-        <div class="col-1">
-          <i class="fa fa-user-plus"></i>
+        <!-- starting of task -->
+        <div class="row">
+          <div class="col-1">
+            <input
+              type="checkbox"
+              name="task1"
+              id="task1"
+              value="Need User information using PNR number"
+            />
+          </div>
+          <div class="col-8 col-md-9">
+            <label for="task1">Need User information using PNR number</label>
+          </div>
+          <div class="col-1">
+            <i class="fa fa-user-plus"></i>
+          </div>
+          <div class="col-1">
+            <i class="fa fa-window-close"></i>
+          </div>
         </div>
-        <div class="col-1">
-          <i class="fa fa-window-close"></i>
+        <!-- ending of task -->
+        <!-- starting of task -->
+        <div class="row">
+          <div class="col-1">
+            <input
+              type="checkbox"
+              name="task2"
+              id="task2"
+              value="Need User information using PNR number"
+            />
+          </div>
+          <div class="col-8 col-md-9">
+            <label for="task2">API integration with the front end.</label>
+          </div>
+          <div class="col-1">
+            <i class="fa fa-user-plus"></i>
+          </div>
+          <div class="col-1">
+            <i class="fa fa-window-close"></i>
+          </div>
         </div>
-      </div>
-      <!-- ending of task -->
-      <!-- starting of task -->
-      <div class="row">
-        <div class="col-1">
-          <input
-            type="checkbox"
-            name="task2"
-            id="task2"
-            value="Need User information using PNR number"
-          />
+        <!-- ending of task -->
+        <!-- starting of task -->
+        <div class="row">
+          <div class="col-1">
+            <input
+              type="checkbox"
+              name="task3"
+              id="task3"
+              value="Need User information using PNR number"
+            />
+          </div>
+          <div class="col-8 col-md-9">
+            <label for="task3"
+              >On Clicking create it should create a new tab.</label
+            >
+          </div>
+          <div class="col-1">
+            <i class="fa fa-user-plus"></i>
+          </div>
+          <div class="col-1">
+            <i class="fa fa-window-close"></i>
+          </div>
         </div>
-        <div class="col-8 col-md-9">
-          <label for="task2">API integration with the front end.</label>
+        <!-- ending of task -->
+        <!-- add task button -->
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col">
+            <button class="btn good-btn" style="font-size: x-small">
+              Add Task
+            </button>
+          </div>
         </div>
-        <div class="col-1">
-          <i class="fa fa-user-plus"></i>
+        <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+          <div class="col-1">
+            <i class="fa fa-tasks"></i>
+          </div>
+          <div class="col">
+            <b>QA Tasks</b>
+          </div>
         </div>
-        <div class="col-1">
-          <i class="fa fa-window-close"></i>
+        <!-- starting of task -->
+        <div class="row">
+          <div class="col-1">
+            <input
+              type="checkbox"
+              name="task1"
+              id="task1"
+              value="Need User information using PNR number"
+            />
+          </div>
+          <div class="col-8 col-md-9">
+            <label for="task1">Need User information using PNR number</label>
+          </div>
+          <div class="col-1">
+            <i class="fa fa-user-plus"></i>
+          </div>
+          <div class="col-1">
+            <i class="fa fa-window-close"></i>
+          </div>
         </div>
-      </div>
-      <!-- ending of task -->
-      <!-- starting of task -->
-      <div class="row">
-        <div class="col-1">
-          <input
-            type="checkbox"
-            name="task3"
-            id="task3"
-            value="Need User information using PNR number"
-          />
+        <!-- ending of task -->
+        <!-- add task button -->
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col">
+            <button class="btn good-btn" style="font-size: x-small">
+              Add Task
+            </button>
+          </div>
         </div>
-        <div class="col-8 col-md-9">
-          <label for="task3"
-            >On Clicking create it should create a new tab.</label
+        <!-- comment Heading -->
+        <div class="row" style="margin-top: 20px; margin-bottom: 10px">
+          <div class="col-1">
+            <i class="fa fa-comments"></i>
+          </div>
+          <div class="col">
+            <b>Comments</b>
+          </div>
+        </div>
+        <!-- comments -->
+        <!-- all the comments -->
+        <!-- single comment starting -->
+        <div class="row">
+          <div class="col-1 p-0">
+            <div class="avatar" style="padding-top: 4px; background-color: #66241c">
+              KT
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <div class="col-5 col-sm-4 h-25">
+                <small><b>Kartik Tiwari </b></small>
+              </div>
+              <div class="col-6 col-sm-7">
+                <small class="text-muted">1 minutes ago</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col h-75">
+                <small
+                  >I need an end point of user name, phone no along with medication
+                  id.</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- single comment ending -->
+        <!-- single comment starting -->
+        <div class="row">
+          <div class="col-1 p-0">
+            <div class="avatar" style="padding-top: 4px">AS</div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <div class="col-5 col-sm-4 h-25">
+                <small><b>Amit Shaw </b></small>
+              </div>
+              <div class="col-6 col-sm-7">
+                <small class="text-muted">10 minutes ago</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col h-75">
+                <small>I need mobile number along with user details.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- single comment ending -->
+        <!-- single comment starting -->
+        <div class="row">
+          <div class="col-1 p-0">
+            <div class="avatar" style="padding-top: 4px; background-color: #1a5021">
+              R.S
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <div class="col-5 col-sm-4 h-25">
+                <small><b>Rahul Shrivastav </b></small>
+              </div>
+              <div class="col-6 col-sm-7">
+                <small class="text-muted">yesterday at 2:33 p.m</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col h-75">
+                <small
+                  >Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                  ex, iste amet, pariatur ea odit dolores a illo adipisci
+                  consectetur itaque ad consequuntur provident excepturi aut
+                  quibusdam? Fuga, animi non.</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- single comment ending -->
+        <!-- single comment starting -->
+        <div class="row">
+          <div class="col-1 p-0">
+            <div class="avatar" style="padding-top: 4px; background-color: #6547d3">
+              PS
+            </div>
+          </div>
+          <div class="col">
+            <div class="row">
+              <div class="col-5 col-sm-4 h-25">
+                <small><b>Pappu Singh </b></small>
+              </div>
+              <div class="col-6 col-sm-7">
+                <small class="text-muted">2nd Jan at 3:45 p.m</small>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col h-75">
+                <small
+                  >Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                  ex, iste amet, pariatur ea odit dolores a illo adipisci
+                  consectetur itaque ad consequuntur provident excepturi aut
+                  quibusdam? Fuga, animi non.</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- single comment ending -->
+        <div class="row">
+          <div class="col-1 p-0">
+            <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
+          </div>
+          <div
+            class="col-10 col-md-10"
+            style="
+              height: 74px;
+              background-color: white;
+              padding: 0px;
+              margin: 10px;
+            "
           >
-        </div>
-        <div class="col-1">
-          <i class="fa fa-user-plus"></i>
-        </div>
-        <div class="col-1">
-          <i class="fa fa-window-close"></i>
-        </div>
-      </div>
-      <!-- ending of task -->
-      <!-- add task button -->
-      <div class="row">
-        <div class="col-1"></div>
-        <div class="col">
-          <button class="btn good-btn" style="font-size: x-small">
-            Add Task
-          </button>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Write a comment..."
+              style="border: none"
+            />
+            <button class="btn good-btn" style="margin: 3px">
+              <small>Comment</small>
+            </button>
+          </div>
         </div>
       </div>
-      <div class="row" style="margin-top: 20px; margin-bottom: 10px">
-        <div class="col-1">
-          <i class="fa fa-tasks"></i>
-        </div>
-        <div class="col">
-          <b>QA Tasks</b>
-        </div>
+    </div>
+    <div class="col-12 col-lg-3">
+      <div class="mt-2">
+        <div class="label" for="storyPoint">Story Point</div>
+        <input
+          name="storyPoint"
+          style="width: 100%"
+          type="number"
+          #storypoints
+          [value]="featureDetails.storyPoint"
+          [(ngModel)]="featureDetails.storyPoint"
+          id="storyPoint"
+          onPaste="return false"
+          min="1"
+          max="99"
+          (keypress)="restrictGreaterThan100(storypoints.value,$event)"
+          (focusout)="modifyFeature(modifyColumnIdentifier.storyPoint, $event)"
+        />
       </div>
-      <!-- starting of task -->
-      <div class="row">
-        <div class="col-1">
+      <div class="mt-2">
+        <mat-form-field>
+          <mat-label>Sprint</mat-label>
+          <mat-select [value]="featureDetails.sprint.name" (selectionChange)="modifyFeature(modifyColumnIdentifier.sprint, $event.value)">
+            <ng-template ngFor let-sprint [ngForOf]="allSprint">
+              <mat-option [value]="sprint.name">
+                {{sprint.name}}
+              </mat-option>
+            </ng-template>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="mt-2">
+        <mat-form-field>
+          <mat-label>Module</mat-label>
+          <mat-select [value]="selectedModule.name" (selectionChange)="moveToAnotherModule($event)">
+            <mat-option [value]="null">
+              Anonymous Module
+            </mat-option>
+            <ng-template ngFor let-module [ngForOf]="modules">
+              <mat-option [value]="module.name">
+                {{module.name}}
+              </mat-option>
+            </ng-template>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="mt-2">
+        <div for="startdate" class="label">Start date </div>
+        <div *ngIf="featureDetails" class="input-group">
           <input
-            type="checkbox"
-            name="task1"
-            id="task1"
-            value="Need User information using PNR number"
-          />
-        </div>
-        <div class="col-8 col-md-9">
-          <label for="task1">Need User information using PNR number</label>
-        </div>
-        <div class="col-1">
-          <i class="fa fa-user-plus"></i>
-        </div>
-        <div class="col-1">
-          <i class="fa fa-window-close"></i>
-        </div>
-      </div>
-      <!-- ending of task -->
-      <!-- add task button -->
-      <div class="row">
-        <div class="col-1"></div>
-        <div class="col">
-          <button class="btn good-btn" style="font-size: x-small">
-            Add Task
-          </button>
-        </div>
-      </div>
-      <!-- comment Heading -->
-      <div class="row" style="margin-top: 20px; margin-bottom: 10px">
-        <div class="col-1">
-          <i class="fa fa-comments"></i>
-        </div>
-        <div class="col">
-          <b>Comments</b>
-        </div>
-      </div>
-      <!-- comments -->
-      <!-- all the comments -->
-      <!-- single comment starting -->
-      <div class="row">
-        <div class="col-1 p-0">
-          <div class="avatar" style="padding-top: 4px; background-color: #66241c">
-            KT
-          </div>
-        </div>
-        <div class="col">
-          <div class="row">
-            <div class="col-5 col-sm-4 h-25">
-              <small><b>Kartik Tiwari </b></small>
-            </div>
-            <div class="col-6 col-sm-7">
-              <small class="text-muted">1 minutes ago</small>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col h-75">
-              <small
-                >I need an end point of user name, phone no along with medication
-                id.</small
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- single comment ending -->
-      <!-- single comment starting -->
-      <div class="row">
-        <div class="col-1 p-0">
-          <div class="avatar" style="padding-top: 4px">AS</div>
-        </div>
-        <div class="col">
-          <div class="row">
-            <div class="col-5 col-sm-4 h-25">
-              <small><b>Amit Shaw </b></small>
-            </div>
-            <div class="col-6 col-sm-7">
-              <small class="text-muted">10 minutes ago</small>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col h-75">
-              <small>I need mobile number along with user details.</small>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- single comment ending -->
-      <!-- single comment starting -->
-      <div class="row">
-        <div class="col-1 p-0">
-          <div class="avatar" style="padding-top: 4px; background-color: #1a5021">
-            R.S
-          </div>
-        </div>
-        <div class="col">
-          <div class="row">
-            <div class="col-5 col-sm-4 h-25">
-              <small><b>Rahul Shrivastav </b></small>
-            </div>
-            <div class="col-6 col-sm-7">
-              <small class="text-muted">yesterday at 2:33 p.m</small>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col h-75">
-              <small
-                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
-                ex, iste amet, pariatur ea odit dolores a illo adipisci
-                consectetur itaque ad consequuntur provident excepturi aut
-                quibusdam? Fuga, animi non.</small
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- single comment ending -->
-      <!-- single comment starting -->
-      <div class="row">
-        <div class="col-1 p-0">
-          <div class="avatar" style="padding-top: 4px; background-color: #6547d3">
-            PS
-          </div>
-        </div>
-        <div class="col">
-          <div class="row">
-            <div class="col-5 col-sm-4 h-25">
-              <small><b>Pappu Singh </b></small>
-            </div>
-            <div class="col-6 col-sm-7">
-              <small class="text-muted">2nd Jan at 3:45 p.m</small>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col h-75">
-              <small
-                >Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
-                ex, iste amet, pariatur ea odit dolores a illo adipisci
-                consectetur itaque ad consequuntur provident excepturi aut
-                quibusdam? Fuga, animi non.</small
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- single comment ending -->
-      <div class="row">
-        <div class="col-1 p-0">
-          <!-- <div class="avatar" style="padding-top:4px;">AS</div> -->
-        </div>
-        <div
-          class="col-10 col-md-10"
-          style="
-            height: 74px;
-            background-color: white;
-            padding: 0px;
-            margin: 10px;
-          "
-        >
-          <input
-            type="text"
             class="form-control"
-            placeholder="Write a comment..."
-            style="border: none"
+            placeholder="yyyy-mm-dd"
+            name="sd"
+            [(ngModel)]="startDate"
+            [maxDate]="endDate"
+            ngbDatepicker
+            #sDate="ngbDatepicker"
+            (dateSelect)="
+              modifyFeature(modifyColumnIdentifier.plannedStartDate, $event)
+            "
           />
-          <button class="btn good-btn" style="margin: 3px">
-            <small>Comment</small>
-          </button>
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              (click)="sDate.toggle()"
+              type="button"
+            >
+              <i class="fa fa-calendar-alt"></i>
+            </button>
+          </div>
         </div>
+        <!-- <input type="date" id="startdate" name="startdate"> -->
       </div>
-    </div>
-  </div>
-  <div class="col-12 col-lg-3">
-    <div class="mt-2">
-      <div class="label" for="storyPoint">Story Point</div>
-      <input
-        name="storyPoint"
-        style="width: 100%"
-        type="number"
-        #storypoints
-        [value]="featureDetails.storyPoint"
-        [(ngModel)]="featureDetails.storyPoint"
-        id="storyPoint"
-        onPaste="return false"
-        min="1"
-        max="99"
-        (keypress)="restrictGreaterThan100(storypoints.value,$event)"
-        (focusout)="modifyFeature(modifyColumnIdentifier.storyPoint, $event)"
-      />
-    </div>
-    <div class="mt-2">
-      <!-- <div class="label">Sprint</div>
-      <app-switch-text-dropdown
-        [list-data]="allSprint"
-        [text-data]="featureDetails.sprint"
-        (select)="modifyFeature(modifyColumnIdentifier.sprint, $event)"
-      ></app-switch-text-dropdown> -->
-      <mat-form-field>
-        <mat-label>Sprint</mat-label>
-        <mat-select [value]="featureDetails.sprint.name" (selectionChange)="modifyFeature(modifyColumnIdentifier.sprint, $event.value)">
-          <ng-template ngFor let-sprint [ngForOf]="allSprint">
-            <mat-option [value]="sprint.name">
-              {{sprint.name}}
-            </mat-option>
-          </ng-template>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="mt-2">
-      <mat-form-field>
-        <mat-label>Module</mat-label>
-        <mat-select [value]="selectedModule.name" (selectionChange)="moveToAnotherModule($event)">
-          <ng-template ngFor let-module [ngForOf]="modules">
-            <mat-option [value]="module.name">
-              {{module.name}}
-            </mat-option>
-          </ng-template>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="mt-2">
-      <div for="startdate" class="label">Start date </div>
-      <div *ngIf="featureDetails" class="input-group">
+      <div class="mt-2">
+        <div class="label" for="enddate">End date&nbsp;&nbsp;</div>
+        <div class="input-group">
+          <input
+            class="form-control"
+            placeholder="yyyy-mm-dd"
+            name="ed"
+            [(ngModel)]="endDate"
+            [minDate]="startDate"
+            ngbDatepicker
+            #eDate="ngbDatepicker"
+            (dateSelect)="
+              modifyFeature(modifyColumnIdentifier.plannedEndDate, $event)
+            "
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-outline-secondary"
+              (click)="eDate.toggle()"
+              type="button"
+            >
+              <i class="fa fa-calendar-alt"></i>
+            </button>
+          </div>
+        </div>
+        <!-- <input type="date" id="enddate" name="enddate"> -->
+      </div>
+      <div class="mt-2">
+        Work progress ({{ featureDetails.workCompletionPercentage }} %)
+      </div>
+      <div>
         <input
-          class="form-control"
-          placeholder="yyyy-mm-dd"
-          name="sd"
-          [(ngModel)]="startDate"
-          [maxDate]="endDate"
-          ngbDatepicker
-          #sDate="ngbDatepicker"
-          (dateSelect)="
-            modifyFeature(modifyColumnIdentifier.plannedStartDate, $event)
-          "
+          class="w-100"
+          type="range"
+          min="1"
+          max="100"
+          [(ngModel)]="featureDetails.workCompletionPercentage"
+          (change)="
+            modifyFeature(
+              modifyColumnIdentifier.workCompletionPercentage,
+              featureDetails.workCompletionPercentage
+            )"
         />
-        <div class="input-group-append">
-          <button
-            class="btn btn-outline-secondary"
-            (click)="sDate.toggle()"
-            type="button"
-          >
-            <i class="fa fa-calendar-alt"></i>
-          </button>
-        </div>
       </div>
-      <!-- <input type="date" id="startdate" name="startdate"> -->
-    </div>
-    <div class="mt-2">
-      <div class="label" for="enddate">End date&nbsp;&nbsp;</div>
-      <div class="input-group">
-        <input
-          class="form-control"
-          placeholder="yyyy-mm-dd"
-          name="ed"
-          [(ngModel)]="endDate"
-          [minDate]="startDate"
-          ngbDatepicker
-          #eDate="ngbDatepicker"
-          (dateSelect)="
-            modifyFeature(modifyColumnIdentifier.plannedEndDate, $event)
-          "
-        />
-        <div class="input-group-append">
-          <button
-            class="btn btn-outline-secondary"
-            (click)="eDate.toggle()"
-            type="button"
-          >
-            <i class="fa fa-calendar-alt"></i>
-          </button>
-        </div>
+      <div
+        *ngIf="!featureDetails.isBlocked"
+        class="lists"
+        (click)="modifyFeature(modifyColumnIdentifier.isBlocked, true)"
+      >
+        <i class="fa fa-ban"></i>
+        Mark as blocked
       </div>
-      <!-- <input type="date" id="enddate" name="enddate"> -->
-    </div>
-    <div class="mt-2">
-      Work progress ({{ featureDetails.workCompletionPercentage }} %)
-    </div>
-    <div>
-      <input
-        class="w-100"
-        type="range"
-        min="1"
-        max="100"
-        [(ngModel)]="featureDetails.workCompletionPercentage"
-        (change)="
-          modifyFeature(
-            modifyColumnIdentifier.workCompletionPercentage,
-            featureDetails.workCompletionPercentage
-          )"
-      />
-    </div>
-    <div
-      *ngIf="!featureDetails.isBlocked"
-      class="lists"
-      (click)="modifyFeature(modifyColumnIdentifier.isBlocked, true)"
-    >
-      <i class="fa fa-ban"></i>
-      Mark as blocked
-    </div>
-    <div *ngIf="featureDetails.isBlocked"
-      class="lists"
-      (click)="modifyFeature(7, false)">
-      <i class="fa fa-ban"></i>
-      Unblock
-    </div>
-    <div *ngIf="isBlocked" (click)="isBlocked = false" class="mt-2">
-      <div class="lists">
-        <i class="fa fa-unlock"></i>
+      <div *ngIf="featureDetails.isBlocked"
+        class="lists"
+        (click)="modifyFeature(7, false)">
+        <i class="fa fa-ban"></i>
         Unblock
       </div>
-    </div>
-    <div class="mt-2">
-      <div>
-        <small>Owners</small>
+      <div *ngIf="isBlocked" (click)="isBlocked = false" class="mt-2">
+        <div class="lists">
+          <i class="fa fa-unlock"></i>
+          Unblock
+        </div>
       </div>
-      <app-add-user
-        [added-users]="featureDetails.assignees"
-        [other-users]="featureDetails.members"
-        (is-added)="
-          modifyFeature(modifyColumnIdentifier.includeAssignee, $event)
-        "
-        (is-removed)="modifyFeature(modifyColumnIdentifier.excludeAssignee, $event)"
-      ></app-add-user>
+      <div class="mt-2">
+        <div>
+          <small>Owners</small>
+        </div>
+        <app-add-user
+          [added-users]="featureDetails.assignees"
+          [other-users]="featureDetails.members"
+          (is-added)="
+            modifyFeature(modifyColumnIdentifier.includeAssignee, $event)
+          "
+          (is-removed)="modifyFeature(modifyColumnIdentifier.excludeAssignee, $event)"
+        ></app-add-user>
+      </div>
     </div>
-  </div>
+  </div>  
 </div>
