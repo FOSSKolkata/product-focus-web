@@ -1,83 +1,88 @@
-<div #addFeatureRef>
-  <small [style.display]="addFeatureOrBugStep == 0?'block':'none'" (click)="addFeatureOrBugStep = 1"
-    ><i class="fa fa-plus"> Add Feature / Bug</i></small
-  >
-  <div>
-    <div class="add feature-margin-btn" [style.display]="addFeatureOrBugStep == 1?'block':'none'">
-      <div
-        class="btn good-btn"
-        (click)="addType('Feature'); addFeatureOrBugStep = 2"
-      >
-        Feature
-      </div>
-      <div
-        class="btn good-btn"
-        (click)="addType('Bug'); addFeatureOrBugStep = 2"
-      >
-        Bug
-      </div>
-      <div>
-        <span>Choose type</span>
-        <i
-          (click)="addFeatureOrBugStep = 0"
-          class="fa fa-times"
-          id="cancel-task"
-        ></i>
-      </div>
-    </div>
-    <div *ngIf="addFeatureOrBugStep == 2" class="add">
-      <i
-        class="fa"
-        [class.fa-bug]="workItemType == 'Bug'"
-        [class.fa-life-ring]="workItemType == 'Feature'"
-        [style.color]="workItemType == 'Bug' ? 'red' : 'blue'"
-      ></i>
-      <form #addFeatureForm="ngForm" (ngSubmit)="addFeature()">
-        <textarea
-          type="text"
-          [(ngModel)]="title"
-          name="featureBugTitle"
-          #featureBugTitle="ngModel"
-          class="form-control"
-          placeholder="Enter title"
-          rows="2"
-          required
-          minlength="4"
-        ></textarea>
+<div #addFeatureRef class="pointer">
+  <div (click)="addFeatureOrBugStep = 1" [popover]="myPopover" [popoverCloseOnMouseOutside]="true" [popoverOnHover]="false">
+  <i class="fa fa-plus" ></i> Add Feature / Bug
+  </div>
+  <popover-content #myPopover [style.display]="addFeatureOrBugStep != 0?'block':'none'"
+    placement="bottom-left"
+    [animation]="true"
+    [closeOnClickOutside]="true">
+    <div>
+      <div class="add feature-margin-btn" [style.display]="addFeatureOrBugStep == 1?'block':'none'">
         <div
-          *ngIf="
-            featureBugTitle.invalid &&
-            (featureBugTitle.dirty || featureBugTitle.touched)
-          "
-          class="text-danger"
+          class="btn good-btn"
+          (click)="addType('Feature'); addFeatureOrBugStep = 2"
         >
-          <div *ngIf="featureBugTitle.errors?.required">Title is required.</div>
-          <div *ngIf="featureBugTitle.errors?.minlength">
-            Title should be of 4 length.
-          </div>
+          Feature
+        </div>
+        <div
+          class="btn good-btn"
+          (click)="addType('Bug'); addFeatureOrBugStep = 2"
+        >
+          Bug
         </div>
         <div>
-          <button
-            type="submit"
-            [disabled]="addFeatureForm.invalid"
-            class="btn good-btn"
-          >
-          <div
-            *ngIf="addingFeature"
-            class="spinner-border spinner-border-sm"
-            role="status"
-          >
-            <span class="sr-only">Loading...</span>
-          </div>
-            {{addingFeature?"Adding":"Add"}}
-          </button>
-          <i *ngIf="!addingFeature"
+          <span>Choose type</span>
+          <i
+            (click)="addFeatureOrBugStep = 0"
             class="fa fa-times"
             id="cancel-task"
-            (click)="addFeatureOrBugStep = 0"
           ></i>
         </div>
-      </form>
+      </div>
+      <div *ngIf="addFeatureOrBugStep == 2" class="add">
+        <i
+          class="fa"
+          [class.fa-bug]="workItemType == 'Bug'"
+          [class.fa-life-ring]="workItemType == 'Feature'"
+          [style.color]="workItemType == 'Bug' ? 'red' : 'blue'"
+        ></i>
+        <form #addFeatureForm="ngForm" (ngSubmit)="addFeature()">
+          <textarea
+            type="text"
+            [(ngModel)]="title"
+            name="featureBugTitle"
+            #featureBugTitle="ngModel"
+            class="form-control"
+            placeholder="Enter title"
+            rows="2"
+            required
+            minlength="4"
+          ></textarea>
+          <div
+            *ngIf="
+              featureBugTitle.invalid &&
+              (featureBugTitle.dirty || featureBugTitle.touched)
+            "
+            class="text-danger"
+          >
+            <div *ngIf="featureBugTitle.errors?.required">Title is required.</div>
+            <div *ngIf="featureBugTitle.errors?.minlength">
+              Title should be of 4 length.
+            </div>
+          </div>
+          <div>
+            <button
+              type="submit"
+              [disabled]="addFeatureForm.invalid"
+              class="btn good-btn"
+            >
+            <div
+              *ngIf="addingFeature"
+              class="spinner-border spinner-border-sm"
+              role="status"
+            >
+              <span class="sr-only">Loading...</span>
+            </div>
+              {{addingFeature?"Adding":"Add"}}
+            </button>
+            <i *ngIf="!addingFeature"
+              class="fa fa-times"
+              id="cancel-task"
+              (click)="addFeatureOrBugStep = 0"
+            ></i>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
+  </popover-content>
 </div>

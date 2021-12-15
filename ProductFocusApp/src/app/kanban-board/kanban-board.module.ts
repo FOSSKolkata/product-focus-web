@@ -22,6 +22,8 @@ import { MdePopoverModule } from '@material-extended/mde';
 import { MatCardModule } from '@angular/material/card';
 import { SwitchTextAutocompleteComponent } from './switch-text-autocomplete/switch-text-autocomplete.component';
 import { PopoverModule } from 'ngx-smart-popover';
+import { AddSprintComponent } from './add-sprint/add-sprint.component';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   imports: [
@@ -38,7 +40,8 @@ import { PopoverModule } from 'ngx-smart-popover';
     MatRadioModule,
     MdePopoverModule,
     MatCardModule,
-    PopoverModule
+    PopoverModule,
+    NgbAlertModule
   ],
   declarations: [
     KanbanBoardComponent,
@@ -50,7 +53,8 @@ import { PopoverModule } from 'ngx-smart-popover';
     BoardViewComponent,
     ScrumViewComponent,
     ProgressCommentComponent,
-    SwitchTextAutocompleteComponent
+    SwitchTextAutocompleteComponent,
+    AddSprintComponent
   ],
   providers: [
     DatePipe

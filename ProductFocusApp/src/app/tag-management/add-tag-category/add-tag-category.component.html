@@ -1,0 +1,30 @@
+<form #tagCategory="ngForm" (ngSubmit)="addTagCategory(tagCategory.value); tagCategory.reset()">
+    <label for = "name">Tag Category</label>
+    <input type = "text"
+        class = "form-control"
+        id = "name"
+        required
+        [(ngModel)] = "tagName"
+        name = "name"
+        #name="ngModel"
+        placeholder="Tag Category Name"
+        style="width: 250px;"
+    >
+    <div *ngIf="name.invalid && (name.dirty || name.touched)">
+        <div class="text-danger" *ngIf="name.errors?.required">
+          Name is required.
+        </div>
+        <!-- <div class="text-danger" *ngIf="name.errors?.maxlength">
+          Length should not be greater than 50.
+        </div>
+        <div class="text-danger" *ngIf="name.errors?.pattern">
+          Special characters are not allowed except '-', '_' and white spaces.
+        </div> -->
+    </div>
+    
+    <button type="submit"
+        class="btn good-btn mt-1"
+        [disabled]="!tagCategory.form.valid"
+    >
+        Add</button>
+</form>

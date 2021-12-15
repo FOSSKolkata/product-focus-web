@@ -62,6 +62,7 @@ input{
 
 .news-report-container {
     min-height: 80vh;
+    width: calc(100vw - var(--side-nav-width) - var(--left-panel-width));
     .side-border {
         border-right: 1px solid #D2DCE4;
     }
@@ -125,3 +126,8 @@ input{
     font-size: 20;
     color: #130D30;
 }
+
+.title-expand {
+    padding-left: 15rem;
+    transition: 0.2s;
+  }

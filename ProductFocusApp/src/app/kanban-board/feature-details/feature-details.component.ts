@@ -6,7 +6,7 @@ import { DateFunctionService } from 'src/app/dht-common/date-function.service';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { SprintService } from 'src/app/_services/sprint.service';
-import { IFeature, IFeatureDetails, IModule, ISprint, ModifyColumnIdentifier, WorkItemType } from '../../dht-common/models';
+import { IFeature, IFeatureDetails, IMember, IModule, ISprint, ModifyColumnIdentifier, WorkItemType } from '../../dht-common/models';
 
 @Component({
   selector: 'app-feature-details',
@@ -140,6 +140,10 @@ export class FeatureDetailsComponent implements OnInit {
       this.modifyFeature(ModifyColumnIdentifier.updateModule, changedModule.id);
     }
   }
+
+  addRemoveOwners(event: IMember) {
+
+  }
   
   modifyFeature(key: number, value: any) {
     this.anyChanges.emit(true);
@@ -162,7 +166,9 @@ export class FeatureDetailsComponent implements OnInit {
       object.isBlocked = value;
       this.featureDetails.isBlocked = value; // do not need to call api again
     } else if (key == ModifyColumnIdentifier.includeAssignee) {
-      object.emailOfAssignee = value.email;
+      object.fieldName = ModifyColumnIdentifier.includeExcludeOwners;
+      object.excludeOwnerList = [];
+      object.includeOwnerList = [value.id];
       this.featureDetails.assignees.push(value);
     } else if (key == ModifyColumnIdentifier.storyPoint) {
       object.storyPoint = value.target.value;
@@ -170,7 +176,9 @@ export class FeatureDetailsComponent implements OnInit {
     } else if (key == ModifyColumnIdentifier.sprint) {
       object.sprintName = value;
     } else if(key == ModifyColumnIdentifier.excludeAssignee){
-      object.emailOfAssignee = value.email;
+      object.fieldName = ModifyColumnIdentifier.includeExcludeOwners;
+      object.excludeOwnerList = [value.id];
+      object.includeOwnerList = [];
     } else if(key == ModifyColumnIdentifier.updateModule) {
       object.moduleId = value;
     }

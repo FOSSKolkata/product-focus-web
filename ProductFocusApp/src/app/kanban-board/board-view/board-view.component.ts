@@ -1,11 +1,10 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
-import { FeatureOrdering, FeatureStatus, GroupCategory, IKanbanBoard, IModule, ISprint, ModifyColumnIdentifier, OrderingCategoryEnum, OrderingInfo } from 'src/app/dht-common/models';
+import { FeatureOrdering, FeatureStatus, GroupCategory, IKanban, IModule, ISprint, ModifyColumnIdentifier, OrderingInfo } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { ProductService } from 'src/app/_services/product.service';
 
@@ -16,12 +15,12 @@ import { ProductService } from 'src/app/_services/product.service';
 })
 
 export class BoardViewComponent implements OnInit, OnDestroy {
-  @Input('kanban-board-without-filter') kanbanBoardWithoutFilter: IKanbanBoard[] = [];
   @Input('selected-sprint') selectedSprint: ISprint | null = null;
   @Input('selected-userids')selectedUserIds = [];
   @Input() events: Observable<void> | undefined;
   @Input('kanban-board-spinner') kanbanBoardSpinner: boolean = true;
-  kanbanBoard: IKanbanBoard[] = [];
+  kanban!: IKanban;
+  kanbanWithoutFilter!: IKanban;
   board: any = [];
   boardWithoutFilter: any = [];
   selectedProduct!: {id: number, name: string};
@@ -44,9 +43,6 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     
     this.setModules();
     
-    while(!this.selectedSprint) {
-      await new Promise(resolve => setTimeout(resolve,100));
-    }
     if(this.events) {
       this.eventsSubscription = this.events.subscribe(() => {
         setTimeout(()=> {
@@ -67,43 +63,41 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     if (this.selectedProduct === undefined) {
       this.router.navigate(['/']);
     }
-    if(!this.selectedSprint) {
-      this.router.navigate(['/']);
-    }
     else {
       this.setModules();
       this.productService
         .getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
-          OrderingCategoryEnum.BoardView,
-          this.selectedSprint.id,
+          this.selectedSprint?.id,
           this.selectedUserIds,
           this.selectedGroup)
         .subscribe((x) => {
-          this.kanbanBoard = x;
+          this.kanban = x;
           this.kanbanBoardSpinner = false;
-          this.board = this.setBoard(this.kanbanBoard);
+          this.board = this.setBoard(this.kanban);
         },(err)=>{
           this.kanbanBoardSpinner = false;
           this.error = err;
         });
       this.productService.getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
-        OrderingCategoryEnum.BoardView,
-        this.selectedSprint.id,
-        [], this.selectedGroup).subscribe(x => {
-          this.kanbanBoardWithoutFilter = x;
-          this.boardWithoutFilter = this.setBoard(this.kanbanBoardWithoutFilter);
+        this.selectedSprint?.id, [],
+        GroupCategory.Module).subscribe(x => {
+          this.kanbanWithoutFilter = x;
+          this.boardWithoutFilter = this.setBoard(this.kanbanWithoutFilter);
         })
     }
   }
 
-  setBoard(kBoard: IKanbanBoard[]): any[] {
+  setBoard(kBoard: IKanban): any[] {
     let board : any[] = [];
-    for (let module of kBoard) {
+    for (let module of kBoard.kanbanList) {
       board.push([]);
       for(let i = 0; i < 5; i++) {
         board[board.length - 1].push([]);
       }
-      board[board.length - 1].groupName = module.groupName;
+      board[board.length - 1].groupList = [];
+      for(let groupItem of module.groupList) {
+        board[board.length - 1].groupList.push({groupName: groupItem.groupName});
+      }
       for (let feature of module.featureDetails) {
         board[board.length - 1][feature.status].push(feature);
       }
@@ -120,15 +114,6 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     }
     return board;
   }
-
-  // findModuleIndex(moduleName: string): number {
-  //   for(let moduleIndex = 0; moduleIndex < this.boardWithoutFilter.length; moduleIndex++) {
-  //     if(moduleName === this.boardWithoutFilter[moduleIndex].groupName) {
-  //       return moduleIndex;
-  //     }
-  //   }
-  //   throw "module not found.";
-  // }
 
   getCardPlacedPosition(modulePosition: number): {row: number, column: number} {
     let placedPosition = {row: 0, column: 0};
@@ -155,19 +140,19 @@ export class BoardViewComponent implements OnInit, OnDestroy {
     let orderInfo: FeatureOrdering[] = [];
     let map = new Map<number,number>() // Store card id and order number after reordering
     let counter = 0;
-    // Reordering in which card is moved.
-    for(let column = 0; column < 5; column++) {
-      for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
-          let card = this.boardWithoutFilter[modulePosition][column][row];
-        orderInfo.push({featureId: card.id, orderNumber:  ++counter});
-        map.set(card.id, counter);
-        card.orderNumber = counter;
-      }
-    }
+    // Reordering module's in which card is moved.
+    // for(let column = 0; column < 5; column++) {
+    //   for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
+    //     let card = this.boardWithoutFilter[modulePosition][column][row];
+    //     orderInfo.push({featureId: card.id, orderNumber:  ++counter});
+    //     map.set(card.id, counter);
+    //     card.orderNumber = counter;
+    //   }
+    // }
 
     // Reordering other module's card
     for(let moduleIndex = 0; moduleIndex <  this.boardWithoutFilter.length; moduleIndex++) {
-      if(moduleIndex != modulePosition) {
+      // if(moduleIndex != modulePosition) {
         for(let column = 0; column < 5; column++) {
           if(this.boardWithoutFilter[moduleIndex][column] === undefined) {
             break;
@@ -179,14 +164,15 @@ export class BoardViewComponent implements OnInit, OnDestroy {
             card.orderNumber = counter;
           }
         }
-      }
+      // }
     }
+    
 
     // set filtered board order
     for(let moduleIndex = 0; moduleIndex < this.board.length; moduleIndex++) {
-      if(moduleIndex != modulePosition) {
+      // if(moduleIndex != modulePosition) {
         for(let column = 0; column < 5; column++) {
-          if(this.boardWithoutFilter[moduleIndex][column] === undefined) {
+          if(this.board[moduleIndex][column] === undefined) {
             break;
           }
           for(let row = 0; row < this.board[moduleIndex][column].length; row++) {
@@ -194,13 +180,13 @@ export class BoardViewComponent implements OnInit, OnDestroy {
               card.orderNumber = map.get(card.id);
           }
         }
-      }
+      // }
     }
+
     
     let orderingInfo : OrderingInfo = {
       sprintId: this.selectedSprint?this.selectedSprint.id:-1,
-      featuresOrdering: orderInfo,
-      orderingCategory: OrderingCategoryEnum.BoardView
+      featuresOrdering: orderInfo
     };
 
     this.featureService.modifyFeatureOrder(orderingInfo).subscribe(res => {
@@ -211,46 +197,59 @@ export class BoardViewComponent implements OnInit, OnDestroy {
   }
 
   updateKanbanBoardOrdering(modulePosition: number, movedCardId: number, previousToCardPlacedCardId: number) {
-    // let modulePosition = this.findModuleIndex(moduleName);
     let placedPosition = this.getCardPlacedPosition(modulePosition);
-    
     let movedCardCopy : any;
     for(let column = 0; column < 5; column++) {
-      for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
-        if(this.boardWithoutFilter[modulePosition][column][row].id == movedCardId) {
-          movedCardCopy = JSON.parse(JSON.stringify(this.boardWithoutFilter[modulePosition][column][row]));
-          this.boardWithoutFilter[modulePosition][column][row].id = -1; // Will be deleted
-          break;
-        }
-      }
-    }
-
-    if(previousToCardPlacedCardId === -1) { // If the card is placed at the top
-      this.boardWithoutFilter[modulePosition][placedPosition.column].splice(0, 0, movedCardCopy);
-    }
-    else {
-      for(let column = 0; column < 5; column++) {
+      for(let modulePosition = 0; modulePosition < this.boardWithoutFilter.length; modulePosition++) {
         for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
-          if(this.boardWithoutFilter[modulePosition][column][row].id === previousToCardPlacedCardId) {
-            this.boardWithoutFilter[modulePosition][column].splice(row + 1, 0, movedCardCopy); // Placed the card next to previous card
+          if(this.boardWithoutFilter[modulePosition][column][row].id === movedCardId) {
+            movedCardCopy = JSON.parse(JSON.stringify(this.boardWithoutFilter[modulePosition][column][row]));
+            this.boardWithoutFilter[modulePosition][column][row].id = -1; // Will be deleted
             break;
           }
         }
       }
     }
 
+    if(previousToCardPlacedCardId === -1 && this.kanban.groupType === 'Module') { // If the card is placed at the top
+      this.boardWithoutFilter[modulePosition][placedPosition.column].splice(0, 0, movedCardCopy);
+    }
+    else {
+      for(let column = 0; column < 5; column++) {
+        for(let modulePosition = 0; modulePosition < this.boardWithoutFilter.length; modulePosition++) {
+          for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
+            if(this.boardWithoutFilter[modulePosition][column][row].id === previousToCardPlacedCardId) {
+              this.boardWithoutFilter[modulePosition][column].splice(row + 1, 0, movedCardCopy); // Placed the card next to previous card
+              break;
+            }
+          }
+        }
+      }
+    }
+
     for(let column = 0; column < 5; column++) {
-      for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
-        if(this.boardWithoutFilter[modulePosition][column][row].id === -1) {
-          this.boardWithoutFilter[modulePosition][column].splice(row,1); // Remove the card
-          break;
+      for(let modulePosition = 0; modulePosition < this.boardWithoutFilter.length; modulePosition++) {
+        for(let row = 0; row < this.boardWithoutFilter[modulePosition][column].length; row++) {
+          if(this.boardWithoutFilter[modulePosition][column][row].id === -1) {
+            this.boardWithoutFilter[modulePosition][column].splice(row,1); // Remove the card
+            break;
+          }
         }
       }
     }
     this.reorderBoard(modulePosition);
   }
 
-  drop(event: CdkDragDrop<any[]>, status: FeatureStatus) {
+  getUserIdsInUserGroup(index: number) {
+    let userIds = [];
+    for(let user of this.kanban.kanbanList[index].groupList) {
+      if(user.groupId !== null)
+        userIds.push(user.groupId);
+    }
+    return userIds;
+  }
+
+  async drop(event: CdkDragDrop<any[]>, status: FeatureStatus) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
         event.container.data,
@@ -265,13 +264,24 @@ export class BoardViewComponent implements OnInit, OnDestroy {
         event.currentIndex
       );
     }
-    
+    if(this.kanban.groupType === 'Users') {
+      let excludeOwnerList = [];
+      for(let owner of event.container.data[event.currentIndex].assignees) {
+        excludeOwnerList.push(owner.userId);
+      }
+      let object = {
+        id: event.container.data[event.currentIndex].id,
+        fieldName: ModifyColumnIdentifier.includeExcludeOwners,
+        includeOwnerList: this.getUserIdsInUserGroup(+event.container.id),
+        excludeOwnerList: excludeOwnerList
+      }
+      await this.featureService.modifyFeatureElement(object).toPromise().then();
+    }
     let previousToCardPlacedCardId = event.currentIndex === 0 ? -1 : event.container.data[event.currentIndex-1].id;
-    // let moduleName = event.container.id;
     let modulePosition = +event.container.id;
     let placedCardId = event.container.data[event.currentIndex].id;
     
-    if(event.previousContainer.id != event.container.id) {
+    if(event.previousContainer.id != event.container.id && this.kanban.groupType === 'Module') {
       let movedCardCopy;
       let position = this.getCardPlacedPosition(modulePosition);
       for(let column = 0; column < 5; column++) {
@@ -298,7 +308,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
       }
       let cardDroppedInModule = null;
       for(let module of this.modules) {
-        if(module.name === this.boardWithoutFilter[+event.container.id].groupName) {
+        if(module.name === this.boardWithoutFilter[+event.container.id].groupList[0].groupName) {
           cardDroppedInModule = module;
           break;
         }
@@ -307,7 +317,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
       let orderInfo: FeatureOrdering[] = [];
       let map = new Map<number,number>() // Store card id and order number after reordering
       let counter = 0;
-      for(let moduleIndex = 0; moduleIndex <  this.boardWithoutFilter.length; moduleIndex++) {
+      for(let moduleIndex = 0; moduleIndex < this.boardWithoutFilter.length; moduleIndex++) {
         for(let column = 0; column < 5; column++) {
           if(this.boardWithoutFilter[moduleIndex][column] === undefined) {
             break;
@@ -339,8 +349,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
       }
       let orderingInfo : OrderingInfo = {
         sprintId: this.selectedSprint?this.selectedSprint.id:-1,
-        featuresOrdering: orderInfo,
-        orderingCategory: OrderingCategoryEnum.BoardView
+        featuresOrdering: orderInfo
       };
   
       let object: any = {
@@ -383,7 +392,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
             this.toStr.error('Unable to update.',err.error);
           });
         },(err)=>{
-          this.toStr.error('Update is not saved!!','Not modified')
+          this.toStr.error('Update is not saved!!',err.error)
         });
       }
       

@@ -4,7 +4,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
-import { FeatureOrdering, GroupCategory, IFeatureDetails, IKanbanBoard, IMemberDetail, IModule, IScrumDay, ISprint, ModifyColumnIdentifier, OrderingCategoryEnum, OrderingInfo } from 'src/app/dht-common/models';
+import { FeatureOrdering, GroupCategory, IFeatureDetails, IKanban, IMemberDetail, IModule, IScrumDay, ISprint, ModifyColumnIdentifier, OrderingInfo } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { UserService } from 'src/app/_services/user.service';
@@ -20,8 +20,10 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
   @Input('selected-userids') selectedUserIds = [];
   @Input() events: Observable<void> | undefined;
 
-  kanbanBoard: IKanbanBoard[] = [];
-  kanbanBoardWithoutFilter: IKanbanBoard[] = [];
+  kanban!: IKanban;
+  kanbanWithoutFilter!: IKanban;
+  // kanbanBoard: IKanbanBoard[] = [];
+  // kanbanBoardWithoutFilter: IKanbanBoard[] = [];
   sprintDates: Date[] = [];
   board:any[] = [];
   boardWithoutFilter: any[] = [];
@@ -89,9 +91,9 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       });
     }
     
-    while(!this.currentSprint) {
-      await new Promise(resolve => setTimeout(resolve,100));
-    }
+    // while(!this.currentSprint) {
+    //   await new Promise(resolve => setTimeout(resolve,100));
+    // }
     this.setKanbanBoard();
   }
   setKanbanBoard() {
@@ -102,10 +104,20 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       return
     this.kanbanBoardSpinner = true;
     this.productService
-      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, OrderingCategoryEnum.ScrumView, this.currentSprint.id, this.selectedUserIds, this.selectedGroupCategory)
+      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, this.currentSprint.id, this.selectedUserIds, this.selectedGroupCategory)
       .subscribe((x) => {
-        this.kanbanBoard = x;
-        for(let module of this.kanbanBoard) {
+        this.kanban = x;
+        // this.kanbanBoard = x.kanbanList;
+        // for(let module of this.kanbanBoard) {
+        //   module.featureDetails.sort((item1: IFeatureDetails, item2: IFeatureDetails) => {
+        //     if(item1.orderNumber < item2.orderNumber)
+        //       return -1;
+        //     if(item1.orderNumber > item2.orderNumber)
+        //       return 1;
+        //     return 0;
+        //   });
+        // }
+        for(let module of this.kanban.kanbanList) {
           module.featureDetails.sort((item1: IFeatureDetails, item2: IFeatureDetails) => {
             if(item1.orderNumber < item2.orderNumber)
               return -1;
@@ -122,10 +134,20 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       });
 
     this.productService
-      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, OrderingCategoryEnum.ScrumView, this.currentSprint.id, [], this.selectedGroupCategory)
+      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, this.currentSprint.id, [], this.selectedGroupCategory)
       .subscribe((x) => {
-        this.kanbanBoardWithoutFilter = x;
-        for(let module of this.kanbanBoard) {
+        this.kanbanWithoutFilter = x;
+        // this.kanbanBoardWithoutFilter = x.kanbanList;
+        // for(let module of this.kanbanBoard) {
+        //   module.featureDetails.sort((item1: IFeatureDetails, item2: IFeatureDetails) => {
+        //     if(item1.orderNumber < item2.orderNumber)
+        //       return -1;
+        //     if(item1.orderNumber > item2.orderNumber)
+        //       return 1;
+        //     return 0;
+        //   });
+        // }
+        for(let module of this.kanbanWithoutFilter.kanbanList) {
           module.featureDetails.sort((item1: IFeatureDetails, item2: IFeatureDetails) => {
             if(item1.orderNumber < item2.orderNumber)
               return -1;
@@ -247,7 +269,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     
     let orderingInfo: OrderingInfo = {
       sprintId: this.currentSprint?this.currentSprint.id:-1,
-      orderingCategory: OrderingCategoryEnum.ScrumView,
       featuresOrdering: featureOrder
     };
 
@@ -257,20 +278,34 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
   setWithoutFilterBoard() {
     this.boardWithoutFilter = [];
     let orderNumber = 0;
-    for(let module of this.kanbanBoardWithoutFilter) {
-      let tempModuleContainer: any = [];
-      tempModuleContainer.groupName = module.groupName;
-      for(let feature of module.featureDetails) {
-        let currentFeature = {
-          id: feature.id,
-          order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1,
-          moduleId: feature.moduleId
-        };
-        orderNumber++;
-        tempModuleContainer.push(currentFeature);
+    // for(let module of this.kanbanBoardWithoutFilter) {
+    //   let tempModuleContainer: any = [];
+    //   tempModuleContainer.groupName = module.groupList[0].groupName;
+    //   for(let feature of module.featureDetails) {
+    //     let currentFeature = {
+    //       id: feature.id,
+    //       order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1,
+    //       moduleId: feature.moduleId
+    //     };
+    //     orderNumber++;
+    //     tempModuleContainer.push(currentFeature);
+    //   }
+    //   this.boardWithoutFilter.push(tempModuleContainer);
+    // }
+    for(let module of this.kanbanWithoutFilter.kanbanList) {
+        let tempModuleContainer: any = [];
+        tempModuleContainer.groupName = module.groupList[0].groupName;
+        for(let feature of module.featureDetails) {
+          let currentFeature = {
+            id: feature.id,
+            order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1,
+            moduleId: feature.moduleId
+          };
+          orderNumber++;
+          tempModuleContainer.push(currentFeature);
+        }
+        this.boardWithoutFilter.push(tempModuleContainer);
       }
-      this.boardWithoutFilter.push(tempModuleContainer);
-    }
     for(let i=0;i<this.boardWithoutFilter.length;i++) {
       this.boardWithoutFilter[i].sort((item1: {id: number, order: number}, item2: {id: number, order: number}) => {
         if(item1.order < item2.order) {
@@ -297,13 +332,38 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
 
     this.board = [];
     let orderNumber = 0;
-    for(let module of this.kanbanBoard) {
+    // for(let module of this.kanbanBoard) {
+    //   let tempModuleContainer: any = [];
+    //   tempModuleContainer.groupName = module.groupList[0].groupName;
+    //   for(let feature of module.featureDetails) {
+    //     let currentFeature = {
+    //       id: feature.id,
+    //       name: module.groupList[0].groupName,
+    //       title: feature.title,
+    //       storyPoint: feature.storyPoint,
+    //       startDate: feature.plannedStartDate,
+    //       endDate: feature.plannedEndDate,
+    //       durationInDays: feature.plannedEndDate && feature.plannedStartDate ? this.getNumberOfDaysBetweenTwoDates(new Date(feature.plannedEndDate),new Date(feature.plannedStartDate)): null,
+    //       assignee: feature.assignees,
+    //       scrumDays: this.sortByDateAndAddExtra(feature.scrumDays),
+    //       remarks: feature.remarks,
+    //       functionalTestability: feature.functionalTestability,
+    //       order: feature.orderNumber !== 0 ? feature.orderNumber : orderNumber + 1,
+    //       workItemType: feature.workItemType,
+    //       moduleId: feature.moduleId
+    //     };
+    //     orderNumber++;
+    //     tempModuleContainer.push(currentFeature);
+    //   }
+    //   this.board.push(tempModuleContainer);
+    // }
+    for(let module of this.kanban.kanbanList) {
       let tempModuleContainer: any = [];
-      tempModuleContainer.groupName = module.groupName;
+      tempModuleContainer.groupName = module.groupList[0].groupName;
       for(let feature of module.featureDetails) {
         let currentFeature = {
           id: feature.id,
-          name: module.groupName,
+          name: module.groupList[0].groupName,
           title: feature.title,
           storyPoint: feature.storyPoint,
           startDate: feature.plannedStartDate,
@@ -397,6 +457,6 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
   }
   
   ngOnDestroy(): void {
-    this.eventsSubscription.unsubscribe();
+    // this.eventsSubscription.unsubscribe();
   }
 }

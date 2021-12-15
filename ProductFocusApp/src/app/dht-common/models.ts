@@ -35,7 +35,8 @@ export enum ModifyColumnIdentifier {
   actualEndDate = 14,
   remarks = 15,
   functionalTestability = 16,
-  updateModule = 17
+  updateModule = 17,
+  includeExcludeOwners = 18
 }
 
 export interface IAddOrganizationInput {
@@ -54,7 +55,7 @@ export interface IRegisterUserInput {
 export interface IFeatureInput {
   title: string,
   workItemType: string,
-  sprintId: number
+  sprintId: number | undefined
 }
 
 export interface ISprintInput {
@@ -119,6 +120,7 @@ export interface ISprint {
 }
 
 export interface IMember {
+  id: number,
   name: string,
   email: string,
   objectId: string,
@@ -144,9 +146,19 @@ export interface IModule {
   name: string,
 }
 
+export interface IKanban {
+  groupType: string,
+  kanbanList: IKanbanBoard[]
+}
+
 export interface IKanbanBoard {
-  groupName: string,
+  groupList: IGroupList[]
   featureDetails: IFeatureDetails[],
+}
+
+export interface IGroupList {
+  groupId: number,
+  groupName: string
 }
 
 export interface IScrumDay {
@@ -255,18 +267,12 @@ export interface Owner {
 
 export interface OrderingInfo {
   featuresOrdering: FeatureOrdering[],
-  orderingCategory: OrderingCategoryEnum,
   sprintId: number
 }
 
 export interface FeatureOrdering {
   featureId: number,
   orderNumber: number
-}
-
-export enum OrderingCategoryEnum {
-  BoardView = 1,
-  ScrumView = 2
 }
 
 export interface IInvitationDetails {
@@ -278,4 +284,9 @@ export interface IInvitationDetails {
 export enum GroupCategory {
   Module = 1,
   Users = 2
+}
+
+export interface ITagCategory {
+  id: number,
+  name: string
 }

@@ -1,14 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from '../_services/product.service';
-import { NgbCalendar, NgbDate, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SprintService } from '../_services/sprint.service';
-import { FeatureStatus, GroupCategory, IKanbanBoard, IMemberDetail, IModule, ISprint, ISprintInput } from '../dht-common/models';
+import { FeatureStatus, GroupCategory, IKanbanBoard, IMemberDetail, IModule, ISprint } from '../dht-common/models';
 import { ToastrService } from 'ngx-toastr';
-import { FormControl, FormGroup } from '@angular/forms';
-import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { UserService } from '../_services/user.service';
-import { DateFunctionService } from '../dht-common/date-function.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
 import { Subject } from 'rxjs';
 import { MatSelectChange } from '@angular/material/select';
@@ -20,10 +17,7 @@ import { ScrumViewComponent } from './scrum-view/scrum-view.component';
   templateUrl: './kanban-board.component.html',
   styleUrls: ['./kanban-board.component.scss'],
 })
-export class KanbanBoardComponent implements OnInit {
-  hoveredDate: NgbDate | null = null;
-  fromDate: NgbDate;
-  toDate: NgbDate | null = null;
+export class KanbanBoardComponent implements OnInit, OnDestroy {
   modules: IModule[] = [];
   eventsSubject: Subject<void> = new Subject<void>();
   subject = new Subject<number>();
@@ -31,7 +25,6 @@ export class KanbanBoardComponent implements OnInit {
   moduleAddView: boolean = false;
   sprintAddView: boolean = false;
   moduleName: string | undefined;
-  sprintName: string = "";
   productId!: number;
   selectedProduct!: any;
   selectedOrganization!: any;
@@ -43,32 +36,24 @@ export class KanbanBoardComponent implements OnInit {
   currentSprint: ISprint | null = null;
   selectedSprint = this.currentSprint;
   selectedUserIds = [];
-  sprintForm = new FormGroup({
-    name: new FormControl(''),
-    dates: new FormControl('',this.DateValidate())
-  });
+  initializingAddSprintModal!: NgbModalRef;
   sprintExist = true;
-  isSprintAdding = false;
   kanbanBoardSpinner = true;
   selectedGroup = GroupCategory.Module;
   @ViewChild(BoardViewComponent, { static: false }) boardViewViewChild: BoardViewComponent | undefined;
   @ViewChild(ScrumViewComponent, {static: false }) scrumViewViewChild: ScrumViewComponent | undefined;
-  isDisabled = (date: NgbDate, current?: {year: number, month: number}) => this.isSprintAdding;
+  @ViewChild('manageSprintContent1', {static: true}) manageSprintContent1!: TemplateRef<any>;
 
   constructor(
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
     private sprintService: SprintService,
-    private calendar: NgbCalendar,
     private toastr: ToastrService,
     private userService: UserService,
     private router: Router,
-    private dateService: DateFunctionService,
     private breadcrumbService: BreadcrumbService
   ) {
-    this.fromDate = this.calendar.getToday();
-    this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 14);
     this.isKanbanMode = localStorage.isKanbanMode === undefined?true:localStorage.isKanbanMode == "true"?true: false;
   }
 
@@ -86,13 +71,19 @@ export class KanbanBoardComponent implements OnInit {
     await this.doesSprintExistSetIt();
     if(!this.sprintExist){
       this.kanbanBoardSpinner = false;
-      return;
+      // return;
+      let ngbModalOptions: NgbModalOptions = {
+        backdrop : 'static',
+        keyboard : false,
+        size: 'lg'
+      };
+      this.initializingAddSprintModal = this.modalService.open(this.manageSprintContent1, ngbModalOptions);
     }
     this.setModules();
     this.setAssignedTo();
   }
 
-  setAssignedTo(){
+  setAssignedTo(): void {
     this.userService.getUserListByOrganization(this.selectedOrganization.id).subscribe(x => {
       this.organizationUser = x.members;
     });
@@ -114,22 +105,23 @@ export class KanbanBoardComponent implements OnInit {
     
     this.currentSprint = this.allSprint[0];
     this.selectSprint(this.currentSprint);
+    this.emitEventToChild();
     return true;
   }
 
-  selectSprint(sprint: ISprint) {
+  selectSprint(sprint: ISprint): void {
     this.currentSprint = sprint;
     this.selectedSprint = JSON.parse(JSON.stringify(this.currentSprint));
   }
 
-  setModules() {
+  setModules(): void {
     if (this.productId === undefined) return;
     this.productService.getModulesByProductId(this.productId).subscribe((x) => {
       this.modules = x;
     });
   }
 
-  addModule() {
+  addModule(): void {
     if (this.productId == undefined || this.moduleName == undefined) return;
     this.enabledAdding = false;
     this.productService.addModule(this.productId, this.moduleName).subscribe(
@@ -138,10 +130,8 @@ export class KanbanBoardComponent implements OnInit {
         this.moduleName = '';
         this.moduleAddView = false;
         this.enabledAdding = true;
-        if(this.sprintExist) {
-          this.setModules();
-        }
-        this.emitEventToChild();
+        this.setModules();
+        // this.emitEventToChild();
         this.reloadChildComponents();
       },
       (err) => {
@@ -151,7 +141,7 @@ export class KanbanBoardComponent implements OnInit {
     );
   }
 
-  openPopup(content: any, size: string = 'md') {
+  openPopup(content: any, size: string = 'md'): void {
     this.modalService
       .open(content, { ariaLabelledBy: 'generic modal', size: size })
       .result.then(
@@ -160,78 +150,17 @@ export class KanbanBoardComponent implements OnInit {
       );
   }
 
-  onDateSelection(date: NgbDate) {
-    if (!this.fromDate && !this.toDate) {
-      this.fromDate = date;
-    } else if (this.fromDate && !this.toDate && date.after(this.fromDate)) {
-      this.toDate = date;
-    } else {
-      this.toDate = null;
-      this.fromDate = date;
-    }
-    this.sprintForm = new FormGroup({
-      name: new FormControl(this.sprintForm.value['name']),
-      dates: new FormControl('',this.DateValidate())
-    });
-  }
-
-  isHovered(date: NgbDate) {
-    return (
-      this.fromDate &&
-      !this.toDate &&
-      this.hoveredDate &&
-      date.after(this.fromDate) &&
-      date.before(this.hoveredDate)
-    );
-  }
-
-  isInside(date: NgbDate) {
-    return this.toDate && date.after(this.fromDate) && date.before(this.toDate);
-  }
-
-  isRange(date: NgbDate) {
-    return (
-      date.equals(this.fromDate) ||
-      (this.toDate && date.equals(this.toDate)) ||
-      this.isInside(date) ||
-      this.isHovered(date)
-    );
-  }
-
-  reloadChildComponents() {
+  reloadChildComponents(): void {
     setTimeout(()=> {
       this.boardViewViewChild?.setKanbanBoard();
       this.scrumViewViewChild?.setKanbanBoard();
     });
   }
 
-  addSprint() {
-    if (this.toDate == null || this.fromDate == null) {
-      alert('Please select proper date');
-      return;
+  async doesSprintAdded(added: boolean): Promise<void> {
+    if(added) {
+      this.doesSprintExistSetIt();
     }
-    var input: ISprintInput = {
-      productId: +this.productId,
-      name: this.sprintName,
-      startDate: this.dateService.ngbDateToDate(this.fromDate),
-      endDate: this.dateService.ngbDateToDate(this.toDate),
-    };
-    this.isSprintAdding = true;
-    this.sprintService.addSprint(input).subscribe(
-      async (x) => {
-        this.sprintName = '';
-        this.toastr.success('Sprint added','Success');
-        this.isSprintAdding = false;
-        await this.doesSprintExistSetIt();
-        this.emitEventToChild();
-        this.reloadChildComponents();
-      },
-      (err) => {
-        this.sprintName = '';
-        this.toastr.error(err.error,'Failed');
-        this.isSprintAdding = false;
-      }
-    );
   }
 
   public get featureStatus(): typeof FeatureStatus {
@@ -248,25 +177,6 @@ export class KanbanBoardComponent implements OnInit {
     this.reloadChildComponents();
   }
   
-  DateValidate(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      if(this.toDate == null)
-        return {dateNotChosen: true};
-      if (this.fromDate && this.toDate) {
-        const isRangeValid = (this.dateService.ngbDateToDate(this.toDate).getTime()-this.dateService.ngbDateToDate(this.fromDate).getTime() > 0);
-        return isRangeValid ? null : {dateRange:true};
-      }
-      return null;
-    }
-  }
-
-  public get sprintname() {
-    return this.sprintForm.value['name'];
-  }
-
-  public get sprintValidate(){
-    return this.sprintForm;
-  }
 
   changeMode(isKanbanMode: boolean){
     this.isKanbanMode = isKanbanMode;
@@ -276,4 +186,9 @@ export class KanbanBoardComponent implements OnInit {
   emitEventToChild() {
     this.eventsSubject.next();
   }
+  
+  ngOnDestroy(): void {
+    this.modalService.dismissAll();
+  }
+
 }

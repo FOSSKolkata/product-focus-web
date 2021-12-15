@@ -27,4 +27,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule
   ],
 })
-export class NewsReportModule {}
+export class NewsReportModule {
+  constructor(){
+    console.log('news report loaded');
+  }
+}

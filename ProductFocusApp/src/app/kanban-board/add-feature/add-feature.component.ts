@@ -13,17 +13,19 @@ export class AddFeatureComponent implements OnInit {
   @Input('module-id') moduleId!: number;
   @Input('selected-sprint') selectedSprint: ISprint | null = null;
   @Output('is-feature-added') isFeatureAdded = new EventEmitter();
+  
+  // Clicking outside the AddFeature component, reset all texts and component
   @ViewChild('addFeatureRef') addFeatureRef!: ElementRef;
   @HostListener('document:click',['$event'])
   click(event: any): any {
     if(!this.addFeatureRef.nativeElement.contains(event.target)) {
       this.title = '';
-      this.addFeatureOrBugStep = 0;
+      this.addFeatureOrBugStep = 1;
     }
   }
   
 
-  addFeatureOrBugStep: Number = 0;
+  addFeatureOrBugStep: Number = 1;
   workItemType: string = '';
   title!: string;
   addingFeature = false;
@@ -44,12 +46,10 @@ export class AddFeatureComponent implements OnInit {
   }
   isFocusMode: boolean = false;
   addFeature() {
-    if(this.selectedSprint === null)
-      throw "No sprint selected.";
     var featureInput: IFeatureInput = {
       title: this.title,
       workItemType: this.workItemType,
-      sprintId: this.selectedSprint.id
+      sprintId: this.selectedSprint?.id
     };
     this.addingFeature = true;
     this.moduleService
@@ -60,7 +60,7 @@ export class AddFeatureComponent implements OnInit {
           this.title = '';
           this.addingFeature = false;
           this.isFeatureAdded.emit('true');
-          this.addFeatureOrBugStep = 0;
+          this.addFeatureOrBugStep = 1;
           this.toastr.success("Feature added.","Success");
         },
         (err) => {

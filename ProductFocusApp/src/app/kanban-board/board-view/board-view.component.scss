@@ -1,7 +1,8 @@
 .infinite-scroll-x-axis {
   white-space: nowrap;
   overflow-y:auto;
-  height: 74vh;
+  height: calc(100vh - var(--nav-height) - var(--mid-nav-height) - var(--bottom-nav-height) - var(--bottom-nav-height));
+  width: calc(100vw - var(--side-nav-width) - var(--left-panel-width));
 }
 
 .sprint-not-found-message {
@@ -58,6 +59,19 @@
 .card {
   margin: 5px;
   cursor: pointer;
+}
+
+.card-header {
+  font-style: inherit;
+  line-height: 1.14286;
+  display: flex;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: rgb(94, 108, 132);
+  letter-spacing: normal;
+  font-size: 12px;
+  height: 100%;
+  overflow: hidden;
 }
 
 .card-footer {

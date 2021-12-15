@@ -1,70 +1,69 @@
-<div class="margin-for-navs mid-nav">
+<div class="mid-nav">
 <div class="mid-nav-item">Filters</div>
-<div class="mid-nav-item">
-<mat-form-field *ngIf="!!selectedSprint">
-  <mat-label>Sprint</mat-label>
-  <mat-select [(value)]="selectedSprint.name"
-    (selectionChange)="emitEventToChild()">
-    <mat-option
-      *ngFor="let sprint of allSprint"
-      (click)="selectSprint(sprint)"
-      [value]="sprint.name">
-        {{ sprint.name }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-</div>
-<div class="mid-nav-item">
-<mat-form-field>
-  <mat-label>Assigned To</mat-label>
-  <mat-select
-    multiple
-    [(ngModel)]="selectedUserIds"
-    (selectionChange)="emitEventToChild()"
-  >
-    <mat-option *ngFor="let user of organizationUser" [value]="user.id">
-      {{ user.name }}
-    </mat-option>
-  </mat-select>
-</mat-form-field>
-</div>
-<div class="mid-nav-item">
-  <mat-form-field>
-    <mat-label>Group by</mat-label>
-    <mat-select [(value)]="selectedGroup" (selectionChange)="groupCategoryChange($event)">
-      <mat-option *ngFor="let type of groupCategory(); index as i" [value]="i + 1">
-        {{type}}
+  <div class="mid-nav-item">
+  <mat-form-field *ngIf="!!selectedSprint">
+    <mat-label>Sprint</mat-label>
+    <mat-select [(value)]="selectedSprint.name"
+      (selectionChange)="emitEventToChild()">
+      <mat-option
+        *ngFor="let sprint of allSprint"
+        (click)="selectSprint(sprint)"
+        [value]="sprint.name">
+          {{ sprint.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-</div>
-<div class="mid-nav-item">
-  <mat-radio-group aria-label="Select an option">
-    <mat-radio-button value="isKanbanMode" [checked]="isKanbanMode" (change)="changeMode(true)">Board View</mat-radio-button>
-    <mat-radio-button value="!isKanbanMode" [checked]="!isKanbanMode" (change)="changeMode(false)">Scrum View</mat-radio-button>
-  </mat-radio-group>
-</div>
-<div class="d-inline-block position-absolute move-right">
-<div ngbDropdown class="d-inline-block float_right position-static" placement="bottom-right">
-  <i class="fa fa-cog fa-2x mt-3" id="settingsDropDown" ngbDropdownToggle></i>
-  <div ngbDropdownMenu aria-labelledby="settingsDropDown">
-    <button ngbDropdownItem (click)="openPopup(manageModuleContent)">
-      Manage Modules
-    </button>
-    <button ngbDropdownItem (click)="openPopup(manageSprintContent, 'lg')">
-      Manage Sprint
-    </button>
+  </div>
+  <div class="mid-nav-item">
+  <mat-form-field>
+    <mat-label>Assigned To</mat-label>
+    <mat-select
+      multiple
+      [(ngModel)]="selectedUserIds"
+      (selectionChange)="emitEventToChild()"
+    >
+      <mat-option *ngFor="let user of organizationUser" [value]="user.id">
+        {{ user.name }}({{ user.email }})
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  </div>
+  <div class="mid-nav-item">
+    <mat-radio-group aria-label="Select an option">
+      <mat-radio-button value="isKanbanMode" [checked]="isKanbanMode" (change)="changeMode(true)">Board View</mat-radio-button>
+      <mat-radio-button value="!isKanbanMode" [checked]="!isKanbanMode" (change)="changeMode(false)">Scrum View</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="mid-nav-item">
+    <mat-form-field>
+      <mat-label>Group by</mat-label>
+      <mat-select [(value)]="selectedGroup" (selectionChange)="groupCategoryChange($event)">
+        <mat-option *ngFor="let type of groupCategory(); index as i" [value]="i + 1">
+          {{type}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="d-inline-block position-absolute move-right">
+  <div ngbDropdown class="d-inline-block float_right position-static" placement="bottom-right">
+    <i class="fa fa-cog fa-2x mt-3" id="settingsDropDown" ngbDropdownToggle></i>
+    <div ngbDropdownMenu aria-labelledby="settingsDropDown">
+      <button ngbDropdownItem (click)="openPopup(manageModuleContent)">
+        Manage Modules
+      </button>
+      <button ngbDropdownItem (click)="openPopup(manageSprintContent, 'lg')">
+        Manage Sprint
+      </button>
+    </div>
+  </div>
   </div>
 </div>
-</div>
-<div *ngIf="!sprintExist || modules.length === 0" class="sprint-traveller">
-  <div>
-    Add a sprint / module here.
+<div class="bottom-nav">
+  <div class="d-inline-block position-absolute move-right">
+    <app-add-feature [selected-sprint]="selectedSprint"></app-add-feature>
   </div>
-  <i class="fa fa-arrow-right mt-1"></i>
 </div>
-</div>
-<div class="margin-for-navs">
+<div>
   <app-board-view *ngIf="isKanbanMode" [events]="eventsSubject.asObservable()" [selected-sprint]="selectedSprint" [selected-group]="selectedGroup" [selected-userids]="selectedUserIds" [kanban-board-spinner]="kanbanBoardSpinner"></app-board-view>
   <app-scrum-view *ngIf="!isKanbanMode" [selected-sprint]="selectedSprint" [events]="eventsSubject.asObservable()" [selected-group]="selectedGroup" [selected-userids]="selectedUserIds"></app-scrum-view>
 </div>
@@ -154,120 +153,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="sprintForm" (ngSubmit)="addSprint()">
-      <div class="add-sprint">
-        <i
-          *ngIf="!sprintAddView"
-          (click)="sprintAddView = true"
-          class="fa fa-plus pointer"
-        >
-          Add Sprint</i
-        >
-        <div class="add-sprint-container">
-          <div *ngIf="sprintAddView">
-            <div class="add-sprint-heading">
-              <i class="fa fa-bolt"></i>
-              New Sprint
-            </div>
-            <div class="name">
-              Name<span>*</span>
-            </div>
-            <input
-              [attr.disabled]="isSprintAdding?'':null"
-              type="text"
-              [(ngModel)]="sprintName"
-              name="sprintname"
-              class="form-control input"
-              placeholder="Enter Sprint Name"
-              required
-              maxlength="50"
-              pattern="^[a-zA-Z0-9]+[a-zA-Z0-9\s\-_]*$"
-              formControlName="name"
-            />
-            <div
-              *ngIf="
-                sprintValidate.invalid && (sprintValidate.dirty || !sprintValidate.untouched)
-              "
-            >
-              <div
-                class="text-danger error"
-                *ngIf="sprintForm.controls.name.errors?.required"
-              >
-                Please Enter Sprint Name.
-              </div>
-              <div class="text-danger error" *ngIf="sprintForm.controls.name.errors?.maxlength">
-                Only 50 characters are allowed.
-              </div>
-              <div
-                class="text-danger error-special"
-                *ngIf="sprintForm.controls.name.errors?.pattern"
-              >
-                Only spaces, '-', '_' and alphanumaric characters are allowed.
-              </div>
-            </div>
-
-            <div class="add-sprint-dates">
-              <div>
-                Start<span>*</span>
-              </div>
-              <div class="end">
-                End<span>*</span>
-              </div>
-            </div>
-            <ngb-datepicker
-              #dp
-              (dateSelect)="onDateSelection($event)"
-              [displayMonths]="2"
-              [dayTemplate]="t"
-              outsideDays="hidden"
-              name="sprintdates"
-              formControlName="dates"
-              [markDisabled]="isDisabled">
-            </ngb-datepicker>
-
-            <div *ngIf="sprintValidate.invalid">
-              <div
-                class="text-danger date-error"
-                *ngIf="sprintForm.controls.dates.errors?.dateNotChosen">
-                Please select start and end dates.
-              </div>
-            </div>
-            <ng-template #t let-date let-focused="focused">
-              <span
-                class="custom-day"
-                [class.focused]="focused"
-                [class.range]="isRange(date)"
-                [class.faded]="isHovered(date) || isInside(date)"
-                (mouseenter)="hoveredDate = date"
-                (mouseleave)="hoveredDate = null"
-              >
-                {{ date.day }}
-              </span>
-            </ng-template>
-            <div class="sprint-form-container">
-              <button
-                [disabled]="sprintForm.invalid || isSprintAdding"
-                class="btn good-btn"
-                type="submit"
-              >
-              <div *ngIf="isSprintAdding" class="spinner-border spinner-border-sm" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-                {{isSprintAdding?"Adding":"Add"}}
-              </button>
-              <button
-                class="btn reject-btn"
-                (click)="sprintAddView = false"
-                id="cancel-task"
-                [disabled]="isSprintAdding"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
+    <app-add-sprint></app-add-sprint>
     <div class="mb-2">
       <div class="table-responsive-sm">
         <table class="table">
@@ -298,3 +184,12 @@
 <!-- <div *ngIf="!!error">
   <app-error [error]="error"></app-error>
 </div> -->
+
+<ng-template #manageSprintContent1 let-modal1>
+  <div class="modal-body">
+    <ngb-alert [type]="'info'" [dismissible]="false" class="text-center">
+      Start with the Kanban board, by creating a sprint
+    </ngb-alert>
+    <app-add-sprint [detailsView]="true" (added)="doesSprintAdded($event)"></app-add-sprint>
+  </div>
+</ng-template>

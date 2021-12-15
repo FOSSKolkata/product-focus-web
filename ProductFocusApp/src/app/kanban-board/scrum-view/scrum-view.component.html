@@ -1,5 +1,5 @@
 <div class="infinite-scroll-x-axis">
-  <div class="scrum-container">
+  <!-- <div class="scrum-container">
     <div class="p-1 d-inline-block">
       {{ currentSprint?.startDate | date: "dd-MM-YYYY" }}
     </div>
@@ -7,26 +7,12 @@
       Release: <b>{{ currentSprint?.name }}</b>
     </div>
     <div class="float-right pt-1 d-inline-block pointer">
-      <i
-        class="fa fa-plus-circle"
-        [popover]="myPopover"
-        [popoverCloseOnMouseOutside]="true"
-        [popoverOnHover]="false"
-        >Add Feature / Bug</i
-      >
-      <popover-content
-        #myPopover
-        placement="bottom-left"
-        [animation]="true"
-        [closeOnClickOutside]="true"
-      >
-        <app-add-feature
-          [selected-sprint]="currentSprint"
-          (is-feature-added)="setKanbanBoard()"
-        ></app-add-feature>
-      </popover-content>
+      <app-add-feature
+        [selected-sprint]="currentSprint"
+        (is-feature-added)="setKanbanBoard()"
+      ></app-add-feature>
     </div>
-  </div>
+  </div> -->
   <div class="table-container w-100">
     <table cdkDropListGroup>
       <thead>

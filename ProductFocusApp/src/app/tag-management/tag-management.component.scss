@@ -1,0 +1,18 @@
+.list-container {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+.list-item {
+    padding: 5px;
+    cursor: pointer;
+}
+.active-item {
+    outline: 1px dashed gray;
+}
+
+// .title-expand {
+//     padding-left: 15rem;
+//     transition: 0.2s;
+// }

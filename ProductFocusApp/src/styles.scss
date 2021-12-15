@@ -10,7 +10,15 @@
   --white: #ffffff;
   --nav-blue: #83a8ba;
   --nav-dark-blue: #83a8c9;
+  --nav-height: 60px;
+  --mid-nav-height: 60px;
+  --breadcrumb-height: 37px;
+  --bottom-nav-height: 37px;
   --blocked: #ffacac;
+  --side-nav-expanded-width: 300px;
+  --side-nav-shrink-width: 60px;
+  --side-nav-width: var(--side-nav-shrink-width);
+  --left-panel-width: 10px;
 }
 
 *,::after,::before{

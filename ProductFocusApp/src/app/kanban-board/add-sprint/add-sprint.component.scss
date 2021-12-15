@@ -1,0 +1,76 @@
+.add-sprint * {
+    margin: 2px;
+}
+
+.add-sprint-container {
+    text-align: center;
+    div {
+      .add-sprint-heading {
+        font-size: large;
+        transform: translateX(-185px);
+        margin-bottom: 20px;
+        margin-left: 10px;
+      }
+      .name {
+        transform: translateX(-213px);
+        span {
+          color: red;
+        }
+      }
+      .input {
+        display: inline-block;
+        width: 475px;
+      }
+      .error {
+        transform: translateX(-155px);
+      }
+      .error-special {
+        transform: translateX(-48px);
+      }
+    }
+  }
+
+  .add-sprint-dates {
+    transform: translateX(-195px);
+    div {
+      display: inline-block;
+      span {
+        color: red;
+      }
+    }
+    .end {
+      transform: translateX(190px);
+    }
+  }
+  
+  .date-error {
+    transform: translateX(-131px);
+  }
+  
+  .sprint-form-container {
+    transform: translateX(170px);
+  }
+
+  .add-sprint input {
+    width: 80%;
+    display: inline;
+  }
+  
+  .custom-day {
+    text-align: center;
+    padding: 0.185rem 0.25rem;
+    display: inline-block;
+    height: 2rem;
+    width: 2rem;
+  }
+  .custom-day.focused {
+    background-color: #e6e6e6;
+  }
+  .custom-day.range,
+  .custom-day:hover {
+    background-color: rgb(2, 117, 216);
+    color: white;
+  }
+  .custom-day.faded {
+    background-color: rgba(2, 117, 216, 0.5);
+  }

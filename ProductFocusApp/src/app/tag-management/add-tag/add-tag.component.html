@@ -1,0 +1,23 @@
+<form #addTag="ngForm">
+    <div style="display: flex; gap: 20px; align-items: flex-end;">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" class="form-control" placeholder="Tag Name">
+        </div>
+        <div>
+            <label for="category">Tag Category</label>
+            <input type="text"
+                class="form-control"
+                placeholder="Optional"
+                [formControl]="control"
+                [matAutocomplete]="auto"
+            >
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let street of filteredStreets | async" [value]="street">
+                {{street}}
+                </mat-option>
+            </mat-autocomplete>
+        </div>
+        <div type="submit" class="btn good-btn">Add</div>
+    </div>
+</form>

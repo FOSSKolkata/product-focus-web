@@ -30,11 +30,14 @@ export class NewsReportComponent implements OnInit {
   recordOffset = 0;
   count = 5;
   dropdownSettings: IDropdownSettings = {};
+  titleExpanded = false;
   constructor(private eventLogService: EventLogService,
     private router: Router,
     private userService: UserService,
     private productService: ProductService,
-    private dateService: DateFunctionService) {}
+    private dateService: DateFunctionService
+  ) { }
+
   ngOnInit(): void {
     let storedSelectedProduct = localStorage.getItem('selectedProduct');
     let storedSelectedOrganization = localStorage.getItem('selectedOrganization');

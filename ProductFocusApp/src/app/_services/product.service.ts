@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { GroupCategory, IKanbanBoard, IModule, OrderingCategoryEnum } from '../dht-common/models';
+import { GroupCategory, IKanban, IKanbanBoard, IModule } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root',
@@ -33,17 +33,23 @@ export class ProductService {
   handleError(error: HttpErrorResponse) {
     return throwError(error);
   }
-  getKanbanViewByProductIdAndQuery(id: number, orderingCategory: OrderingCategoryEnum, sprintId: number, userIds: number[], groupCategory: GroupCategory):Observable<IKanbanBoard[]> {
+  getKanbanViewByProductIdAndQuery(id: number, sprintId: number | undefined, userIds: number[], groupCategory: GroupCategory):Observable<IKanban> {
     let userParam = "";
     for(let uid of userIds){
       userParam += `UserIds=${uid}&`;
     }
     userParam = userParam.substring(0,userParam.length-1);
-    const options = { params: new HttpParams({fromString: `SprintId=${sprintId}&${userParam}`}) };
+    let options;
+    if(sprintId) {
+      options = { params: new HttpParams({fromString: `SprintId=${sprintId}&${userParam}`}) };
+    } else {
+      options = { params: new HttpParams({fromString: userParam})};
+    }
+    //const options = { params: new HttpParams({fromString: `SprintId=${sprintId}&${userParam}`}) };
     return this.http
-      .get<IKanbanBoard[]>(
+      .get<IKanban>(
         apiConfig.uri +
-          `/Product/GetKanbanViewByProductIdAndQuery/${id}/${orderingCategory}/${groupCategory}/query`,options
+          `/Product/GetKanbanViewByProductIdAndQuery/${id}/${groupCategory}/query`,options
       )
       .pipe(catchError(this.handleError));
   }

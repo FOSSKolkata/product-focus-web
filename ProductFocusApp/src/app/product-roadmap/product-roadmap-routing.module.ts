@@ -4,7 +4,7 @@ import { ProductRoadmapComponent } from './product-roadmap.component';
 
 const routes: Routes = [
   {
-    path: 'product-roadmap',
+    path: '',
     component: ProductRoadmapComponent,
     data: {breadcrumb: 'Roadmap'}
   },
@@ -13,4 +13,8 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ProductRoadmapRoutingModule {}
+export class ProductRoadmapRoutingModule {
+  constructor() {
+    console.log('product roadmap loaded');
+  }
+}

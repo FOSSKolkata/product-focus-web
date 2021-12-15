@@ -1,34 +1,57 @@
 .side-nav {
   z-index: 1;
-  position: fixed;
-  margin-top: 0;
-  width: 60px;
-  height: 85%;
+  position: relative;
+  height: calc(100vh - var(--nav-height) - var(--breadcrumb-height));
   overflow-x: hidden;
-  background-color: var(--medium-gray);
-  transition: 0.5s;
+  background-color: #292f4c;
+  transition: 0.2s;
+}
+
+.nav-expand {
+  width: 1.5rem;
+  height: 1.5rem;
+  position: absolute;
+  right: -0.75rem;
+  top: 1rem;
+  z-index: 99;
+  cursor: pointer;
+  transform: rotateZ(0deg);
+  transition: all 300ms ease-in-out;
+  fill: gray;
+  border-radius: 50%;
+  opacity: 1;
+  padding: .5rem;
+  box-shadow: 0px 0px 5px gray;
+}
+
+.side-nav svg {
+  background-color: var(--light-gray);
+}
+
+.side-nav svg:hover {
+  fill: white;
+  background-color: blue;
+}
+
+.nav-closed {
+  transform: rotateZ(-180deg);
 }
 
 .side-nav::-webkit-scrollbar {
   display: none;
 }
 
-.side-nav:hover {
-  width: 300px;
-}
-
 .side-nav ul {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .side-nav ul li {
-  position: relative;
-  width: 100%;
   list-style: none;
-  height: 60px;
+  transition: all 200ms ease-in;
+  padding: 0rem 0rem;
+  border-left: 6px solid transparent;
+  cursor: pointer;
 }
 
 .side-nav ul li:hover {
@@ -38,21 +61,33 @@
 .side-nav ul li a {
   position: relative;
   display: block;
-  width: 100%;
   display: flex;
   text-decoration: none;
+  align-items: center;
+  text-decoration: none;
+  font-weight: 500;
+  color: var(--dark-gray);
 }
 
-.side-nav ul li a .title {
-  padding: 20px 0;
+.side-nav ul li:hover a {
+  color: #292f4c;
 }
+
+.side-nav ul li a .title-expand {
+  display: inline-block;
+}
+
+.side-nav ul li a .title-closed {
+  display: none;
+}
+
 
 .side-nav ul li a .icon {
   position: relative;
   display: block;
   min-width: 60px;
-  height: 60%;
-  line-height: 60px;
+  height: 40%;
+  line-height: 30px;
   text-align: center;
 }
 
@@ -63,9 +98,9 @@
 .side-nav ul li a .icon {
   position: relative;
   display: block;
-  padding: 0 10px;
-  height: 60px;
-  line-height: 60px;
+  padding: 10px;
+  height: 45px;
+  line-height: 30px;
   text-align: start;
   white-space: nowrap;
 }

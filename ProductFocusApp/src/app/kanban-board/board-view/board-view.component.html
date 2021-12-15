@@ -1,13 +1,7 @@
 <div class="infinite-scroll-x-axis">
   <div class="mt-2">
     <div class="d-inline-block pointer state-section text-center">
-      <i class="fa fa-plus-circle" [popover]="myPopover" [popoverCloseOnMouseOutside]="true" [popoverOnHover]="false">Add Feature / Bug</i>
-      <popover-content #myPopover
-        placement="bottom-left"
-        [animation]="true"
-        [closeOnClickOutside]="true">
-        <app-add-feature [selected-sprint]="selectedSprint" (is-feature-added)="setKanbanBoard()"></app-add-feature>
-      </popover-content>
+      
     </div>
     <div class="state-header">
       <div class="card">
@@ -44,7 +38,9 @@
       <div class="module-section">
         <div class="feature-container">
           <div *ngIf="modules" class="module-header">
-            {{ modules.groupName }}
+            <span *ngFor="let groupItem of modules.groupList">
+              {{ groupItem.groupName | titlecase}}
+            </span>
           </div>
           <div *ngFor="let group of modules; let status = index"
             class="feature-section"
@@ -53,7 +49,7 @@
             [cdkDropListData]="group"
             [id]="moduleIndex.toString()"
           >
-            <div *ngFor="let feature of group" cdkDrag [cdkDragDisabled]="selectedGroup !== groupCategoryEnum.Module">
+            <div *ngFor="let feature of group" cdkDrag>
               <app-feature (modal-closed)="setKanbanBoard()" [feature]="feature">
               </app-feature>
             </div>
@@ -66,9 +62,6 @@
   <div class="sprint-not-found-message"
     *ngIf="!board.length && !kanbanBoardSpinner"
   >
-    <span *ngIf="selectedSprint === null">
-      Please add a sprint to view the existing module. 
-    </span>
       No module found!!
   </div>
 </div>

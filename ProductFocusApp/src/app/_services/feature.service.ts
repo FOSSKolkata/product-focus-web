@@ -22,6 +22,8 @@ export class FeatureService {
   modifyFeatureOrder(orderInput: OrderingInfo) {
     return this.http.post(
       apiConfig.uri + '/Feature/UpdateFeaturesOrdering',orderInput
+    ).pipe(
+      catchError(this.handleError)
     );
   }
 
