@@ -1,8 +1,6 @@
 .side-nav {
-  z-index: 1;
   position: relative;
   height: calc(100vh - var(--nav-height) - var(--breadcrumb-height));
-  overflow-x: hidden;
   background-color: #292f4c;
   transition: 0.2s;
 }
@@ -13,7 +11,7 @@
   position: absolute;
   right: -0.75rem;
   top: 1rem;
-  z-index: 99;
+  z-index: 1;
   cursor: pointer;
   transform: rotateZ(0deg);
   transition: all 300ms ease-in-out;
@@ -52,6 +50,7 @@
   padding: 0rem 0rem;
   border-left: 6px solid transparent;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .side-nav ul li:hover {

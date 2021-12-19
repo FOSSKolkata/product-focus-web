@@ -1,23 +1,35 @@
-<form #addTag="ngForm">
+<form #addTagForm="ngForm" (ngSubmit)="addTag(addTagForm.value); addTagForm.reset();">
     <div style="display: flex; gap: 20px; align-items: flex-end;">
         <div>
             <label for="name">Name</label>
-            <input type="text" class="form-control" placeholder="Tag Name">
-        </div>
-        <div>
-            <label for="category">Tag Category</label>
-            <input type="text"
+            <input
+                type="text"
+                id = "name"
+                [(ngModel)] = "tagName"
+                name = "name"
+                #name="ngModel"
                 class="form-control"
-                placeholder="Optional"
-                [formControl]="control"
-                [matAutocomplete]="auto"
-            >
-            <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let street of filteredStreets | async" [value]="street">
-                {{street}}
-                </mat-option>
-            </mat-autocomplete>
+                placeholder="Tag Name"
+                required>
         </div>
-        <div type="submit" class="btn good-btn">Add</div>
+        <div style="flex-grow: 1; width: 200px;">
+            <label style="display: block;" for="category">Tag Category</label>
+            <mat-select [(value)]="selectedCategoryId" class="form-control" name="category">
+                <mat-option [value]="null">None</mat-option>
+                <mat-option *ngFor="let tagCategory of tagCategories" [value]="tagCategory.id">
+                {{tagCategory.name}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <button type="submit"
+            [disabled]="!addTagForm.form.valid"
+            class="btn good-btn"
+        >
+            Add</button>
+    </div>
+    <div *ngIf="name.invalid && (name.dirty || name.touched)">
+        <div class="text-danger" *ngIf="name.errors?.required">
+            Name is required.
+        </div>
     </div>
 </form>

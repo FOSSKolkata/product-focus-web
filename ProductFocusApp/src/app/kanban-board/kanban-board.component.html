@@ -1,3 +1,4 @@
+<div class="scrum-container">
 <div class="mid-nav">
 <div class="mid-nav-item">Filters</div>
   <div class="mid-nav-item">
@@ -66,6 +67,7 @@
 <div>
   <app-board-view *ngIf="isKanbanMode" [events]="eventsSubject.asObservable()" [selected-sprint]="selectedSprint" [selected-group]="selectedGroup" [selected-userids]="selectedUserIds" [kanban-board-spinner]="kanbanBoardSpinner"></app-board-view>
   <app-scrum-view *ngIf="!isKanbanMode" [selected-sprint]="selectedSprint" [events]="eventsSubject.asObservable()" [selected-group]="selectedGroup" [selected-userids]="selectedUserIds"></app-scrum-view>
+</div>
 </div>
 <ng-template #manageModuleContent let-modal>
   <div class="modal-header">

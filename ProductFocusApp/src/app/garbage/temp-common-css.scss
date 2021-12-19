@@ -1,6 +1,5 @@
 .fit-image {
-    width: 95%;
-    margin-left: 61px;
+    width: calc(100vw - var(--side-nav-width) - var(--left-panel-width) - 1vw);
 }
 
 .cover {

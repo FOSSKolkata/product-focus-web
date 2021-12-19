@@ -51,62 +51,61 @@ const layoutRoutes: Routes = [
     path: '',
     loadChildren: () => 
     import('./tag-management/tag-management.module').then((m) => m.TagManagementModule)
+  },{
+    path: '',
+    component: TemporaryRouterComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'business-requirement'
+      },{
+        path: 'business-requirement',
+        component: BusinessRequirementListComponent,
+        data: {breadcrumb: 'Business Requirement'}
+      },{
+        path: 'business-requirement-details',
+        component: BusinessRequirementDetailsComponent,
+        data: {breadcrumb: 'Business Requirement Details'}
+      },{
+        path: 'product-documentation',
+        component: ProductDocumentationComponent,
+        data: {breadcrumb: 'Product Documentation'}
+      },{
+        path: 'work-item-based-tests',
+        component: TestManagementComponent,
+        data: {breadcrumb: 'Work Item Based Tests'}
+      },{
+        path: 'release-management',
+        component: ReleaseManagementComponent,
+        data: {breadcrumb: 'Release Management'},
+      },{
+          path: 'release-details',
+          component: ReleaseDetailsComponent,
+          data: {breadcrumb: 'Release Details'}
+      },{
+        path: 'regression-tests',
+        component: RegressionTestComponent,
+        data: {breadcrumb: 'Regression Tests'}
+      },{
+        path: 'productivity-report',
+        component: ProductivityReportComponent,
+        data: {breadcrumb: 'Productivity Report'}
+      },{
+        path: 'pipeline-report',
+        component: ProductRoadmapComponent,
+        data: {breadcrumb: 'Pipeline Report'}
+      },{
+        path: 'test-report-details',
+        component: TestReportDetailsComponent,
+        data: {breadcrumb: 'Test Report Details'}
+      },{
+        path: 'test-report-list',
+        component: TestReportListComponent,
+        data: {breadcumb: 'Test Report List'}
+      }
+    ],
+    data: {breadcrumb: {skip: true}}
   }
-  // ,{
-  //   path: '',
-  //   component: TemporaryRouterComponent,
-  //   children: [
-  //     {
-  //       path: '',
-  //       redirectTo: 'business-requirement'
-  //     },{
-  //       path: 'business-requirement',
-  //       component: BusinessRequirementListComponent,
-  //       data: {breadcrumb: 'Business Requirement'}
-  //     },{
-  //       path: 'business-requirement-details',
-  //       component: BusinessRequirementDetailsComponent,
-  //       data: {breadcrumb: 'Business Requirement Details'}
-  //     },{
-  //       path: 'product-documentation',
-  //       component: ProductDocumentationComponent,
-  //       data: {breadcrumb: 'Product Documentation'}
-  //     },{
-  //       path: 'work-item-based-tests',
-  //       component: TestManagementComponent,
-  //       data: {breadcrumb: 'Work Item Based Tests'}
-  //     },{
-  //       path: 'release-management',
-  //       component: ReleaseManagementComponent,
-  //       data: {breadcrumb: 'Release Management'},
-  //     },{
-  //         path: 'release-details',
-  //         component: ReleaseDetailsComponent,
-  //         data: {breadcrumb: 'Release Details'}
-  //     },{
-  //       path: 'regression-tests',
-  //       component: RegressionTestComponent,
-  //       data: {breadcrumb: 'Regression Tests'}
-  //     },{
-  //       path: 'productivity-report',
-  //       component: ProductivityReportComponent,
-  //       data: {breadcrumb: 'Productivity Report'}
-  //     },{
-  //       path: 'pipeline-report',
-  //       component: ProductRoadmapComponent,
-  //       data: {breadcrumb: 'Pipeline Report'}
-  //     },{
-  //       path: 'test-report-details',
-  //       component: TestReportDetailsComponent,
-  //       data: {breadcrumb: 'Test Report Details'}
-  //     },{
-  //       path: 'test-report-list',
-  //       component: TestReportListComponent,
-  //       data: {breadcumb: 'Test Report List'}
-  //     }
-  //   ],
-  //   data: {breadcrumb: {skip: true}}
-  // }
 ];
 
 const routes: Routes = [

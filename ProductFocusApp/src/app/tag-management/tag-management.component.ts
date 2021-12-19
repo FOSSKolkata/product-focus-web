@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { IProduct, ITag } from '../dht-common/models';
+import { TagService } from '../_services/tag.service';
 
 @Component({
   selector: 'app-tag-management',
@@ -7,12 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TagManagementComponent implements OnInit {
 
-  tags = ["Activity", "Alert Dashboard", "Alert/Reminder/Notification","Android", "Android Phone", "Angular 11"];
-  constructor() { }
+  tags: ITag[] = [] ;
+  selectedProduct!: IProduct;
+  constructor(private tagService: TagService,
+    private router: Router) { }
   
   ngOnInit(): void {
+    let selectedProductString = localStorage.getItem('selectedProduct');
+    if(selectedProductString === null) {
+      this.router.navigate(['/']);
+      return;
+    }
+    this.selectedProduct = JSON.parse(selectedProductString);
+    this.tagService.getTagListByProductId(this.selectedProduct.id).subscribe(x => {
+      this.tags = x;
+    })
   }
-  remove(tag: string) {
+  remove(tag: ITag) {
     //delete
     console.log(tag);
   }

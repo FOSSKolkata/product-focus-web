@@ -60,4 +60,4 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
     DatePipe
   ]
 })
-export class KanbanBoardModule {}
+export class KanbanBoardModule { }

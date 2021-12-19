@@ -2,6 +2,10 @@
   white-space: nowrap;
 }
 
+.scrum-container {
+  width: calc(100vw - var(--side-nav-width) - var(--left-panel-width));
+}
+
 .state-section {
   margin-left: 200px;
 }

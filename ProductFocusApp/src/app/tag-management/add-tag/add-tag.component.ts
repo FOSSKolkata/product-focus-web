@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { ITagCategory } from 'src/app/dht-common/models';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { IAddTag, IProduct, ITagCategory } from 'src/app/dht-common/models';
 import { TagCategoriesService } from 'src/app/_services/tag-categories.service';
+import { TagService } from 'src/app/_services/tag.service';
 
 @Component({
   selector: 'app-add-tag',
@@ -11,27 +11,40 @@ import { TagCategoriesService } from 'src/app/_services/tag-categories.service';
   styleUrls: ['./add-tag.component.scss']
 })
 export class AddTagComponent implements OnInit {
-  control = new FormControl();
-  streets: string[] = ['Champs-Élysées', 'Lombard Street', 'Abbey Road', 'Fifth Avenue', 'Mockup data'];
-  filteredStreets!: Observable<string[]>;
   tagCategories: ITagCategory[] = [];
-  selectedCategory!: ITagCategory;
+  selectedCategoryId: number | null = null;
+  selectedProduct!: IProduct;
+  tagName = "";
   
-  constructor(private tagCategoryService: TagCategoriesService) { }
-
-  private _filter(value: string): string[] {
-    const filterValue = this._normalizeValue(value);
-    return this.streets.filter(street => this._normalizeValue(street).includes(filterValue));
-  }
-
-  private _normalizeValue(value: string): string {
-    return value.toLowerCase().replace(/\s/g, '');
-  }
+  constructor(private tagCategoryService: TagCategoriesService,
+    private tagService: TagService,
+    private route: Router,
+    private tostr: ToastrService) { }
 
   ngOnInit(): void {
-    this.filteredStreets = this.control.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value)),
+    let selectedProductString = localStorage.getItem('selectedProduct');
+    if(selectedProductString === null) {
+      this.route.navigate(['/']);
+      return;
+    }
+    this.selectedProduct = JSON.parse(selectedProductString);
+
+    this.tagCategoryService.getTagCategories(this.selectedProduct.id).subscribe(x => {
+      this.tagCategories = x;
+    }, err => {
+      this.tostr.error(err.error, 'Not added');
+    })
+  }
+
+  addTag(tag: {name: string}) {
+    let addTagInput: IAddTag = {
+      name: tag.name,
+      tagCategoryId: this.selectedCategoryId
+    };
+    this.tagService.addTag(this.selectedProduct.id, addTagInput).subscribe(x => {
+      this.tostr.success('Tag added', 'Success');
+    },err =>
+      this.tostr.error(err.error,'Not added')
     );
   }
 
