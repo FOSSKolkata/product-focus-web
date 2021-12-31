@@ -1,0 +1,17 @@
+div{
+    width: 180px;
+    margin: 1px;
+    select{
+        width: 100%;
+        background-color: transparent;
+        text-overflow: ellipsis;
+        outline: none;
+        border: none;
+        appearance: none;
+    }
+    :hover{
+        outline: 1px solid gray;
+        appearance: menulist;
+    }
+}
+

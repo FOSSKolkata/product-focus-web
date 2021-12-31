@@ -22,10 +22,10 @@ div{
     align-items: center;
 }
 div:hover{
-    background-color: var(--light-gray);
+    // background-color: var(--light-gray);
     cursor: pointer;
 }
 div:focus{
     cursor:text;
-    background-color: var(--dark-gray);
+    // background-color: var(--dark-gray);
 }

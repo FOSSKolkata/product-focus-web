@@ -14,8 +14,8 @@
         </div>
         <div style="flex-grow: 1; width: 200px;">
             <label style="display: block;" for="category">Tag Category</label>
-            <mat-select [(value)]="selectedCategoryId" class="form-control" name="category">
-                <mat-option [value]="null">None</mat-option>
+            <mat-select placeholder="None" [(value)]="selectedCategoryId" class="form-control" name="category">
+                <mat-option [value]="'None'">None</mat-option>
                 <mat-option *ngFor="let tagCategory of tagCategories" [value]="tagCategory.id">
                 {{tagCategory.name}}
                 </mat-option>

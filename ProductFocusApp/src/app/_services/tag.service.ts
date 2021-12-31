@@ -23,6 +23,12 @@ export class TagService {
       catchError(this.handleError)
     );
   }
+
+  deleteTagById(tagId: number) {
+    return this.http.delete(apiConfig.uri + `/Tag/DeleteTag/${tagId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
   
   handleError(error:HttpErrorResponse){
     return throwError(error);

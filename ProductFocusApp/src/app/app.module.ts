@@ -66,7 +66,6 @@ import { ProductivityReportComponent } from './garbage/productivity-report/produ
 import { ProductRoadmapComponent } from './garbage/product-roadmap/product-roadmap.component';
 import { TestReportDetailsComponent } from './garbage/test-management/test-report-details/test-report-details.component';
 import { TestReportListComponent } from './garbage/test-management/test-report-list/test-report-list.component';
-import { TagManagementModule } from './tag-management/tag-management.module';
 
 const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
@@ -150,7 +149,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
-    TagManagementModule,
     AppRoutingModule,
     HttpClientModule,
     MsalModule,

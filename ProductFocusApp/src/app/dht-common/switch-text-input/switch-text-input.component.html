@@ -1,10 +1,10 @@
-<!-- <div class="switch-area">
-    <label [ngStyle]="labelStyle"
-      *ngIf="isTextVisible"
+<div class="switch-area">
+    <div [ngStyle]="labelStyle"
+      [style.display]="isTextVisible?'inline':'none'"
       (click)="onLabelClick()"
     >
       {{ title }}
-    </label>
+    </div>
     <input
       type="text"
       #inputText
@@ -14,4 +14,4 @@
       (focusout)="onFocusOut($event)"
     >
   </div>
-   -->
+  

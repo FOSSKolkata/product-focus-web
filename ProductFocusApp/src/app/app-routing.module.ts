@@ -24,7 +24,6 @@ import { ProductivityReportComponent } from './garbage/productivity-report/produ
 import { ProductRoadmapComponent } from './garbage/product-roadmap/product-roadmap.component';
 import { TestReportDetailsComponent } from './garbage/test-management/test-report-details/test-report-details.component';
 import { TestReportListComponent } from './garbage/test-management/test-report-list/test-report-list.component';
-import { TagManagementComponent } from './tag-management/tag-management.component';
 
 const layoutRoutes: Routes = [
   {
@@ -48,25 +47,18 @@ const layoutRoutes: Routes = [
       ),
   }
   ,{
-    path: '',
+    path: 'tag-management',
     loadChildren: () => 
     import('./tag-management/tag-management.module').then((m) => m.TagManagementModule)
+  },{
+    path: 'business-requirement',
+    loadChildren: () =>
+    import('./business-requirement/business-requirement.module').then(m => m.BusinessRequirementModule)
   },{
     path: '',
     component: TemporaryRouterComponent,
     children: [
       {
-        path: '',
-        redirectTo: 'business-requirement'
-      },{
-        path: 'business-requirement',
-        component: BusinessRequirementListComponent,
-        data: {breadcrumb: 'Business Requirement'}
-      },{
-        path: 'business-requirement-details',
-        component: BusinessRequirementDetailsComponent,
-        data: {breadcrumb: 'Business Requirement Details'}
-      },{
         path: 'product-documentation',
         component: ProductDocumentationComponent,
         data: {breadcrumb: 'Product Documentation'}

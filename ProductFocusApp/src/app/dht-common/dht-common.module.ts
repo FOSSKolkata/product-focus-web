@@ -1,7 +1,6 @@
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TagComponent } from './tag/tag.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
@@ -16,6 +15,8 @@ import { EditableTextComponent } from './editable-text/editable-text.component';
 import { ErrorComponent } from './error/error.component';
 import { MatCardModule } from '@angular/material/card';
 import { MdePopoverModule } from '@material-extended/mde';
+import { SwitchTextInputComponent } from './switch-text-input/switch-text-input.component';
+import { TextDropdownComponent } from './text-dropdown/text-dropdown.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +26,11 @@ import { MdePopoverModule } from '@material-extended/mde';
     UserAvatarComponent,
     ShortnamePipe,
     SpinnerComponent,
-    // SwitchTextInputComponent,
+    SwitchTextInputComponent,
     SwitchTextDatepickComponent,
     EditableTextComponent,
-    ErrorComponent
+    ErrorComponent,
+    TextDropdownComponent
   ],
   imports: [
     CommonModule,
@@ -46,13 +48,14 @@ import { MdePopoverModule } from '@material-extended/mde';
     // TagComponent,
     // SwitchTextTextareaComponent,
     SwitchTextDropdownComponent,
-    // SwitchTextInputComponent,
+    SwitchTextInputComponent,
     SwitchTextDatepickComponent,
     UserAvatarComponent,
     ShortnamePipe,
     SpinnerComponent,
     EditableTextComponent,
-    ErrorComponent
+    ErrorComponent,
+    TextDropdownComponent
   ],
 })
 export class DhtCommonModule {}

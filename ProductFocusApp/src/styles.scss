@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.bubble.css';
+@import '~quill/dist/quill.snow.css';
 
 :root {
   --dark-gray: #e5e5e5;
@@ -20,6 +22,10 @@
   --side-nav-shrink-width: 60px;
   --side-nav-width: var(--side-nav-shrink-width);
   --left-panel-width: 10px;
+  
+  --visible-border:  1px solid #ccc !important;
+  --invisible-border: none;
+  --current-border: var(--invisible-border);
 }
 
 *,::after,::before{

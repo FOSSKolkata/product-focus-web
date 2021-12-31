@@ -304,3 +304,13 @@ export interface IAddTag {
   name: string,
   tagCategoryId: number | null
 }
+
+export interface IBusinessRequirementInput {
+  productId: number,
+  title: string,
+  date: Date,
+  tagIds: Array<number>
+  source: string,
+  sourceAdditionalInformation: string,
+  description: string
+}

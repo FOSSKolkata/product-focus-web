@@ -1,0 +1,10 @@
+<div>
+    <select
+        (change)="selectOption($event)">
+        <option>Choose an option</option>
+        <option *ngFor="let option of options"
+            [selected]="option.name === selected?.name">
+            {{option.name}}
+        </option>
+    </select>
+</div>

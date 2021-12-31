@@ -11,6 +11,8 @@ export class SwitchTextDatepickComponent implements OnChanges {
   @Output('date-changed') dateChange = new EventEmitter<Date>();
   @Input('min') minDate: Date | null = null;
   @Input('max') maxDate: Date | null = null;
+  @Input('style') style!: {};
+  @Input('placeholder') placeholder = "";
   curr: FormControl;
   constructor() {
     const currentYear = new Date().getFullYear();
@@ -22,8 +24,6 @@ export class SwitchTextDatepickComponent implements OnChanges {
   }
 
   dateChanged(event: any){
-    console.log("Min Date: ",this.minDate);
-    console.log(event.value,"event");
     this.dateChange.emit(event.value);
   }
 }
