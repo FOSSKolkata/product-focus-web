@@ -1,3 +1,5 @@
+import { NullTemplateVisitor } from "@angular/compiler";
+
 export interface IProductModule {
   name: string,
 }
@@ -309,9 +311,9 @@ export interface IBusinessRequirementInput {
   id: number | null,
   productId: number,
   title: string,
-  receivedOn: Date,
+  receivedOn: Date | null,
   tagIds: Array<number>
-  sourceEnum: BusinessRequirementSourceEnum,
+  sourceEnum: BusinessRequirementSourceEnum | null,
   sourceAdditionalInformation: string,
   description: string
 }
@@ -336,10 +338,10 @@ export interface IBusinessRequirementTag {
 }
 
 export interface IBusinessRequirementDetails {
-  id: number,
+  id: number | null,
   title: string,
-  receivedOn: Date,
-  sourceEnum: BusinessRequirementSourceEnum,
+  receivedOn: Date | null,
+  sourceEnum: BusinessRequirementSourceEnum | null,
   sourceInformation: string,
   description: string,
   tags: IBusinessRequirementTag[]

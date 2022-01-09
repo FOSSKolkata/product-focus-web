@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { IBusinessRequirementDetails, IBusinessRequirementInput } from '../dht-common/models';
+import { IBusinessRequirementDetails, IBusinessRequirement, IBusinessRequirementInput } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +12,13 @@ export class BusinessRequirementService {
 
   constructor(private http: HttpClient) { }
 
-  addBusinessRequirement(input: IBusinessRequirementInput) {
-    return this.http.post(apiConfig.uri+`/BusinessRequirement/AddBusinessRequirement`,input).pipe(
+  addBusinessRequirement(input: IBusinessRequirementInput): Observable<number> {
+    return this.http.post<number>(apiConfig.uri+`/BusinessRequirement/AddBusinessRequirement`,input).pipe(
       catchError(this.handleError)
     );
   }
 
-  getBusinessRequirementListByProductId(productId: number, tags: number[], startDate: Date, endDate: Date) {
+  getBusinessRequirementListByProductId(productId: number, tags: number[], startDate: Date, endDate: Date): Observable<IBusinessRequirement[]> {
     let tagParam = "";
     for(let tid of tags){
       tagParam += `TagIds=${tid}&`;
@@ -38,7 +38,7 @@ export class BusinessRequirementService {
       options = { params: new HttpParams({fromString: tagParam})};
     }
     return this.http
-      .get(
+      .get<IBusinessRequirement[]>(
         apiConfig.uri +
         `/BusinessRequirement/GetBusinessRequirementsByProductId/${productId}/query`, options
       )

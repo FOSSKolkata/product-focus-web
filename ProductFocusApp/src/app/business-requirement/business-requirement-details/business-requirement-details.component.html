@@ -1,13 +1,14 @@
 <div style="width: calc(100vw - var(--side-nav-width) - var(--left-panel-width)); height: calc(100vh - var(--nav-height) - var(--breadcrumb-height)); overflow: auto;">
-    <form [formGroup]="businessRequirementForm" (ngSubmit)="addBusinessRequirement()">
+    <form #businessRequirementForm="ngForm" (ngSubmit)="addOrUpdateBusinessRequirement()">
         <div style="margin-right: 10px; display: flex; flex-direction: column; gap: 20px;">
             <div style="display: flex; gap: 20px;">
                 <div>
                     <label>Title</label>
                     <app-switch-label-text
-                        formControlName="title"
+                        [(ngModel)]="businessRequirementDetails.title"
                         name="businesstitle"
-                        [text]="title">
+                        required
+                        #businesstitle="ngModel">
                     </app-switch-label-text>
                     <div *ngIf="businesstitle.invalid && (businesstitle.dirty || businesstitle.touched)">
                         <div class="text-danger">Title is required</div>
@@ -18,7 +19,7 @@
                 <div>
                     <label>Received date</label>
                     <app-switch-text-datepick [style]="{'width': '180px'}"
-                        [date]="selectedDate"
+                        [date]="businessRequirementDetails.receivedOn"
                         [placeholder]="'Received On'"
                         (date-changed)="dateChange($event)">
                     </app-switch-text-datepick>
@@ -58,15 +59,16 @@
                 <div>
                     <label>Additional Information</label>
                     <app-switch-label-text
-                        [text]="additionalInformation"
-                        formControlName="additionalInformation">
+                        [(ngModel)]="businessRequirementDetails.sourceInformation"
+                        name="additionalInfo"
+                        #additionalInfo="ngModel">
                     </app-switch-label-text>
                 </div>
             </div>
             
             <div>
                 <label>Description</label>
-                <quill-editor formControlName="description" [(ngModel)]="description" (onContentChanged)="test($event)">
+                <quill-editor [(ngModel)]="businessRequirementDetails.description">
                     <div quill-editor-toolbar>
                         <span class="ql-formats">
                             <select class="ql-font">

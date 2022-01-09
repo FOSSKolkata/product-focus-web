@@ -39,7 +39,7 @@ export class BusinessRequirementComponent implements OnInit {
       this.selectedTagIds,
       this.startDate,
       this.endDate).subscribe(x => {
-        this.businessRequirements = x as IBusinessRequirement[];
+        this.businessRequirements = x;
     })
   }
 

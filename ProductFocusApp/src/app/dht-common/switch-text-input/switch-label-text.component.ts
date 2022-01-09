@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, forwardRef, Input, Output, ViewChild } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 
 @Component({
   selector: 'app-switch-label-text',
@@ -13,12 +13,15 @@ import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from '@angular/f
   ]
 })
 export class SwitchLabelTextComponent implements ControlValueAccessor {
+
+  @ViewChild('textInput') public inputElement!: ElementRef;
   private onChange!: (name: string) => void;
   private onTouched!: () => void;
   public textInput = new FormControl('');
 
   writeValue(text: string): void {
     this.textInput.setValue(text);
+    this.title = text;
   }
 
   registerOnChange(fn: any): void {
@@ -58,6 +61,7 @@ export class SwitchLabelTextComponent implements ControlValueAccessor {
 
   doInput() {
     this.onChange(this.textInput.value);
+    this.title = this.textInput.value;
   }
 
   doBlur() {

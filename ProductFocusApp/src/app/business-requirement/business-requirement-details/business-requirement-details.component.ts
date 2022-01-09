@@ -4,7 +4,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { BusinessRequirementSourceEnum, IBusinessRequirementInput, IProduct, ITag } from 'src/app/dht-common/models';
+import { BusinessRequirementSourceEnum, IBusinessRequirementDetails, IBusinessRequirementInput, IProduct, ITag } from 'src/app/dht-common/models';
 import { BusinessRequirementService } from 'src/app/_services/business-requirement.service';
 import { TagService } from 'src/app/_services/tag.service';
 
@@ -18,16 +18,19 @@ interface HTMLInputEvent extends Event {
 })
 export class BusinessRequirementDetailsComponent implements OnInit {
 
-  businessRequirementId : null | number = null;
-  title = "";
-  selectedDate!: Date;
-  description = "";
   tags: ITag[] = [];
   selectedTags: ITag[] = [];
   sources: {name: string, position: number}[] = [];
   selectedSource!: {name: string, position: number};
-  selectedSourceEnum!: BusinessRequirementSourceEnum;
-  additionalInformation = "";
+  businessRequirementDetails: IBusinessRequirementDetails = {
+    id: null,
+    title: '',
+    description: '',
+    receivedOn: null,
+    sourceEnum: null,
+    sourceInformation: '',
+    tags: []
+  };
   doesBusinessRequirementAdding = false;
 
   fileArr: any[] = [];
@@ -38,7 +41,7 @@ export class BusinessRequirementDetailsComponent implements OnInit {
   msg: string = '';
   progress: number = 0;
   form: FormGroup;
-  businessRequirementForm: FormGroup;
+
   constructor(
     public fb: FormBuilder,
     private sanitizer: DomSanitizer,
@@ -47,31 +50,12 @@ export class BusinessRequirementDetailsComponent implements OnInit {
     private busReqService: BusinessRequirementService,
     private tostr: ToastrService,
     private route: ActivatedRoute) {
-      this.businessRequirementId = this.route.snapshot.params.businessRequirementId;
+      this.businessRequirementDetails.id = this.route.snapshot.params.businessRequirementId;
       
       this.form = this.fb.group({
         avatar: [null]
       });
-
-      this.businessRequirementForm = new FormGroup({
-        title: new FormControl('', Validators.required),
-        // receivedOn: new FormControl(''), // Need to implement using form
-        // tags: new FormControl(''),
-        // sources: new FormControl(''),
-        additionalInformation: new FormControl(''),
-        description: new FormControl('')
-      });
-
     }
-  
-  public get businesstitle() {
-    return this.businessRequirementForm.value['title'];
-  }
-
-  public get businessreceivedon() {
-    return this.businessRequirementForm.value['receivedOn'];
-  }
-
   
   ngOnInit(): void {
     let selectedProductString = localStorage.getItem('selectedProduct');
@@ -82,15 +66,10 @@ export class BusinessRequirementDetailsComponent implements OnInit {
     this.selectedProduct = JSON.parse(selectedProductString);
     this.tagService.getTagListByProductId(this.selectedProduct.id).subscribe(x => {
       this.tags = x; 
-      if(this.businessRequirementId) {
-        this.busReqService.getBusinessRequirementDetails(this.businessRequirementId).subscribe(x => {
-          this.businessRequirementId = x.id;
-          this.title = x.title;
-          this.selectedDate = x.receivedOn;
-          this.description = x.description;
-          this.selectedSourceEnum = x.sourceEnum;
-          this.additionalInformation = x.sourceInformation;
+      if(this.businessRequirementDetails.id) {
+        this.busReqService.getBusinessRequirementDetails(this.businessRequirementDetails.id).subscribe(x => {
           this.selectedTags = x.tags;
+          this.businessRequirementDetails = x;
           for(let source in BusinessRequirementSourceEnum){
             if(isNaN(Number(source))) {
               this.selectedSource = {name: source, position: Number(BusinessRequirementSourceEnum[source])};
@@ -108,11 +87,11 @@ export class BusinessRequirementDetailsComponent implements OnInit {
   }
 
   dateChange(event: Date){
-    this.selectedDate = event;
+    this.businessRequirementDetails.receivedOn = event;
   }
 
   sourceChange(event: any) {
-    this.selectedSourceEnum = event.item?.position;
+    this.businessRequirementDetails.sourceEnum = event.item?.position;
   }
 
   removeTag(tag: ITag) {
@@ -160,34 +139,36 @@ export class BusinessRequirementDetailsComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
-  test(event: any){
-    console.log(event);
-  }
-
-  addBusinessRequirement() {
+  addOrUpdateBusinessRequirement() {
     let tagIds: number[] = [];
     for(let tag of this.selectedTags) {
       tagIds.push(tag.id);
     }
     let input: IBusinessRequirementInput = {
-      id: this.businessRequirementId,
+      id: this.businessRequirementDetails.id,
       productId: this.selectedProduct.id,
-      title: this.businessRequirementForm.value['title'],
-      receivedOn: this.selectedDate,
+      title: this.businessRequirementDetails.title,
+      receivedOn: this.businessRequirementDetails.receivedOn,
       tagIds: tagIds,
-      sourceEnum: this.selectedSourceEnum,
-      sourceAdditionalInformation: this.businessRequirementForm.value['additionalInformation'],
-      description: this.businessRequirementForm.value['description']
+      sourceEnum: this.businessRequirementDetails.sourceEnum,
+      sourceAdditionalInformation: this.businessRequirementDetails.sourceInformation,
+      description: this.businessRequirementDetails.description
     }
     
     this.doesBusinessRequirementAdding = true;
-    this.busReqService.addBusinessRequirement(input).subscribe(x => {
+    if(this.businessRequirementDetails.id) {
+      // Update if business requirement id is not null
+      console.log('Update is not implemented...');
       this.doesBusinessRequirementAdding = false;
-      this.businessRequirementId = x as number;
-    },err => {
-      this.tostr.error(err.error,'Failed to save');
-      this.doesBusinessRequirementAdding = false;
-    })
+    } else {
+      this.busReqService.addBusinessRequirement(input).subscribe(x => {
+        this.doesBusinessRequirementAdding = false;
+        this.businessRequirementDetails.id = x; // Getting this businessRequirement
+      },err => {
+        this.tostr.error(err.error,'Failed to save');
+        this.doesBusinessRequirementAdding = false;
+      })
+    }
   }
 
   public get businessRequirementSourceEnum(): typeof BusinessRequirementSourceEnum {
