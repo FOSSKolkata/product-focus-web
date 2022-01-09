@@ -1,7 +1,7 @@
 <div
   class="card"
-  [class.feature]="feature.workItemType == 1"
-  [class.bug]="feature.workItemType == 2"
+  [class.feature]="feature.workItemType === 1"
+  [class.bug]="feature.workItemType === 2"
   (click)="openFeatureDetailsModal(content)"
 >
   <div class="card-body">
@@ -21,11 +21,11 @@
       </span>
       <div>
         <i
-          *ngIf="feature.workItemType == 1"
+          *ngIf="feature.workItemType === 1"
           class="fa fa-life-ring feature-theme"
         ></i>
         <i
-          *ngIf="feature.workItemType == 2"
+          *ngIf="feature.workItemType === 2"
           class="fa fa-bug bug-theme"
         ></i>
         <div class="feature-id-color">#{{ feature.id }}</div>

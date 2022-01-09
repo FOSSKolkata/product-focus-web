@@ -61,7 +61,7 @@
 </div>
 <div class="bottom-nav">
   <div class="d-inline-block position-absolute move-right">
-    <app-add-feature [selected-sprint]="selectedSprint"></app-add-feature>
+    <app-add-feature [selected-sprint]="selectedSprint" (is-feature-added)="emitEventToChild()"></app-add-feature>
   </div>
 </div>
 <div>

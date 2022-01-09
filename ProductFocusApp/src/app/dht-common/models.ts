@@ -306,11 +306,41 @@ export interface IAddTag {
 }
 
 export interface IBusinessRequirementInput {
+  id: number | null,
   productId: number,
   title: string,
-  date: Date,
+  receivedOn: Date,
   tagIds: Array<number>
-  source: string,
+  sourceEnum: BusinessRequirementSourceEnum,
   sourceAdditionalInformation: string,
   description: string
+}
+
+export enum BusinessRequirementSourceEnum {
+  Email = 1,
+  Meeting = 2,
+}
+
+export interface IBusinessRequirement {
+  id: number,
+  productId: number,
+  receivedOn: Date,
+  tags: IBusinessRequirementTag[]
+  title: string
+}
+
+export interface IBusinessRequirementTag {
+  id: number,
+  businessRequirementId: number,
+  name: string
+}
+
+export interface IBusinessRequirementDetails {
+  id: number,
+  title: string,
+  receivedOn: Date,
+  sourceEnum: BusinessRequirementSourceEnum,
+  sourceInformation: string,
+  description: string,
+  tags: IBusinessRequirementTag[]
 }

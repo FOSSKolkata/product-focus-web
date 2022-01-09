@@ -15,7 +15,7 @@ import { EditableTextComponent } from './editable-text/editable-text.component';
 import { ErrorComponent } from './error/error.component';
 import { MatCardModule } from '@angular/material/card';
 import { MdePopoverModule } from '@material-extended/mde';
-import { SwitchTextInputComponent } from './switch-text-input/switch-text-input.component';
+import { SwitchLabelTextComponent } from './switch-text-input/switch-label-text.component';
 import { TextDropdownComponent } from './text-dropdown/text-dropdown.component';
 
 @NgModule({
@@ -26,7 +26,7 @@ import { TextDropdownComponent } from './text-dropdown/text-dropdown.component';
     UserAvatarComponent,
     ShortnamePipe,
     SpinnerComponent,
-    SwitchTextInputComponent,
+    SwitchLabelTextComponent,
     SwitchTextDatepickComponent,
     EditableTextComponent,
     ErrorComponent,
@@ -48,7 +48,7 @@ import { TextDropdownComponent } from './text-dropdown/text-dropdown.component';
     // TagComponent,
     // SwitchTextTextareaComponent,
     SwitchTextDropdownComponent,
-    SwitchTextInputComponent,
+    SwitchLabelTextComponent,
     SwitchTextDatepickComponent,
     UserAvatarComponent,
     ShortnamePipe,

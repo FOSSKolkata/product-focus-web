@@ -16,7 +16,9 @@ export class TextDropdownComponent implements OnInit {
   }
 
   selectOption(event: any){
-    this.selectionChange.emit(this.options.filter((option)=>event.target.value === option.name));
+    let option = this.options.filter((option)=>event.target.value === option.name);
+    let selectedObject = {item: option?option[0]: option};
+    this.selectionChange.emit(selectedObject);
   }
 
 }

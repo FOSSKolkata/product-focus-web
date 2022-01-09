@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SwitchTextInputComponent } from './switch-text-input.component';
+import { SwitchLabelTextComponent } from './switch-label-text.component';
 
 describe('SwitchTextInputComponent', () => {
-  let component: SwitchTextInputComponent;
-  let fixture: ComponentFixture<SwitchTextInputComponent>;
+  let component: SwitchLabelTextComponent;
+  let fixture: ComponentFixture<SwitchLabelTextComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SwitchTextInputComponent ]
+      declarations: [ SwitchLabelTextComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SwitchTextInputComponent);
+    fixture = TestBed.createComponent(SwitchLabelTextComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

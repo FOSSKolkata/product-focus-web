@@ -1,4 +1,4 @@
-::ng-deep.mat-datepicker-content .mat-calendar{
+::ng-deep.mat-datepicker-content .mat-calendar {
     width: unset !important;
     height: unset !important;
 }
@@ -8,12 +8,12 @@
 //     padding: 10px 0 9px 0;
 // }
 
-input:hover,input:focus{
+input:hover,input:focus {
     background-color: transparent;
     cursor: pointer;
 }
 
-div{
+div {
     min-width: 20px;
     min-height: 100%;
     max-width: 300px;
@@ -21,11 +21,28 @@ div{
     height: auto;
     align-items: center;
 }
-div:hover{
+
+div:hover {
     // background-color: var(--light-gray);
     cursor: pointer;
 }
-div:focus{
+
+div:focus {
     cursor:text;
     // background-color: var(--dark-gray);
+}
+
+.mat-input-element {
+    font: inherit;
+    background: transparent;
+    color: currentColor;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+    vertical-align: bottom;
+    text-align: inherit;
+    box-sizing: content-box;
 }

@@ -6,12 +6,16 @@
       {{ title }}
     </div>
     <input
+
       type="text"
       #inputText
       [ngStyle]="inputStyle"
       *ngIf="!isTextVisible"
       [(ngModel)]="title"
       (focusout)="onFocusOut($event)"
+      [formControl]="textInput"
+      (input)="doInput()"
+      (blur)="doBlur()"
     >
   </div>
   

@@ -23,6 +23,10 @@ const routes: Routes = [
             path: 'business-requirement-details',
             component: BusinessRequirementDetailsComponent,
             data: {breadcrumb: 'Business Requirement Details'}
+          },{
+              path: 'business-requirement-details/:businessRequirementId',
+              component: BusinessRequirementDetailsComponent,
+              data: {breadcrumb: 'Business Requirement Details'}
           }
         ]
       }

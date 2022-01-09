@@ -2,12 +2,12 @@
   <div (click)="addFeatureOrBugStep = 1" [popover]="myPopover" [popoverCloseOnMouseOutside]="true" [popoverOnHover]="false">
   <i class="fa fa-plus" ></i> Add Feature / Bug
   </div>
-  <popover-content #myPopover [style.display]="addFeatureOrBugStep != 0?'block':'none'"
+  <popover-content #myPopover [style.display]="addFeatureOrBugStep !== 0?'block':'none'"
     placement="bottom-left"
     [animation]="true"
     [closeOnClickOutside]="true">
     <div>
-      <div class="add feature-margin-btn" [style.display]="addFeatureOrBugStep == 1?'block':'none'">
+      <div class="add feature-margin-btn" [style.display]="addFeatureOrBugStep === 1?'block':'none'">
         <div
           class="btn good-btn"
           (click)="addType('Feature'); addFeatureOrBugStep = 2"
@@ -29,12 +29,12 @@
           ></i>
         </div>
       </div>
-      <div *ngIf="addFeatureOrBugStep == 2" class="add">
+      <div *ngIf="addFeatureOrBugStep === 2" class="add">
         <i
           class="fa"
-          [class.fa-bug]="workItemType == 'Bug'"
-          [class.fa-life-ring]="workItemType == 'Feature'"
-          [style.color]="workItemType == 'Bug' ? 'red' : 'blue'"
+          [class.fa-bug]="workItemType === 'Bug'"
+          [class.fa-life-ring]="workItemType === 'Feature'"
+          [style.color]="workItemType === 'Bug' ? 'red' : 'blue'"
         ></i>
         <form #addFeatureForm="ngForm" (ngSubmit)="addFeature()">
           <textarea

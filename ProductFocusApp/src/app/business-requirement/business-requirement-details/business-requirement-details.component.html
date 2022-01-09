@@ -1,124 +1,139 @@
 <div style="width: calc(100vw - var(--side-nav-width) - var(--left-panel-width)); height: calc(100vh - var(--nav-height) - var(--breadcrumb-height)); overflow: auto;">
-    <div style="margin-right: 10px; display: flex; flex-direction: column; gap: 20px;">
-        <div style="display: flex; gap: 20px;">
-            <div>
-                <label>Title</label>
-                <app-switch-text-input
-                    [text]="title"
-                    (textChanged)="titleChange($event)">
-                </app-switch-text-input>
-            </div>
-        </div>
-        <div style="display: flex; gap: 20px;">
-            <div>
-                <label>Date</label>
-                <app-switch-text-datepick [style]="{'width': '180px'}"
-                    [date]="selectedDate"
-                    [placeholder]="'Received On'"
-                    (date-changed)="dateChange($event)">
-                </app-switch-text-datepick>
-            </div>
-            <div>
-                <mat-form-field>
-                    <label>Tags</label>
-                    <mat-chip-list #chipList>
-                        <mat-chip *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
-                        {{tag.name}}
-                        <div matChipRemove style="display: flex; align-items: center;">
-                            <mat-icon>cancel</mat-icon>
-                        </div>
-                        </mat-chip>
-                        <input
-                        [matAutocomplete]="auto"
-                        [matChipInputFor]="chipList">
-                    </mat-chip-list>
-                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event)">
-                        <mat-option *ngFor="let tag of tags" [value]="tag.id">
-                        {{tag.name}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </div>
-        </div>
-        <div style="display: flex; gap: 20px;">
-            <div>
-                <label>Source</label>
-                <app-text-dropdown
-                    [options]="sources"
-                    (selectionChanged)="sourceChange($event)">
-                </app-text-dropdown>
-            </div>
-            <div>
-                <label>Additional Information</label>
-                <app-switch-text-input
-                    [text]="additionalInformation"
-                    (textChanged)="additionalInformationChange($event)">
-                </app-switch-text-input>
-            </div>
-        </div>
-        <div>
-            <label>Description</label>
-            <quill-editor [(ngModel)]="description">
-                <div quill-editor-toolbar>
-                    <span class="ql-formats">
-                        <select class="ql-font">
-                        <option selected></option>
-                        <option value="serif"></option>
-                        <option value="monospace"></option>
-                        </select>
-                        <select class="ql-size">
-                        <option value="small"></option>
-                        <option selected></option>
-                        <option value="large"></option>
-                        <option value="huge"></option>
-                        </select>
-                    </span>
-                    <span class="ql-formats">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                        <button class="ql-strike"></button>
-                    </span>
-                    <span class="ql-formats">
-                        <select class="ql-color"></select>
-                        <select class="ql-background"></select>
-                    </span>
-                    <span class="ql-formats">
-                        <button class="ql-list" value="ordered"></button>
-                        <button class="ql-list" value="bullet"></button>
-                        <select class="ql-align">
-                        <option selected></option>
-                        <option value="center"></option>
-                        <option value="right"></option>
-                        <option value="justify"></option>
-                        </select>
-                    </span>
-                    <span class="ql-formats">
-                        <button class="ql-link"></button>
-                        <button class="ql-image"></button>
-                    </span>
+    <form [formGroup]="businessRequirementForm" (ngSubmit)="addBusinessRequirement()">
+        <div style="margin-right: 10px; display: flex; flex-direction: column; gap: 20px;">
+            <div style="display: flex; gap: 20px;">
+                <div>
+                    <label>Title</label>
+                    <app-switch-label-text
+                        formControlName="title"
+                        name="businesstitle"
+                        [text]="title">
+                    </app-switch-label-text>
+                    <div *ngIf="businesstitle.invalid && (businesstitle.dirty || businesstitle.touched)">
+                        <div class="text-danger">Title is required</div>
+                    </div>
                 </div>
-            </quill-editor>
-        </div>
-        <div>
-            <label>Attachments</label>
-            <div appDragDropFileUpload (click)="fileField.click()" style="border: 1px dashed gray;text-align: center; cursor: pointer;" class="p-2"
-            (fileDropped)="upload($event)">Drag file to attach or browse
-                <input type="file" name="avatars" #fileField (change)="clickUpload($event)" hidden multiple>
             </div>
-        </div>
-        <div>
-            <div class="image-list" style="position: relative;" *ngFor="let file of fileArr; let i = index">
-                <div class="profile">
-                    <img [src]="sanitize(file['url'])" alt="">
+            <div style="display: flex; gap: 20px;">
+                <div>
+                    <label>Received date</label>
+                    <app-switch-text-datepick [style]="{'width': '180px'}"
+                        [date]="selectedDate"
+                        [placeholder]="'Received On'"
+                        (date-changed)="dateChange($event)">
+                    </app-switch-text-datepick>
                 </div>
-                <p>{{file.item.name}}</p>
-                <i class="fa fa-times" style="right: 0; position: absolute; padding: 12px; cursor: pointer;" (click)="remove(file)"></i>
+                <div>
+                    <mat-form-field>
+                        <label>Tags</label>
+                        <mat-chip-list #chipList>
+                            <mat-chip *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
+                            {{tag.name}}
+                            <div matChipRemove style="display: flex; align-items: center;">
+                                <mat-icon>cancel</mat-icon>
+                            </div>
+                            </mat-chip>
+                            <input
+                            [matAutocomplete]="auto"
+                            [matChipInputFor]="chipList">
+                        </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event)">
+                            <mat-option *ngFor="let tag of tags" [value]="tag.id">
+                            {{tag.name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
             </div>
-            <p class="message">{{msg}}</p>
+            
+            <div style="display: flex; gap: 20px;">
+                <div>
+                    <label>Source</label>
+                    <app-text-dropdown
+                        [selected]="selectedSource"
+                        [options]="sources"
+                        (selectionChanged)="sourceChange($event)">
+                    </app-text-dropdown>
+                </div>
+                <div>
+                    <label>Additional Information</label>
+                    <app-switch-label-text
+                        [text]="additionalInformation"
+                        formControlName="additionalInformation">
+                    </app-switch-label-text>
+                </div>
+            </div>
+            
+            <div>
+                <label>Description</label>
+                <quill-editor formControlName="description" [(ngModel)]="description" (onContentChanged)="test($event)">
+                    <div quill-editor-toolbar>
+                        <span class="ql-formats">
+                            <select class="ql-font">
+                            <option selected></option>
+                            <option value="serif"></option>
+                            <option value="monospace"></option>
+                            </select>
+                            <select class="ql-size">
+                            <option value="small"></option>
+                            <option selected></option>
+                            <option value="large"></option>
+                            <option value="huge"></option>
+                            </select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+                        <span class="ql-formats">
+                            <select class="ql-color"></select>
+                            <select class="ql-background"></select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-list" value="ordered"></button>
+                            <button class="ql-list" value="bullet"></button>
+                            <select class="ql-align">
+                            <option selected></option>
+                            <option value="center"></option>
+                            <option value="right"></option>
+                            <option value="justify"></option>
+                            </select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-link"></button>
+                            <button class="ql-image"></button>
+                        </span>
+                    </div>
+                </quill-editor>
+            </div>
+
+            <div>
+                <label>Attachments</label>
+                <div appDragDropFileUpload (click)="fileField.click()" style="border: 1px dashed gray;text-align: center; cursor: pointer;" class="p-2"
+                (fileDropped)="upload($event)">Drag file to attach or browse
+                    <input type="file" name="avatars" #fileField (change)="clickUpload($event)" hidden multiple>
+                </div>
+            </div>
+            <div>
+                <div class="image-list" style="position: relative;" *ngFor="let file of fileArr; let i = index">
+                    <div class="profile">
+                        <img [src]="sanitize(file['url'])" alt="">
+                    </div>
+                    <p>{{file.item.name}}</p>
+                    <i class="fa fa-times" style="right: 0; position: absolute; padding: 12px; cursor: pointer;" (click)="remove(file)"></i>
+                </div>
+                <p class="message">{{msg}}</p>
+            </div>
+            <div>
+                <button class="btn good-btn" [disabled]="businessRequirementForm.invalid || doesBusinessRequirementAdding">
+                    <div *ngIf="doesBusinessRequirementAdding" class="spinner-border spinner-border-sm" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    {{doesBusinessRequirementAdding?'Saving':'Save'}}
+                </button>
+            </div>
         </div>
-        <div>
-            <div class="btn good-btn" (click)="addBusinessRequirement()">Save</div>
-        </div>
-    </div>
+    </form>
 </div>
