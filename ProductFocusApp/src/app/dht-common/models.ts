@@ -331,6 +331,11 @@ export interface IBusinessRequirement {
   title: string
 }
 
+export interface IBusinessRequirements {
+  recordCount: number,
+  businessRequirements: IBusinessRequirement[]
+}
+
 export interface IBusinessRequirementTag {
   id: number,
   businessRequirementId: number,

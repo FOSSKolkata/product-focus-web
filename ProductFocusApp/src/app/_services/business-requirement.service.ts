@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { IBusinessRequirementDetails, IBusinessRequirement, IBusinessRequirementInput } from '../dht-common/models';
+import { IBusinessRequirementDetails,  IBusinessRequirementInput, IBusinessRequirements } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class BusinessRequirementService {
     );
   }
 
-  getBusinessRequirementListByProductId(productId: number, tags: number[], startDate: Date, endDate: Date): Observable<IBusinessRequirement[]> {
+  getBusinessRequirementListByProductId(productId: number, tags: number[], startDate: Date, endDate: Date, offset: number, count: number): Observable<IBusinessRequirements> {
     let tagParam = "";
     for(let tid of tags){
       tagParam += `TagIds=${tid}&`;
@@ -38,9 +38,9 @@ export class BusinessRequirementService {
       options = { params: new HttpParams({fromString: tagParam})};
     }
     return this.http
-      .get<IBusinessRequirement[]>(
+      .get<IBusinessRequirements>(
         apiConfig.uri +
-        `/BusinessRequirement/GetBusinessRequirementsByProductId/${productId}/query`, options
+        `/BusinessRequirement/GetBusinessRequirementsByProductId/${productId}/${offset}/${count}/query`, options
       )
       .pipe(catchError(this.handleError));
   }

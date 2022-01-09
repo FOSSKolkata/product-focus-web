@@ -10,13 +10,13 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'business-requirement-list'
+        redirectTo: 'business-requirement-list/1'
       },{
-        path: 'business-requirement-list',
+        path: 'business-requirement-list/:pageNo',
         component: BusinessRequirementComponent,
         data: {breadcrumb: 'Business Requirement List'},
       },{
-        path: 'business-requirement-list',
+        path: 'business-requirement-list/:pageNo',
         data: {breadcrumb: 'Business Requirement List'},
         children: [
           {

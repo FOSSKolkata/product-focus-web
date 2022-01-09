@@ -40,17 +40,17 @@
             </div>
         </div>
         <div class="table-responsive-sm">
-            <table class="table">
+            <table class="table" matSort (matSortChange)="sortData($event)">
                 <thead>
                     <tr class="table-head">
                         <th scope="col">No</th>
                         <th scope="col">Title</th>
-                        <th scope="col">Received Date</th>
+                        <th scope="col" mat-sort-header="receivedDate">Received Date</th>
                         <th scope="col">Tags</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let businessRequirement of businessRequirements">
+                    <tr *ngFor="let businessRequirement of businessRequirementSortedList?.businessRequirements">
                         <td><strong class="pointer"
                             [routerLink]="['./business-requirement-details',businessRequirement.id]">
                             #{{businessRequirement.id}}</strong>
@@ -67,6 +67,13 @@
                     </tr>
                 </tbody>
             </table>
+            <mat-paginator
+                [length]="businessRequirementList?.recordCount"
+                [pageSize]="count"
+                [pageIndex]="pageNo - 1"
+                (page)="pageChange($event)"
+                >
+            </mat-paginator>
         </div>
     </div>
     <div class="btn good-btn" [routerLink]="['./business-requirement-details']">Create</div>

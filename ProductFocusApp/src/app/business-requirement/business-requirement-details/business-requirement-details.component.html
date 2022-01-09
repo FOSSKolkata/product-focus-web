@@ -111,7 +111,7 @@
                 </quill-editor>
             </div>
 
-            <div>
+            <div *ngIf="businessRequirementDetails.id">
                 <label>Attachments</label>
                 <div appDragDropFileUpload (click)="fileField.click()" style="border: 1px dashed gray;text-align: center; cursor: pointer;" class="p-2"
                 (fileDropped)="upload($event)">Drag file to attach or browse

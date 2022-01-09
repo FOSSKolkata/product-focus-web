@@ -15,6 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 import { DragDropFileUploadDirective } from './_directives/drag-drop-file-upload.directive';
 import { DhtCommonModule } from '../dht-common/dht-common.module';
+import { MatSortModule } from '@angular/material/sort';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -62,7 +64,9 @@ import { DhtCommonModule } from '../dht-common/dht-common.module';
           ['link', 'image', 'video']                         // link and image, video
         ]
       }
-    })
+    }),
+    MatSortModule,
+    MatPaginatorModule
   ]
 })
 export class BusinessRequirementModule { }
