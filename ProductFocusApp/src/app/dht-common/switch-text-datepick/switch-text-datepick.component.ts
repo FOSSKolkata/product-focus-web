@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 })
 export class SwitchTextDatepickComponent implements OnChanges {
   @Input('date') date: Date | null = null;
-  @Output('date-changed') dateChange = new EventEmitter<Date>();
+  @Output('changed') dateChange = new EventEmitter<Date>();
   @Input('min') minDate: Date | null = null;
   @Input('max') maxDate: Date | null = null;
   @Input('style') style!: {};

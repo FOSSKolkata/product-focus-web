@@ -74,7 +74,7 @@
             <app-switch-text-datepick
               [date]="feature.startDate"
               [max]="feature.endDate"
-              (date-changed)="
+              (changed)="
                 modifyFeature(
                   modifyColumnIdentifier.plannedStartDate,
                   $event,
@@ -87,7 +87,7 @@
             <app-switch-text-datepick
               [date]="feature.endDate"
               [min]="feature.startDate"
-              (date-changed)="
+              (changed)="
                 modifyFeature(
                   modifyColumnIdentifier.plannedEndDate,
                   $event,

@@ -1,12 +1,12 @@
 <div style="width: calc(100vw - var(--side-nav-width) - var(--left-panel-width)); height: calc(100vh - var(--nav-height) - var(--breadcrumb-height)); overflow: auto;">
     <div class="my-2" style="display: flex; flex-direction: column;">
-        <div style="display: flex; align-items: center; justify-content:space-between;">
-            <div>
+        <div style="display: flex; align-items: center;">
+            <div style="flex-grow: 1;">
                 <strong class="mr-2">Filter</strong>
-                <mat-form-field>
+                <mat-form-field style="width: 100%;">
                     <label>Tags</label>
                     <mat-chip-list #chipList>
-                        <mat-chip *ngFor="let tag of selectedTags">
+                        <mat-chip *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
                         {{tag.name}}
                         <div matChipRemove style="display: flex; align-items: center;">
                             <mat-icon>cancel</mat-icon>
@@ -16,7 +16,7 @@
                         [matAutocomplete]="auto"
                         [matChipInputFor]="chipList">
                     </mat-chip-list>
-                    <mat-autocomplete #auto="matAutocomplete">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event)">
                         <mat-option *ngFor="let tag of tags" [value]="tag.id">
                         {{tag.name}}
                         </mat-option>
@@ -27,15 +27,16 @@
                 <div>Start Date</div>
                 <app-switch-text-datepick 
                     [date]="startDate"
-                    [placeholder]="'Start Date'">
+                    [placeholder]="'Start Date'"
+                    (changed)="selectedDate($event, dateType.startDate)">
                 </app-switch-text-datepick>
             </div>
             <div>
                 <div>End Date</div>
                 <app-switch-text-datepick 
                     [date]="endDate"
-                    [style]="{border: '1px solid gray;'}"
-                    [placeholder]="'End Date'">
+                    [placeholder]="'End Date'"
+                    (changed)="selectedDate($event, dateType.endDate)">
                 </app-switch-text-datepick>
             </div>
         </div>

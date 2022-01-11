@@ -26,13 +26,13 @@ export class BusinessRequirementService {
     tagParam = tagParam.substring(0,tagParam.length-1);
     let options;
     if(startDate && endDate) {
-      options = { params: new HttpParams({fromString: `StartDate=${startDate}EndDate=${endDate}&${tagParam}`}) };
+      options = { params: new HttpParams({fromString: `StartDate=${startDate.toISOString()}&EndDate=${endDate.toISOString()}&${tagParam}`}) };
     }
     else if(startDate) {
-      options = { params: new HttpParams({fromString: `StartDate=${startDate}&${tagParam}`}) };
+      options = { params: new HttpParams({fromString: `StartDate=${startDate.toISOString()}&${tagParam}`}) };
     }
     else if(endDate) {
-      options = { params: new HttpParams({fromString: `StartDate=${endDate}&${tagParam}`}) };
+      options = { params: new HttpParams({fromString: `StartDate=${endDate.toISOString()}&${tagParam}`}) };
     }
     else {
       options = { params: new HttpParams({fromString: tagParam})};
@@ -52,6 +52,12 @@ export class BusinessRequirementService {
         `/BusinessRequirement/GetBusinessRequirementDetails/${id}`
       )
       .pipe(catchError(this.handleError));
+  }
+
+  updateBusinessRequirementDetails(businessRequirementDetails: IBusinessRequirementInput): Observable<void> {
+    return this.http.put<void>(apiConfig.uri + `/BusinessRequirement/UpdateBusinessRequirement`,businessRequirementDetails).pipe(
+      catchError(this.handleError)
+    );
   }
 
   handleError(error: HttpErrorResponse){

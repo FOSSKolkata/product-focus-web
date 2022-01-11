@@ -1,5 +1,3 @@
-import { NullTemplateVisitor } from "@angular/compiler";
-
 export interface IProductModule {
   name: string,
 }

@@ -157,9 +157,12 @@ export class BusinessRequirementDetailsComponent implements OnInit {
     
     this.doesBusinessRequirementAdding = true;
     if(this.businessRequirementDetails.id) {
-      // Update if business requirement id is not null
-      console.log('Update is not implemented...');
-      this.doesBusinessRequirementAdding = false;
+      this.busReqService.updateBusinessRequirementDetails(input).subscribe(x => {
+        this.doesBusinessRequirementAdding = false;
+      }, err => {
+        this.tostr.error(err.error, 'Failed to update');
+        this.doesBusinessRequirementAdding = false;
+      })
     } else {
       this.busReqService.addBusinessRequirement(input).subscribe(x => {
         this.doesBusinessRequirementAdding = false;
