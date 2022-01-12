@@ -53,11 +53,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { SecureGuard } from './guard/secure.guard';
 import { BreadcrumbModule } from 'xng-breadcrumb';
 import { MatIconModule } from '@angular/material/icon';
-import { BusinessRequirementListComponent } from './garbage/business-requirement-list/business-requirement-list.component';
-import { BusinessRequirementDetailsComponent } from './garbage/business-requirement-details/business-requirement-details.component';
 import { TemporaryRouterComponent } from './garbage/temporary-router/temporary-router.component';
 import { ProductDocumentationComponent } from './garbage/product-documentation/product-documentation.component';
-import { TagManagementComponent } from './garbage/tag-management/tag-management.component';
 import { ReleaseManagementComponent } from './garbage/release-management/release-management.component';
 import { TestManagementComponent } from './garbage/test-management/test-management.component';
 import { ReleaseDetailsComponent } from './garbage/release-management/release-details/release-details.component';
@@ -131,11 +128,8 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     StateComponent,
     CodeComponent,
     InvitationsComponent,
-    BusinessRequirementListComponent,
-    BusinessRequirementDetailsComponent,
     TemporaryRouterComponent,
     ProductDocumentationComponent,
-    TagManagementComponent,
     ReleaseManagementComponent,
     TestManagementComponent,
     ReleaseDetailsComponent,

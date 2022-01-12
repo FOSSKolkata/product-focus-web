@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IAddTagCategory, IProduct } from 'src/app/dht-common/models';
-import { TagCategoriesService } from 'src/app/_services/tag-categories.service';
+import { IAddTagCategory } from '../models';
+import { TagCategoriesService } from '../_services/tag-categories.service';
+import { IProduct } from 'src/app/dht-common/models';
 
 @Component({
   selector: 'app-add-tag-category',

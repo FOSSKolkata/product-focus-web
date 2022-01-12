@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { IProduct, ITag } from '../dht-common/models';
-import { TagService } from '../_services/tag.service';
+import { IProduct } from '../dht-common/models';
+import { ITag } from './models';
+import { TagService } from './_services/tag.service';
 import { TagManagementService } from './services/tag-management.service';
 
 @Component({

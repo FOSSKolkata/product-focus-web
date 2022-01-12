@@ -12,8 +12,6 @@ import { ErrorComponent } from './dht-common/error/error.component';
 import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { SecureGuard } from './guard/secure.guard';
-import { BusinessRequirementListComponent } from './garbage/business-requirement-list/business-requirement-list.component';
-import { BusinessRequirementDetailsComponent } from './garbage/business-requirement-details/business-requirement-details.component';
 import { TemporaryRouterComponent } from './garbage/temporary-router/temporary-router.component';
 import { ProductDocumentationComponent } from './garbage/product-documentation/product-documentation.component';
 import { TestManagementComponent } from './garbage/test-management/test-management.component';
@@ -198,8 +196,4 @@ const isIframe = window !== window.parent && !window.opener;
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-  constructor(){
-    console.log('app routing loaded');
-  }
-}
+export class AppRoutingModule { }

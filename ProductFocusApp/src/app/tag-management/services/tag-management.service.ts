@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ITag } from 'src/app/dht-common/models';
+import { ITag } from '../models';
 
 @Injectable({
   providedIn: 'root'

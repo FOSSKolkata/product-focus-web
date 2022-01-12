@@ -20,7 +20,6 @@ import { TextDropdownComponent } from './text-dropdown/text-dropdown.component';
 
 @NgModule({
   declarations: [
-    // TagComponent,
     // SwitchTextTextareaComponent,
     SwitchTextDropdownComponent,
     UserAvatarComponent,
@@ -45,7 +44,6 @@ import { TextDropdownComponent } from './text-dropdown/text-dropdown.component';
     MdePopoverModule
   ],
   exports: [
-    // TagComponent,
     // SwitchTextTextareaComponent,
     SwitchTextDropdownComponent,
     SwitchLabelTextComponent,

@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Sort } from '@angular/material/sort';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IBusinessRequirements, IProduct, ITag } from '../dht-common/models';
-import { BusinessRequirementService } from '../_services/business-requirement.service';
-import { TagService } from '../_services/tag.service';
+import { IBusinessRequirements } from './models';
+import { IProduct } from '../dht-common/models';
+import { ITag } from '../tag-management/models';
+import { BusinessRequirementService } from './_services/business-requirement.service';
+import { TagService } from 'src/app/tag-management/_services/tag.service';
 
 enum DateType {
   startDate = 1,
@@ -22,10 +24,10 @@ export class BusinessRequirementComponent implements OnInit {
   endDate!: Date;
   tags: ITag[] = [];
   selectedTags: ITag[] = [];
-  selectedProduct!: IProduct;
+  private selectedProduct!: IProduct;
   businessRequirementList!: IBusinessRequirements;
   businessRequirementSortedList!: IBusinessRequirements;
-  offset = 0;
+  private offset = 0;
   count = 5;
   pageNo = 1;
 
@@ -35,7 +37,7 @@ export class BusinessRequirementComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    let selectedProductString = localStorage.selectedProduct;
+    const selectedProductString = localStorage.selectedProduct;
     if(!selectedProductString) {
       this.router.navigate(['/']);
       return;
@@ -46,16 +48,16 @@ export class BusinessRequirementComponent implements OnInit {
       this.tags = x;
     });
     this.route.paramMap.subscribe(x => {
-      let pageMayBeNull = x.get('pageNo');
+      const pageMayBeNull = x.get('pageNo');
       this.pageNo = pageMayBeNull ? Number(pageMayBeNull) : 1;
       this.offset = (this.pageNo - 1) * this.count;
       this.setBusinessRequirement();
     })
   }
 
-  setBusinessRequirement(): void {
-    let selectedTagIds: number[] = [];
-    for(let tag of this.selectedTags) {
+  private setBusinessRequirement(): void {
+    const selectedTagIds: number[] = [];
+    for(const tag of this.selectedTags) {
       selectedTagIds.push(tag.id);
     }
     this.businessReqService.getBusinessRequirementListByProductId(
@@ -107,7 +109,7 @@ export class BusinessRequirementComponent implements OnInit {
     });
   }
   
-  compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
+  private compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
     if(a instanceof Date && b instanceof Date){
       return (a.getTime() < b.getTime() ? -1 : 1) * (isAsc ? 1 : -1);
     }
@@ -119,7 +121,7 @@ export class BusinessRequirementComponent implements OnInit {
     this.router.navigate(['../',event.pageIndex + 1], {relativeTo: this.route});
   }
 
-  public get dateType(): typeof DateType {
+  get dateType(): typeof DateType {
     return DateType;
   }
 }

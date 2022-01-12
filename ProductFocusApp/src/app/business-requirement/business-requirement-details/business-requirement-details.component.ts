@@ -1,12 +1,15 @@
+import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { BusinessRequirementSourceEnum, IBusinessRequirementDetails, IBusinessRequirementInput, IProduct, ITag } from 'src/app/dht-common/models';
-import { BusinessRequirementService } from 'src/app/_services/business-requirement.service';
-import { TagService } from 'src/app/_services/tag.service';
+import { ITag } from 'src/app/tag-management/models';
+import { IProduct } from 'src/app/dht-common/models';
+import { BusinessRequirementSourceEnum, IBusinessRequirementDetails, IBusinessRequirementInput } from '../models';
+import { BusinessRequirementService } from '../_services/business-requirement.service';
+import { TagService } from 'src/app/tag-management/_services/tag.service';
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -40,7 +43,7 @@ export class BusinessRequirementDetailsComponent implements OnInit {
   selectedProduct!: IProduct;
   msg: string = '';
   progress: number = 0;
-  form: FormGroup;
+  private form: FormGroup; // Will be removed later
 
   constructor(
     public fb: FormBuilder,
@@ -58,7 +61,7 @@ export class BusinessRequirementDetailsComponent implements OnInit {
     }
   
   ngOnInit(): void {
-    let selectedProductString = localStorage.getItem('selectedProduct');
+    const selectedProductString = localStorage.getItem('selectedProduct');
     if(selectedProductString === null) {
       this.router.navigate(['/']);
       return;
@@ -70,7 +73,7 @@ export class BusinessRequirementDetailsComponent implements OnInit {
         this.busReqService.getBusinessRequirementDetails(this.businessRequirementDetails.id).subscribe(x => {
           this.selectedTags = x.tags;
           this.businessRequirementDetails = x;
-          for(let source in BusinessRequirementSourceEnum){
+          for(const source in BusinessRequirementSourceEnum){
             if(isNaN(Number(source))) {
               this.selectedSource = {name: source, position: Number(BusinessRequirementSourceEnum[source])};
             }
@@ -79,7 +82,7 @@ export class BusinessRequirementDetailsComponent implements OnInit {
       }
     });
 
-    for(let source in BusinessRequirementSourceEnum){
+    for(const source in BusinessRequirementSourceEnum){
       if(isNaN(Number(source))) {
         this.sources.push({name: source, position: Number(BusinessRequirementSourceEnum[source])});
       }
@@ -109,11 +112,21 @@ export class BusinessRequirementDetailsComponent implements OnInit {
   }
   
   upload(e: FileList) {
+    const formData = new FormData();
     const fileListAsArray = Array.from(e);
     fileListAsArray.forEach((item, i) => {
       const url = URL.createObjectURL(e[i]);
       this.imgArr.push(url);
       this.fileArr.push({ item, url: url });
+      formData.append(item.name,item);
+    });
+
+    this.busReqService.uploadAttachments(formData).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress)
+        this.progress = Math.round(100 * event.loaded / (event.total ? event.total : 100));
+      else if (event.type === HttpEventType.Response) {
+        this.tostr.success('Files uploaded', 'Success');
+      }
     });
 
     this.fileObj = [];
@@ -140,11 +153,11 @@ export class BusinessRequirementDetailsComponent implements OnInit {
   }
 
   addOrUpdateBusinessRequirement() {
-    let tagIds: number[] = [];
-    for(let tag of this.selectedTags) {
+    const tagIds: number[] = [];
+    for(const tag of this.selectedTags) {
       tagIds.push(tag.id);
     }
-    let input: IBusinessRequirementInput = {
+    const input: IBusinessRequirementInput = {
       id: this.businessRequirementDetails.id,
       productId: this.selectedProduct.id,
       title: this.businessRequirementDetails.title,
@@ -172,9 +185,5 @@ export class BusinessRequirementDetailsComponent implements OnInit {
         this.doesBusinessRequirementAdding = false;
       })
     }
-  }
-
-  public get businessRequirementSourceEnum(): typeof BusinessRequirementSourceEnum {
-    return BusinessRequirementSourceEnum;
   }
 }

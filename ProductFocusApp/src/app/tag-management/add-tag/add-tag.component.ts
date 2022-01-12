@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IAddTag, IProduct, ITagCategory } from 'src/app/dht-common/models';
-import { TagCategoriesService } from 'src/app/_services/tag-categories.service';
-import { TagService } from 'src/app/_services/tag.service';
+import {  IProduct } from 'src/app/dht-common/models';
+import { IAddTag, ITagCategory } from '../models';
+import { TagCategoriesService } from '../_services/tag-categories.service';
+import { TagService } from '../_services/tag.service';
 import { TagManagementService } from '../services/tag-management.service';
 
 @Component({
