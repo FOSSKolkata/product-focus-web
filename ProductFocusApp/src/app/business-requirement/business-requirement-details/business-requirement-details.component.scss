@@ -114,3 +114,7 @@ body {
         margin: 20px auto 100px;
     }
 }
+
+#dropdownBasic1::after{
+    content: none;
+}

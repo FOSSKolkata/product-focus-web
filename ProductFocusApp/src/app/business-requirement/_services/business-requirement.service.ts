@@ -8,6 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../../b2c-config';
 import {
+  IBusinessRequirementAttachment,
   IBusinessRequirementDetails,
   IBusinessRequirementInput,
   IBusinessRequirements,
@@ -94,12 +95,24 @@ export class BusinessRequirementService {
       .pipe(catchError(this.handleError));
   }
 
-  uploadAttachments(formData: FormData) {
+  uploadAttachments(formData: FormData, businessRequirementId: number) {
     return this.http.post(
-      apiConfig.uri + `/BusinessRequirement/AddAttachments`,
+      apiConfig.uri + `/BusinessRequirement/AddAttachments/${businessRequirementId}`,
       formData,
       { reportProgress: true, observe: 'events' }
     ).pipe(catchError(this.handleError));
+  }
+
+  getBusinessRequirementAttachments(businessRequirementId: number): Observable<IBusinessRequirementAttachment[]> {
+    return this.http.get<IBusinessRequirementAttachment[]>(apiConfig.uri + `/BusinessRequirement/GetAttachmentsByBusinessRequirementId/${businessRequirementId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  deleteBusinessRequirementAttachments(businessRequirementId: number, attachmentId: number): Observable<void> {
+    return this.http.delete<void>(apiConfig.uri + `/BusinessRequirement/DeleteBusinessRequirementAttachment/${businessRequirementId}/${attachmentId}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: HttpErrorResponse) {

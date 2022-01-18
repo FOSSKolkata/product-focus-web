@@ -2,7 +2,7 @@ import { HttpEventType } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ITag } from 'src/app/tag-management/models';
@@ -10,6 +10,7 @@ import { IProduct } from 'src/app/dht-common/models';
 import { BusinessRequirementSourceEnum, IBusinessRequirementDetails, IBusinessRequirementInput } from '../models';
 import { BusinessRequirementService } from '../_services/business-requirement.service';
 import { TagService } from 'src/app/tag-management/_services/tag.service';
+import { IBusinessRequirementAttachment } from '../models';
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget;
@@ -44,6 +45,8 @@ export class BusinessRequirementDetailsComponent implements OnInit {
   msg: string = '';
   progress: number = 0;
   private form: FormGroup; // Will be removed later
+  images: {base64: string, type: string, url: SafeResourceUrl}[] = [];
+  attachmentList: IBusinessRequirementAttachment[] = [];
 
   constructor(
     public fb: FormBuilder,
@@ -79,6 +82,23 @@ export class BusinessRequirementDetailsComponent implements OnInit {
             }
           }
         });
+        this.busReqService.getBusinessRequirementAttachments(this.businessRequirementDetails.id).subscribe(x => {
+          for(let item of x) {
+            const blob = this.base64ToBlob(item.contents, item.contentType);
+            this.images.push({
+              base64: `data:${item.contentType};base64, ${item.contents}`,
+              type: item.contentType,
+              url: this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob))
+            });
+          }
+          this.attachmentList = x;
+          this.attachmentList.map(item => {
+            const blob = this.base64ToBlob(item.contents, item.contentType);
+            item.url = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob))
+            item.contents = `data:${item.contentType};base64, ${item.contents}`;
+          })
+          console.log(this.attachmentList);
+        })
       }
     });
 
@@ -87,6 +107,35 @@ export class BusinessRequirementDetailsComponent implements OnInit {
         this.sources.push({name: source, position: Number(BusinessRequirementSourceEnum[source])});
       }
     }
+  }
+
+  deleteAttachment(attachment: IBusinessRequirementAttachment) {
+    if(!this.businessRequirementDetails.id) {
+      throw Error("Id not found.");
+    }
+    this.busReqService.deleteBusinessRequirementAttachments(this.businessRequirementDetails.id,
+      attachment.id).subscribe(x => {
+        this.attachmentList = this.attachmentList.filter(item => item !== attachment);
+      },err => {
+        this.tostr.error(err.error, 'Failed');
+      });
+  }
+
+  isImage(type: string): boolean {
+    if(type.includes('image'))
+      return true;
+    return false;
+  }
+
+  isExcel(type: string): boolean {
+    if(type.includes('spreadsheetml'))
+      return true;
+    return false;
+  }
+  isPdf(type: string): boolean {
+    if(type.includes('pdf'))
+      return true;
+    return false;
   }
 
   dateChange(event: Date){
@@ -121,7 +170,11 @@ export class BusinessRequirementDetailsComponent implements OnInit {
       formData.append(item.name,item);
     });
 
-    this.busReqService.uploadAttachments(formData).subscribe(event => {
+    if(!this.businessRequirementDetails.id) {
+      throw Error("Business Requirement Id not found!");
+    }
+
+    this.busReqService.uploadAttachments(formData, this.businessRequirementDetails.id).subscribe(event => {
       if (event.type === HttpEventType.UploadProgress)
         this.progress = Math.round(100 * event.loaded / (event.total ? event.total : 100));
       else if (event.type === HttpEventType.Response) {
@@ -185,5 +238,14 @@ export class BusinessRequirementDetailsComponent implements OnInit {
         this.doesBusinessRequirementAdding = false;
       })
     }
+  }
+  base64ToBlob(base64: string, type: string): Blob {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], {type: type});
   }
 }

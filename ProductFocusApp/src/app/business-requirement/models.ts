@@ -1,3 +1,5 @@
+import { SafeResourceUrl } from "@angular/platform-browser";
+
 export interface IBusinessRequirementInput {
     id: number | null,
     productId: number,
@@ -41,4 +43,14 @@ export interface IBusinessRequirementInput {
     sourceInformation: string,
     description: string,
     tags: IBusinessRequirementTag[]
+  }
+
+  export interface IBusinessRequirementAttachment {
+    id: number,
+    uri: string,
+    contentType: string,
+    contents: string,
+    name: string,
+    lastModified: Date,
+    url: SafeResourceUrl
   }

@@ -114,11 +114,42 @@
             <div *ngIf="businessRequirementDetails.id">
                 <label>Attachments</label>
                 <div appDragDropFileUpload (click)="fileField.click()" style="border: 1px dashed gray;text-align: center; cursor: pointer;" class="p-2"
-                (fileDropped)="upload($event)">Drag file to attach or browse
+                (fileDropped)="upload($event)">
+                    <i class="fa fa-paperclip"></i>
+                    Drag file to attach or browse
                     <input type="file" name="avatars" #fileField (change)="clickUpload($event)" hidden multiple>
                 </div>
             </div>
             <div>
+                <div style="display: flex; justify-content: space-between;" *ngFor="let attachment of attachmentList">
+                    <div class="profile">
+                        <div *ngIf="isImage(attachment.contentType)">
+                            <img [src]="sanitize(attachment.contents)">
+                        </div>
+                        <div *ngIf="isExcel(attachment.contentType)">
+                            <img src="../../../assets/icons/icons8-microsoft-excel-48.png">
+                        </div>
+                        <div *ngIf="isPdf(attachment.contentType)">
+                            <img src="../../../assets/icons/icons8-pdf-48.png">
+                        </div>
+                    </div>
+                    <div class="mr-2">
+                        <div ngbDropdown>
+                            <i class="fa fa-ellipsis-v pointer" id="dropdownBasic1" ngbDropdownToggle></i>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                            <button ngbDropdownItem>
+                                <a [href]="attachment.url" style="color: black; text-decoration: none;" download="">
+                                    <i class="fa fa-download"></i> Download
+                                </a>
+                            </button>
+                            <button ngbDropdownItem (click)="deleteAttachment(attachment)">
+                                <i class="fa fa-trash"></i>
+                                Delete
+                            </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="image-list" style="position: relative;" *ngFor="let file of fileArr; let i = index">
                     <div class="profile">
                         <img [src]="sanitize(file['url'])" alt="">
@@ -138,4 +169,5 @@
             </div>
         </div>
     </form>
+    
 </div>
