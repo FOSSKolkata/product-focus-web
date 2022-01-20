@@ -29,6 +29,13 @@ export class BusinessRequirementService {
       .pipe(catchError(this.handleError));
   }
 
+  deleteBusinessRequirement(id: number): Observable<void> {
+    return this.http.delete<void>(
+      apiConfig.uri + `/BusinessRequirement/DeleteBusinessRequirement/${id}`
+    )
+    .pipe(catchError(this.handleError));
+  }
+
   getBusinessRequirementListByProductId(
     productId: number,
     tags: number[],

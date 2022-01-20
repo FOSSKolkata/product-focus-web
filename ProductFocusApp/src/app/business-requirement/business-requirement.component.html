@@ -48,6 +48,7 @@
                         <th scope="col">Title</th>
                         <th scope="col" mat-sort-header="receivedDate">Received Date</th>
                         <th scope="col">Tags</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,6 +65,18 @@
                                     {{tag.name}}
                                 </mat-chip>
                             </mat-chip-list>
+                        </td>
+                        <td>
+                            <div ngbDropdown>
+                                <i class="fa fa-ellipsis-v pointer" id="dropdownBasic1" ngbDropdownToggle></i>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <button ngbDropdownItem
+                                    (click) = "deleteBusinessRequirement(businessRequirement.id)">
+                                    <i class="fa fa-trash"></i>
+                                    Delete
+                                </button>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

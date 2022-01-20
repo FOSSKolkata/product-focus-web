@@ -7,6 +7,7 @@ import { IProduct } from '../dht-common/models';
 import { ITag } from '../tag-management/models';
 import { BusinessRequirementService } from './_services/business-requirement.service';
 import { TagService } from 'src/app/tag-management/_services/tag.service';
+import { ToastrService } from 'ngx-toastr';
 
 enum DateType {
   startDate = 1,
@@ -34,7 +35,8 @@ export class BusinessRequirementComponent implements OnInit {
   constructor(private businessReqService: BusinessRequirementService,
     private tagService: TagService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private tostr: ToastrService) { }
 
   ngOnInit(): void {
     const selectedProductString = localStorage.selectedProduct;
@@ -119,6 +121,15 @@ export class BusinessRequirementComponent implements OnInit {
   pageChange(event: any){
     this.offset = this.count * event.pageIndex;
     this.router.navigate(['../',event.pageIndex + 1], {relativeTo: this.route});
+  }
+
+  deleteBusinessRequirement(id: number) {
+    this.businessReqService.deleteBusinessRequirement(id).subscribe(x => {
+      this.tostr.success('Business requirement deleted', 'Success');
+      this.setBusinessRequirement();
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
+    })
   }
 
   get dateType(): typeof DateType {

@@ -1,9 +1,10 @@
 <div style="width: calc(100vw - var(--side-nav-width) - var(--left-panel-width)); height: calc(100vh - var(--nav-height) - var(--breadcrumb-height)); overflow: auto;">
     <form #businessRequirementForm="ngForm" (ngSubmit)="addOrUpdateBusinessRequirement()">
         <div style="margin-right: 10px; display: flex; flex-direction: column; gap: 20px;">
+            <b>#{{businessRequirementDetails?.id}}</b>
             <div style="display: flex; gap: 20px;">
                 <div>
-                    <label>Title</label>
+                    <label class="dht-title">Title</label>
                     <app-switch-label-text
                         [(ngModel)]="businessRequirementDetails.title"
                         name="businesstitle"
@@ -17,7 +18,7 @@
             </div>
             <div style="display: flex; gap: 20px;">
                 <div>
-                    <label>Received date</label>
+                    <label class="dht-title">Received date</label>
                     <app-switch-text-datepick [style]="{'width': '180px'}"
                         [date]="businessRequirementDetails.receivedOn"
                         [placeholder]="'Received On'"
@@ -26,7 +27,7 @@
                 </div>
                 <div>
                     <mat-form-field>
-                        <label>Tags</label>
+                        <label class="dht-title">Tags</label>
                         <mat-chip-list #chipList>
                             <mat-chip *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
                             {{tag.name}}
@@ -49,7 +50,7 @@
             
             <div style="display: flex; gap: 20px;">
                 <div>
-                    <label>Source</label>
+                    <label class="dht-title">Source</label>
                     <app-text-dropdown
                         [selected]="selectedSource"
                         [options]="sources"
@@ -57,7 +58,7 @@
                     </app-text-dropdown>
                 </div>
                 <div>
-                    <label>Additional Information</label>
+                    <label class="dht-title">Additional Information</label>
                     <app-switch-label-text
                         [(ngModel)]="businessRequirementDetails.sourceInformation"
                         name="additionalInfo"
@@ -67,7 +68,7 @@
             </div>
             
             <div>
-                <label>Description</label>
+                <label class="dht-title">Description</label>
                 <quill-editor [(ngModel)]="businessRequirementDetails.description">
                     <div quill-editor-toolbar>
                         <span class="ql-formats">
@@ -112,7 +113,7 @@
             </div>
 
             <div *ngIf="businessRequirementDetails.id">
-                <label>Attachments</label>
+                <label class="dht-title">Attachments</label>
                 <div appDragDropFileUpload (click)="fileField.click()" style="border: 1px dashed gray;text-align: center; cursor: pointer;" class="p-2"
                 (fileDropped)="upload($event)">
                     <i class="fa fa-paperclip"></i>
@@ -121,17 +122,20 @@
                 </div>
             </div>
             <div>
-                <div style="display: flex; justify-content: space-between;" *ngFor="let attachment of attachmentList">
-                    <div class="profile">
-                        <div *ngIf="isImage(attachment.contentType)">
-                            <img [src]="sanitize(attachment.contents)">
+                <div class="image-list" style="display: flex; justify-content: space-between;" *ngFor="let attachment of attachmentList">
+                    <div style="display: flex;">
+                        <div class="profile">
+                            <div *ngIf="isImage(attachment.contentType)">
+                                <img [src]="sanitize(attachment.contents)">
+                            </div>
+                            <div *ngIf="isExcel(attachment.contentType)">
+                                <img src="../../../assets/icons/icons8-microsoft-excel-48.png">
+                            </div>
+                            <div *ngIf="isPdf(attachment.contentType)">
+                                <img src="../../../assets/icons/icons8-pdf-48.png">
+                            </div>
                         </div>
-                        <div *ngIf="isExcel(attachment.contentType)">
-                            <img src="../../../assets/icons/icons8-microsoft-excel-48.png">
-                        </div>
-                        <div *ngIf="isPdf(attachment.contentType)">
-                            <img src="../../../assets/icons/icons8-pdf-48.png">
-                        </div>
+                        <p>{{attachment.fileName}}</p>
                     </div>
                     <div class="mr-2">
                         <div ngbDropdown>
@@ -150,16 +154,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="image-list" style="position: relative;" *ngFor="let file of fileArr; let i = index">
-                    <div class="profile">
-                        <img [src]="sanitize(file['url'])" alt="">
+                <div class="image-list" *ngFor="let file of fileArr; let i = index">
+                    <div style="display: flex;">
+                        <div class="profile">
+                            <img [src]="sanitize(file['url'])" alt="">
+                        </div>
+                        <p>{{file.item.name}}</p>
                     </div>
-                    <p>{{file.item.name}}</p>
-                    <i class="fa fa-times" style="right: 0; position: absolute; padding: 12px; cursor: pointer;" (click)="remove(file)"></i>
                 </div>
                 <p class="message">{{msg}}</p>
             </div>
-            <div>
+            <div class="my-2">
                 <button class="btn good-btn" [disabled]="businessRequirementForm.invalid || doesBusinessRequirementAdding">
                     <div *ngIf="doesBusinessRequirementAdding" class="spinner-border spinner-border-sm" role="status">
                         <span class="sr-only">Loading...</span>
@@ -169,5 +174,4 @@
             </div>
         </div>
     </form>
-    
 </div>

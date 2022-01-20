@@ -1,4 +1,7 @@
 ::ng-deep .mat-paginator {
-    background-color: transparent;
-  }
-  
+  background-color: transparent;
+}
+
+#dropdownBasic1::after{
+  content: none;
+}

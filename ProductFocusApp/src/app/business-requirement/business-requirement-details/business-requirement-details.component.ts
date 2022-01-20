@@ -82,23 +82,7 @@ export class BusinessRequirementDetailsComponent implements OnInit {
             }
           }
         });
-        this.busReqService.getBusinessRequirementAttachments(this.businessRequirementDetails.id).subscribe(x => {
-          for(let item of x) {
-            const blob = this.base64ToBlob(item.contents, item.contentType);
-            this.images.push({
-              base64: `data:${item.contentType};base64, ${item.contents}`,
-              type: item.contentType,
-              url: this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob))
-            });
-          }
-          this.attachmentList = x;
-          this.attachmentList.map(item => {
-            const blob = this.base64ToBlob(item.contents, item.contentType);
-            item.url = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob))
-            item.contents = `data:${item.contentType};base64, ${item.contents}`;
-          })
-          console.log(this.attachmentList);
-        })
+        this.setBusinessRequirement();
       }
     });
 
@@ -107,6 +91,34 @@ export class BusinessRequirementDetailsComponent implements OnInit {
         this.sources.push({name: source, position: Number(BusinessRequirementSourceEnum[source])});
       }
     }
+  }
+
+  setBusinessRequirement(){
+    if(!this.businessRequirementDetails.id)
+      throw "Business Requirement details not found!";
+    this.busReqService.getBusinessRequirementAttachments(this.businessRequirementDetails.id).subscribe(x => {
+      for(let item of x) {
+        const blob = this.base64ToBlob(item.contents, item.contentType);
+        this.images.push({
+          base64: `data:${item.contentType};base64, ${item.contents}`,
+          type: item.contentType,
+          url: this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob))
+        });
+      }
+      this.attachmentList = x;
+      this.attachmentList.map(item => {
+        const blob = this.base64ToBlob(item.contents, item.contentType);
+        item.url = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob))
+        item.contents = `data:${item.contentType};base64, ${item.contents}`;
+      })
+      this.clearFormsAttachment();
+    })
+  }
+
+  clearFormsAttachment() {
+    this.imgArr = [];
+    this.fileArr = [];
+    this.fileObj = [];
   }
 
   deleteAttachment(attachment: IBusinessRequirementAttachment) {
@@ -175,10 +187,12 @@ export class BusinessRequirementDetailsComponent implements OnInit {
     }
 
     this.busReqService.uploadAttachments(formData, this.businessRequirementDetails.id).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress)
+      if (event.type === HttpEventType.UploadProgress) {
         this.progress = Math.round(100 * event.loaded / (event.total ? event.total : 100));
+      }
       else if (event.type === HttpEventType.Response) {
         this.tostr.success('Files uploaded', 'Success');
+        this.setBusinessRequirement();
       }
     });
 

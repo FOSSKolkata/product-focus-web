@@ -51,6 +51,7 @@ export interface IBusinessRequirementInput {
     contentType: string,
     contents: string,
     name: string,
+    fileName: string,
     lastModified: Date,
     url: SafeResourceUrl
   }
