@@ -2,8 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { apiConfig } from '../b2c-config';
-import { IAddTag, ITag } from '../dht-common/models';
+import { apiConfig } from 'src/app/b2c-config';
+import { IAddTag, ITag } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,12 @@ export class TagService {
 
   getTagListByProductId(productId: number): Observable<ITag[]> {
     return this.http.get<ITag[]>(apiConfig.uri + `/Tag/GetTagList/${productId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  deleteTagById(tagId: number) {
+    return this.http.delete(apiConfig.uri + `/Tag/DeleteTag/${tagId}`).pipe(
       catchError(this.handleError)
     );
   }

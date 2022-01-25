@@ -23,7 +23,6 @@ export class SwitchTextDropdownComponent {
   }
 
   onDropDownToggle(event: any) {
-    console.log(event);
     this.isTextVisible = !this.isTextVisible;
   }
 

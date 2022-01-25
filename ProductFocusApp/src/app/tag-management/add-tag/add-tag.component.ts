@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IAddTag, IProduct, ITagCategory } from 'src/app/dht-common/models';
-import { TagCategoriesService } from 'src/app/_services/tag-categories.service';
-import { TagService } from 'src/app/_services/tag.service';
+import {  IProduct } from 'src/app/dht-common/models';
+import { IAddTag, ITagCategory } from '../models';
+import { TagCategoriesService } from '../_services/tag-categories.service';
+import { TagService } from '../_services/tag.service';
+import { TagManagementService } from '../services/tag-management.service';
 
 @Component({
   selector: 'app-add-tag',
@@ -19,7 +21,8 @@ export class AddTagComponent implements OnInit {
   constructor(private tagCategoryService: TagCategoriesService,
     private tagService: TagService,
     private route: Router,
-    private tostr: ToastrService) { }
+    private tostr: ToastrService,
+    private tagManagementService: TagManagementService) { }
 
   ngOnInit(): void {
     let selectedProductString = localStorage.getItem('selectedProduct');
@@ -32,7 +35,7 @@ export class AddTagComponent implements OnInit {
     this.tagCategoryService.getTagCategories(this.selectedProduct.id).subscribe(x => {
       this.tagCategories = x;
     }, err => {
-      this.tostr.error(err.error, 'Not added');
+      this.tostr.error(err.error, 'Please refresh page');
     })
   }
 
@@ -43,6 +46,9 @@ export class AddTagComponent implements OnInit {
     };
     this.tagService.addTag(this.selectedProduct.id, addTagInput).subscribe(x => {
       this.tostr.success('Tag added', 'Success');
+      this.tagService.getTagListByProductId(this.selectedProduct.id).subscribe(x => {
+        this.tagManagementService.updateTags(x);
+      })
     },err =>
       this.tostr.error(err.error,'Not added')
     );

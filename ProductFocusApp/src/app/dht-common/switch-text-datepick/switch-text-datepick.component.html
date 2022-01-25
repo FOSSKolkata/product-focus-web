@@ -1,11 +1,12 @@
 <div (click)="picker.open()">
-  <input class="align-text"
+  <input class="align-text" [ngStyle]="style"
     matInput
     [formControl]="curr"
     [matDatepicker]="picker"
     (dateChange)="dateChanged($event)"
     [min]="minDate"
     [max]="maxDate"
+    [attr.placeholder]="placeholder"
   />
   <mat-datepicker #picker></mat-datepicker>
 </div>

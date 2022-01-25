@@ -6,7 +6,7 @@ import { TagManagementComponent } from './tag-management.component';
 
 const routes: Routes = [
   {
-    path: 'tag-management',
+    path: '',
     component: TagManagementComponent,
     data: {breadcrumb: 'Tag Management'},
     children: [

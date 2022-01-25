@@ -1,0 +1,94 @@
+<div style="width: calc(100vw - var(--side-nav-width) - var(--left-panel-width)); height: calc(100vh - var(--nav-height) - var(--breadcrumb-height)); overflow: auto;">
+    <div class="my-2" style="display: flex; flex-direction: column;">
+        <div style="display: flex; align-items: center;">
+            <div style="flex-grow: 1;">
+                <strong class="mr-2">Filter</strong>
+                <mat-form-field style="width: 100%;">
+                    <label>Tags</label>
+                    <mat-chip-list #chipList>
+                        <mat-chip *ngFor="let tag of selectedTags" (removed)="removeTag(tag)">
+                        {{tag.name}}
+                        <div matChipRemove style="display: flex; align-items: center;">
+                            <mat-icon>cancel</mat-icon>
+                        </div>
+                        </mat-chip>
+                        <input
+                        [matAutocomplete]="auto"
+                        [matChipInputFor]="chipList">
+                    </mat-chip-list>
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectTag($event)">
+                        <mat-option *ngFor="let tag of tags" [value]="tag.id">
+                        {{tag.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div>
+                <div>Start Date</div>
+                <app-switch-text-datepick 
+                    [date]="startDate"
+                    [placeholder]="'Start Date'"
+                    (changed)="selectedDate($event, dateType.startDate)">
+                </app-switch-text-datepick>
+            </div>
+            <div>
+                <div>End Date</div>
+                <app-switch-text-datepick 
+                    [date]="endDate"
+                    [placeholder]="'End Date'"
+                    (changed)="selectedDate($event, dateType.endDate)">
+                </app-switch-text-datepick>
+            </div>
+        </div>
+        <div class="table-responsive-sm">
+            <table class="table" matSort (matSortChange)="sortData($event)">
+                <thead>
+                    <tr class="table-head">
+                        <th scope="col">No</th>
+                        <th scope="col">Title</th>
+                        <th scope="col" mat-sort-header="receivedDate">Received Date</th>
+                        <th scope="col">Tags</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let businessRequirement of businessRequirementSortedList?.businessRequirements">
+                        <td><strong class="pointer"
+                            [routerLink]="['./business-requirement-details',businessRequirement.id]">
+                            #{{businessRequirement.id}}</strong>
+                        </td>
+                        <td>{{businessRequirement.title}}</td>
+                        <td>{{businessRequirement.receivedOn | date:'short'}}</td>
+                        <td>
+                            <mat-chip-list>
+                                <mat-chip *ngFor="let tag of businessRequirement.tags">
+                                    {{tag.name}}
+                                </mat-chip>
+                            </mat-chip-list>
+                        </td>
+                        <td>
+                            <div ngbDropdown>
+                                <i class="fa fa-ellipsis-v pointer" id="dropdownBasic1" ngbDropdownToggle></i>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                <button ngbDropdownItem
+                                    (click) = "deleteBusinessRequirement(businessRequirement.id)">
+                                    <i class="fa fa-trash"></i>
+                                    Delete
+                                </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <mat-paginator
+                [length]="businessRequirementList?.recordCount"
+                [pageSize]="count"
+                [pageIndex]="pageNo - 1"
+                (page)="pageChange($event)"
+                >
+            </mat-paginator>
+        </div>
+    </div>
+    <div class="btn good-btn" [routerLink]="['./business-requirement-details']">Create</div>
+</div>

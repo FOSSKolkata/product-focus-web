@@ -1,17 +1,20 @@
-<!-- <div class="switch-area">
-    <label [ngStyle]="labelStyle"
-      *ngIf="isTextVisible"
+<div class="switch-area">
+    <div [ngStyle]="labelStyle"
+      [style.display]="isTextVisible?'inline':'none'"
       (click)="onLabelClick()"
     >
       {{ title }}
-    </label>
+    </div>
     <input
+
       type="text"
       #inputText
       [ngStyle]="inputStyle"
       *ngIf="!isTextVisible"
-      [(ngModel)]="title"
       (focusout)="onFocusOut($event)"
+      [formControl]="textInput"
+      (input)="doInput()"
+      (blur)="doBlur()"
     >
   </div>
-   -->
+  

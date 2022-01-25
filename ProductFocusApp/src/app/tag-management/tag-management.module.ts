@@ -9,6 +9,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
+import { TagCategoriesService } from './_services/tag-categories.service';
+import { TagManagementService } from './services/tag-management.service';
 
 @NgModule({
   declarations: [TagManagementComponent, AddTagComponent, AddTagCategoryComponent],
@@ -21,6 +23,13 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     MatAutocompleteModule,
     MatSelectModule
+  ],
+  exports: [
+
+  ],
+  providers: [
+    TagCategoriesService,
+    TagManagementService
   ]
 })
 export class TagManagementModule { }

@@ -1,0 +1,42 @@
+.switch-area {
+  display: flex;
+  min-width: 180px;
+  width: 100%;
+  margin: 1px;
+  div {
+    white-space: pre-wrap;
+    width: inherit;
+  }
+  input {
+    width: inherit;
+  }
+}
+
+.switch-area:hover {
+  outline: 1px solid gray;
+  border-radius: 2px;
+}
+
+.switch-area div {
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+input{
+  width: unset;
+  padding: 0;
+  padding-left: 3px;
+  background-color: transparent;
+}
+
+input:focus:not(:hover) {
+  outline: 1px solid gray;
+  border-radius: 2px;
+  border: none;
+}
+
+input:focus:hover{
+  outline: none;
+  border: none;
+}
