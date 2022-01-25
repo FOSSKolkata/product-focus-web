@@ -53,14 +53,19 @@ const layoutRoutes: Routes = [
     loadChildren: () =>
     import('./business-requirement/business-requirement.module').then(m => m.BusinessRequirementModule)
   },{
+    path: 'product-documentation',
+    loadChildren: () =>
+    import('./product-documentation/product-documentation.module').then(m => m.ProductDocumentationModule)
+  },{
     path: '',
     component: TemporaryRouterComponent,
     children: [
+      // {
+      //   path: 'product-documentation',
+      //   component: ProductDocumentationComponent,
+      //   data: {breadcrumb: 'Product Documentation'}
+      // },
       {
-        path: 'product-documentation',
-        component: ProductDocumentationComponent,
-        data: {breadcrumb: 'Product Documentation'}
-      },{
         path: 'work-item-based-tests',
         component: TestManagementComponent,
         data: {breadcrumb: 'Work Item Based Tests'}
@@ -113,7 +118,7 @@ const routes: Routes = [
     data: {breadcrumb: {skip: true}}
   },{
     path: 'organizations',
-    canActivate: [MsalGuard,SecureGuard],
+    // canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: {skip: true}},
     children: [
       {
@@ -130,7 +135,7 @@ const routes: Routes = [
           },{
             path: '',
             component: LayoutComponent,
-            canActivate: [MsalGuard,SecureGuard],
+            // canActivate: [MsalGuard,SecureGuard],
             children: layoutRoutes,
             runGuardsAndResolvers: 'always'
           },
@@ -140,7 +145,7 @@ const routes: Routes = [
   },{
     path: 'organization',
     component: OrganizationComponent,
-    canActivate: [MsalGuard,SecureGuard],
+    // canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: 'Organization'},
     children: [
       {
@@ -160,7 +165,7 @@ const routes: Routes = [
   },{
     path: 'invitation',
     component: InvitationComponent,
-    canActivate: [MsalGuard,SecureGuard],
+    // canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: {skip: true}}
   },{
     // Needed for hash routing
