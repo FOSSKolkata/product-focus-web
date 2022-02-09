@@ -1,84 +1,25 @@
-<div style="width: calc(100vw - var(--side-nav-width) - var(--left-panel-width)); height: calc(100vh - var(--nav-height) - var(--breadcrumb-height)); overflow: auto;">
-  <div class="row">
-    <div class="col-3">
-      <div class="tab-container">
-        <ng-container *ngTemplateOutlet="acc;context:{node:node}">
-        </ng-container>
-      </div>
-    </div>
-    <div class="col">
-      <div class="pb-3">
-        <div>
-            <label class="dht-title">Title</label>
-            <app-switch-label-text
-                [(ngModel)]="title"
-                name="documentationtitle"
-                required
-                #documentationtitle="ngModel">
-            </app-switch-label-text>
-            <div *ngIf="documentationtitle.invalid && (documentationtitle.dirty || documentationtitle.touched)">
-                <div class="text-danger">Title is required</div>
-            </div>
-        </div>
-      </div>
-      <div class="pb-3">
-        <label class="dht-title">Description</label>
-        <quill-editor [(ngModel)]="description">
-            <div quill-editor-toolbar>
-                <span class="ql-formats">
-                    <select class="ql-font">
-                    <option selected></option>
-                    <option value="serif"></option>
-                    <option value="monospace"></option>
-                    </select>
-                    <select class="ql-size">
-                    <option value="small"></option>
-                    <option selected></option>
-                    <option value="large"></option>
-                    <option value="huge"></option>
-                    </select>
-                </span>
-                <span class="ql-formats">
-                    <button class="ql-bold"></button>
-                    <button class="ql-italic"></button>
-                    <button class="ql-underline"></button>
-                    <button class="ql-strike"></button>
-                </span>
-                <span class="ql-formats">
-                    <select class="ql-color"></select>
-                    <select class="ql-background"></select>
-                </span>
-                <span class="ql-formats">
-                    <button class="ql-list" value="ordered"></button>
-                    <button class="ql-list" value="bullet"></button>
-                    <select class="ql-align">
-                    <option selected></option>
-                    <option value="center"></option>
-                    <option value="right"></option>
-                    <option value="justify"></option>
-                    </select>
-                </span>
-                <span class="ql-formats">
-                    <button class="ql-link"></button>
-                    <button class="ql-image"></button>
-                </span>
-            </div>
-        </quill-editor>
-      </div>
-    </div>
+<div class="tab-container">
+  <div class="add-wrapper">Product Documentation
+    <i class="fa fa-plus add-doc"></i>
+  </div>
+  <div *ngIf="node">
+    <ng-container *ngTemplateOutlet="acc;context:{node:node}">
+    </ng-container>
   </div>
 </div>
 
 
 
 <ng-template #acc let-node="node">
-  <div class="tabs" *ngIf="node.children && node.children.length > 0">
-    <ng-container *ngFor="let child of node.children">
+  <div class="tabs" *ngIf="node.childDocumentations && node.childDocumentations.length > 0">
+    <ng-container *ngFor="let child of node.childDocumentations;">
       <div class="tab">
-        <input type="checkbox" id="{{child.name}}">
-        <label class="tab-label" for="{{child.name}}">{{child.name}}</label>
+        <!-- <div class="tab-edit">edit</div> -->
+        <input type="checkbox" id="{{child.title}}">
+        <label class="tab-label" for="{{child.title}}"></label>
+        <div class="tab-topic" (click)="scroll(child.id); getTopParentDocumentation(child); $event.stopPropagation();">{{child.index}}. {{child.title}}</div>
+        <i class="fa fa-plus tab-add" ></i>
         <div class="tab-content">
-          {{child.name}}
           <ng-container *ngTemplateOutlet="acc;context:{node:child}">
           </ng-container>
         </div>

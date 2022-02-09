@@ -1,0 +1,100 @@
+<div *ngIf="productDocumentationDetails !== undefined">
+    <div class="pb-4" id = {{productDocumentationDetails.id}}>
+        <div>
+            <app-switch-label-text
+                [label-style]="{'font-size': 30 - 5 * productDocumentationDetails.level + 'px', 'font-weight': 'bold'}"
+                [input-style]="{'font-size': 30 - 5 * productDocumentationDetails.level + 'px', 'font-weight': 'bold'}"
+                [(ngModel)]="productDocumentationDetails.title"
+                name="documentationtitle"
+                required
+                #documentationtitle="ngModel">
+            </app-switch-label-text>
+            <div *ngIf="documentationtitle.invalid && (documentationtitle.dirty || documentationtitle.touched)">
+                <div class="text-danger">Title is required</div>
+            </div>
+        </div>
+    </div>
+    <div class="pb-4">
+        <div [hidden]="!isEditMode" class="position-relative">
+            <div class="button-wrapper">
+                <button class="relative-button">Discard</button>
+                <button class="relative-button" disabled>Save</button>
+            </div>
+            <quill-editor [(ngModel)]="productDocumentationDetails.description" (onEditorCreated)="registerEditor($event)" (onBlur)="doBlur(unsaved)">
+                <div quill-editor-toolbar>
+                    <span class="ql-formats">
+                        <select class="ql-font">
+                        <option selected></option>
+                        <option value="serif"></option>
+                        <option value="monospace"></option>
+                        </select>
+                        <select class="ql-size">
+                        <option value="small"></option>
+                        <option selected></option>
+                        <option value="large"></option>
+                        <option value="huge"></option>
+                        </select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-strike"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <select class="ql-color"></select>
+                        <select class="ql-background"></select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                        <select class="ql-align">
+                        <option selected></option>
+                        <option value="center"></option>
+                        <option value="right"></option>
+                        <option value="justify"></option>
+                        </select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-link"></button>
+                        <button class="ql-image"></button>
+                    </span>
+                </div>
+            </quill-editor>
+        </div>
+        <div [hidden]="isEditMode" class="position-relative hover-edit-wrapper">
+            <div>
+                <quill-view-html  (click)="doFocus()" [content]="productDocumentationDetails.description" theme="snow"></quill-view-html>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #unsaved let-modal>
+    <div class="modal-body">
+      <div class="mb-2">
+          <i class="fa fa-exclamation-triangle mr-1" aria-hidden="true"></i>
+          <strong>Unsaved changes</strong>
+        </div>
+      <div class="mb-3">Are you sure you want to discard changes?</div>
+      <div
+        type="button"
+        class="btn btn-outline-dark float-right m-1"
+        (click)="saveDocumentation()"
+      >
+      <div *ngIf="!'saving'"
+        class="spinner-border spinner-border-sm"
+        role="status"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+        Save
+      </div>
+      <div
+        type="button"
+        class="btn btn-outline-danger float-right m-1"
+      >
+        Discard
+      </div>
+    </div>
+  </ng-template>

@@ -17,6 +17,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MdePopoverModule } from '@material-extended/mde';
 import { SwitchLabelTextComponent } from './switch-text-input/switch-label-text.component';
 import { TextDropdownComponent } from './text-dropdown/text-dropdown.component';
+import { VarDirective } from './var.directive';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TextDropdownComponent } from './text-dropdown/text-dropdown.component';
     SwitchTextDatepickComponent,
     EditableTextComponent,
     ErrorComponent,
-    TextDropdownComponent
+    TextDropdownComponent,
+    VarDirective
   ],
   imports: [
     CommonModule,
@@ -53,7 +55,8 @@ import { TextDropdownComponent } from './text-dropdown/text-dropdown.component';
     SpinnerComponent,
     EditableTextComponent,
     ErrorComponent,
-    TextDropdownComponent
+    TextDropdownComponent,
+    VarDirective
   ],
 })
 export class DhtCommonModule {}

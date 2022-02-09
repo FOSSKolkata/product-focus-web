@@ -6,16 +6,19 @@ import { ProductDocumentationRoutingModule } from './product-documentation-routi
 import { DhtCommonModule } from '../dht-common/dht-common.module';
 import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
+import { ProductDocumentationDetailsComponent } from './product-documentation-details/product-documentation-details.component';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 
 @NgModule({
-  declarations: [TreeNodeComponent, ProductDocumentationComponent],
+  declarations: [TreeNodeComponent, ProductDocumentationComponent, ProductDocumentationDetailsComponent],
   imports: [
     CommonModule,
     DhtCommonModule,
     ProductDocumentationRoutingModule,
     FormsModule,
+    NgbModalModule,
     QuillModule.forRoot({
       modules: {
         syntax: false,

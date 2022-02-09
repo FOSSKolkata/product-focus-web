@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { ProductDocumentation, TopParentDetails } from '../model';
 
 @Component({
   selector: 'app-tree-node',
@@ -6,36 +8,42 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tree-node.component.scss']
 })
 export class TreeNodeComponent implements OnInit {
-  title = "This is a title";
-  description = '';
-  node = {
-    name: 'root', children: [
-      { name: 'a', children: [] 
-      },
-      {
-        name: 'b', children: [
-          { name: 'b-1', children: [] },
-          {
-            name: 'b-2', children: [
-              { name: 'b-2-1', children: [] },
-              { name: 'b-2-2', children: [] },
-              { name: 'b-2-3', children: [] }
-            ]
-          }
-        ]
-      },
-      {
-        name: 'c', children: [
-          { name: 'c-1', children: [] },
-          { name: 'c-2', children: [] }
-        ]
-      },
-    ]
-  };
-  constructor() { }
+  @Input('node') node!: ProductDocumentation;
+  @Output('scrollTo') scrollTo = new EventEmitter<number>();
+  @Output('topParent') topParent = new EventEmitter<TopParentDetails>();
+  constructor(private router: Router) { }
   
 
   ngOnInit(): void {
   }
 
+  print(mes1: string, mes2: number){
+    console.log(mes1, mes2);
+  }
+
+  scroll(position: number) {
+    this.scrollTo.emit(position);
+  }
+
+  getTopParentDocumentation(productDocumentation: ProductDocumentation) {
+    let index = 1;
+    for(let child of this.node.childDocumentations) {
+      if(this.getTopParentDocumentationHelper(child, productDocumentation.id)) {
+        this.topParent.emit(new TopParentDetails(child,index));
+        break;
+      }
+      index++;
+    }
+  }
+
+  private getTopParentDocumentationHelper(current: ProductDocumentation, id: number): boolean {
+    if(current.id === id)
+      return true;
+    for(let child of current.childDocumentations) {
+      if(this.getTopParentDocumentationHelper(child, id)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
