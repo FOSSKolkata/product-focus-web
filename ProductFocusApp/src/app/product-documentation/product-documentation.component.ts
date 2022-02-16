@@ -2,21 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IProduct } from '../dht-common/models';
-import { AddProductDocumentation, ProductDocumentation, ProductDocumentationDetails, TopParentDetails, TreeContainer } from './model';
-import { ProductDocumentationSharedService } from './_services/product-documentation-shared.service';
+import { AddProductDocumentation, ProductDocumentation, ProductDocumentationDetails, TreeContainer } from './model';
 import { ProductDocumentationService } from './_services/product-documentation.service';
 
 @Component({
   selector: 'app-product-documentation',
   templateUrl: './product-documentation.component.html',
-  styleUrls: ['./product-documentation.component.scss'],
-  providers: [ProductDocumentationSharedService]
+  styleUrls: ['./product-documentation.component.scss']
 })
 export class ProductDocumentationComponent implements OnInit {
   productDocumentations!: ProductDocumentation;
   productDocumentationsDetails: ProductDocumentationDetails[] = [];
   selectedProduct!: IProduct;
   addParentDocumentationId: number | null | undefined = null;
+  addingDocumentation = false;
+  previouslyTopLevelSelectedDocumentation!: ProductDocumentation;
 
   productDocumentation: AddProductDocumentation = new AddProductDocumentation(null, -1, '','');
   constructor(private productDocumentationService: ProductDocumentationService,
@@ -31,10 +31,19 @@ export class ProductDocumentationComponent implements OnInit {
     }
     this.selectedProduct = JSON.parse(selectedProductString);
     this.productDocumentation.productId = this.selectedProduct.id;
+    this.loadProductDocumentation(null);
+  }
+
+  loadProductDocumentation(documentationId: number | null) {
     this.productDocumentationService.getProductDocumentations(this.selectedProduct.id).subscribe(x => {
       this.productDocumentations = {title: 'root', childDocumentations: x} as ProductDocumentation;
       if(x.length !== 0) {
-        this.getFlatProductDocumentations(x[0].id, 1, x[0].id);
+        if(documentationId === null) {
+          this.getFlatProductDocumentations(x[0].id, 1, x[0].id);
+        }
+        else {
+          this.getFlatProductDocumentations(documentationId, 1, documentationId);
+        }
       }
     });
   }
@@ -59,15 +68,8 @@ export class ProductDocumentationComponent implements OnInit {
     });
   }
 
-  // addDocumentationBelow(event: {topParentDetails: TopParentDetails, parentDocumentationId: number | null | undefined}) {
-  //   this.addParentDocumentationId = event.parentDocumentationId;
-  //   if(event.parentDocumentationId !== undefined) {
-  //     this.productDocumentation.parentId = event.parentDocumentationId;
-  //   }
-  //   this.onDocumentationSelect(event.topParentDetails);
-  // }
-
   addDocumentationBelow(event: TreeContainer) {
+    this.previouslyTopLevelSelectedDocumentation = event.topParent;
     this.addParentDocumentationId = event.parent.id;
     if(event.parent.id !== undefined) {
       this.productDocumentation.parentId = event.parent.id;
@@ -81,6 +83,8 @@ export class ProductDocumentationComponent implements OnInit {
   addProductDocumentation() {
     this.productDocumentationService.addProductDocumentation(this.productDocumentation).subscribe(x => {
       this.toastr.success('Documentation added.', 'Success');
+      this.loadProductDocumentation(this.previouslyTopLevelSelectedDocumentation.id);
+      this.cancelAdding();
     }, err => {
       this.toastr.error(err.error, 'Failed');
     })
@@ -89,7 +93,6 @@ export class ProductDocumentationComponent implements OnInit {
   cancelAdding() {
     this.productDocumentation = new AddProductDocumentation(null, this.selectedProduct.id, '', '');
     this.addParentDocumentationId = null;
-  //   this.productDocShared.changeMode(false);
   }
 
 }

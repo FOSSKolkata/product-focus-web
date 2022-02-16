@@ -1,6 +1,6 @@
 <div *ngIf="productDocumentationDetails !== undefined">
     <div class="pb-4" id = {{productDocumentationDetails.id}}>
-        <span>{{productDocumentationDetails.index}}</span>
+        <span [style.font-size]="max(30 - 4 * productDocumentationDetails.level, 10) + 'px'">{{productDocumentationDetails.index}}</span>
         <div style="display: inline-block;">
             <app-switch-label-text
                 [label-style]="{'font-size': max(30 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"

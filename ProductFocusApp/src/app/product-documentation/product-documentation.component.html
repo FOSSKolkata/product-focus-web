@@ -162,11 +162,10 @@
                 type="submit"
                 class="btn good-btn btn-sm"
               >
-                <!-- <div class="spinner-border spinner-border-sm" role="status">
+                <div *ngIf="addingDocumentation" class="spinner-border spinner-border-sm" role="status">
                   <span class="sr-only">Loading...</span>
-                </div> -->
-                  <!-- {{enabledAdding?"Add":"Adding"}} -->
-                  Add
+                </div>
+                  {{addingDocumentation?"Adding":"Add"}}
               </button>
               <div class="btn btn-sm btn-outline-danger m-2" (click)="cancelAdding()">
                   Cancel
