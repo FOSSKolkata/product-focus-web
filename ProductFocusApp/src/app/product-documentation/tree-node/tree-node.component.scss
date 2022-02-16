@@ -62,13 +62,15 @@ input {
   &-topic {
     display: inline-block;
     cursor: pointer;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   &-add {
     position: absolute;
-    // transform: translate(169px, -30px);
     right: 10px;
-    top: 19px;
-
+    top: 8px;
     cursor: pointer;
   }
   &-label {
@@ -83,6 +85,9 @@ input {
       content: "\276F";
       width: 1em;
       height: 1em;
+      position: absolute;
+      top: 8px;
+      left: 5px;
       text-align: center;
       transition: all .35s;
     }
@@ -121,3 +126,6 @@ input:checked {
   }
 }
 
+#dropdownBasic1::after {
+  content: none;
+}

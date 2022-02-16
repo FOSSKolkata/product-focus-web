@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from 'src/app/b2c-config';
-import { ProductDocumentation, ProductDocumentationDetails } from '../model';
+import { AddProductDocumentation, ProductDocumentation, ProductDocumentationDetails } from '../model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,13 @@ import { ProductDocumentation, ProductDocumentationDetails } from '../model';
 export class ProductDocumentationService {
 
   constructor(private http: HttpClient) { }
+
+  addProductDocumentation(addProductDocumentation: AddProductDocumentation) {
+    return this.http.post<AddProductDocumentation>(apiConfig.uri + `/ProductDocumentation/AddProductDocumentation`, addProductDocumentation)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
 
   getProductDocumentations(productId: number): Observable<ProductDocumentation[]> {
     return this.http.get<ProductDocumentation[]>(apiConfig.uri + `/ProductDocumentation/GetProductDocumentations/${productId}`)

@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
-import { ProductDocumentation, TopParentDetails } from '../model';
+import { ProductDocumentation, TreeContainer } from '../model';
 
 @Component({
   selector: 'app-tree-node',
@@ -9,27 +8,43 @@ import { ProductDocumentation, TopParentDetails } from '../model';
 })
 export class TreeNodeComponent implements OnInit {
   @Input('node') node!: ProductDocumentation;
-  @Output('scrollTo') scrollTo = new EventEmitter<number>();
-  @Output('topParent') topParent = new EventEmitter<TopParentDetails>();
-  constructor(private router: Router) { }
+  @Output('topParent') topParent = new EventEmitter<TreeContainer>();
+  @Output('onAddClick') onAddClick = new EventEmitter<TreeContainer>();
   
+  constructor() { }
 
   ngOnInit(): void {
   }
 
-  print(mes1: string, mes2: number){
-    console.log(mes1, mes2);
-  }
-
-  scroll(position: number) {
-    this.scrollTo.emit(position);
-  }
-
-  getTopParentDocumentation(productDocumentation: ProductDocumentation) {
+  getTopParentDocumentation(productDocumentation: ProductDocumentation, parentDocumentation: ProductDocumentation) {
     let index = 1;
     for(let child of this.node.childDocumentations) {
       if(this.getTopParentDocumentationHelper(child, productDocumentation.id)) {
-        this.topParent.emit(new TopParentDetails(child,index));
+        // this.topParent.emit(new TopParentDetails(child,index));
+        this.topParent.emit(new TreeContainer(child, parentDocumentation, productDocumentation, index));
+        break;
+      }
+      index++;
+    }
+  }
+
+  // sendAddDocumentationId(productDocumentation: ProductDocumentation, documentationId: number | null | undefined) {
+  //   let index = 1;
+  //   for(let child of this.node.childDocumentations) {
+  //     if(this.getTopParentDocumentationHelper(child, productDocumentation.id)) {
+  //       this.onAddClick.emit({topParentDetails: new TopParentDetails(child,index), parentDocumentationId: documentationId});
+  //       // this.topParent.emit(new TopParentDetails(child,index));
+  //       break;
+  //     }
+  //     index++;
+  //   }
+  // }
+
+  sendAddDocumentationId(productDocumentation: ProductDocumentation, parentDocumentation: ProductDocumentation) {
+    let index = 1;
+    for(let child of this.node.childDocumentations) {
+      if(this.getTopParentDocumentationHelper(child, productDocumentation.id)) {
+        this.onAddClick.emit(new TreeContainer(child, parentDocumentation, productDocumentation, index));
         break;
       }
       index++;

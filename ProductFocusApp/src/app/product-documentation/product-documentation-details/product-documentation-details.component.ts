@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Input, AfterContentInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Quill from 'quill';
+import { IProduct } from 'src/app/dht-common/models';
 import { ProductDocumentationDetails } from '../model';
 
 @Component({
@@ -14,6 +15,9 @@ export class ProductDocumentationDetailsComponent implements OnInit, AfterConten
   oldDescription!: string;
   @Input('isEditMode') isEditMode = false;
   editor!: Quill;
+  enabledAdding = true;
+  selectedProduct!: IProduct;
+
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
@@ -38,15 +42,17 @@ export class ProductDocumentationDetailsComponent implements OnInit, AfterConten
 
   doBlur(content: any) {
     this.isEditMode = false;
-    console.log(this.oldDescription);
-    console.log(this.productDocumentationDetails.description);
-    // if(this.oldDescription !== this.productDocumentationDetails.description) {
-    //   this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'sm', centered: true, backdrop: 'static' }).result.then((result) => {
+    if(this.oldDescription !== this.productDocumentationDetails.description) {
+      this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'sm', centered: true, backdrop: 'static' }).result.then((result) => {
         
-    //   }, (reason) => {
+      }, (reason) => {
 
-    //   });
-    // }
+      });
+    }
+  }
+
+  max(...values: number[]) : number {
+    return Math.max(...values);
   }
 
 }

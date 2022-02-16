@@ -1,9 +1,10 @@
 <div *ngIf="productDocumentationDetails !== undefined">
     <div class="pb-4" id = {{productDocumentationDetails.id}}>
-        <div>
+        <span>{{productDocumentationDetails.index}}</span>
+        <div style="display: inline-block;">
             <app-switch-label-text
-                [label-style]="{'font-size': 30 - 5 * productDocumentationDetails.level + 'px', 'font-weight': 'bold'}"
-                [input-style]="{'font-size': 30 - 5 * productDocumentationDetails.level + 'px', 'font-weight': 'bold'}"
+                [label-style]="{'font-size': max(30 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
+                [input-style]="{'font-size': max(30 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
                 [(ngModel)]="productDocumentationDetails.title"
                 name="documentationtitle"
                 required
@@ -15,11 +16,7 @@
         </div>
     </div>
     <div class="pb-4">
-        <div [hidden]="!isEditMode" class="position-relative">
-            <div class="button-wrapper">
-                <button class="relative-button">Discard</button>
-                <button class="relative-button" disabled>Save</button>
-            </div>
+        <div [hidden]="!isEditMode">
             <quill-editor [(ngModel)]="productDocumentationDetails.description" (onEditorCreated)="registerEditor($event)" (onBlur)="doBlur(unsaved)">
                 <div quill-editor-toolbar>
                     <span class="ql-formats">
@@ -69,6 +66,93 @@
         </div>
     </div>
 </div>
+
+<!-- <div *ngIf="addProductMode">
+    <form #productDocumentationForm="ngForm" (ngSubmit)="addProductDocumentation()">
+        <div class="m-2">
+            <input
+            type="text"
+            name="productdocumentationname"
+            class="form-control"
+            #productdocumentationname="ngModel"
+            [(ngModel)]="productDocumentation.title"
+            placeholder="Enter topic name"
+            required
+            maxlength="50"
+            pattern="^[a-zA-Z0-9]+[a-zA-Z0-9 \-_]*$"
+            />
+            <div *ngIf="productdocumentationname.invalid && (productdocumentationname.dirty || productdocumentationname.touched)">
+            <div class="text-danger" *ngIf="productdocumentationname.errors?.required">
+                Name is required.
+            </div>
+            <div class="text-danger" *ngIf="productdocumentationname.errors?.maxlength">
+                Topic should not exeed 50 character.
+            </div>
+            <div class="text-danger" *ngIf="productdocumentationname.errors?.pattern">
+                Only spaces, '-', '_' and alphanumaric characters are allowed.
+            </div>
+            </div>
+        </div>
+        <div class="m-2">
+            <quill-editor [(ngModel)]="productDocumentation.description">
+                <div quill-editor-toolbar>
+                    <span class="ql-formats">
+                        <select class="ql-font">
+                        <option selected></option>
+                        <option value="serif"></option>
+                        <option value="monospace"></option>
+                        </select>
+                        <select class="ql-size">
+                        <option value="small"></option>
+                        <option selected></option>
+                        <option value="large"></option>
+                        <option value="huge"></option>
+                        </select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-strike"></button>
+                    </span>
+                    <span class="ql-formats">
+                        <select class="ql-color"></select>
+                        <select class="ql-background"></select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-list" value="ordered"></button>
+                        <button class="ql-list" value="bullet"></button>
+                        <select class="ql-align">
+                        <option selected></option>
+                        <option value="center"></option>
+                        <option value="right"></option>
+                        <option value="justify"></option>
+                        </select>
+                    </span>
+                    <span class="ql-formats">
+                        <button class="ql-link"></button>
+                        <button class="ql-image"></button>
+                    </span>
+                </div>
+            </quill-editor>
+        </div>
+        <div class="m-2">
+          <button
+          [disabled]="!productDocumentationForm.valid || !enabledAdding"
+            type="submit"
+            class="btn good-btn btn-sm"
+          >
+            <div *ngIf="!enabledAdding" class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+              {{enabledAdding?"Add":"Adding"}}
+          </button>
+          <div class="btn btn-sm btn-outline-danger m-2" (click)="cancelAdding()">
+              Cancel
+          </div>
+        </div>
+    </form>
+</div> -->
 
 <ng-template #unsaved let-modal>
     <div class="modal-body">
