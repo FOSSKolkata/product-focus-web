@@ -60,7 +60,6 @@ export class ProductDocumentationComponent implements OnInit {
   }
 
   scroll(position: number) {
-    console.log(position);
     document.getElementById(position.toString())!.scrollIntoView({
       behavior: "smooth",
       block: "start",
@@ -93,6 +92,22 @@ export class ProductDocumentationComponent implements OnInit {
   cancelAdding() {
     this.productDocumentation = new AddProductDocumentation(null, this.selectedProduct.id, '', '');
     this.addParentDocumentationId = null;
+  }
+
+  // Updating changes index page
+  onDocumentationChanged(event: ProductDocumentationDetails) {
+    const queue : ProductDocumentation[] =  [];
+    queue.push(this.productDocumentations);
+    while(queue.length !== 0) {
+      const top : ProductDocumentation | undefined = queue.shift();
+      if(top?.id === event.id) {
+        top.title = event.title
+        return;
+      }
+      for(let documentation of top?.childDocumentations??[]) {
+        queue.push(documentation);
+      }
+    }
   }
 
 }

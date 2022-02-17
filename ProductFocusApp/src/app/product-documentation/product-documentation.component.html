@@ -7,7 +7,7 @@
             ></app-tree-node>
         </div>
         <div class="col">
-            <div *ngIf="addParentDocumentationId === undefined then test"></div>
+            <div *ngIf="addParentDocumentationId === undefined then addDocumentation"></div>
             <div *ngFor="let productDocumentationDetails of productDocumentationsDetails">
                 <!-- <div class="pb-4" id = {{productDocumentationDetails.id}}>
                     <div>
@@ -78,15 +78,17 @@
                         </div>
                     </div>
                 </div> -->
-                <div *ngIf="productDocumentationDetails.id === addParentDocumentationId then test"></div>
-                <app-product-documentation-details [details]="productDocumentationDetails"></app-product-documentation-details>
+                <div *ngIf="productDocumentationDetails.id === addParentDocumentationId then addDocumentation"></div>
+                <app-product-documentation-details [details]="productDocumentationDetails"
+                    (changed)="onDocumentationChanged($event)"
+                ></app-product-documentation-details>
             </div>
         </div>
     </div>
 </div>
 
 
-<ng-template #test>
+<ng-template #addDocumentation>
     <div>
         <form #productDocumentationForm="ngForm" (ngSubmit)="addProductDocumentation()">
             <div class="m-2">

@@ -35,17 +35,6 @@ export class ProductDocumentationDetails
     }
 }
 
-export class TopParentDetails {
-    public details: ProductDocumentation;
-    public index: number;
-
-  
-    constructor(details: ProductDocumentation, index: number) {
-      this.details = details;
-      this.index = index;
-    }
-}
-
 export class TreeContainer {
     public topParent: ProductDocumentation;
     public parent: ProductDocumentation;
@@ -71,4 +60,9 @@ export class AddProductDocumentation {
         this.title = title;
         this.description = description;
     }
+}
+
+export enum UpdateDocumentationFieldName {
+    Title = 1,
+    Description = 2
 }

@@ -31,6 +31,13 @@ export class ProductDocumentationService {
         catchError(this.handleError)
       )
   }
+
+  updateProductDocumentation(modifyProductDocumentationInput: any) {
+    return this.http.put(apiConfig.uri + `/ProductDocumentation/UpdateProductDocumentation`, modifyProductDocumentationInput)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
   
   private handleError(error: HttpErrorResponse) {
     return throwError(error);

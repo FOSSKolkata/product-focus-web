@@ -20,11 +20,9 @@ export class DragComponent implements OnInit {
   tempWidth: Number = 0;
   tempRight: Number = 0;
   onResizeStart(event: ResizeEvent): void {
-    console.log(event.rectangle);
   }
 
   onResizeEnd(event: ResizeEvent): void {
-    console.log(event.rectangle);
     this.style = {
       position: 'fixed',
       left: `${event.rectangle.left}px`,
