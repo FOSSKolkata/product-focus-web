@@ -17,6 +17,9 @@ export class ProductDocumentationComponent implements OnInit {
   addParentDocumentationId: number | null | undefined = null;
   addingDocumentation = false;
   previouslyTopLevelSelectedDocumentation!: ProductDocumentation;
+  loadingIndex = false;
+  loadingDocumentation = false;
+  noDocumentationStep = 0;
 
   productDocumentation: AddProductDocumentation = new AddProductDocumentation(null, -1, '','');
   constructor(private productDocumentationService: ProductDocumentationService,
@@ -35,7 +38,9 @@ export class ProductDocumentationComponent implements OnInit {
   }
 
   loadProductDocumentation(documentationId: number | null) {
+    this.loadingIndex = true;
     this.productDocumentationService.getProductDocumentations(this.selectedProduct.id).subscribe(x => {
+      this.loadingIndex = false;
       this.productDocumentations = {title: 'root', childDocumentations: x} as ProductDocumentation;
       if(x.length !== 0) {
         if(documentationId === null) {
@@ -45,6 +50,9 @@ export class ProductDocumentationComponent implements OnInit {
           this.getFlatProductDocumentations(documentationId, 1, documentationId);
         }
       }
+    }, err => {
+      this.toastr.error(err.error, 'Failed');
+      this.loadingIndex = false;
     });
   }
 
@@ -53,9 +61,14 @@ export class ProductDocumentationComponent implements OnInit {
   }
 
   private getFlatProductDocumentations(documentationId: number, index: number, currentDocumentationId: number) {
+    this.loadingDocumentation = true;
     this.productDocumentationService.getProductDocumentationDetails(documentationId, index).subscribe(x => {
       this.productDocumentationsDetails = x;
+      this.loadingDocumentation = false;
       setTimeout(() => this.scroll(currentDocumentationId));
+    }, err => {
+      this.toastr.error(err.error, 'Failed');
+      this.loadingDocumentation = false;
     });
   }
 
@@ -73,16 +86,22 @@ export class ProductDocumentationComponent implements OnInit {
     if(event.parent.id !== undefined) {
       this.productDocumentation.parentId = event.parent.id;
     }
+    this.loadingDocumentation = true;
     this.productDocumentationService.getProductDocumentationDetails(event.topParent.id, event.index).subscribe(x => {
+      this.loadingDocumentation = false;
       this.productDocumentationsDetails = x;
       setTimeout(() => this.scroll(event.current.id));
+    }, err => {
+      this.toastr.error(err.error, 'Failed');
+      this.loadingDocumentation = false;
     });
   }
 
   addProductDocumentation() {
     this.productDocumentationService.addProductDocumentation(this.productDocumentation).subscribe(x => {
       this.toastr.success('Documentation added.', 'Success');
-      this.loadProductDocumentation(this.previouslyTopLevelSelectedDocumentation.id);
+      console.log(this.previouslyTopLevelSelectedDocumentation, 'prev');
+      this.loadProductDocumentation(this.previouslyTopLevelSelectedDocumentation?.id??null);
       this.cancelAdding();
     }, err => {
       this.toastr.error(err.error, 'Failed');
@@ -92,6 +111,10 @@ export class ProductDocumentationComponent implements OnInit {
   cancelAdding() {
     this.productDocumentation = new AddProductDocumentation(null, this.selectedProduct.id, '', '');
     this.addParentDocumentationId = null;
+  }
+
+  changeNoDocumentationStep(step: number) {
+    this.noDocumentationStep = step;
   }
 
   // Updating changes index page
