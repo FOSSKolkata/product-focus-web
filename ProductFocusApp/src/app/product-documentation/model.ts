@@ -3,16 +3,22 @@ export class ProductDocumentation
     id: number;
     childDocumentations: ProductDocumentation[];
     title: string;
-    parentId: number | null
+    parentId: number | null;
+    index: string;
+    orderNumber: number;
     constructor(id: number,
         childDocumentations: ProductDocumentation[],
         title: string,
-        parentId: number | null)
+        parentId: number | null,
+        index: string,
+        orderNumber: number)
     {
         this.id = id;
         this.childDocumentations = childDocumentations;
         this.title = title;
         this.parentId = parentId;
+        this.index = index;
+        this.orderNumber = orderNumber;
     }
 }
 
@@ -65,4 +71,13 @@ export class AddProductDocumentation {
 export enum UpdateDocumentationFieldName {
     Title = 1,
     Description = 2
+}
+
+export class OrderingInfo {
+    public id: number;
+    public orderNumber: number;
+    constructor(id: number, orderNumber: number) {
+        this.id = id;
+        this.orderNumber = orderNumber;
+    }
 }

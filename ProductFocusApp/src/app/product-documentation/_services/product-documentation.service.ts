@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from 'src/app/b2c-config';
-import { AddProductDocumentation, ProductDocumentation, ProductDocumentationDetails } from '../model';
+import { AddProductDocumentation, OrderingInfo, ProductDocumentation, ProductDocumentationDetails } from '../model';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +34,13 @@ export class ProductDocumentationService {
 
   updateProductDocumentation(modifyProductDocumentationInput: any) {
     return this.http.put(apiConfig.uri + `/ProductDocumentation/UpdateProductDocumentation`, modifyProductDocumentationInput)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  updateProductDocumentationOrdering(orderingInfos: OrderingInfo[]) {
+    return this.http.put(apiConfig.uri + `/ProductDocumentation/UpdateProductDocumentationOrdering`, {orderingInfos})
       .pipe(
         catchError(this.handleError)
       )

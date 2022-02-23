@@ -5,6 +5,7 @@
             <app-tree-node [node]="productDocumentations"
                 (topParent)="onDocumentationSelect($event)"
                 (onAddClick)="addDocumentationBelow($event)"
+                (reordered)="loadProductDocumentation(null)"
             ></app-tree-node>
             <app-spinner [active]="loadingIndex"></app-spinner>
         </div>
@@ -111,7 +112,7 @@
                 </div>
                   {{addingDocumentation?"Adding":"Add"}}
               </button>
-              <div class="btn btn-sm btn-outline-danger m-2" (click)="changeNoDocumentationStep(0)">
+              <div class="btn btn-sm btn-outline-danger m-2" (click)="changeNoDocumentationStep(0); cancelAdding();">
                   Cancel
               </div>
             </div>

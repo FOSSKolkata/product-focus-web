@@ -100,7 +100,6 @@ export class ProductDocumentationComponent implements OnInit {
   addProductDocumentation() {
     this.productDocumentationService.addProductDocumentation(this.productDocumentation).subscribe(x => {
       this.toastr.success('Documentation added.', 'Success');
-      console.log(this.previouslyTopLevelSelectedDocumentation, 'prev');
       this.loadProductDocumentation(this.previouslyTopLevelSelectedDocumentation?.id??null);
       this.cancelAdding();
     }, err => {

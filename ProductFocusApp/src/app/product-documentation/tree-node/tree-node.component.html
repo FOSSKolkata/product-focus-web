@@ -37,12 +37,12 @@
               <i class="fa fa-plus"></i>
               Add Child
             </button>
-            <button ngbDropdownItem>
-              <i class="fa fa-arrow-down"></i>
+            <button *ngIf="!isTopLevel(child)" ngbDropdownItem (click)="check(child, 'up')">
+              <i class="fa fa-arrow-up"></i>
               Move Up
             </button>
-            <button ngbDropdownItem>
-              <i class="fa fa-arrow-up"></i>
+            <button *ngIf="!isBottomLevel(child)" ngbDropdownItem (click)="check(child, 'down')">
+              <i class="fa fa-arrow-down"></i>
               Move Down
             </button>
           </div>
