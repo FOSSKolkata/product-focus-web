@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
 import { ProductDocumentationDetailsComponent } from './product-documentation-details/product-documentation-details.component';
 import { NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -20,6 +20,7 @@ import { NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     NgbModalModule,
     NgbDropdownModule,
+    MatSlideToggleModule,
     QuillModule.forRoot({
       modules: {
         syntax: false,

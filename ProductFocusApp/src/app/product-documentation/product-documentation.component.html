@@ -1,5 +1,8 @@
 <div style="width: calc(100vw - var(--side-nav-width) - var(--left-panel-width)); height: calc(100vh - var(--nav-height) - var(--breadcrumb-height)); overflow: auto;">
-    <div class="header">Product Documentations</div>
+    <div class="mb-1" style="display: flex; justify-content: space-between; gap: 30px;">
+        <span class="header">Product Documentations</span>
+        <mat-slide-toggle [checked]="editable" (change)="changeMode()">Edit</mat-slide-toggle>
+    </div>
     <div class="row">
         <div class="col-3">
             <app-tree-node [node]="productDocumentations"
@@ -13,7 +16,7 @@
             <div *ngIf="addParentDocumentationId === undefined then addDocumentation"></div>
             <div *ngFor="let productDocumentationDetails of productDocumentationsDetails">
                 <div *ngIf="productDocumentationDetails.id === addParentDocumentationId then addDocumentation"></div>
-                <app-product-documentation-details [details]="productDocumentationDetails"
+                <app-product-documentation-details [editable]="editable" [details]="productDocumentationDetails"
                     (changed)="onDocumentationChanged($event)"
                 ></app-product-documentation-details>
             </div>
@@ -21,8 +24,8 @@
             <div *ngIf="productDocumentations?.childDocumentations?.length === 0 && noDocumentationStep === 0" class="no-documentation-container">
                 <img class="image" src="../../assets/static_images/documentation.png">
                 <p class="head">You don't have any product documentation yet</p>
-                <p class="body">+ Get started by adding first topic</p>
-                <button class="btn good-btn btn-sm" (click)="changeNoDocumentationStep(1)">Get Started</button>
+                <p class="body">Get started by adding first topic</p>
+                <button class="btn good-btn btn-sm" (click)="changeNoDocumentationStep(1)"><i class="fa fa-plus mr-1"></i>Topic</button>
             </div>
             <div *ngIf="productDocumentations?.childDocumentations?.length === 0 && noDocumentationStep === 1 then addDocumentation">
             </div>

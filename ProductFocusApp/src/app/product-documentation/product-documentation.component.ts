@@ -20,6 +20,7 @@ export class ProductDocumentationComponent implements OnInit {
   loadingIndex = false;
   loadingDocumentation = false;
   noDocumentationStep = 0;
+  editable = false;
 
   productDocumentation: AddProductDocumentation = new AddProductDocumentation(null, -1, '','');
   constructor(private productDocumentationService: ProductDocumentationService,
@@ -35,6 +36,10 @@ export class ProductDocumentationComponent implements OnInit {
     this.selectedProduct = JSON.parse(selectedProductString);
     this.productDocumentation.productId = this.selectedProduct.id;
     this.loadProductDocumentation(null);
+  }
+
+  changeMode() {
+    this.editable = !this.editable;
   }
 
   loadProductDocumentation(documentationId: number | null) {

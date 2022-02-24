@@ -40,6 +40,7 @@ export class SwitchLabelTextComponent implements ControlValueAccessor {
   }
 
   @Input('text') title: string = '';
+  @Input('editable') editable = true;
   @Output('textChanged') isTextChanged = new EventEmitter<string>();
   @ViewChild('inputText') set inputTextRef(ref: ElementRef) {
     if (!!ref) {
@@ -56,6 +57,9 @@ export class SwitchLabelTextComponent implements ControlValueAccessor {
   }
 
   onLabelClick() {
+    if(!this.editable) {
+      return;
+    }
     this.isTextVisible = false;
   }
 

@@ -15,7 +15,7 @@ import { EditableTextComponent } from './editable-text/editable-text.component';
 import { ErrorComponent } from './error/error.component';
 import { MatCardModule } from '@angular/material/card';
 import { MdePopoverModule } from '@material-extended/mde';
-import { SwitchLabelTextComponent } from './switch-text-input/switch-label-text.component';
+import { SwitchLabelTextComponent } from './switch-label-text/switch-label-text.component';
 import { TextDropdownComponent } from './text-dropdown/text-dropdown.component';
 import { VarDirective } from './var.directive';
 

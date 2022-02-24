@@ -6,6 +6,7 @@
                 [label-style]="{'font-size': max(30 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
                 [input-style]="{'font-size': max(30 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
                 [(ngModel)]="productDocumentationDetails.title"
+                [editable]="editable"
                 name="documentationtitle"
                 required
                 #documentationtitle="ngModel"
@@ -74,8 +75,8 @@
             </quill-editor>
         </div>
         <div [hidden]="isEditMode" class="position-relative hover-edit-wrapper">
-            <div>
-                <quill-view-html  (click)="doFocus()" [content]="productDocumentationDetails.description" theme="snow"></quill-view-html>
+            <div class="quill-view-wrapper" [style.pointer-events]="editable?'auto':'none'">
+                <quill-view-html (click)="doFocus()" [content]="productDocumentationDetails.description" theme="snow"></quill-view-html>
             </div>
         </div>
     </div>

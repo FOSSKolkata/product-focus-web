@@ -21,6 +21,7 @@ export class ProductDocumentationDetailsComponent implements OnInit, AfterConten
   editor!: Quill;
   enabledAdding = true;
   selectedProduct!: IProduct;
+  @Input('editable') editable = true;
 
   constructor(private modalService: NgbModal,
     private productDocumentationService: ProductDocumentationService,
@@ -42,6 +43,9 @@ export class ProductDocumentationDetailsComponent implements OnInit, AfterConten
   }
 
   doFocus() {
+    if(!this.editable) {
+      return;
+    }
     this.isEditMode = true;
     setTimeout(() => this.editor.focus());
   }
