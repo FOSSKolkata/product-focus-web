@@ -13,6 +13,7 @@ export class TreeNodeComponent implements OnInit, OnChanges {
   @Output('topParent') topParent = new EventEmitter<TreeContainer>();
   @Output('onAddClick') onAddClick = new EventEmitter<TreeContainer>();
   @Output('reordered') reordered = new EventEmitter<boolean>();
+  @Output('delete') delete = new EventEmitter<ProductDocumentation>();
 
   flatDocumentation: ProductDocumentation[][] = [];
   
@@ -52,7 +53,16 @@ export class TreeNodeComponent implements OnInit, OnChanges {
 
   }
 
-  check(document: ProductDocumentation, direction: string) {
+  deleteDocumentation(document: ProductDocumentation) {
+    this.documenentationService.deleteProductDocumentation(document.id).subscribe(x => {
+      this.toastr.success('Documentation deleted.','Success');
+      this.delete.emit(document);
+    }, err => {
+      this.toastr.error(err.error,'Failed');
+    });
+  }
+
+  moveDocumentation(document: ProductDocumentation, direction: string) {
     let sameLevelIndex = document.index.substring(0,document.index.lastIndexOf('.'));
     let queue: ProductDocumentation[] = [];
     let sameLevelProductDocumentation: ProductDocumentation[] = []
@@ -85,7 +95,7 @@ export class TreeNodeComponent implements OnInit, OnChanges {
         break;
       }
     }
-    ;
+    
     let orderNumber = 1;
     let orderingInfos: OrderingInfo[] = sameLevelProductDocumentation.map(item => {
       return {id: item.id, orderNumber: orderNumber++};

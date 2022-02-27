@@ -14,6 +14,7 @@
     <ng-container *ngTemplateOutlet="acc;context:{node:node}">
     </ng-container>
   </div>
+  <a [routerLink]="['./']" fragment="13">Test</a>
 </div>
 
 
@@ -37,13 +38,17 @@
               <i class="fa fa-plus"></i>
               Add Child
             </button>
-            <button *ngIf="!isTopLevel(child)" ngbDropdownItem (click)="check(child, 'up')">
+            <button *ngIf="!isTopLevel(child)" ngbDropdownItem (click)="moveDocumentation(child, 'up')">
               <i class="fa fa-arrow-up"></i>
               Move Up
             </button>
-            <button *ngIf="!isBottomLevel(child)" ngbDropdownItem (click)="check(child, 'down')">
+            <button *ngIf="!isBottomLevel(child)" ngbDropdownItem (click)="moveDocumentation(child, 'down')">
               <i class="fa fa-arrow-down"></i>
               Move Down
+            </button>
+            <button ngbDropdownItem (click)="deleteDocumentation(child)">
+              <i class="fa fa-trash"></i>
+              Delete
             </button>
           </div>
         </div>

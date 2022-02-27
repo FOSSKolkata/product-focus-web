@@ -196,7 +196,7 @@ const isIframe = window !== window.parent && !window.opener;
     RouterModule.forRoot(routes, {
       // useHash: true,
       // Don't perform initial navigation in iframes
-      initialNavigation: !isIframe ? 'enabled' : 'disabled',
+      initialNavigation: !isIframe ? 'enabled' : 'disabled'
     }),
   ],
   exports: [RouterModule],

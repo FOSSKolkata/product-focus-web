@@ -9,11 +9,13 @@ import { QuillModule } from 'ngx-quill';
 import { ProductDocumentationDetailsComponent } from './product-documentation-details/product-documentation-details.component';
 import { NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   declarations: [TreeNodeComponent, ProductDocumentationComponent, ProductDocumentationDetailsComponent],
   imports: [
+    RouterModule,
     CommonModule,
     DhtCommonModule,
     ProductDocumentationRoutingModule,

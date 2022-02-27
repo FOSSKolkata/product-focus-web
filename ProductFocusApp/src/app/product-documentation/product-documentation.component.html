@@ -1,7 +1,9 @@
 <div style="width: calc(100vw - var(--side-nav-width) - var(--left-panel-width)); height: calc(100vh - var(--nav-height) - var(--breadcrumb-height)); overflow: auto;">
     <div class="mb-1" style="display: flex; justify-content: space-between; gap: 30px;">
-        <span class="header">Product Documentations</span>
-        <mat-slide-toggle [checked]="editable" (change)="changeMode()">Edit</mat-slide-toggle>
+        <div class="header d-inline">Product Documentations</div>
+        <div class="d-inline mr-4">
+            <mat-slide-toggle [checked]="editable" (change)="changeMode()">Edit</mat-slide-toggle>
+        </div>
     </div>
     <div class="row">
         <div class="col-3">
@@ -9,13 +11,14 @@
                 (topParent)="onDocumentationSelect($event)"
                 (onAddClick)="addDocumentationBelow($event)"
                 (reordered)="loadProductDocumentation(null)"
+                (delete)="loadProductDocumentation(null)"
             ></app-tree-node>
             <app-spinner [active]="loadingIndex"></app-spinner>
         </div>
         <div class="col">
             <div *ngIf="addParentDocumentationId === undefined then addDocumentation"></div>
             <div *ngFor="let productDocumentationDetails of productDocumentationsDetails">
-                <div *ngIf="productDocumentationDetails.id === addParentDocumentationId then addDocumentation"></div>
+                <div *ngIf="productDocumentationDetails.id === addParentDocumentationId && editable then addDocumentation"></div>
                 <app-product-documentation-details [editable]="editable" [details]="productDocumentationDetails"
                     (changed)="onDocumentationChanged($event)"
                 ></app-product-documentation-details>
@@ -39,26 +42,26 @@
         <form #productDocumentationForm="ngForm" (ngSubmit)="addProductDocumentation()">
             <div class="m-2">
                 <input
-                type="text"
-                name="productdocumentationname"
-                class="form-control"
-                #productdocumentationname="ngModel"
-                [(ngModel)]="productDocumentation.title"
-                placeholder="Enter topic name"
-                required
-                maxlength="50"
-                pattern="^[a-zA-Z0-9]+[a-zA-Z0-9 \-_]*$"
+                    type="text"
+                    name="productdocumentationname"
+                    class="form-control"
+                    #productdocumentationname="ngModel"
+                    [(ngModel)]="productDocumentation.title"
+                    placeholder="Enter topic name"
+                    required
+                    maxlength="50"
+                    pattern="^[a-zA-Z0-9]+[a-zA-Z0-9 \-_]*$"
                 />
                 <div *ngIf="productdocumentationname.invalid && (productdocumentationname.dirty || productdocumentationname.touched)">
-                <div class="text-danger" *ngIf="productdocumentationname.errors?.required">
-                    Name is required.
-                </div>
-                <div class="text-danger" *ngIf="productdocumentationname.errors?.maxlength">
-                    Topic should not exeed 50 character.
-                </div>
-                <div class="text-danger" *ngIf="productdocumentationname.errors?.pattern">
-                    Only spaces, '-', '_' and alphanumaric characters are allowed.
-                </div>
+                    <div class="text-danger" *ngIf="productdocumentationname.errors?.required">
+                        Name is required.
+                    </div>
+                    <div class="text-danger" *ngIf="productdocumentationname.errors?.maxlength">
+                        Topic should not exeed 50 character.
+                    </div>
+                    <div class="text-danger" *ngIf="productdocumentationname.errors?.pattern">
+                        Only spaces, '-', '_' and alphanumaric characters are allowed.
+                    </div>
                 </div>
             </div>
             <div class="m-2">

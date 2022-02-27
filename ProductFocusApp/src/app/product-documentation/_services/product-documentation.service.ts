@@ -45,6 +45,13 @@ export class ProductDocumentationService {
         catchError(this.handleError)
       )
   }
+
+  deleteProductDocumentation(id: number) {
+    return this.http.delete(apiConfig.uri + `/ProductDocumentation/DeleteProductDocumentation/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
   
   private handleError(error: HttpErrorResponse) {
     return throwError(error);
