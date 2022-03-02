@@ -11,21 +11,21 @@
     </div>
   </div>
   <div *ngIf="node">
-    <ng-container *ngTemplateOutlet="acc;context:{node:node}">
+    <ng-container *ngTemplateOutlet="acc;context:{node:node, extra:selectedDocumentationHierarchy}">
     </ng-container>
   </div>
-  <a [routerLink]="['./']" fragment="13">Test</a>
 </div>
 
 
-<ng-template #acc let-node="node">
+<ng-template #acc let-node="node" let-extra="extra">
   <div class="tabs" *ngIf="node.childDocumentations && node.childDocumentations.length > 0">
-    <ng-container *ngFor="let child of node.childDocumentations;">
+    <ng-container *ngFor="let child of node.childDocumentations; index as i;">
       <div class="tab">
         <!-- <div class="tab-edit">edit</div> -->
         <input type="checkbox" id="{{child.title}}">
         <label class="tab-label" for="{{child.title}}"></label>
-        <div class="tab-topic" (click)="getTopParentDocumentation(child, node); $event.stopPropagation();">{{child.index}}. {{child.title}}</div>
+        <div class="tab-topic" [class.active]="child.id === selectedDocumentationId" [class.active-parent]="extra.childExtra[i].selectedChildId === selectedDocumentationId"
+          (click)="getTopParentDocumentation(child, node); $event.stopPropagation(); selectDocumentation(child);">{{child.index}}. {{child.title}}</div>
         <!-- <i class="fa fa-ellipsis-v tab-add" (click)="sendAddDocumentationId(child.id)"></i> -->
         <div class="tab-add" container="body" ngbDropdown>
           <i class="fa fa-ellipsis-v" id="dropdownBasic1" ngbDropdownToggle></i>
@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="tab-content">
-          <ng-container *ngTemplateOutlet="acc;context:{node:child}">
+          <ng-container *ngTemplateOutlet="acc;context:{node:child, extra:extra.childExtra[i]}">
           </ng-container>
         </div>
       </div>

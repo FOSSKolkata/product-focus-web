@@ -64,6 +64,7 @@ input {
   &-topic {
     display: inline-block;
     cursor: pointer;
+    width: 150px;
     max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -130,4 +131,12 @@ input:checked {
 
 #dropdownBasic1::after {
   content: none;
+}
+
+.active {
+  background-color: var(--dark-gray);
+}
+
+.active-parent {
+  background-color: var(--light-gray);
 }

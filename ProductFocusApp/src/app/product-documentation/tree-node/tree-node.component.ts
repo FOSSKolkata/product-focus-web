@@ -3,6 +3,11 @@ import { ToastrService } from 'ngx-toastr';
 import { OrderingInfo, ProductDocumentation, TreeContainer } from '../model';
 import { ProductDocumentationService } from '../_services/product-documentation.service';
 
+interface ProductDocumentationExtras {
+  selectedChildId: number | null,
+  childExtra: ProductDocumentationExtras[]
+}
+
 @Component({
   selector: 'app-tree-node',
   templateUrl: './tree-node.component.html',
@@ -14,6 +19,8 @@ export class TreeNodeComponent implements OnInit, OnChanges {
   @Output('onAddClick') onAddClick = new EventEmitter<TreeContainer>();
   @Output('reordered') reordered = new EventEmitter<boolean>();
   @Output('delete') delete = new EventEmitter<ProductDocumentation>();
+  selectedDocumentationId: number = -1;
+  selectedDocumentationHierarchy!: ProductDocumentationExtras;
 
   flatDocumentation: ProductDocumentation[][] = [];
   
@@ -38,19 +45,47 @@ export class TreeNodeComponent implements OnInit, OnChanges {
     }
   }
 
+  selectDocumentation(selected: ProductDocumentation) {
+    this.selectedDocumentationId = selected.id;
+    this.markParentDocumentation(this.node, this.selectedDocumentationHierarchy);
+    console.log(this.selectedDocumentationHierarchy);
+  }
+
+  markParentDocumentation(currDoc: ProductDocumentation, extra: ProductDocumentationExtras): boolean {
+    if(currDoc.id === this.selectedDocumentationId) {
+      return true;
+    }
+    let found = false;
+    for(let i=0;i<currDoc.childDocumentations.length;i++) {
+      if(this.markParentDocumentation(currDoc.childDocumentations[i], extra.childExtra[i])) {
+        found = true;
+        extra.selectedChildId = this.selectedDocumentationId;
+      }
+    }
+    return found;
+  }
+
   private generateFlatDocumentation() {
     let queue: ProductDocumentation[] = [];
+    let q: ProductDocumentationExtras[] = [];
+    this.selectedDocumentationHierarchy = {selectedChildId: null, childExtra: []};
+    q.push(this.selectedDocumentationHierarchy);
     queue.push(this.node);
     while(queue.length !== 0) {
       const top : ProductDocumentation | undefined = queue.shift();
+      const t: ProductDocumentationExtras | undefined = q.shift();
       if(top?.childDocumentations && top?.childDocumentations.length !== 0) {
         this.flatDocumentation.push(top?.childDocumentations);
       }
       for(let curr of top?.childDocumentations??[]) {
         queue.push(curr);
+        t?.childExtra.push({selectedChildId: null, childExtra: []});
+      }
+      for(let curr of t?.childExtra??[]) {
+        q.push(curr);
       }
     }
-
+    console.log(this.selectedDocumentationHierarchy);
   }
 
   deleteDocumentation(document: ProductDocumentation) {
