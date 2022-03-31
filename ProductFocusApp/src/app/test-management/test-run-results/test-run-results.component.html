@@ -1,0 +1,65 @@
+<div class="m-2">
+    <h2 class="heading">Test Run Results</h2>
+    <div class="row m-0">
+        <div class="col">
+            <div class="results-wrapper">
+                <ul class="results-items">
+                    <li>No of test plans: $testplanscount</li>
+                    <li>Total test suites: $testsuitescount</li>
+                    <li>Total test cases: $testcasescount</li>
+                    <li>Passed test cases: $passedtestcasescount</li>
+                    <li>Failed test cases: $failedtestcasescount</li>
+                    <li>Skipped test cases: $skippedtestcasescount</li>
+                    <li>Pending test cases: $pendingtestcasescount</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <app-chart></app-chart>
+            </div>
+        </div>
+    </div>
+    <div class="flex-row bg-light-gray p-1">
+        <i class="fa fa-filter fa-2x"></i>
+        <input id="name" class="custom-input mr-2 p-1" type="text" name="name" placeholder="Search Title">
+        <label>Type</label>
+        <div class="custom-multi-select">
+            <mat-select [multiple]="true" [(value)]="searchTestTypeMock">
+                <mat-option *ngFor="let testTypeMock of testTypesMock" value="{{testTypeMock}}">{{testTypeMock}}</mat-option>
+            </mat-select>
+        </div>
+        <label>Tester</label>
+        <div class="custom-multi-select">
+            <mat-select [multiple]="true" [(value)]="selectedTesters">
+                <mat-option *ngFor="let tester of testersMock" value="{{tester}}">{{tester}}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+    <div>
+        <div class="table-responsive-sm">
+            <table class="table">
+              <thead>
+                <tr class="table-head">
+                  <th scope="col">No</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Result</th>
+                  <th scope="col">Executed By</th>
+                  <th scope="col">Execution Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- <tr *ngFor="let user of organizationMemberList.members">
+                  <td class="user-data">
+                    <app-user-avatar [name]="user.name"></app-user-avatar>
+                    <div class="user-name">{{user.name}}</div>
+                    <small class="user-email">{{user.email}}</small>
+                  </td>
+                  <td>{{user.isOwner?"Owner":"User"}}</td>
+                </tr> -->
+              </tbody>
+            </table>
+        </div>
+    </div>
+</div>

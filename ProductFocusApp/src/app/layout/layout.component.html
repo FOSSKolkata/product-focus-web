@@ -1,5 +1,7 @@
 <!-- <app-top-nav></app-top-nav> -->
 <div style="display: flex; gap: 5px;">
     <app-side-nav></app-side-nav>
-    <router-outlet></router-outlet>
+    <div style="width: calc(100vw - var(--side-nav-width) - var(--left-panel-width)); height: calc(100vh - var(--nav-height) - var(--breadcrumb-height)); overflow: auto;">
+        <router-outlet></router-outlet>
+    </div>
 </div>

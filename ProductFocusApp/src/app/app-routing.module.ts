@@ -57,6 +57,11 @@ const layoutRoutes: Routes = [
     loadChildren: () =>
     import('./product-documentation/product-documentation.module').then(m => m.ProductDocumentationModule)
   },{
+    path: 'test-management',
+    loadChildren: () =>
+    import('./test-management/test-management.module').then(m => m.TestManagementModule),
+    data: {breadcrumb: {skip: true}}
+  },{
     path: '',
     component: TemporaryRouterComponent,
     children: [
@@ -65,11 +70,12 @@ const layoutRoutes: Routes = [
       //   component: ProductDocumentationComponent,
       //   data: {breadcrumb: 'Product Documentation'}
       // },
+      // {
+      //   path: 'work-item-based-tests',
+      //   component: TestManagementComponent,
+      //   data: {breadcrumb: 'Work Item Based Tests'}
+      // },
       {
-        path: 'work-item-based-tests',
-        component: TestManagementComponent,
-        data: {breadcrumb: 'Work Item Based Tests'}
-      },{
         path: 'release-management',
         component: ReleaseManagementComponent,
         data: {breadcrumb: 'Release Management'},

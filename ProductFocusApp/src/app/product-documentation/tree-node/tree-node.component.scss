@@ -64,8 +64,8 @@ input {
   &-topic {
     display: inline-block;
     cursor: pointer;
-    width: 150px;
-    max-width: 150px;
+    width: 100%;
+    max-width: 80%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

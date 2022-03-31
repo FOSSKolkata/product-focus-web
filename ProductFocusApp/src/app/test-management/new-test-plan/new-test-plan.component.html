@@ -1,0 +1,27 @@
+<div>
+    <h2> <i class="fa fa-flask"></i> New Test Plan</h2>
+    <div class="flex-column">
+        <label for="name">Name</label>
+        <input id="name" class="mr-2 p-1 custom-input" type="text" name="name" placeholder="Enter a plan name">
+    </div>
+    <div class="flex-column mr-2">
+        <label>Sprint</label>
+        <div class="custom-dropdown">
+            <mat-select [(value)]="selectedSprint">
+                <mat-option *ngFor="let sprint of sprints" value="{{sprint}}">{{sprint}}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+    <div class="flex-column mr-2">
+        <label>Test Type</label>
+        <div class="custom-dropdown">
+            <mat-select [(value)]="selectedType">
+                <mat-option *ngFor="let testType of testTypes" value="{{testType}}">{{testType}}</mat-option>
+            </mat-select>
+        </div>
+    </div>
+    <div class="flex-row-reverse">
+        <div class="btn-sm reject-btn">Cancel</div>
+        <div class="btn-sm good-btn">Create</div>
+    </div>
+</div>

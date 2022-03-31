@@ -1,0 +1,17 @@
+.heading {
+    color: var(--heading);
+}
+
+.test-plan-nav {
+    list-style-type: none;
+    display: flex;
+    gap: 2rem;
+    margin: 0px;
+    li {
+        cursor: pointer;
+    }
+}
+
+.active-item {
+    border-bottom: 1px solid #fe9600;
+}
