@@ -1,0 +1,62 @@
+<div class="tab-container">
+  <div class="add-wrapper"><strong>Index</strong>
+    <div class="tab-add" container="body" ngbDropdown>
+      <i class="fa fa-ellipsis-v mt-2" id="dropdownBasic1" ngbDropdownToggle></i>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem (click)="sendAddDocumentationId(node,node)">
+          <i class="fa fa-plus"></i>
+          Add Child
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="node">
+    <ng-container *ngTemplateOutlet="acc;context:{node:node, extra:selectedDocumentationHierarchy}">
+    </ng-container>
+  </div>
+</div>
+
+
+<ng-template #acc let-node="node" let-extra="extra">
+  <div class="tabs" *ngIf="node.childDocumentations && node.childDocumentations.length > 0">
+    <ng-container *ngFor="let child of node.childDocumentations; index as i;">
+      <div class="tab">
+        <!-- <div class="tab-edit">edit</div> -->
+        <input type="checkbox" id="{{child.title}}">
+        <label class="tab-label" for="{{child.title}}"></label>
+        <div class="tab-topic" [class.active]="child.id === selectedDocumentationId" [class.active-parent]="extra.childExtra[i].selectedChildId === selectedDocumentationId"
+          (click)="getTopParentDocumentation(child, node); $event.stopPropagation(); selectDocumentation(child);">{{child.index}}. {{child.title}}</div>
+        <!-- <i class="fa fa-ellipsis-v tab-add" (click)="sendAddDocumentationId(child.id)"></i> -->
+        <div class="tab-add" container="body" ngbDropdown>
+          <i class="fa fa-ellipsis-v" id="dropdownBasic1" ngbDropdownToggle></i>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem (click)="sendAddDocumentationId(child, node)">
+              <i class="fa fa-plus"></i>
+              Add Sibling
+            </button>
+            <button ngbDropdownItem (click)="sendAddDocumentationId(child, child)">
+              <i class="fa fa-plus"></i>
+              Add Child
+            </button>
+            <button *ngIf="!isTopLevel(child)" ngbDropdownItem (click)="moveDocumentation(child, 'up')">
+              <i class="fa fa-arrow-up"></i>
+              Move Up
+            </button>
+            <button *ngIf="!isBottomLevel(child)" ngbDropdownItem (click)="moveDocumentation(child, 'down')">
+              <i class="fa fa-arrow-down"></i>
+              Move Down
+            </button>
+            <button ngbDropdownItem (click)="deleteDocumentation(child)">
+              <i class="fa fa-trash"></i>
+              Delete
+            </button>
+          </div>
+        </div>
+        <div class="tab-content">
+          <ng-container *ngTemplateOutlet="acc;context:{node:child, extra:extra.childExtra[i]}">
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

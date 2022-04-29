@@ -1,0 +1,56 @@
+<div class="m-2">
+    <h2 class="heading">Test Run Results</h2>
+    <div class="row m-0">
+        <div class="col">
+            <div class="results-wrapper">
+                <ul class="results-items">
+                    <li>No of test suites: $testsuitesscount</li>
+                    <li>Total test cases: $testcasescount</li>
+                    <li>Passed test cases: $passedtestcasescount</li>
+                    <li>Failed test cases: $failedtestcasescount</li>
+                    <li>Skipped test cases: $skippedtestcasescount</li>
+                    <li>Pending test cases: $pendingtestcasescount</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col">
+            <div>
+                <app-chart></app-chart>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="tab-container">
+            <div class="tabs">
+                <div class="tab" *ngFor="let suite of suitesMock">
+                    <input type="checkbox" id="{{suite.id}}">
+                    <label class="tab-label" for="{{suite.id}}">
+                        <i class="far fa-folder mr-1"></i>
+                        {{suite.title}} ({{suite.testcases.length}})
+                    </label>
+                    <div class="tab-content">
+                        <ul class="tabs">
+                            <li class="tab" *ngFor="let testcase of suite.testcases">
+                                <input type="checkbox" id="{{testcase.title}}">
+                                <label class="tab-label" for="{{testcase.title}}">
+                                    <i class="far fa-file-alt"></i>
+                                    {{testcase.title}}
+                                </label>
+                                <div class="tab-content">
+                                    <ul class="tab-list-items">
+                                        <li class="tab-list-item" *ngFor="let teststep of testcase.testSteps">
+                                            <div>
+                                                <i class="fa" [ngClass]="{'fa-check-circle text-success': teststep.status, 'fa-times-circle text-danger': !teststep.status}"></i>
+                                                {{teststep.action}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

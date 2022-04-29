@@ -1,0 +1,18 @@
+<div class="m-2">
+    <h2 class="heading">Test Plans</h2>
+    <div style="display: inline-block;">
+        <ul class="test-plan-nav">
+            <li routerLinkActive="active-item" [routerLink]="['test-plans']">All
+            </li>
+        </ul>
+    </div>
+    <div style="display: inline-block;" class="mx-3 pointer" routerLinkActive="active-item"
+        [routerLink]="['new-test-plan']">
+        <i class="fa fa-plus"></i>
+        New Test Plan
+    </div>
+    <hr>
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+</div>

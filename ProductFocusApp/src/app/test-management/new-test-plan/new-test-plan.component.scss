@@ -1,0 +1,35 @@
+h2 {
+    color: var(--heading);
+}
+
+input:focus {
+    outline: 1px solid gray;
+}
+
+::ng-deep .mat-form-field-underline {
+    height: 0px !important;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.custom-input {
+    background-color: transparent;
+    border: 1px solid lightgray;
+}
+
+.custom-dropdown {
+    border: 1px solid lightgray;
+    padding: 0.3rem;
+}
+
+.flex-row-reverse {
+    display: flex;
+    flex-direction: row-reverse;
+    gap: 1rem;
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
+}

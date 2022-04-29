@@ -13,8 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ProductRoadmapRoutingModule {
-  constructor() {
-    console.log('product roadmap loaded');
-  }
-}
+export class ProductRoadmapRoutingModule { }

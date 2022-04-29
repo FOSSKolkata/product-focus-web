@@ -1,0 +1,126 @@
+.heading {
+  color: var(--heading);
+}
+
+.tab-container {
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 4px 4px -2px rgba(0,0,0,0.5);
+}
+
+.tabs {
+    overflow: hidden;
+}
+
+.tab {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    input {
+        display: none;
+    }
+    :hover > &-edit {
+      opacity: 1;
+      z-index: 1;
+      cursor: pointer;
+    }
+    :hover > &-label::after {
+      z-index: 1;
+    }
+    &-edit {
+      position: absolute;
+      top: 1em;
+      right: 2.5em;
+      background-color: gray;
+      color: white;
+      padding: 2px;
+      border: 1px solid darkgray;
+      border-radius: 7px;
+      opacity: 0;
+      transition: 0.5s;
+    }
+    &-topic {
+      display: inline-block;
+      cursor: pointer;
+      width: 100%;
+      max-width: 80%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    &-add {
+      position: absolute;
+      right: 10px;
+      top: 8px;
+      cursor: pointer;
+    }
+    &-label {
+        display: inline-block;
+        margin: 0px !important;
+        gap: 5px;
+        padding: 0.6em 1.5em;
+        max-width: 80%;
+        font-weight: bold;
+        position: relative;
+        cursor: pointer;
+        &::before {
+          content: "\276F";
+          width: 1em;
+          height: 1em;
+          position: absolute;
+          top: 8px;
+          left: 5px;
+          text-align: center;
+          transition: all .35s;
+        }
+    }
+    &-content {
+        max-height: 0;
+        padding-left: 2em;
+        transition: all .35s;
+        .tab-list-items {
+          .tab-list-item {
+            list-style-type: none;
+            padding: 0.2rem;
+          }
+        }
+    }
+    &-close {
+        display: flex;
+        justify-content: flex-end;
+        font-size: 0.75em;
+        cursor: pointer;
+    }
+}
+
+input:checked {
+    + .tab-label {
+      &::before {
+        transform: rotate(90deg);
+      }
+    }
+    ~ .tab-content {
+      max-height: 100vh;
+    }
+}
+
+#dropdownBasic1::after {
+  content: none;
+}
+
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-column {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.flex-column-sb {
+  display: flex;
+  justify-content: space-between;
+}

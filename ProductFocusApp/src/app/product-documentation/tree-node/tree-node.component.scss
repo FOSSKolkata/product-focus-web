@@ -1,0 +1,142 @@
+// General
+body {
+  padding: 0 1em 1em;
+}
+h1 {
+  margin: 0;
+  line-height: 2;
+  text-align: center;
+}
+h2 {
+  margin: 0 0 .5em;
+  font-weight: normal;
+}
+input {
+  position: absolute;
+  opacity: 0;
+}
+
+.tab-container {
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 4px 4px -2px rgba(0,0,0,0.5);
+}
+
+.add-wrapper {
+  position: relative;
+  padding: 1rem;
+}
+
+.add-doc {
+  position: absolute;
+  right: 10px;
+  top: 19px;
+}
+
+.tabs {
+  overflow: hidden;
+}
+.tab {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  :hover > &-edit{
+    opacity: 1;
+    z-index: 1;
+    cursor: pointer;
+  }
+  :hover > &-label::after {
+    z-index: 1;
+  }
+  &-edit {
+    position: absolute;
+    top: 1em;
+    right: 2.5em;
+    background-color: gray;
+    color: white;
+    padding: 2px;
+    border: 1px solid darkgray;
+    border-radius: 7px;
+    opacity: 0;
+    transition: 0.5s;
+  }
+  &-topic {
+    display: inline-block;
+    cursor: pointer;
+    width: 100%;
+    max-width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  &-add {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    cursor: pointer;
+  }
+  &-label {
+    display: inline-flex;
+    margin: 0px !important;
+    gap: 5px;
+    padding: 1em;
+    font-weight: bold;
+    position: relative;
+    cursor: pointer;
+    &::before {
+      content: "\276F";
+      width: 1em;
+      height: 1em;
+      position: absolute;
+      top: 8px;
+      left: 5px;
+      text-align: center;
+      transition: all .35s;
+    }
+    // &::after {
+    //   content: "\002B";
+    //   width: 1em;
+    //   height: 1em;
+    //   text-align: center;
+    //   right: 1rem;
+    //   position: absolute;
+    //   z-index: 1;
+    // }
+  }
+  &-content {
+    max-height: 0;
+    padding-left: 0.2em;
+    transition: all .35s;
+  }
+  &-close {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.75em;
+    cursor: pointer;
+  }
+}
+
+// :checked
+input:checked {
+  + .tab-label {
+    &::before {
+      transform: rotate(90deg);
+    }
+  }
+  ~ .tab-content {
+    max-height: 100vh;
+  }
+}
+
+#dropdownBasic1::after {
+  content: none;
+}
+
+.active {
+  background-color: var(--dark-gray);
+}
+
+.active-parent {
+  background-color: var(--light-gray);
+}

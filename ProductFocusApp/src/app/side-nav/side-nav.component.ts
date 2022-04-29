@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class SideNavComponent implements OnInit {
   constructor(private router: Router) {}
-  
+  isSideNavExpanded = false;
   productId: number | undefined;
   organizationName: string | undefined;
   ngOnInit(): void {
@@ -21,6 +21,7 @@ export class SideNavComponent implements OnInit {
     }
   }
   invert() {
+    this.isSideNavExpanded = !this.isSideNavExpanded;
     let currentSideWidth = getComputedStyle(document.body).getPropertyValue('--side-nav-width');
     let expandedSideWidth = getComputedStyle(document.body).getPropertyValue('--side-nav-expanded-width');
     let shrinkSideWidth = getComputedStyle(document.body).getPropertyValue('--side-nav-shrink-width');

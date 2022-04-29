@@ -1,0 +1,208 @@
+<div class="m-2">
+    <div class="flex-row-sb">
+        <div>
+            <h3 class="heading">$TestPlanTitle</h3>
+        </div>
+        <div>
+            <div class="bg-light-gray p-1 border">
+                Run
+                <i class="fa fa-play"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row m-0">
+        <div class="col-sm-6 col-md-4 border-right">
+            <div class="m-1">
+                <div class="my-2 flex-col-sb">
+                    <div class="suite-title">Test Suites</div>
+                    <i class="fa fa-plus-circle pointer" (click)="addSuiteVisibilityToggle(true)"></i>
+                </div>
+                <div *ngIf="addSuiteVisible">
+                    <div class="input-wrapper my-2">
+                        <label for="testsuitename">Title</label>
+                        <input id="testsuitename" class="custom-input p-1" type="text" name="name" placeholder="Enter a plan name">
+                    </div>
+                    <div class="my-2">
+                        <label>Product Documentation</label>
+                        <div class="custom-select">
+                            <mat-select [(value)]="selectedDocumentationMock">
+                                <mat-option *ngFor="let productDocumentation of productDocumentationsMock" value="{{productDocumentation}}">{{productDocumentation}}</mat-option>
+                            </mat-select>
+                        </div>
+                    </div>
+                    <div class="flex-aic">
+                        <div class="btn btn-sm good-btn mr-2">Add</div>
+                        <i class="fa fa-times pointer" (click)="addSuiteVisibilityToggle(false)"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-container">
+                <div class="tabs">
+                    <div class="tab">
+                        <input type="checkbox" id="vikram">
+                        <label class="tab-label" for="vikram">
+                            <i class="far fa-folder mr-1"></i>
+                            $Test Suite Title
+                        </label>
+                        <div class="tab-add" container="body" ngbDropdown>
+                            <i class="fa fa-ellipsis-v" id="dropdownBasic1" ngbDropdownToggle></i>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                              <button ngbDropdownItem>
+                                <i class="fa fa-plus"></i>
+                                Add a test case
+                              </button>
+                              <button ngbDropdownItem>
+                                <i class="fa fa-arrow-up"></i>
+                                Move Up
+                              </button>
+                              <button ngbDropdownItem>
+                                <i class="fa fa-arrow-down"></i>
+                                Move Down
+                              </button>
+                              <button ngbDropdownItem>
+                                <i class="fa fa-trash"></i>
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        <div class="tab-content">
+                            <ul class="tab-list-items">
+                                <li class="tab-list-item">
+                                    <i class="far fa-file-alt"></i>
+                                    $Test case title 1
+                                </li>
+                                <li class="tab-list-item">
+                                    <i class="far fa-file-alt"></i>
+                                    $Test case title 2
+                                </li>
+                                <li class="tab-list-item">
+                                    <i class="far fa-file-alt"></i>
+                                    $Test case title 3
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tab">
+                        <input type="checkbox" id="pritam">
+                        <label class="tab-label" for="pritam">
+                            <i class="far fa-folder mr-1"></i>
+                            $Test Suite Title
+                        </label>
+                        <div class="tab-add" container="body" ngbDropdown>
+                            <i class="fa fa-ellipsis-v" id="dropdownBasic1" ngbDropdownToggle></i>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                              <button ngbDropdownItem>
+                                <i class="fa fa-plus"></i>
+                                Add a test case
+                              </button>
+                              <button ngbDropdownItem>
+                                <i class="fa fa-arrow-up"></i>
+                                Move Up
+                              </button>
+                              <button ngbDropdownItem>
+                                <i class="fa fa-arrow-down"></i>
+                                Move Down
+                              </button>
+                              <button ngbDropdownItem>
+                                <i class="fa fa-trash"></i>
+                                Delete
+                              </button>
+                            </div>
+                          </div>
+                        <div class="tab-content">
+                            <ul class="tab-list-items">
+                                <li class="tab-list-item">
+                                    <i class="far fa-file-alt"></i>
+                                    $Test case title 1
+                                </li>
+                                <li class="tab-list-item">
+                                    <i class="far fa-file-alt"></i>
+                                    $Test case title 2
+                                </li>
+                                <li class="tab-list-item">
+                                    <i class="far fa-file-alt"></i>
+                                    $Test case title 3
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <!--Creating test case-->
+            <div [ngSwitch]="modeMock">
+                <div *ngSwitchCase = "testCaseModeMock.Add">
+                    <h2 class="heading">Create Test Case</h2>
+                    <div class="input-wrapper my-2">
+                        <label for="testcasename">Title</label>
+                        <input id="testcasename" class="custom-input p-1" type="text" name="name" placeholder="Enter test case name">
+                    </div>
+                    <div class="input-wrapper my-2">
+                        <label for="precondition">Precondition</label>
+                        <textarea id="precondition" class="custom-input p-1" type="text" name="name" placeholder="Write preconditions here..."></textarea>
+                    </div>
+                    <div class="table-respoinsive-sm">
+                        <table class="table">
+                            <thead>
+                                <tr class="table-head">
+                                <th scope="col">Steps</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Expected Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let testStep of testStepsMock">
+                                    <td scope="col">{{testStep.step}}</td>
+                                    <td scope="col" contenteditable="true">{{testStep.action}}</td>
+                                    <td scope="col" contenteditable="true">{{testStep.expectedResult}}</td>
+                                    <td scope="col"><i class="fa fa-times text-danger" (click)="removeTestStepMock(testStep.step)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="pointer text-center border p-2" (click)="addTestStepMock()">Click here to a test step</div>
+                        <div class="flex-row-reverse my-2">
+                            <div class="btn btn-sm reject-btn">Cancel</div>
+                            <div class="btn btn-sm good-btn">Add</div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngSwitchCase = "testCaseModeMock.Update">
+                    <h2 class="heading">$Test Suite Title > $Test case title 1</h2>
+                    <div class="input-wrapper my-2">
+                        <label for="testcasename">Title</label>
+                        <input id="testcasename" class="custom-input p-1" type="text" name="name" placeholder="Enter test case name">
+                    </div>
+                    <div class="input-wrapper my-2">
+                        <label for="precondition">Precondition</label>
+                        <textarea id="precondition" class="custom-input p-1" type="text" name="name" placeholder="Write preconditions here..."></textarea>
+                    </div>
+                    <div class="table-respoinsive-sm">
+                        <table class="table">
+                            <thead>
+                                <tr class="table-head">
+                                <th scope="col">Steps</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Expected Result</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let testStep of testStepsMock">
+                                    <td scope="col">{{testStep.step}}</td>
+                                    <td scope="col" contenteditable="true">{{testStep.action}}</td>
+                                    <td scope="col" contenteditable="true">{{testStep.expectedResult}}</td>
+                                    <td scope="col"><i class="fa fa-times text-danger" (click)="removeTestStepMock(testStep.step)"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="pointer text-center border p-2" (click)="addTestStepMock()">Click here to a test step</div>
+                        <div class="flex-row-reverse my-2">
+                            <div class="btn btn-sm reject-btn">Cancel</div>
+                            <div class="btn btn-sm good-btn">Save</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

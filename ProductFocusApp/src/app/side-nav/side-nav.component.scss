@@ -28,7 +28,7 @@
 
 .side-nav svg:hover {
   fill: white;
-  background-color: blue;
+  background-color: var(--nav-dark-blue);
 }
 
 .nav-closed {
@@ -47,8 +47,8 @@
 .side-nav ul li {
   list-style: none;
   transition: all 200ms ease-in;
-  padding: 0rem 0rem;
-  border-left: 6px solid transparent;
+  padding: 0rem 0.3rem;
+  border-left: 2px solid transparent;
   cursor: pointer;
   overflow: hidden;
 }
@@ -102,4 +102,10 @@
   line-height: 30px;
   text-align: start;
   white-space: nowrap;
+}
+
+.active-item {
+  border-left: 2px solid #fe9600 !important;
+  // border-bottom: 2px solid #918d8d !important;
+  // box-shadow: inset 0px 0px 20px 2px #918d8d;
 }

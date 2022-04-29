@@ -13,8 +13,6 @@ import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { SecureGuard } from './guard/secure.guard';
 import { TemporaryRouterComponent } from './garbage/temporary-router/temporary-router.component';
-import { ProductDocumentationComponent } from './garbage/product-documentation/product-documentation.component';
-import { TestManagementComponent } from './garbage/test-management/test-management.component';
 import { ReleaseManagementComponent } from './garbage/release-management/release-management.component';
 import { ReleaseDetailsComponent } from './garbage/release-management/release-details/release-details.component';
 import { RegressionTestComponent } from './garbage/test-management/regression-test/regression-test.component';
@@ -53,18 +51,29 @@ const layoutRoutes: Routes = [
     loadChildren: () =>
     import('./business-requirement/business-requirement.module').then(m => m.BusinessRequirementModule)
   },{
+    path: 'product-documentation',
+    loadChildren: () =>
+    import('./product-documentation/product-documentation.module').then(m => m.ProductDocumentationModule)
+  },{
+    path: 'test-management',
+    loadChildren: () =>
+    import('./test-management/test-management.module').then(m => m.TestManagementModule),
+    data: {breadcrumb: {skip: true}}
+  },{
     path: '',
     component: TemporaryRouterComponent,
     children: [
+      // {
+      //   path: 'product-documentation',
+      //   component: ProductDocumentationComponent,
+      //   data: {breadcrumb: 'Product Documentation'}
+      // },
+      // {
+      //   path: 'work-item-based-tests',
+      //   component: TestManagementComponent,
+      //   data: {breadcrumb: 'Work Item Based Tests'}
+      // },
       {
-        path: 'product-documentation',
-        component: ProductDocumentationComponent,
-        data: {breadcrumb: 'Product Documentation'}
-      },{
-        path: 'work-item-based-tests',
-        component: TestManagementComponent,
-        data: {breadcrumb: 'Work Item Based Tests'}
-      },{
         path: 'release-management',
         component: ReleaseManagementComponent,
         data: {breadcrumb: 'Release Management'},
@@ -163,17 +172,14 @@ const routes: Routes = [
     canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: {skip: true}}
   },{
-    // Needed for hash routing
     path: 'error',
     component: ErrorComponent,
     data: {breadcrumb: {skip: true}}
   },{
-    // Needed for hash routing
     path: 'state',
     component: RediectComponent,
     data: {breadcrumb: {skip: true}}
   },{
-    // Needed for hash routing
     path: 'code',
     component: CodeComponent,
     data: {breadcrumb: {skip: true}}
@@ -189,9 +195,9 @@ const isIframe = window !== window.parent && !window.opener;
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      // useHash: true,
+      useHash: true,
       // Don't perform initial navigation in iframes
-      initialNavigation: !isIframe ? 'enabled' : 'disabled',
+      initialNavigation: !isIframe ? 'enabled' : 'disabled'
     }),
   ],
   exports: [RouterModule],

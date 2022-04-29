@@ -26,6 +26,7 @@
   --visible-border:  1px solid #ccc !important;
   --invisible-border: none;
   --current-border: var(--invisible-border);
+  --heading: #5c5c5c;
 }
 
 *,::after,::before{
@@ -70,6 +71,7 @@ body{
 .reject-btn:hover {
   background-color: var(--dark-gray);
   color: gray;
+  cursor: pointer;
 }
 
 .pointer {

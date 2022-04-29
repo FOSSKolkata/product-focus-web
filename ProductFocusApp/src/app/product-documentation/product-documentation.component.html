@@ -1,0 +1,125 @@
+<div class="mb-1" style="display: flex; justify-content: space-between; gap: 30px;">
+    <div class="header d-inline">Product Documentations</div>
+    <div class="d-inline mr-4">
+        <mat-slide-toggle [checked]="editable" (change)="changeMode()">Edit</mat-slide-toggle>
+    </div>
+</div>
+<div class="row">
+    <div class="col-3">
+        <app-tree-node [node]="productDocumentations"
+            (topParent)="onDocumentationSelect($event)"
+            (onAddClick)="addDocumentationBelow($event)"
+            (reordered)="loadProductDocumentation(null)"
+            (delete)="loadProductDocumentation(null)"
+        ></app-tree-node>
+        <app-spinner [active]="loadingIndex"></app-spinner>
+    </div>
+    <div class="col">
+        <div *ngIf="addParentDocumentationId === undefined then addDocumentation"></div>
+        <div *ngFor="let productDocumentationDetails of productDocumentationsDetails">
+            <div *ngIf="productDocumentationDetails.id === addParentDocumentationId && editable then addDocumentation"></div>
+            <app-product-documentation-details [editable]="editable" [details]="productDocumentationDetails"
+                (changed)="onDocumentationChanged($event)"
+            ></app-product-documentation-details>
+        </div>
+        <app-spinner [active]="loadingDocumentation"></app-spinner>
+        <div *ngIf="productDocumentations?.childDocumentations?.length === 0 && noDocumentationStep === 0" class="no-documentation-container">
+            <img class="image" src="../../assets/static_images/documentation.png">
+            <p class="head">You don't have any product documentation yet</p>
+            <p class="body">Get started by adding first topic</p>
+            <button class="btn good-btn btn-sm" (click)="changeNoDocumentationStep(1)"><i class="fa fa-plus mr-1"></i>Topic</button>
+        </div>
+        <div *ngIf="productDocumentations?.childDocumentations?.length === 0 && noDocumentationStep === 1 then addDocumentation">
+        </div>
+    </div>
+</div>
+
+
+<ng-template #addDocumentation>
+    <div>
+        <form #productDocumentationForm="ngForm" (ngSubmit)="addProductDocumentation()">
+            <div class="m-2">
+                <input
+                    type="text"
+                    name="productdocumentationname"
+                    class="form-control"
+                    #productdocumentationname="ngModel"
+                    [(ngModel)]="productDocumentation.title"
+                    placeholder="Enter topic name"
+                    required
+                    maxlength="50"
+                    pattern="^[a-zA-Z0-9]+[a-zA-Z0-9 \-_]*$"
+                />
+                <div *ngIf="productdocumentationname.invalid && (productdocumentationname.dirty || productdocumentationname.touched)">
+                    <div class="text-danger" *ngIf="productdocumentationname.errors?.required">
+                        Name is required.
+                    </div>
+                    <div class="text-danger" *ngIf="productdocumentationname.errors?.maxlength">
+                        Topic should not exeed 50 character.
+                    </div>
+                    <div class="text-danger" *ngIf="productdocumentationname.errors?.pattern">
+                        Only spaces, '-', '_' and alphanumaric characters are allowed.
+                    </div>
+                </div>
+            </div>
+            <div class="m-2">
+                <quill-editor [(ngModel)]="productDocumentation.description">
+                    <div quill-editor-toolbar>
+                        <span class="ql-formats">
+                            <select class="ql-font">
+                            <option selected></option>
+                            <option value="serif"></option>
+                            <option value="monospace"></option>
+                            </select>
+                            <select class="ql-size">
+                            <option value="small"></option>
+                            <option selected></option>
+                            <option value="large"></option>
+                            <option value="huge"></option>
+                            </select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                        </span>
+                        <span class="ql-formats">
+                            <select class="ql-color"></select>
+                            <select class="ql-background"></select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-list" value="ordered"></button>
+                            <button class="ql-list" value="bullet"></button>
+                            <select class="ql-align">
+                            <option selected></option>
+                            <option value="center"></option>
+                            <option value="right"></option>
+                            <option value="justify"></option>
+                            </select>
+                        </span>
+                        <span class="ql-formats">
+                            <button class="ql-link"></button>
+                            <button class="ql-image"></button>
+                        </span>
+                    </div>
+                </quill-editor>
+            </div>
+            <div class="m-2">
+              <button
+              [disabled]="!productDocumentationForm.valid"
+                type="submit"
+                class="btn good-btn btn-sm"
+              >
+                <div *ngIf="addingDocumentation" class="spinner-border spinner-border-sm" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                  {{addingDocumentation?"Adding":"Add"}}
+              </button>
+              <div class="btn btn-sm btn-outline-danger m-2" (click)="changeNoDocumentationStep(0); cancelAdding();">
+                  Cancel
+              </div>
+            </div>
+        </form>
+    </div>
+</ng-template>

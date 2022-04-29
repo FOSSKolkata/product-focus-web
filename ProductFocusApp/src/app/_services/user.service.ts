@@ -57,7 +57,7 @@ export class UserService {
         userInfo[0].idTokenClaims.family_name,
       email: email,
     };
-    return await this.registerUser(user).toPromise().then(res => { console.log(res,"res"); return res != 0;},err=> {console.log("err",err); return false});
+    return await this.registerUser(user).toPromise().then(res => { return res != 0;},err=> { return false});
   }
 }
 

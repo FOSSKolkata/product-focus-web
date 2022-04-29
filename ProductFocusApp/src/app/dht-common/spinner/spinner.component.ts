@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./spinner.component.scss'],
 })
 export class SpinnerComponent {
-  @Input('is-spinner-active') isSpinnerActive: boolean = false;
+  @Input('active') isSpinnerActive: boolean = false;
 }

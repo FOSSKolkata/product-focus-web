@@ -1,6 +1,6 @@
 <div *ngIf="!error">
   <div class="vertical-nav" id="sidebar">
-    <app-spinner [is-spinner-active]="organizationSpinner"></app-spinner>
+    <app-spinner [active]="organizationSpinner"></app-spinner>
     <ul *ngIf="!organizationSpinner" class="nav flex-column">
       <li class="nav-item">
         <form #organizationForm="ngForm" #addOrganizationRef>
@@ -87,7 +87,7 @@
     </div>
 
     <router-outlet></router-outlet>
-    <app-spinner [is-spinner-active]="productSpinner"></app-spinner>
+    <app-spinner [active]="productSpinner"></app-spinner>
     <div 
       *ngIf="selectedOrganization && !productSpinner"
       class="row product-container"

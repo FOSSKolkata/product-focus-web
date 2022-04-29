@@ -1,0 +1,33 @@
+.heading {
+    color: var(--heading);
+}
+
+.results-wrapper {
+    .results-items {
+        li {
+            margin: 1rem 0;
+        }
+    }
+}
+
+.bg-light-gray {
+    background-color: var(--light-gray);
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.custom-input {
+    background-color: transparent;
+    border: 1px solid lightgray; 
+}
+
+.custom-multi-select {
+    border: 1px solid lightgray;
+    padding: 0.3rem;
+    width: 12rem;
+}

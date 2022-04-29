@@ -1,4 +1,4 @@
-<div class="switch-area">
+<div class="switch-area" [style.pointer-events]="editable?'auto':'none'">
     <div [ngStyle]="labelStyle"
       [style.display]="isTextVisible?'inline':'none'"
       (click)="onLabelClick()"
