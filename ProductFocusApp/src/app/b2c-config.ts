@@ -23,5 +23,5 @@ export const b2cPolicies = {
 
 export const apiConfig: { scopes: string[]; uri: string } = {
   scopes: ['https://dumanhillb2c.onmicrosoft.com/api/demo.read'],
-  uri: 'https://localhost:44388',
+  uri: 'https://productfocusapi.azurewebsites.net',
 };

@@ -13,8 +13,6 @@ import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { SecureGuard } from './guard/secure.guard';
 import { TemporaryRouterComponent } from './garbage/temporary-router/temporary-router.component';
-import { ProductDocumentationComponent } from './garbage/product-documentation/product-documentation.component';
-import { TestManagementComponent } from './garbage/test-management/test-management.component';
 import { ReleaseManagementComponent } from './garbage/release-management/release-management.component';
 import { ReleaseDetailsComponent } from './garbage/release-management/release-details/release-details.component';
 import { RegressionTestComponent } from './garbage/test-management/regression-test/regression-test.component';
@@ -124,7 +122,7 @@ const routes: Routes = [
     data: {breadcrumb: {skip: true}}
   },{
     path: 'organizations',
-    // canActivate: [MsalGuard,SecureGuard],
+    canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: {skip: true}},
     children: [
       {
@@ -141,7 +139,7 @@ const routes: Routes = [
           },{
             path: '',
             component: LayoutComponent,
-            // canActivate: [MsalGuard,SecureGuard],
+            canActivate: [MsalGuard,SecureGuard],
             children: layoutRoutes,
             runGuardsAndResolvers: 'always'
           },
@@ -151,7 +149,7 @@ const routes: Routes = [
   },{
     path: 'organization',
     component: OrganizationComponent,
-    // canActivate: [MsalGuard,SecureGuard],
+    canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: 'Organization'},
     children: [
       {
@@ -171,20 +169,17 @@ const routes: Routes = [
   },{
     path: 'invitation',
     component: InvitationComponent,
-    // canActivate: [MsalGuard,SecureGuard],
+    canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: {skip: true}}
   },{
-    // Needed for hash routing
     path: 'error',
     component: ErrorComponent,
     data: {breadcrumb: {skip: true}}
   },{
-    // Needed for hash routing
     path: 'state',
     component: RediectComponent,
     data: {breadcrumb: {skip: true}}
   },{
-    // Needed for hash routing
     path: 'code',
     component: CodeComponent,
     data: {breadcrumb: {skip: true}}
@@ -200,7 +195,7 @@ const isIframe = window !== window.parent && !window.opener;
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      // useHash: true,
+      useHash: true,
       // Don't perform initial navigation in iframes
       initialNavigation: !isIframe ? 'enabled' : 'disabled'
     }),
