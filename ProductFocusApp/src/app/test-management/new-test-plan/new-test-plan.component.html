@@ -1,27 +1,69 @@
 <div>
-    <h2> <i class="fa fa-flask"></i> New Test Plan</h2>
-    <div class="flex-column">
-        <label for="name">Name</label>
-        <input id="name" class="mr-2 p-1 custom-input" type="text" name="name" placeholder="Enter a plan name">
-    </div>
-    <div class="flex-column mr-2">
-        <label>Sprint</label>
-        <div class="custom-dropdown">
-            <mat-select [(value)]="selectedSprint">
-                <mat-option *ngFor="let sprint of sprints" value="{{sprint}}">{{sprint}}</mat-option>
-            </mat-select>
+    <form #testPlanForm="ngForm" (ngSubmit)="createNewTestPlan()">
+        <h2> <i class="fa fa-flask"></i> New Test Plan</h2>
+        <div class="flex-column">
+            <label for="name">Name</label>
+            <input id="name" required [(ngModel)]="newTestPlanInput.title" #name="ngModel" class="mr-2 p-1 custom-input" type="text" name="name" placeholder="Enter a plan name">
         </div>
-    </div>
-    <div class="flex-column mr-2">
-        <label>Test Type</label>
-        <div class="custom-dropdown">
-            <mat-select [(value)]="selectedType">
-                <mat-option *ngFor="let testType of testTypes" value="{{testType}}">{{testType}}</mat-option>
-            </mat-select>
+        <div *ngIf="name.invalid && (name.touched || name.dirty)">
+            <div class="text-danger">Title is required</div>
         </div>
-    </div>
-    <div class="flex-row-reverse">
-        <div class="btn-sm reject-btn">Cancel</div>
-        <div class="btn-sm good-btn">Create</div>
-    </div>
+        <div class="flex-column mr-2">
+            <label>Sprint</label>
+            <div class="custom-dropdown">
+                <mat-select [(value)]="newTestPlanInput.sprintId">
+                    <mat-option *ngFor="let sprint of sprints" [value]="sprint.id">{{sprint.name}}</mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="flex-column mr-2">
+            <label>Test Type</label>
+            <div class="custom-dropdown">
+                <mat-select [(value)]="selectedType.position">
+                    <mat-option *ngFor="let testType of testTypes" [value]="testType.position" (click)="selectTestType(testType)">{{testType.name}}</mat-option>
+                </mat-select>
+            </div>
+        </div>
+        <div class="flex-column mr-2" *ngIf="newTestPlanInput.testType === testTypeEnum.RegressionTest">
+            <label>Product Documentation</label>
+            <ng-template #rtProductDocumentation let-r="result" let-t="term">
+                <ngb-highlight [result]="r.title" [term]="t"></ngb-highlight>
+            </ng-template>
+            <input
+                id="productdocumentation"
+                type="text"
+                name="productdocumentation"
+                #productdocumentation="ngModel"
+                [(ngModel)]="selectedDocumentation"
+                class="form-control"
+                placeholder="Search product documentation"
+                [ngbTypeahead]="searchProductDocumentation"
+                [inputFormatter]="productDocumentationFormatter"
+                [resultTemplate]="rtProductDocumentation"
+                required
+            />
+        </div>
+        <div *ngIf="!(selectedDocumentation) && !(selectedWorkItem)" class="text-danger">Select a documentation</div>
+        <div class="flex-column mr-2" *ngIf="newTestPlanInput.testType === testTypeEnum.WorkItemBased">
+            <label>Work Item</label>
+            <ng-template #rtProductWorkItem let-r="result" let-t="term">
+                <ngb-highlight [result]="r.title" [term]="t"></ngb-highlight>
+            </ng-template>
+            <input
+                type="text"
+                name="workItem"
+                #workItem="ngModel"
+                [(ngModel)]="selectedWorkItem"
+                class="form-control"
+                placeholder="Search work item"
+                [ngbTypeahead]="searchWorkItem"
+                [inputFormatter]="workItemFormatter"
+                [resultTemplate]="rtProductWorkItem"
+            />
+        </div>
+        <div class="flex-row-reverse">
+            <button class="btn-sm reject-btn">Cancel</button>
+            <button class="btn-sm good-btn" type="submit" [disabled]="testPlanForm.invalid || (newTestPlanInput.productDocumentationId === null && newTestPlanInput.workItemId === null)">Create</button>
+        </div>
+    </form>
 </div>

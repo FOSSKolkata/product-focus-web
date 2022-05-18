@@ -81,3 +81,16 @@ export class OrderingInfo {
         this.orderNumber = orderNumber;
     }
 }
+
+export class FlatProductDocumentation {
+    public id: number;
+    public parentId: number;
+    public title: string;
+    public description: string;
+    constructor(id: number, parentId: number, title: string, description: string) {
+        this.id = id;
+        this.parentId = parentId;
+        this.title = title;
+        this.description = description;
+    }
+}

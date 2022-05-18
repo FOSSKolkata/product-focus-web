@@ -52,19 +52,19 @@
           </div>
         </div>
         <span class="fa fa-search form-control-feedback"></span>
-          <input
-            type="email"
-            name="invitation"
-            #invitation="ngModel"
-            [(ngModel)]="selectedMail"
-            class="form-control"
-            placeholder="Search"
-            [ngbTypeahead]="search"
-            [readonly]="sendingInvitationActive"
-            required
-            pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
-            email
-          />
+        <input
+          type="email"
+          name="invitation"
+          #invitation="ngModel"
+          [(ngModel)]="selectedMail"
+          class="form-control"
+          placeholder="Search"
+          [ngbTypeahead]="search"
+          [readonly]="sendingInvitationActive"
+          required
+          pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+          email
+        />
       </div>
       <button
         type="submit"
