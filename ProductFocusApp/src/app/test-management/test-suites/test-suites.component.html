@@ -1,7 +1,7 @@
 <div class="m-2">
     <div class="flex-row-sb">
         <div>
-            <h3 class="heading">$TestPlanTitle</h3>
+            <h3 class="heading">{{testPlanDetails?.testPlanTitle}}</h3>
         </div>
         <div>
             <div class="bg-light-gray p-1 border">
@@ -38,11 +38,11 @@
             </div>
             <div class="tab-container">
                 <div class="tabs">
-                    <div class="tab">
-                        <input type="checkbox" id="vikram">
-                        <label class="tab-label" for="vikram">
+                    <div class="tab" *ngFor="let testSuite of testPlanDetails?.testSuites">
+                        <input type="checkbox" id="{{testSuite.testSuiteId}}">
+                        <label class="tab-label" for="{{testSuite.testSuiteId}}">
                             <i class="far fa-folder mr-1"></i>
-                            $Test Suite Title
+                            {{testSuite.testSuiteTitle}}
                         </label>
                         <div class="tab-add" container="body" ngbDropdown>
                             <i class="fa fa-ellipsis-v" id="dropdownBasic1" ngbDropdownToggle></i>
@@ -67,61 +67,9 @@
                           </div>
                         <div class="tab-content">
                             <ul class="tab-list-items">
-                                <li class="tab-list-item">
+                                <li class="tab-list-item" *ngFor="let testCase of testSuite.testCases">
                                     <i class="far fa-file-alt"></i>
-                                    $Test case title 1
-                                </li>
-                                <li class="tab-list-item">
-                                    <i class="far fa-file-alt"></i>
-                                    $Test case title 2
-                                </li>
-                                <li class="tab-list-item">
-                                    <i class="far fa-file-alt"></i>
-                                    $Test case title 3
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="tab">
-                        <input type="checkbox" id="pritam">
-                        <label class="tab-label" for="pritam">
-                            <i class="far fa-folder mr-1"></i>
-                            $Test Suite Title
-                        </label>
-                        <div class="tab-add" container="body" ngbDropdown>
-                            <i class="fa fa-ellipsis-v" id="dropdownBasic1" ngbDropdownToggle></i>
-                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                              <button ngbDropdownItem>
-                                <i class="fa fa-plus"></i>
-                                Add a test case
-                              </button>
-                              <button ngbDropdownItem>
-                                <i class="fa fa-arrow-up"></i>
-                                Move Up
-                              </button>
-                              <button ngbDropdownItem>
-                                <i class="fa fa-arrow-down"></i>
-                                Move Down
-                              </button>
-                              <button ngbDropdownItem>
-                                <i class="fa fa-trash"></i>
-                                Delete
-                              </button>
-                            </div>
-                          </div>
-                        <div class="tab-content">
-                            <ul class="tab-list-items">
-                                <li class="tab-list-item">
-                                    <i class="far fa-file-alt"></i>
-                                    $Test case title 1
-                                </li>
-                                <li class="tab-list-item">
-                                    <i class="far fa-file-alt"></i>
-                                    $Test case title 2
-                                </li>
-                                <li class="tab-list-item">
-                                    <i class="far fa-file-alt"></i>
-                                    $Test case title 3
+                                    {{testCase.testCaseTitle}}
                                 </li>
                             </ul>
                         </div>

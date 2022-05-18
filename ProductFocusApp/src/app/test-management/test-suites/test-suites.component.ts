@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IProduct } from 'src/app/dht-common/models';
+import { TestPlanDetails } from '../models.ts';
+import { TestPlanService } from '../_services/test-plan.service';
 enum TestCaseMode {
   Add = 1,
   Update = 2
@@ -15,10 +19,25 @@ export class TestSuitesComponent implements OnInit {
   addSuiteVisible = true;
   testStepsMock: {step: number, action: string, expectedResult: string}[] = [];
   modeMock = TestCaseMode.Update;
-  constructor() {}
+  selectedProduct!: IProduct;
+  testPlanDetails!: TestPlanDetails;
+
+  constructor(private testPlanService: TestPlanService,
+    private route: ActivatedRoute,
+    private router: Router) {}
 
   ngOnInit(): void {
-    
+    let suiteId = Number(this.route.snapshot.paramMap.get('suiteId'));
+    let selectedProductString = localStorage.getItem('selectedProduct');
+    if(!selectedProductString) {
+      this.router.navigate(['..']);
+      return;
+    }
+    this.selectedProduct = JSON.parse(selectedProductString);
+    this.testPlanService.getTestPlanDetails(suiteId, this.selectedProduct.id).subscribe(x => {
+      this.testPlanDetails = x;
+      console.log(x);
+    });
   }
 
   addSuiteVisibilityToggle(visibility: boolean) {
