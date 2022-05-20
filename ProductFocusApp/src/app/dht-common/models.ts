@@ -285,3 +285,14 @@ export enum GroupCategory {
   Module = 1,
   Users = 2
 }
+
+export class Feature {
+  id: number;
+  title: string;
+  workItemType: WorkItemType
+  constructor(id: number, title: string, workItemType: WorkItemType) {
+      this.id = id;
+      this.title = title;
+      this.workItemType = workItemType;
+  }
+}

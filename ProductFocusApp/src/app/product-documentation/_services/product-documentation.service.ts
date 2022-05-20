@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from 'src/app/b2c-config';
-import { AddProductDocumentation, OrderingInfo, ProductDocumentation, ProductDocumentationDetails } from '../model';
+import { AddProductDocumentation, FlatProductDocumentation, OrderingInfo, ProductDocumentation, ProductDocumentationDetails } from '../model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +48,13 @@ export class ProductDocumentationService {
 
   deleteProductDocumentation(id: number) {
     return this.http.delete(apiConfig.uri + `/ProductDocumentation/DeleteProductDocumentation/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  getFlatProductDocumentationsByProductId(productId: number): Observable<FlatProductDocumentation[]> {
+    return this.http.get<FlatProductDocumentation[]>(apiConfig.uri + `/ProductDocumentation/GetFlatProductDocumentationsByProductId/${productId}`)
       .pipe(
         catchError(this.handleError)
       )

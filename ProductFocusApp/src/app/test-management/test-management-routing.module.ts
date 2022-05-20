@@ -28,9 +28,15 @@ const routes: Routes = [
       }
     ]
   },{
-    path: 'test-suites',
-    component: TestSuitesComponent,
-    data: {breadcrumb: 'Test Suites'}
+    path: 'test-plans',
+    data: { breadcrumb: 'Test Plans' },
+    children: [
+      {
+        path: ':suiteId',
+        component: TestSuitesComponent,
+        data: { breadcrumb: 'Test Suite'}
+      }
+    ]
   },{
     path: 'test-run-results',
     data: {breadcrumb: 'Test Run Results'},

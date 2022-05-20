@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { IFeatureDetails, OrderingInfo } from '../dht-common/models';
+import { Feature, IFeatureDetails, OrderingInfo } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +45,14 @@ export class FeatureService {
     ).pipe(
       catchError(this.handleError)
     );
+  }
+  
+  getFeatureListByProductId(productId: number): Observable<Feature[]> {
+    return this.http.get<Feature[]>(
+      apiConfig.uri + `/Feature/GetFeatureListByProductId/${productId}`
+    ).pipe(
+      catchError(this.handleError)
+    )
   }
 
   upsertScrumComment(data: any){
