@@ -162,8 +162,8 @@
                                 </table>
                                 <div class="pointer text-center border p-2" (click)="addNewTestStep()">Click here to a test step</div>
                                 <div class="flex-row-reverse my-2">
-                                    <div class="btn btn-sm reject-btn">Cancel</div>
-                                    <div class="btn btn-sm good-btn">Add</div>
+                                    <button class="btn btn-sm reject-btn">Cancel</button>
+                                    <button type="submit" [disabled]="newTestCase.invalid" class="btn btn-sm good-btn">Add</button>
                                 </div>
                             </div>
                         </div>
