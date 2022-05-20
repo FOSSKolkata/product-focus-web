@@ -3,7 +3,14 @@
         <h2> <i class="fa fa-flask"></i> New Test Plan</h2>
         <div class="flex-column">
             <label for="name">Name</label>
-            <input id="name" required [(ngModel)]="newTestPlanInput.title" #name="ngModel" class="mr-2 p-1 custom-input" type="text" name="name" placeholder="Enter a plan name">
+            <input id="name"
+                required
+                [(ngModel)]="newTestPlanInput.title"
+                #name="ngModel"
+                class="mr-2 p-1 custom-input"
+                type="text"
+                name="name"
+                placeholder="Enter a plan name">
         </div>
         <div *ngIf="name.invalid && (name.touched || name.dirty)">
             <div class="text-danger">Title is required</div>

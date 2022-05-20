@@ -18,22 +18,44 @@
                     <i class="fa fa-plus-circle pointer" (click)="addSuiteVisibilityToggle(true)"></i>
                 </div>
                 <div *ngIf="addSuiteVisible">
-                    <div class="input-wrapper my-2">
-                        <label for="testsuitename">Title</label>
-                        <input id="testsuitename" class="custom-input p-1" type="text" name="name" placeholder="Enter a plan name">
-                    </div>
-                    <div class="my-2">
-                        <label>Product Documentation</label>
-                        <div class="custom-select">
-                            <mat-select [(value)]="selectedDocumentationMock">
-                                <mat-option *ngFor="let productDocumentation of productDocumentationsMock" value="{{productDocumentation}}">{{productDocumentation}}</mat-option>
-                            </mat-select>
+                    <form #testSuiteForm="ngForm" (ngSubmit)="addTestSuite()">
+                        <div class="input-wrapper my-2">
+                            <label for="testsuitename">Title</label>
+                            <input id="testsuitename"
+                                class="custom-input p-1"
+                                type="text" name="name"
+                                placeholder="Enter suite title"
+                                [(ngModel)]="newTestSuiteInput.title"
+                                #name="ngModel"
+                                required>
                         </div>
-                    </div>
-                    <div class="flex-aic">
-                        <div class="btn btn-sm good-btn mr-2">Add</div>
-                        <i class="fa fa-times pointer" (click)="addSuiteVisibilityToggle(false)"></i>
-                    </div>
+                        <div *ngIf="name.invalid && (name.touched || name.dirty)">
+                            <div class="text-danger">Title is required</div>
+                        </div>
+                        <!-- <div class="my-2">
+                            <label>Product Documentation</label>
+                            <ng-template #rtProductDocumentation let-r="result" let-t="term">
+                                <ngb-highlight [result]="r.title" [term]="t"></ngb-highlight>
+                            </ng-template>
+                            <input
+                                id="productdocumentation"
+                                type="text"
+                                name="productdocumentation"
+                                #productdocumentation="ngModel"
+                                [(ngModel)]="selectedDocumentation"
+                                class="form-control"
+                                placeholder="Search product documentation"
+                                [ngbTypeahead]="searchProductDocumentation"
+                                [inputFormatter]="productDocumentationFormatter"
+                                [resultTemplate]="rtProductDocumentation"
+                                required
+                            />
+                        </div> -->
+                        <div class="flex-aic">
+                            <button [disabled]="testSuiteForm.invalid" class="btn btn-sm good-btn mr-2">Add</button>
+                            <i class="fa fa-times pointer" (click)="addSuiteVisibilityToggle(false)"></i>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="tab-container">
@@ -79,77 +101,121 @@
         </div>
         <div class="col">
             <!--Creating test case-->
-            <div [ngSwitch]="modeMock">
-                <div *ngSwitchCase = "testCaseModeMock.Add">
-                    <h2 class="heading">Create Test Case</h2>
-                    <div class="input-wrapper my-2">
-                        <label for="testcasename">Title</label>
-                        <input id="testcasename" class="custom-input p-1" type="text" name="name" placeholder="Enter test case name">
-                    </div>
-                    <div class="input-wrapper my-2">
-                        <label for="precondition">Precondition</label>
-                        <textarea id="precondition" class="custom-input p-1" type="text" name="name" placeholder="Write preconditions here..."></textarea>
-                    </div>
-                    <div class="table-respoinsive-sm">
-                        <table class="table">
-                            <thead>
-                                <tr class="table-head">
-                                <th scope="col">Steps</th>
-                                <th scope="col">Action</th>
-                                <th scope="col">Expected Result</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let testStep of testStepsMock">
-                                    <td scope="col">{{testStep.step}}</td>
-                                    <td scope="col" contenteditable="true">{{testStep.action}}</td>
-                                    <td scope="col" contenteditable="true">{{testStep.expectedResult}}</td>
-                                    <td scope="col"><i class="fa fa-times text-danger" (click)="removeTestStepMock(testStep.step)"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="pointer text-center border p-2" (click)="addTestStepMock()">Click here to a test step</div>
-                        <div class="flex-row-reverse my-2">
-                            <div class="btn btn-sm reject-btn">Cancel</div>
-                            <div class="btn btn-sm good-btn">Add</div>
+            <div *ngIf="testPlanDetails?.testSuites">
+                <form #newTestCase="ngForm">
+                    <div [ngSwitch]="modeMock">
+                        <div *ngSwitchCase = "testCaseModeMock.Add">
+                            <h2 class="heading">{{selectedTestSuite.testSuiteTitle}} > Create Test Case</h2>
+                            <div class="input-wrapper my-2">
+                                <label for="testcasename">Title</label>
+                                <input id="testcasename"
+                                    class="custom-input p-1"
+                                    type="text" name="name"
+                                    [(ngModel)]="newTestCaseInput.title"
+                                    #testcasetitle="ngModel"
+                                    placeholder="Enter test case name">
+                            </div>
+                            <div class="input-wrapper my-2">
+                                <label for="precondition">Precondition</label>
+                                <textarea id="precondition"
+                                    class="custom-input p-1"
+                                    type="text" name="name"
+                                    [(ngModel)]="newTestCaseInput.preconditions"
+                                    #testcasepreconditions="ngModel"
+                                    placeholder="Write preconditions here..."></textarea>
+                            </div>
+                            <div class="table-respoinsive-sm">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="table-head">
+                                        <th scope="col">Steps</th>
+                                        <th scope="col">Action</th>
+                                        <th scope="col">Expected Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let testStep of newTestCaseInput.testSteps">
+                                            <td scope="col">{{testStep.step}}</td>
+                                            <td scope="col">
+                                                <app-editable-text [text-content]="testStep.action"
+                                                (changed)="testStep.action = $event.target.textContent"></app-editable-text>
+                                            </td>
+                                            <td scope="col">
+                                                <app-editable-text [text-content]="testStep.expectedResult"
+                                                (changed)="testStep.expectedResult = $event.target.textContent"></app-editable-text>
+                                            </td>
+                                            <td scope="col"><i class="fa fa-times text-danger" (click)="removeTestStep(newTestCaseInput,testStep)"></i></td>
+                                        </tr>
+                                        <tr *ngIf="newTestStepAddMode">
+                                            <td scope="col">{{ newTestCaseInput.testSteps.length + 1}}</td>
+                                            <td scope="col">
+                                                <app-editable-text [text-content]="newTestStepAction"
+                                                (changed)="newTestStepAction = $event.target.textContent"></app-editable-text>
+                                            </td>
+                                            <td scope="col">
+                                                <app-editable-text [text-content]="newTestStepExpectedResult"
+                                                (changed)="newTestStepExpectedResult = $event.target.textContent"></app-editable-text>
+                                            </td>
+                                            <td scope="col"><i class="fa fa-times text-danger" (click)="newTestStepAddMode = false"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="pointer text-center border p-2" (click)="addNewTestStep()">Click here to a test step</div>
+                                <div class="flex-row-reverse my-2">
+                                    <div class="btn btn-sm reject-btn">Cancel</div>
+                                    <div class="btn btn-sm good-btn">Add</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngSwitchCase = "testCaseModeMock.Update">
+                            <h2 class="heading">$Test Suite Title > $Test case title 1</h2>
+                            <div class="input-wrapper my-2">
+                                <label for="testcasename">Title</label>
+                                <input id="testcasename" class="custom-input p-1" type="text" name="name" placeholder="Enter test case name">
+                            </div>
+                            <div class="input-wrapper my-2">
+                                <label for="precondition">Precondition</label>
+                                <textarea id="precondition" class="custom-input p-1" type="text" name="name" placeholder="Write preconditions here..."></textarea>
+                            </div>
+                            <div class="table-respoinsive-sm">
+                                <table class="table">
+                                    <thead>
+                                        <tr class="table-head">
+                                        <th scope="col">Steps</th>
+                                        <th scope="col">Action</th>
+                                        <th scope="col">Expected Result</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- <tr *ngFor="let testStep of testStepsMock">
+                                            <td scope="col">{{testStep.step}}</td>
+                                            <td scope="col" contenteditable="true">{{testStep.action}}</td>
+                                            <td scope="col" contenteditable="true">{{testStep.expectedResult}}</td>
+                                            <td scope="col"><i class="fa fa-times text-danger" (click)="removeTestStep(testStepsMock, testStep)"></i></td>
+                                        </tr> -->
+                                    </tbody>
+                                </table>
+                                <div class="pointer text-center border p-2" (click)="addTestStepMock()">Click here to a test step</div>
+                                <div class="flex-row-reverse my-2">
+                                    <div class="btn btn-sm reject-btn">Cancel</div>
+                                    <div class="btn btn-sm good-btn">Save</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div *ngSwitchCase = "testCaseModeMock.Update">
-                    <h2 class="heading">$Test Suite Title > $Test case title 1</h2>
-                    <div class="input-wrapper my-2">
-                        <label for="testcasename">Title</label>
-                        <input id="testcasename" class="custom-input p-1" type="text" name="name" placeholder="Enter test case name">
-                    </div>
-                    <div class="input-wrapper my-2">
-                        <label for="precondition">Precondition</label>
-                        <textarea id="precondition" class="custom-input p-1" type="text" name="name" placeholder="Write preconditions here..."></textarea>
-                    </div>
-                    <div class="table-respoinsive-sm">
-                        <table class="table">
-                            <thead>
-                                <tr class="table-head">
-                                <th scope="col">Steps</th>
-                                <th scope="col">Action</th>
-                                <th scope="col">Expected Result</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let testStep of testStepsMock">
-                                    <td scope="col">{{testStep.step}}</td>
-                                    <td scope="col" contenteditable="true">{{testStep.action}}</td>
-                                    <td scope="col" contenteditable="true">{{testStep.expectedResult}}</td>
-                                    <td scope="col"><i class="fa fa-times text-danger" (click)="removeTestStepMock(testStep.step)"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="pointer text-center border p-2" (click)="addTestStepMock()">Click here to a test step</div>
-                        <div class="flex-row-reverse my-2">
-                            <div class="btn btn-sm reject-btn">Cancel</div>
-                            <div class="btn btn-sm good-btn">Save</div>
+                </form>
+            </div>
+            <div *ngIf="!testPlanDetails?.testSuites">
+                <figure class="folder">
+                    <div class="folder-body">
+                        <img src="../../../assets/static_images/folders.png" alt="folders">
+                        <figcaption>Test Suite</figcaption>
+                        <p>Create a new suite to display here</p>
+                        <div>
+                            <button class="btn good-btn btn-sm"(click)="addSuiteVisible=true;">Create Suite</button>
                         </div>
                     </div>
-                </div>
+                </figure>
             </div>
         </div>
     </div>
