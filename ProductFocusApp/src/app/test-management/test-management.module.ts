@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { TestRunComponent } from './test-run/test-run.component';
 import { TestRunResultComponent } from './test-run-result/test-run-result.component';
 import { MatOptionModule } from '@angular/material/core';
+import { DhtCommonModule } from '../dht-common/dht-common.module';
 
 @NgModule({
   declarations: [TestPlansComponent,
@@ -38,6 +39,7 @@ import { MatOptionModule } from '@angular/material/core';
     NgbTypeaheadModule,
     MatOptionModule,
     MatSelectModule,
+    DhtCommonModule
   ]
 })
 export class TestManagementModule { }

@@ -162,3 +162,22 @@ input:checked {
 //   display: flex;
 //   flex-direction: column;
 // }
+
+figure.folder {
+  width: 100%;
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: center;
+  .folder-body {
+    width: 35%;
+    text-align: center;
+    >* {
+      width: 100%;
+      margin: 0.5rem;
+    }
+    figcaption {
+      font-weight: 700;
+    }
+  }
+}
+

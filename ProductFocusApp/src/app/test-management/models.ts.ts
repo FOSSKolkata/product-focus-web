@@ -89,3 +89,45 @@ export class TestPlanDetails {
         this.testSuites = testSuites;
     }
 }
+export class TestSuiteInput {
+    testPlanId: number;
+    title: string;
+    constructor(testPlanId: number, title: string) {
+        this.testPlanId = testPlanId;
+        this.title = title;
+    }
+}
+
+export class TestStepInput {
+    step: number;
+    action: string;
+    expectedResult: string;
+    constructor(step: number, action: string, expectedResult: string) {
+        this.step = step;
+        this.action = action;
+        this.expectedResult = expectedResult;
+    }
+}
+export class TestCaseInput {
+    title: string;
+    preconditions: string;
+    testPlanId: number | null;
+    testSuiteId: number | null;
+    testSteps: TestStepInput[];
+    constructor(title: string, preconditions: string, testPlanId: number | null, testSuiteId: number | null, testSteps: TestStepInput[]){
+        this.title = title;
+        this.preconditions = preconditions;
+        this.testPlanId = testPlanId;
+        this.testSuiteId = testSuiteId;
+        this.testSteps = testSteps;
+    }
+    removeTestStep(testStep: TestStepInput): void {
+        this.testSteps = this.testSteps.filter(step => step != testStep);
+        this.testSteps.map((testStep, index) => {
+            testStep.step = index + 1;
+          });
+    }
+    addTestStep(action: string, expectedResult: string): void {
+        this.testSteps.push({step: this.testSteps.length + 1, action, expectedResult});
+    }
+}
