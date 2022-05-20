@@ -40,13 +40,13 @@ export class TestPlan {
 export class TestStep {
     testCaseId: number;
     testStepId: number;
-    stepNo: number;
+    step: number;
     action: string;
     expectedResult: string;
-    constructor(testCaseId: number, testStepId: number, stepNo: number, action: string, expectedResult: string) {
+    constructor(testCaseId: number, testStepId: number, step: number, action: string, expectedResult: string) {
         this.testCaseId = testCaseId;
         this.testStepId = testStepId;
-        this.stepNo = stepNo;
+        this.step = step;
         this.action = action;
         this.expectedResult = expectedResult;
     }
@@ -63,6 +63,15 @@ export class TestCase {
         this.testCaseTitle = testCaseTitle;
         this.preconditions = preconditions;
         this.testSteps = testSteps;
+    }
+    print() {
+        console.log(JSON.stringify(this.testSteps));
+    }
+    removeTestStep(step: TestStep): void {
+        this.testSteps = this.testSteps.filter(testStep => testStep != step);
+        this.testSteps.map((testStep, index) => {
+            testStep.step = index + 1;
+        });
     }
 }
 export class TestSuite {
@@ -89,6 +98,17 @@ export class TestPlanDetails {
         this.testSuites = testSuites;
     }
 }
+
+export class UpdateTestCaseInput {
+    title: string;
+    preconditions: string;
+    testSteps: UpdateTestStepInput[];
+    constructor(title: string, preconditions: string, testSteps: UpdateTestStepInput[]) {
+        this.title = title;
+        this.preconditions = preconditions;
+        this.testSteps = testSteps;
+    }
+}
 export class TestSuiteInput {
     testPlanId: number;
     title: string;
@@ -98,6 +118,16 @@ export class TestSuiteInput {
     }
 }
 
+export class UpdateTestStepInput {
+    id: number;
+    action: string;
+    expectedResult: string;
+    constructor(id: number, action: string, expectedResult: string) {
+        this.id = id;
+        this.action = action;
+        this.expectedResult = expectedResult;
+    }
+}
 export class TestStepInput {
     step: number;
     action: string;

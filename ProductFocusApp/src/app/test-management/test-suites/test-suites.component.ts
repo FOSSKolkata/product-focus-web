@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IProduct } from 'src/app/dht-common/models';
-import { TestCaseInput, TestPlanDetails, TestStepInput, TestSuite, TestSuiteInput } from '../models.ts';
+import { TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput } from '../models.ts';
 import { TestCaseService } from '../_services/test-case.service';
 import { TestPlanService } from '../_services/test-plan.service';
 import { TestSuiteService } from '../_services/test-suite.service';
@@ -41,6 +41,9 @@ export class TestSuitesComponent implements OnInit {
   newTestStepAction = '';
   newTestStepExpectedResult = '';
 
+  testCaseInputForUpdate!: TestCase;
+  testSuiteTitleForDisplay = '';
+
   constructor(private testPlanService: TestPlanService,
     private route: ActivatedRoute,
     private router: Router,
@@ -69,6 +72,7 @@ export class TestSuitesComponent implements OnInit {
   setTestPlanDetails(): void {
     this.testPlanService.getTestPlanDetails(this.suiteId, this.selectedProduct.id).subscribe(x => {
       this.testPlanDetails = x;
+      console.log(x);
       if(this.testPlanDetails.testSuites) {
         this.selectedTestSuite = this.testPlanDetails.testSuites[0];
       }
@@ -108,6 +112,10 @@ export class TestSuitesComponent implements OnInit {
   removeTestStep(testCase: TestCaseInput, step: TestStepInput) {
     testCase.removeTestStep(step);
   }
+  removeTestStepInUpdate(step: TestStep) {
+    // this.testCaseInputForUpdate.removeTestStep(step);
+    this.testCaseInputForUpdate.print();
+  }
 
   addNewTestStep() {
     if(this.newTestStepAddMode) {
@@ -117,6 +125,21 @@ export class TestSuitesComponent implements OnInit {
     } else {
       this.newTestStepAddMode = true;
     }
+  }
+
+  onTestCaseSelection(testSuiteId: number, testCaseId: number) {
+    let testSuite = this.testPlanDetails.testSuites.filter(suite => suite.testSuiteId == testSuiteId).shift();
+    let testCase = testSuite?.testCases.filter(testCase => testCase.testCaseId == testCaseId).shift();
+    if(!testSuite || !testCase) {
+      throw('not found');
+    }
+    this.testCaseInputForUpdate = testCase;
+    this.testSuiteTitleForDisplay = testSuite.testSuiteTitle;
+    this.modeMock = TestCaseMode.Update;
+  }
+
+  updateExistingTestCase() {
+    console.log(this.testCaseInputForUpdate);
   }
 
   // searchProductDocumentation: OperatorFunction<string, readonly FlatProductDocumentation[]> = (text$: Observable<string>) => {

@@ -13,7 +13,7 @@ export class TestCaseService {
   constructor(private http: HttpClient) { }
 
   addTestCase(testCaseInput: TestCaseInput): Observable<void> {
-    return this.http.post<void>(apiConfig.uri + `/ProductTestSuite/AddTestSuite`, testCaseInput).pipe(
+    return this.http.post<void>(apiConfig.uri + `/ProductTestCase/AddTestCase`, testCaseInput).pipe(
       catchError(this.handleError)
     );
   }
