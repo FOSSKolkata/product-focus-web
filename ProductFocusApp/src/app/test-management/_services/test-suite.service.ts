@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from 'src/app/b2c-config';
-import { TestSuiteInput } from '../models.ts';
+import { ITestSuiteOrder, TestSuiteInput } from '../models.ts';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,12 @@ export class TestSuiteService {
 
   deleteTestSuite(planId: number, suiteId: number): Observable<void> {
     return this.http.delete<void>(apiConfig.uri + `/ProductTestSuite/DeleteTestSuite/${planId}/${suiteId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  updateTestSuiteOrdering(testPlanId: number, testSuiteIds: ITestSuiteOrder[]){
+    return this.http.put<void>(apiConfig.uri + `/ProductTestSuite/UpdateTestSuiteOrdering/${testPlanId}`,testSuiteIds).pipe(
       catchError(this.handleError)
     );
   }

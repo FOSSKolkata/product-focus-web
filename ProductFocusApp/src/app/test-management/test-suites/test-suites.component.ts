@@ -2,13 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IProduct } from 'src/app/dht-common/models';
-import { TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput, UpdateTestStepInput } from '../models.ts';
+import { ITestSuiteOrder, TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput, UpdateTestStepInput } from '../models.ts';
 import { TestCaseService } from '../_services/test-case.service';
 import { TestPlanService } from '../_services/test-plan.service';
 import { TestSuiteService } from '../_services/test-suite.service';
 enum TestCaseMode {
   Add = 1,
   Update = 2
+}
+enum TestSuiteMovementDirection {
+  Up = 1,
+  Down = 2
 }
 @Component({
   selector: 'app-test-suites',
@@ -84,6 +88,31 @@ export class TestSuitesComponent implements OnInit {
     this.testSuiteService.deleteTestSuite(suite.testPlanId, suite.testSuiteId).subscribe(x => {
       this.tostr.success('Test suite deleted', 'Success');
       this.setTestPlanDetails();
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
+    });
+  }
+
+  reorderTestSuite(direction: TestSuiteMovementDirection, testSuite: TestSuite) {
+    for(let i = 0; i < this.testPlanDetails.testSuites.length; i++) {
+      let suite = this.testPlanDetails.testSuites[i];
+      if(suite == testSuite) {
+        if(direction == TestSuiteMovementDirection.Up) {
+          [this.testPlanDetails.testSuites[i-1], this.testPlanDetails.testSuites[i]] =
+          [this.testPlanDetails.testSuites[i], this.testPlanDetails.testSuites[i-1]];
+        } else {
+          [this.testPlanDetails.testSuites[i+1], this.testPlanDetails.testSuites[i]] =
+          [this.testPlanDetails.testSuites[i], this.testPlanDetails.testSuites[i+1]];
+        }
+        break;
+      }
+    }
+    let suiteIds: ITestSuiteOrder[] = [];
+    for(let testSuite of this.testPlanDetails.testSuites) {
+      suiteIds.push({id: testSuite.testSuiteId});
+    }
+    this.testSuiteService.updateTestSuiteOrdering(this.testPlanId, suiteIds).subscribe(x => {
+      
     }, err => {
       this.tostr.error(err.error, 'Failed');
     });
@@ -179,6 +208,10 @@ export class TestSuitesComponent implements OnInit {
 
   get testCaseMode() : typeof TestCaseMode {
     return TestCaseMode;
+  }
+
+  get testSuiteMovementDirection() : typeof TestSuiteMovementDirection {
+    return TestSuiteMovementDirection;
   }
 
 }

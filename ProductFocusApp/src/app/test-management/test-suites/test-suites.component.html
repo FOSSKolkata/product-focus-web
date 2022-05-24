@@ -55,11 +55,11 @@
                                 <i class="fa fa-plus"></i>
                                 Add a test case
                               </button>
-                              <button ngbDropdownItem>
+                              <button ngbDropdownItem (click)="reorderTestSuite(testSuiteMovementDirection.Up,testSuite)">
                                 <i class="fa fa-arrow-up"></i>
                                 Move Up
                               </button>
-                              <button ngbDropdownItem>
+                              <button ngbDropdownItem (click)="reorderTestSuite(testSuiteMovementDirection.Down,testSuite)">
                                 <i class="fa fa-arrow-down"></i>
                                 Move Down
                               </button>

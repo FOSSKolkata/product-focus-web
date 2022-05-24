@@ -152,3 +152,7 @@ export class TestCaseInput {
         this.testSteps.push({step: this.testSteps.length + 1, action, expectedResult});
     }
 }
+
+export interface ITestSuiteOrder {
+    id: number;
+}
