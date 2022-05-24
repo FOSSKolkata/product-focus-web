@@ -39,11 +39,11 @@ export class TestPlan {
 
 export class TestStep {
     testCaseId: number;
-    testStepId: number;
+    testStepId: number | null;
     step: number;
     action: string;
     expectedResult: string;
-    constructor(testCaseId: number, testStepId: number, step: number, action: string, expectedResult: string) {
+    constructor(testCaseId: number, testStepId: number | null, step: number, action: string, expectedResult: string) {
         this.testCaseId = testCaseId;
         this.testStepId = testStepId;
         this.step = step;
@@ -63,15 +63,6 @@ export class TestCase {
         this.testCaseTitle = testCaseTitle;
         this.preconditions = preconditions;
         this.testSteps = testSteps;
-    }
-    print() {
-        console.log(JSON.stringify(this.testSteps));
-    }
-    removeTestStep(step: TestStep): void {
-        this.testSteps = this.testSteps.filter(testStep => testStep != step);
-        this.testSteps.map((testStep, index) => {
-            testStep.step = index + 1;
-        });
     }
 }
 export class TestSuite {
@@ -119,7 +110,7 @@ export class TestSuiteInput {
 }
 
 export class UpdateTestStepInput {
-    id: number;
+    id: number | null;
     action: string;
     expectedResult: string;
     constructor(id: number, action: string, expectedResult: string) {
@@ -155,7 +146,7 @@ export class TestCaseInput {
         this.testSteps = this.testSteps.filter(step => step != testStep);
         this.testSteps.map((testStep, index) => {
             testStep.step = index + 1;
-          });
+        });
     }
     addTestStep(action: string, expectedResult: string): void {
         this.testSteps.push({step: this.testSteps.length + 1, action, expectedResult});

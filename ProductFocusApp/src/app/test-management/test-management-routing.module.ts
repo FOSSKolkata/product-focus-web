@@ -32,7 +32,7 @@ const routes: Routes = [
     data: { breadcrumb: 'Test Plans' },
     children: [
       {
-        path: ':suiteId',
+        path: ':testPlanId',
         component: TestSuitesComponent,
         data: { breadcrumb: 'Test Suite'}
       }

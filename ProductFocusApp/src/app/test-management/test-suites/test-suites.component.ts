@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IProduct } from 'src/app/dht-common/models';
-import { TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput } from '../models.ts';
+import { TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput, UpdateTestStepInput } from '../models.ts';
 import { TestCaseService } from '../_services/test-case.service';
 import { TestPlanService } from '../_services/test-plan.service';
 import { TestSuiteService } from '../_services/test-suite.service';
@@ -16,28 +16,17 @@ enum TestCaseMode {
   styleUrls: ['./test-suites.component.scss']
 })
 export class TestSuitesComponent implements OnInit {
-
-  // productDocumentationsMock: string[] = ["documentation 1", "documentation 2"];
-  // productDocumentations: FlatProductDocumentation[] = [];
-  // private _selectedDocumentation !: FlatProductDocumentation;
-  // set selectedDocumentation(documentation: FlatProductDocumentation) {
-  //   if(typeof documentation === 'object') {
-  //     this._selectedDocumentation = documentation;
-  //     //do stuff in model
-  //   }
-  // }
-  // selectedDocumentationMock = this.productDocumentationsMock[0];
   addSuiteVisible = false;
-  testStepsMock: {step: number, action: string, expectedResult: string}[] = [];
-  modeMock = TestCaseMode.Add;
+  testMode = TestCaseMode.Add;
   selectedProduct!: IProduct;
   testPlanDetails!: TestPlanDetails;
   newTestSuiteInput: TestSuiteInput;
-  private suiteId: number;
+  private testPlanId: number;
   selectedTestSuite!: TestSuite;
   newTestCaseInput: TestCaseInput;
 
   newTestStepAddMode = false;
+  newTestStepAddModeOnUpdate = false;
   newTestStepAction = '';
   newTestStepExpectedResult = '';
 
@@ -47,12 +36,11 @@ export class TestSuitesComponent implements OnInit {
   constructor(private testPlanService: TestPlanService,
     private route: ActivatedRoute,
     private router: Router,
-    // private productDocService: ProductDocumentationService
     private testSuiteService: TestSuiteService,
     private tostr: ToastrService,
     private testCaseService: TestCaseService) {
-      this.suiteId = Number(this.route.snapshot.paramMap.get('suiteId'));
-      this.newTestSuiteInput = new TestSuiteInput(this.suiteId,'');
+      this.testPlanId = Number(this.route.snapshot.paramMap.get('testPlanId'));
+      this.newTestSuiteInput = new TestSuiteInput(this.testPlanId,'');
       this.newTestCaseInput = new TestCaseInput('','',null,null,[]);
     }
 
@@ -64,25 +52,28 @@ export class TestSuitesComponent implements OnInit {
     }
     this.selectedProduct = JSON.parse(selectedProductString);
     this.setTestPlanDetails();
-    // this.productDocService.getFlatProductDocumentationsByProductId(this.selectedProduct.id).subscribe(x => {
-    //   this.productDocumentations = x;
-    // })
   }
 
   setTestPlanDetails(): void {
-    this.testPlanService.getTestPlanDetails(this.suiteId, this.selectedProduct.id).subscribe(x => {
+    this.testPlanService.getTestPlanDetails(this.testPlanId, this.selectedProduct.id).subscribe(x => {
       this.testPlanDetails = x;
-      console.log(x);
       if(this.testPlanDetails.testSuites) {
-        this.selectedTestSuite = this.testPlanDetails.testSuites[0];
+        this.selectTestSuite(this.testPlanDetails?.testSuites[0]);
       }
     });
   }
 
-  addTestSuite() {
+  selectTestSuite(suite: TestSuite) {
+    this.testMode = TestCaseMode.Add;
+    this.selectedTestSuite = suite;
+    this.newTestCaseInput = new TestCaseInput('','',this.testPlanId,this.selectedTestSuite.testSuiteId,[]);
+  }
+
+  addTestSuite(testSuiteForm: any) {
     this.testSuiteService.addTestSuite(this.newTestSuiteInput).subscribe(x => {
       this.tostr.success('Test Suites added.', 'Success');
       this.setTestPlanDetails();
+      testSuiteForm.form.reset();
     }, err=> {
       this.tostr.error(err.error,'Failed');
     });
@@ -105,16 +96,15 @@ export class TestSuitesComponent implements OnInit {
     this.addSuiteVisible = visibility;
   }
 
-  addTestStepMock() {
-    this.testStepsMock.push({step: this.testStepsMock.length + 1, action: '', expectedResult: ''});
-  }
-
   removeTestStep(testCase: TestCaseInput, step: TestStepInput) {
     testCase.removeTestStep(step);
   }
+
   removeTestStepInUpdate(step: TestStep) {
-    // this.testCaseInputForUpdate.removeTestStep(step);
-    this.testCaseInputForUpdate.print();
+    this.testCaseInputForUpdate.testSteps = this.testCaseInputForUpdate.testSteps.filter(testStep => testStep != step);
+    this.testCaseInputForUpdate.testSteps.map((testStep, index) => {
+        testStep.step = index + 1;
+    });
   }
 
   addNewTestStep() {
@@ -127,6 +117,22 @@ export class TestSuitesComponent implements OnInit {
     }
   }
 
+  addNewTestStepOnUpdate() {
+    if(this.newTestStepAddModeOnUpdate) {
+      this.testCaseInputForUpdate.testSteps.push(
+        new TestStep(this.testCaseInputForUpdate.testCaseId,
+          null, this.testCaseInputForUpdate.testSteps.length + 1,
+          this.newTestStepAction,
+          this.newTestStepExpectedResult
+        )
+      );
+      this.newTestStepAction = '';
+      this.newTestStepExpectedResult = '';
+    } else {
+      this.newTestStepAddModeOnUpdate = true;
+    }
+  }
+
   onTestCaseSelection(testSuiteId: number, testCaseId: number) {
     let testSuite = this.testPlanDetails.testSuites.filter(suite => suite.testSuiteId == testSuiteId).shift();
     let testCase = testSuite?.testCases.filter(testCase => testCase.testCaseId == testCaseId).shift();
@@ -135,24 +141,32 @@ export class TestSuitesComponent implements OnInit {
     }
     this.testCaseInputForUpdate = testCase;
     this.testSuiteTitleForDisplay = testSuite.testSuiteTitle;
-    this.modeMock = TestCaseMode.Update;
+    this.testMode = TestCaseMode.Update;
   }
 
   updateExistingTestCase() {
-    console.log(this.testCaseInputForUpdate);
+    this.addNewTestStepOnUpdate();
+    let updatedTestCase: UpdateTestCaseInput = {
+      title: this.testCaseInputForUpdate.testCaseTitle,
+      preconditions: this.testCaseInputForUpdate.preconditions,
+      testSteps: []
+    };
+    this.testCaseInputForUpdate.testSteps.forEach(step => {
+      let transformedStep:UpdateTestStepInput = {
+        id: step.testStepId,
+        action: step.action,
+        expectedResult: step.expectedResult
+      }
+      updatedTestCase.testSteps.push(transformedStep);
+    })
+    this.testCaseService.updateTestCase(this.testCaseInputForUpdate.testCaseId, updatedTestCase).subscribe(x => {
+      this.tostr.success('Test case updated', 'Success');
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
+    });
   }
 
-  // searchProductDocumentation: OperatorFunction<string, readonly FlatProductDocumentation[]> = (text$: Observable<string>) => {
-  //   return text$.pipe(
-  //     debounceTime(200),
-  //     map(term => term === '' ? []
-  //       : this.productDocumentations.filter(x => x.title.toLocaleLowerCase().indexOf(term.toLocaleLowerCase()) > -1).slice(0,10))
-  //   )
-  // }
-
-  // productDocumentationFormatter = (x: FlatProductDocumentation) => x.title;
-
-  get testCaseModeMock() : typeof TestCaseMode {
+  get testCaseMode() : typeof TestCaseMode {
     return TestCaseMode;
   }
 

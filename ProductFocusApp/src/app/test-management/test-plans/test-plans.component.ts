@@ -25,7 +25,6 @@ export class TestPlansComponent implements OnInit {
     this.selectedProduct = JSON.parse(selectedProductString??'');
     this.testManagement.getTestPlansByProductId(this.selectedProduct.id).subscribe(x => {
       this.testPlans = x;
-      console.log(x);
     })
   }
 

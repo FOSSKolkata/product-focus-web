@@ -1,7 +1,7 @@
 <div class="m-2">
     <div class="flex-row-sb">
         <div>
-            <h3 class="heading">{{testPlanDetails?.testPlanTitle}}</h3>
+            <h2 class="heading">{{testPlanDetails?.testPlanTitle}}</h2>
         </div>
         <div>
             <div class="bg-light-gray p-1 border">
@@ -18,7 +18,7 @@
                     <i class="fa fa-plus-circle pointer" (click)="addSuiteVisibilityToggle(true)"></i>
                 </div>
                 <div *ngIf="addSuiteVisible">
-                    <form #testSuiteForm="ngForm" (ngSubmit)="addTestSuite()">
+                    <form #testSuiteForm="ngForm" (ngSubmit)="addTestSuite(testSuiteForm)">
                         <div class="input-wrapper my-2">
                             <label for="testsuitename">Title</label>
                             <input id="testsuitename"
@@ -32,25 +32,6 @@
                         <div *ngIf="name.invalid && (name.touched || name.dirty)">
                             <div class="text-danger">Title is required</div>
                         </div>
-                        <!-- <div class="my-2">
-                            <label>Product Documentation</label>
-                            <ng-template #rtProductDocumentation let-r="result" let-t="term">
-                                <ngb-highlight [result]="r.title" [term]="t"></ngb-highlight>
-                            </ng-template>
-                            <input
-                                id="productdocumentation"
-                                type="text"
-                                name="productdocumentation"
-                                #productdocumentation="ngModel"
-                                [(ngModel)]="selectedDocumentation"
-                                class="form-control"
-                                placeholder="Search product documentation"
-                                [ngbTypeahead]="searchProductDocumentation"
-                                [inputFormatter]="productDocumentationFormatter"
-                                [resultTemplate]="rtProductDocumentation"
-                                required
-                            />
-                        </div> -->
                         <div class="flex-aic">
                             <button [disabled]="testSuiteForm.invalid" class="btn btn-sm good-btn mr-2">Add</button>
                             <i class="fa fa-times pointer" (click)="addSuiteVisibilityToggle(false)"></i>
@@ -69,7 +50,8 @@
                         <div class="tab-add" container="body" ngbDropdown>
                             <i class="fa fa-ellipsis-v" id="dropdownBasic1" ngbDropdownToggle></i>
                             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                              <button ngbDropdownItem>
+                              <button ngbDropdownItem
+                                  (click)="selectTestSuite(testSuite)">
                                 <i class="fa fa-plus"></i>
                                 Add a test case
                               </button>
@@ -103,11 +85,11 @@
         </div>
         <div class="col">
             <!--Creating test case-->
-            <div *ngIf="testPlanDetails?.testSuites">
-                    <div [ngSwitch]="modeMock">
+            <div *ngIf="testPlanDetails?.testSuites?.length">
+                    <div [ngSwitch]="testMode">
                         <form #newTestCase="ngForm" (ngSubmit)="addTestCase()">
-                            <div *ngSwitchCase = "testCaseModeMock.Add">
-                                <h2 class="heading">{{selectedTestSuite.testSuiteTitle}} > Create Test Case</h2>
+                            <div *ngSwitchCase = "testCaseMode.Add">
+                                <h2 class="heading">{{selectedTestSuite?.testSuiteTitle}} > Create Test Case</h2>
                                 <div class="input-wrapper my-2">
                                     <label for="testcasename">Title</label>
                                     <input id="testcasename"
@@ -171,14 +153,14 @@
                                 </div>
                             </div>
                         </form>
-                    <div *ngSwitchCase = "testCaseModeMock.Update">
+                    <div *ngSwitchCase = "testCaseMode.Update">
                         <form #updateTestCase="ngForm" (ngSubmit)="updateExistingTestCase()">
                             <h2 class="heading">{{testSuiteTitleForDisplay}} > {{testCaseInputForUpdate.testCaseTitle}}</h2>
                             <div class="input-wrapper my-2">
                                 <label for="testcasename">Title</label>
                                 <input id="testcasename"
                                     class="custom-input p-1"
-                                    type="text" name="name"
+                                    type="text" name="testcasetitle"
                                     [(ngModel)]="testCaseInputForUpdate.testCaseTitle"
                                     #titleUpdated="ngModel"
                                     placeholder="Enter test case name"
@@ -188,7 +170,7 @@
                                 <label for="precondition">Precondition</label>
                                 <textarea id="precondition"
                                     class="custom-input p-1"
-                                    type="text" name="name"
+                                    type="text" name="testcasepreconditions"
                                     [(ngModel)]="testCaseInputForUpdate.preconditions"
                                     #preconditionUpdated="ngModel"
                                     placeholder="Write preconditions here...">
@@ -218,7 +200,7 @@
                                             </td>
                                             <td scope="col"><i class="fa fa-times text-danger" (click)="removeTestStepInUpdate(testStep)"></i></td>
                                         </tr>
-                                        <tr *ngIf="newTestStepAddMode">
+                                        <tr *ngIf="newTestStepAddModeOnUpdate">
                                             <td scope="col">{{ testCaseInputForUpdate.testSteps.length + 1}}</td>
                                             <td scope="col">
                                                 <app-editable-text [text-content]="newTestStepAction"
@@ -228,11 +210,11 @@
                                                 <app-editable-text [text-content]="newTestStepExpectedResult"
                                                 (changed)="newTestStepExpectedResult = $event.target.textContent"></app-editable-text>
                                             </td>
-                                            <td scope="col"><i class="fa fa-times text-danger" (click)="newTestStepAddMode = false"></i></td>
+                                            <td scope="col"><i class="fa fa-times text-danger" (click)="newTestStepAddModeOnUpdate = false"></i></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <div class="pointer text-center border p-2" (click)="addTestStepMock()">Click here to a test step</div>
+                                <div class="pointer text-center border p-2" (click)="addNewTestStepOnUpdate()">Click here to a test step</div>
                                 <div class="flex-row-reverse my-2">
                                     <button class="btn btn-sm reject-btn">Cancel</button>
                                     <button type="submit" [disabled]="updateTestCase.invalid" class="btn btn-sm good-btn">Save</button>
@@ -242,7 +224,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="!testPlanDetails?.testSuites">
+            <div *ngIf="!testPlanDetails?.testSuites?.length">
                 <figure class="folder">
                     <div class="folder-body">
                         <img src="../../../assets/static_images/folders.png" alt="folders">
