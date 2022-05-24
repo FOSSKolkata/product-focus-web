@@ -80,6 +80,15 @@ export class TestSuitesComponent implements OnInit {
     });
   }
 
+  deleteTestSuite(suite: TestSuite) {
+    this.testSuiteService.deleteTestSuite(suite.testPlanId, suite.testSuiteId).subscribe(x => {
+      this.tostr.success('Test suite deleted', 'Success');
+      this.setTestPlanDetails();
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
+    });
+  }
+
   addTestCase() {
     if(this.newTestStepAddMode) {
       this.newTestCaseInput.addTestStep(this.newTestStepAction, this.newTestStepExpectedResult);

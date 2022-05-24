@@ -17,6 +17,12 @@ export class TestSuiteService {
       catchError(this.handleError)
     );
   }
+
+  deleteTestSuite(planId: number, suiteId: number): Observable<void> {
+    return this.http.delete<void>(apiConfig.uri + `/ProductTestSuite/DeleteTestSuite/${planId}/${suiteId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
   
   private handleError(error: HttpErrorResponse) {
     return throwError(error);

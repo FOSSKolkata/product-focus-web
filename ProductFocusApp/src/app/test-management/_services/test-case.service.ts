@@ -23,6 +23,10 @@ export class TestCaseService {
       catchError(this.handleError)
     );
   }
+
+  deleteTestCase() {
+    // work on it
+  }
   
   private handleError(error: HttpErrorResponse) {
     return throwError(error);
