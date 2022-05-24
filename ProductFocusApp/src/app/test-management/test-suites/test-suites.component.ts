@@ -57,7 +57,8 @@ export class TestSuitesComponent implements OnInit {
   setTestPlanDetails(): void {
     this.testPlanService.getTestPlanDetails(this.testPlanId, this.selectedProduct.id).subscribe(x => {
       this.testPlanDetails = x;
-      if(this.testPlanDetails.testSuites) {
+      if(this.testPlanDetails.testSuites.length > 0) {
+        console.log(this.testPlanDetails.testSuites)
         this.selectTestSuite(this.testPlanDetails?.testSuites[0]);
       }
     });
@@ -87,6 +88,7 @@ export class TestSuitesComponent implements OnInit {
     }
     this.testCaseService.addTestCase(this.newTestCaseInput).subscribe(x => {
       this.tostr.success('Test case added', 'Success');
+      this.setTestPlanDetails();
     }, err => {
       this.tostr.error(err.error, 'Failed');
     });
