@@ -15,6 +15,7 @@ import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, 
 export class SwitchLabelTextComponent implements ControlValueAccessor {
 
   @ViewChild('textInput') public inputElement!: ElementRef;
+  @Input('placeholder') placeholder = '';
   private onChange!: (name: string) => void;
   private onTouched!: () => void;
   public textInput = new FormControl('');
