@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { TestRunService } from '../_services/test-run.service';
 
 @Component({
   selector: 'app-test-run',
@@ -27,9 +29,17 @@ export class TestRunComponent implements OnInit {
   updateAllComplete() {
     // this.allComplete = this.suitesMock.testcases != null && this.task.subtasks.every(t => t.completed);
   }
-  constructor() { }
+
+  testPlanVersionId: number;
+  constructor(private route: ActivatedRoute,
+    private testRunService: TestRunService) { 
+    this.testPlanVersionId = Number(this.route.snapshot.paramMap.get('testPlanVersionId'));
+  }
 
   ngOnInit(): void {
+    this.testRunService.getTestRunById(this.testPlanVersionId).subscribe(x => {
+      console.log(x);
+    })
   }
 
 }

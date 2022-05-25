@@ -11,8 +11,14 @@ export class TestRunService {
 
   constructor(private http: HttpClient) { }
 
-  createTestRun(testPlanId: number): Observable<void> {
-    return this.http.post<void>(apiConfig.uri + `/ProductTestRun/CreateTestRun/${testPlanId}`,{}).pipe(
+  createTestRun(testPlanId: number): Observable<number> {
+    return this.http.post<number>(apiConfig.uri + `/ProductTestRun/CreateTestRun/${testPlanId}`,{}).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  getTestRunById(id: number): Observable<any> {
+    return this.http.get<any>(apiConfig.uri + `/ProductTestRun/GetTestRunById/${id}`).pipe(
       catchError(this.handleError)
     )
   }

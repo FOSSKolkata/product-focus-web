@@ -5,6 +5,7 @@ import { IProduct } from 'src/app/dht-common/models';
 import { ITestSuiteOrder, TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput, UpdateTestStepInput } from '../models.ts';
 import { TestCaseService } from '../_services/test-case.service';
 import { TestPlanService } from '../_services/test-plan.service';
+import { TestRunService } from '../_services/test-run.service';
 import { TestSuiteService } from '../_services/test-suite.service';
 enum TestCaseMode {
   Add = 1,
@@ -42,7 +43,8 @@ export class TestSuitesComponent implements OnInit {
     private router: Router,
     private testSuiteService: TestSuiteService,
     private tostr: ToastrService,
-    private testCaseService: TestCaseService) {
+    private testCaseService: TestCaseService,
+    private testRunService: TestRunService) {
       this.testPlanId = Number(this.route.snapshot.paramMap.get('testPlanId'));
       this.newTestSuiteInput = new TestSuiteInput(this.testPlanId,'');
       this.newTestCaseInput = new TestCaseInput('','',null,null,[]);
@@ -130,6 +132,14 @@ export class TestSuitesComponent implements OnInit {
     }, err => {
       this.tostr.error(err.error, 'Failed');
     });
+  }
+
+  createTestRun() {
+    // this.testRunService.createTestRun(this.testPlanId).subscribe(x => {
+      this.router.navigate(['../..','test-run', 104], {relativeTo: this.route});
+    // }, err => {
+    //   this.tostr.error(err.error, 'Failed');
+    // })
   }
 
   addSuiteVisibilityToggle(visibility: boolean) {

@@ -52,7 +52,7 @@ const routes: Routes = [
       }
     ]
   },{
-    path: 'test-run',
+    path: 'test-run/:testPlanVersionId',
     component: TestRunComponent,
     data: {breadcrumb: 'Test Run'}
   }
