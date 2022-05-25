@@ -1,3 +1,5 @@
+import { environment } from "src/environments/environment";
+
 export const b2cPolicies = {
   names: {
     signUpSignIn: 'B2C_1_susi',
@@ -24,5 +26,6 @@ export const b2cPolicies = {
 export const apiConfig: { scopes: string[]; uri: string } = {
   scopes: ['https://dumanhillb2c.onmicrosoft.com/api/demo.read'],
   // uri: 'https://productfocusapi.azurewebsites.net',
-  uri: 'https://localhost:44388'
+  // uri: 'https://localhost:44388'
+  uri: environment.uri
 };
