@@ -181,3 +181,20 @@ figure.folder {
   }
 }
 
+button.run-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.3rem;
+  border: none;
+  background-color: transparent;
+  padding: 0.2rem;
+}
+
+button.run-btn:hover {
+  background-color: var(--light-gray);
+  outline: 1px solid var(--dark-gray);
+  * {
+    transform: scale(1.1);
+  }
+}
