@@ -1,26 +1,26 @@
 <div class="row m-0">
     <div class="col-sm-6 col-md-3">
         <div>
-            <h2 class="heading">$Test Plan Title</h2>
+            <h2 class="heading">{{ testRun?.title }}</h2>
         </div>
         <div class="tab-container">
             <div class="tabs">
-                <div class="tab" *ngFor="let suite of suitesMock">
+                <div class="tab" *ngFor="let suite of testRun?.testSuites">
                     <input type="checkbox" id="{{suite.id}}">
                     <label class="tab-label" for="{{suite.id}}">
-                        <mat-checkbox [(ngModel)]="suite.completed"
+                        <!-- <mat-checkbox [(ngModel)]="suite.completed"
                             (ngModelChange)="updateAllComplete()">
                             <i class="far fa-folder mr-1"></i>
                             {{suite.title}} ({{suite.testcases.length}})
-                        </mat-checkbox>
+                        </mat-checkbox> -->
                     </label>
                     <div class="tab-content">
                         <ul class="tab-list-items">
-                            <li class="tab-list-item" *ngFor="let testcase of suite.testcases">
-                                <mat-checkbox [(ngModel)]="testcase.completed"
+                            <li class="tab-list-item" *ngFor="let testCase of suite.testCases">
+                                <mat-checkbox [(ngModel)]="testCase.isIncluded"
                                     (ngModelChange)="updateAllComplete()">
                                     <i class="far fa-file-alt"></i>
-                                    {{testcase.title}}
+                                    {{testCase.title}}
                                 </mat-checkbox>
                             </li>
                         </ul>
@@ -30,95 +30,7 @@
         </div>
     </div>
     <div class="col">
-        <div class="flex-column">
-            <div>Executing: Test suite 1 (3)</div>
-            <div>Executed: 1 Suites</div>
-            <div>Left: 1 Suites</div>
-        </div>
-        <div>
-            <div class="flex-column-sb border border-secondary p-1">
-                <div>
-                    <i class="fa fa-caret-left"></i>
-                    Prev
-                </div>
-                <div>
-                    Test Case 1 of 2
-                </div>
-                <div>
-                    Next
-                    <i class="fa fa-caret-right"></i>
-                </div>
-            </div>
-        </div>
-        <div>
-            <div class="flex-column-sb">
-                <h3 class="heading">232: This is test case title</h3>
-                <div ngbDropdown>
-                    <div id="dropdownBasic1" ngbDropdownToggle class="pointer">
-                        <i class="fa fa-check-circle p-1"></i>
-                        <i class="fa fa-caret-down p-1"></i>
-                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                            <button ngbDropdownItem>
-                                <i class="fa fa-check-circle text-success"></i>
-                                Pass Test
-                            </button>
-                            <button ngbDropdownItem>
-                                <i class="fa fa-times-circle text-danger"></i>
-                                Fail Test
-                            </button>
-                            <button ngbDropdownItem>
-                                <i class="fa fa-minus-circle text-warning"></i>
-                                Block Test
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <h5 class="heading">Action</h5>
-            <div class="table-responsive-sm">
-                <table class="table">
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Navigate to the website</td>
-                            <td>
-                                <i class="fa fa-check-circle text-success"></i>
-                                <i class="fa fa-times-circle"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Enter Username (vikram_shaw)</td>
-                            <td>
-                                <i class="fa fa-check-circle text-success"></i>
-                                <i class="fa fa-times-circle"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Enter Password (vikram_shaw)</td>
-                            <td>
-                                <i class="fa fa-check-circle text-success"></i>
-                                <i class="fa fa-times-circle"></i>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>
-                                <div>Click on Login button</div>
-                                <div>EXPECTED RESULT</div>
-                                <div>Should login into the system and redirect to admin page.</div>
-                            </td>
-                            <td>
-                                <i class="fa fa-check-circle"></i>
-                                <i class="fa fa-times-circle text-danger"></i>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <app-test-execution></app-test-execution>
     </div>
 </div>
+{{testRun | json}}

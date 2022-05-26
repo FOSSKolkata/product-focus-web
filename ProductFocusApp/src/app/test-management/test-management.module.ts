@@ -16,6 +16,8 @@ import { TestRunComponent } from './test-run/test-run.component';
 import { TestRunResultComponent } from './test-run-result/test-run-result.component';
 import { MatOptionModule } from '@angular/material/core';
 import { DhtCommonModule } from '../dht-common/dht-common.module';
+import { TestExecutionComponent } from './test-run/test-execution/test-execution.component';
+import { TestExecutionService } from './services/test-execution.service';
 
 @NgModule({
   declarations: [TestPlansComponent,
@@ -25,7 +27,8 @@ import { DhtCommonModule } from '../dht-common/dht-common.module';
     TestRunResultsComponent,
     ChartComponent,
     TestRunComponent,
-    TestRunResultComponent
+    TestRunResultComponent,
+    TestExecutionComponent
   ],
   imports: [
     CommonModule,
@@ -40,6 +43,7 @@ import { DhtCommonModule } from '../dht-common/dht-common.module';
     MatOptionModule,
     MatSelectModule,
     DhtCommonModule
-  ]
+  ],
+  providers: [TestExecutionService]
 })
 export class TestManagementModule { }

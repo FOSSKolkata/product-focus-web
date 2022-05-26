@@ -156,3 +156,49 @@ export class TestCaseInput {
 export interface ITestSuiteOrder {
     id: number;
 }
+
+// Test Plan run related model
+export interface ITestRun {
+    id: number,
+    title: string,
+    testTypeEnum: TestTypeEnum,
+    testSuites: ITestRunSuite[]
+}
+
+export interface ITestRunSuite {
+    id: number,
+    testPlanId: number,
+    title: string,
+    testCases: ITestRunCase[]
+}
+
+export interface ITestRunCase {
+    id: number,
+    testSuiteId: number,
+    title: string,
+    isIncluded: boolean,
+    resultStatus: TestCaseResultEnum
+}
+
+export interface ITestRunStep {
+    id: number,
+    testCaseId : number,
+    stepNo: number,
+    action: string,
+    expectedResult: string,
+    resultStatus: TestStepResultEnum
+}
+
+export enum TestStepResultEnum {
+    Success = 1,
+    Failed = 2,
+    Pending = 3
+}
+
+export enum TestCaseResultEnum {
+    Success = 1,
+    Failed = 2,
+    Pending = 3
+}
+
+// End of Test Plan run related model

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from 'src/app/b2c-config';
+import { ITestRun } from '../models.ts';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +18,12 @@ export class TestRunService {
     )
   }
 
-  getTestRunById(id: number): Observable<any> {
-    return this.http.get<any>(apiConfig.uri + `/ProductTestRun/GetTestRunById/${id}`).pipe(
+  getTestRunById(id: number): Observable<ITestRun> {
+    return this.http.get<ITestRun>(apiConfig.uri + `/ProductTestRun/GetTestRunById/${id}`).pipe(
       catchError(this.handleError)
     )
   }
-  
+
   private handleError(error: HttpErrorResponse) {
     return throwError(error);
   }
