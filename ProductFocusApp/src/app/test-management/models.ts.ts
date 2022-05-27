@@ -178,7 +178,8 @@ export interface ITestRunCase {
     testSuiteId: number,
     title: string,
     isIncluded: boolean,
-    resultStatus: TestCaseResultEnum
+    resultStatus: TestCaseResultEnum,
+    testSteps: ITestRunStep[]
 }
 
 export interface ITestRunStep {

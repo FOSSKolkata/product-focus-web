@@ -42,48 +42,17 @@
         </div>
     </div>
 </div>
-<div>
+<div *ngIf="testRun">
     <h5 class="heading">Action</h5>
-    
-
-{{testRun | json}}
     <div class="table-responsive-sm">
         <table class="table">
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Navigate to the website</td>
+                <tr *ngFor="let testStep of testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].testSteps; let step = index;">
+                    <td>{{ step + 1 }}</td>
+                    <td>{{ testStep.action }}</td>
                     <td>
                         <i class="fa fa-check-circle text-success"></i>
                         <i class="fa fa-times-circle"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Enter Username (vikram_shaw)</td>
-                    <td>
-                        <i class="fa fa-check-circle text-success"></i>
-                        <i class="fa fa-times-circle"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Enter Password (vikram_shaw)</td>
-                    <td>
-                        <i class="fa fa-check-circle text-success"></i>
-                        <i class="fa fa-times-circle"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>
-                        <div>Click on Login button</div>
-                        <div>EXPECTED RESULT</div>
-                        <div>Should login into the system and redirect to admin page.</div>
-                    </td>
-                    <td>
-                        <i class="fa fa-check-circle"></i>
-                        <i class="fa fa-times-circle text-danger"></i>
                     </td>
                 </tr>
             </tbody>
