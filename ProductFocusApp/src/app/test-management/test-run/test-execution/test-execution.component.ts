@@ -11,6 +11,24 @@ export class TestExecutionComponent {
   testSuiteExecutionPointer = 0;
   testCaseExecutionPointer = 0;
   constructor() {}
+
+  moveToPreviousTestCase(): boolean {
+    this.testCaseExecutionPointer--;
+
+    if(this.arePointersCrossedTheLimitFromLeftSide()) {
+      this.testCaseExecutionPointer = 0;
+      this.testSuiteExecutionPointer = 0;
+      console.log('Reached starting position');
+      return false;
+    }
+
+    if(this.isTestCasePointerLimitCrossedInLeftSide()) {
+      this.testSuiteExecutionPointer --;
+      this.testCaseExecutionPointer = this.testRun.testSuites[this.testSuiteExecutionPointer].testCases.length - 1;
+    }
+
+    return this.isTestCaseIncludedInCurrentPosition() || this.moveToPreviousTestCase();
+  }
   
   moveToNextTestCase(): boolean {
     this.testCaseExecutionPointer++;
@@ -26,12 +44,16 @@ export class TestExecutionComponent {
       this.testCaseExecutionPointer = 0;
       this.testSuiteExecutionPointer ++;
     }
-    
+
     return this.isTestCaseIncludedInCurrentPosition() || this.moveToNextTestCase();
   }
 
   private isTestCasePointerLimitCrossed(): boolean {
     return this.testRun.testSuites[this.testSuiteExecutionPointer].testCases.length <= this.testCaseExecutionPointer;
+  }
+
+  private isTestCasePointerLimitCrossedInLeftSide(): boolean {
+    return this.testCaseExecutionPointer <= -1;
   }
 
   private isTestCaseIncludedInCurrentPosition(): boolean {
@@ -46,6 +68,14 @@ export class TestExecutionComponent {
       return true;
     }if(this.testSuiteExecutionPointer == totalSuite - 1)
       return this.testCaseExecutionPointer >= this.testRun.testSuites[this.testSuiteExecutionPointer].testCases.length;
+    return false;
+  }
+
+  private arePointersCrossedTheLimitFromLeftSide(): boolean {
+    if(this.testSuiteExecutionPointer <= -1) {
+      return true;
+    }if(this.testSuiteExecutionPointer == 0)
+      return this.testCaseExecutionPointer <= -1;
     return false;
   }
 }
