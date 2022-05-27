@@ -169,6 +169,7 @@ export interface ITestRunSuite {
     id: number,
     testPlanId: number,
     title: string,
+    isIncluded: boolean,
     testCases: ITestRunCase[]
 }
 

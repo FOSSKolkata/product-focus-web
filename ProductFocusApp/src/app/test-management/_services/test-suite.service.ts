@@ -13,19 +13,19 @@ export class TestSuiteService {
   constructor(private http: HttpClient) { }
 
   addTestSuite(testSuiteInput: TestSuiteInput): Observable<void> {
-    return this.http.post<void>(apiConfig.uri + `/ProductTestSuite/AddTestSuite`, testSuiteInput).pipe(
+    return this.http.post<void>(apiConfig.uri + `/TestSuite/AddTestSuite`, testSuiteInput).pipe(
       catchError(this.handleError)
     );
   }
 
   deleteTestSuite(planId: number, suiteId: number): Observable<void> {
-    return this.http.delete<void>(apiConfig.uri + `/ProductTestSuite/DeleteTestSuite/${planId}/${suiteId}`).pipe(
+    return this.http.delete<void>(apiConfig.uri + `/TestSuite/DeleteTestSuite/${planId}/${suiteId}`).pipe(
       catchError(this.handleError)
     );
   }
 
   updateTestSuiteOrdering(testPlanId: number, testSuiteIds: ITestSuiteOrder[]){
-    return this.http.put<void>(apiConfig.uri + `/ProductTestSuite/UpdateTestSuiteOrdering/${testPlanId}`,testSuiteIds).pipe(
+    return this.http.put<void>(apiConfig.uri + `/TestSuite/UpdateTestSuiteOrdering/${testPlanId}`,testSuiteIds).pipe(
       catchError(this.handleError)
     );
   }

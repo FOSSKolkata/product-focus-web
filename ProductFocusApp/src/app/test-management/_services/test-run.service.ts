@@ -13,13 +13,13 @@ export class TestRunService {
   constructor(private http: HttpClient) { }
 
   createTestRun(testPlanId: number): Observable<number> {
-    return this.http.post<number>(apiConfig.uri + `/ProductTestRun/CreateTestRun/${testPlanId}`,{}).pipe(
+    return this.http.post<number>(apiConfig.uri + `/TestRun/CreateTestRun/${testPlanId}`,{}).pipe(
       catchError(this.handleError)
     )
   }
 
   getTestRunById(id: number): Observable<ITestRun> {
-    return this.http.get<ITestRun>(apiConfig.uri + `/ProductTestRun/GetTestRunById/${id}`).pipe(
+    return this.http.get<ITestRun>(apiConfig.uri + `/TestRun/GetTestRunById/${id}`).pipe(
       catchError(this.handleError)
     )
   }

@@ -8,17 +8,17 @@
                 <div class="tab" *ngFor="let suite of testRun?.testSuites">
                     <input type="checkbox" id="{{suite.id}}">
                     <label class="tab-label" for="{{suite.id}}">
-                        <!-- <mat-checkbox [(ngModel)]="suite.completed"
-                            (ngModelChange)="updateAllComplete()">
+                        <mat-checkbox [(ngModel)]="suite.isIncluded"
+                            (ngModelChange)="changeSuiteChoice(suite)">
                             <i class="far fa-folder mr-1"></i>
-                            {{suite.title}} ({{suite.testcases.length}})
-                        </mat-checkbox> -->
+                            {{suite.title}} ({{suite.testCases.length}})
+                        </mat-checkbox>
                     </label>
                     <div class="tab-content">
                         <ul class="tab-list-items">
                             <li class="tab-list-item" *ngFor="let testCase of suite.testCases">
                                 <mat-checkbox [(ngModel)]="testCase.isIncluded"
-                                    (ngModelChange)="updateAllComplete()">
+                                    (ngModelChange)="changeCaseChoice(suite)">
                                     <i class="far fa-file-alt"></i>
                                     {{testCase.title}}
                                 </mat-checkbox>
@@ -30,7 +30,6 @@
         </div>
     </div>
     <div class="col">
-        <app-test-execution></app-test-execution>
+        <app-test-execution [testRun]="testRun"></app-test-execution>
     </div>
 </div>
-{{testRun | json}}

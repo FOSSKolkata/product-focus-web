@@ -1,9 +1,3 @@
-
-
-#dropdownBasic1::after {
-  content: none;
-}
-
 .input-wrapper {
   display: flex;
   flex-direction: column;
@@ -18,4 +12,12 @@
 .flex-column-sb {
   display: flex;
   justify-content: space-between;
+}
+
+.change-case {
+  border: none;
+  background-color: transparent;
+}
+.change-case:hover {
+  background-color: var(--dark-gray);
 }

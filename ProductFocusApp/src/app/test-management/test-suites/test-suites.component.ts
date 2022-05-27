@@ -135,11 +135,11 @@ export class TestSuitesComponent implements OnInit {
   }
 
   createTestRun() {
-    // this.testRunService.createTestRun(this.testPlanId).subscribe(x => {
-      this.router.navigate(['../..','test-run', 104], {relativeTo: this.route});
-    // }, err => {
-    //   this.tostr.error(err.error, 'Failed');
-    // })
+    this.testRunService.createTestRun(this.testPlanId).subscribe(x => {
+      this.router.navigate(['../..','test-run', x], {relativeTo: this.route});
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
+    })
   }
 
   addSuiteVisibilityToggle(visibility: boolean) {
