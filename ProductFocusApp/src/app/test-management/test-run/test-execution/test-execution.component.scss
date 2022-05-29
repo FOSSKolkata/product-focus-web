@@ -18,6 +18,11 @@
   border: none;
   background-color: transparent;
 }
+
 .change-case:hover {
   background-color: var(--dark-gray);
+}
+
+.darker {
+  color: var(--dark-gray);
 }

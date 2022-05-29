@@ -33,15 +33,15 @@
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                     <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Success, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
                         <i class="fa fa-check-circle text-success"></i>
-                        Pass Test
+                        Passed Test
                     </button>
                     <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Failed, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
                         <i class="fa fa-times-circle text-danger"></i>
-                        Fail Test
+                        Failed Test
                     </button>
                     <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Pending, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
                         <i class="fa fa-minus-circle text-warning"></i>
-                        Block Test
+                        Blocked Test
                     </button>
                 </div>
             </div>
@@ -57,11 +57,11 @@
                     <td>{{ step + 1 }}</td>
                     <td>{{ testStep.action }}</td>
                     <td>
-                        <i class="fa fa-check-circle"
+                        <i class="fa fa-check-circle pointer darker"
                             [ngClass]="{'text-success': testStep.resultStatus === testStepResultEnum.Success}"
                             (click)="markTestStepStatus(testStepResultEnum.Success, testStep)"
                         ></i>
-                        <i class="fa fa-times-circle"
+                        <i class="fa fa-times-circle pointer darker"
                             [ngClass]="{'text-danger': testStep.resultStatus === testStepResultEnum.Failed}"
                             (click)="markTestStepStatus(testStepResultEnum.Failed, testStep)"
                         ></i>
