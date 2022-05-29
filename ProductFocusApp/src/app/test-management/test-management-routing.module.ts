@@ -34,7 +34,7 @@ const routes: Routes = [
       {
         path: ':testPlanId',
         component: TestSuitesComponent,
-        data: { breadcrumb: 'Test Suite'}
+        data: { breadcrumb: {alias: 'testPlanName'}}
       }
     ]
   },{

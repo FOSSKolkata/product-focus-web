@@ -11,33 +11,13 @@
         </div>
     </div>
     <div class="row m-0">
-        <div class="col-sm-6 col-md-4 border-right">
+        <div *ngIf="testPlanDetails?.testSuites?.length !== 0" class="col-sm-6 col-md-4 border-right">
             <div class="m-1">
                 <div class="my-2 flex-col-sb">
                     <div class="suite-title">Test Suites</div>
                     <i class="fa fa-plus-circle pointer" (click)="addSuiteVisibilityToggle(true)"></i>
                 </div>
-                <div *ngIf="addSuiteVisible">
-                    <form #testSuiteForm="ngForm" (ngSubmit)="addTestSuite(testSuiteForm)">
-                        <div class="input-wrapper my-2">
-                            <label for="testsuitename">Title</label>
-                            <input id="testsuitename"
-                                class="custom-input p-1"
-                                type="text" name="name"
-                                placeholder="Enter suite title"
-                                [(ngModel)]="newTestSuiteInput.title"
-                                #name="ngModel"
-                                required>
-                        </div>
-                        <div *ngIf="name.invalid && (name.touched || name.dirty)">
-                            <div class="text-danger">Title is required</div>
-                        </div>
-                        <div class="flex-aic">
-                            <button [disabled]="testSuiteForm.invalid" class="btn btn-sm good-btn mr-2">Add</button>
-                            <i class="fa fa-times pointer" (click)="addSuiteVisibilityToggle(false)"></i>
-                        </div>
-                    </form>
-                </div>
+                <div *ngIf="addSuiteVisible then testSuite;"></div>
             </div>
             <div class="tab-container">
                 <div class="tabs">
@@ -230,16 +210,39 @@
             </div>
             <div *ngIf="!testPlanDetails?.testSuites?.length">
                 <figure class="folder">
-                    <div class="folder-body">
+                    <div class="folder-body" *ngIf="!addSuiteVisible">
                         <img src="../../../assets/static_images/folders.png" alt="folders">
                         <figcaption>Test Suite</figcaption>
                         <p>Create a new suite to display here</p>
                         <div>
-                            <button class="btn good-btn btn-sm"(click)="addSuiteVisible=true;">Create Suite</button>
+                            <button class="btn good-btn btn-sm"(click)="addSuiteVisible=true;">Create a test Suite</button>
                         </div>
                     </div>
+                    <div *ngIf="addSuiteVisible then testSuite;"></div>
                 </figure>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #testSuite>
+    <form #testSuiteForm="ngForm" (ngSubmit)="addTestSuite(testSuiteForm)">
+    <div class="input-wrapper my-2">
+        <label for="testsuitename">Title</label>
+        <input id="testsuitename"
+            class="custom-input p-1"
+            type="text" name="name"
+            placeholder="Enter suite title"
+            [(ngModel)]="newTestSuiteInput.title"
+            #name="ngModel"
+            required>
+    </div>
+    <div *ngIf="name.invalid && (name.touched || name.dirty)">
+        <div class="text-danger">Title is required</div>
+    </div>
+    <div class="flex-aic">
+        <button [disabled]="testSuiteForm.invalid" class="btn btn-sm good-btn mr-2">Add</button>
+        <i class="fa fa-times pointer" (click)="addSuiteVisibilityToggle(false)"></i>
+    </div>
+    </form>
+</ng-template>

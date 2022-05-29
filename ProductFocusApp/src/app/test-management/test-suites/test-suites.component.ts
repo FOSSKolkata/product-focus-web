@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IProduct } from 'src/app/dht-common/models';
+import { BreadcrumbService } from 'xng-breadcrumb';
 import { ITestSuiteOrder, TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput, UpdateTestStepInput } from '../models.ts';
 import { TestCaseService } from '../_services/test-case.service';
 import { TestPlanService } from '../_services/test-plan.service';
@@ -44,7 +45,8 @@ export class TestSuitesComponent implements OnInit {
     private testSuiteService: TestSuiteService,
     private tostr: ToastrService,
     private testCaseService: TestCaseService,
-    private testRunService: TestRunService) {
+    private testRunService: TestRunService,
+    private breadcrumbService: BreadcrumbService) {
       this.testPlanId = Number(this.route.snapshot.paramMap.get('testPlanId'));
       this.newTestSuiteInput = new TestSuiteInput(this.testPlanId,'');
       this.newTestCaseInput = new TestCaseInput('','',null,null,[]);
@@ -67,6 +69,11 @@ export class TestSuitesComponent implements OnInit {
         console.log(this.testPlanDetails.testSuites)
         this.selectTestSuite(this.testPlanDetails?.testSuites[0]);
       }
+      this.breadcrumbService.set('@testPlanName', {
+        label: this.testPlanDetails.testPlanTitle,
+        routeInterceptor: (routeLink, breadcrumb) =>
+          this.testPlanDetails.testPlanId.toString()
+      });
     });
   }
 
