@@ -72,7 +72,7 @@ export class TestSuitesComponent implements OnInit {
       this.breadcrumbService.set('@testPlanName', {
         label: this.testPlanDetails.testPlanTitle,
         routeInterceptor: (routeLink, breadcrumb) =>
-          this.testPlanDetails.testPlanId.toString()
+          this.testPlanId.toString()
       });
     });
   }

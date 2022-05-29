@@ -198,3 +198,9 @@ button.run-btn:hover {
     transform: scale(1.1);
   }
 }
+
+.active-item {
+  border-left: 2px solid #fe9600 !important;
+  // border-bottom: 2px solid #918d8d !important;
+  // box-shadow: inset 0px 0px 20px 2px #918d8d;
+}

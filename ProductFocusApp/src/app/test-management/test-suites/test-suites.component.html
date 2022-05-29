@@ -3,7 +3,7 @@
         <div>
             <h2 class="heading">{{testPlanDetails?.testPlanTitle}}</h2>
         </div>
-        <div>
+        <div *ngIf="testPlanDetails?.testSuites?.length !== 0">
             <button class="run-btn" (click)="createTestRun()">
                 Run
                 <i class="fa fa-2x fa-play-circle"></i>
@@ -49,10 +49,11 @@
                                 Delete
                               </button>
                             </div>
-                          </div>
+                        </div>
                         <div class="tab-content">
                             <ul class="tab-list-items">
                                 <li class="tab-list-item pointer"
+                                    [ngClass]="{'active-item': testCaseInputForUpdate === testCase && testMode === testCaseMode.Update}"
                                     *ngFor="let testCase of testSuite.testCases"
                                     (click)="onTestCaseSelection(testSuite.testSuiteId,testCase.testCaseId)">
                                     <i class="far fa-file-alt"></i>
@@ -139,7 +140,9 @@
                         </form>
                     <div *ngSwitchCase = "testCaseMode.Update">
                         <form #updateTestCase="ngForm" (ngSubmit)="updateExistingTestCase()">
-                            <h2 class="heading">{{testSuiteTitleForDisplay}} > {{testCaseInputForUpdate.testCaseTitle}}</h2>
+                            <h2 class="heading">{{testSuiteTitleForDisplay}}
+                                <i class="fa fa-angle-right"></i>
+                                {{testCaseInputForUpdate.testCaseTitle}}</h2>
                             <div class="input-wrapper my-2">
                                 <label for="testcasename">Title</label>
                                 <input id="testcasename"
