@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ITestRun } from '../../models.ts';
+import { ITestRun, ITestRunCase, ITestRunStep, TestCaseResultEnum, TestStepResultEnum } from '../../models.ts';
 
 @Component({
   selector: 'app-test-execution',
@@ -78,4 +78,21 @@ export class TestExecutionComponent {
       return this.testCaseExecutionPointer <= -1;
     return false;
   }
+
+  markTestCaseStatus(status: TestCaseResultEnum, testCase: ITestRunCase): void {
+    testCase.resultStatus = status;
+  }
+
+  markTestStepStatus(status: TestStepResultEnum, testStep: ITestRunStep): void {
+    testStep.resultStatus = status;
+  }
+
+  get testCaseResultEnum(): typeof TestCaseResultEnum {
+    return TestCaseResultEnum;
+  }
+  
+  get testStepResultEnum(): typeof TestStepResultEnum {
+    return TestStepResultEnum;
+  }
+
 }

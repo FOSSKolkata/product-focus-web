@@ -90,7 +90,10 @@
                     <div [ngSwitch]="testMode">
                         <form #newTestCase="ngForm" (ngSubmit)="addTestCase()">
                             <div *ngSwitchCase = "testCaseMode.Add">
-                                <h2 class="heading">{{selectedTestSuite?.testSuiteTitle}} > Create Test Case</h2>
+                                <h2 class="heading">{{selectedTestSuite?.testSuiteTitle}}
+                                    <i class="fa fa-angle-right"></i>
+                                    Create Test Case
+                                </h2>
                                 <div class="input-wrapper my-2">
                                     <label for="testcasename">Title</label>
                                     <input id="testcasename"

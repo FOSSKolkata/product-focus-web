@@ -23,17 +23,23 @@
         <h3 class="heading">{{ testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].title }}</h3>
         <div ngbDropdown>
             <div id="dropdownBasic1" ngbDropdownToggle class="pointer">
-                <i class="fa fa-check-circle p-1"></i>
+                <i class="fa p-1"
+                    [ngClass]="{
+                        'fa-check-circle text-success': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Success,
+                        'fa-times-circle text-danger': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Failed,
+                        'fa-minus-circle text-warning': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Pending
+                    }">
+                </i>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button ngbDropdownItem>
+                    <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Success, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
                         <i class="fa fa-check-circle text-success"></i>
                         Pass Test
                     </button>
-                    <button ngbDropdownItem>
+                    <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Failed, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
                         <i class="fa fa-times-circle text-danger"></i>
                         Fail Test
                     </button>
-                    <button ngbDropdownItem>
+                    <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Pending, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
                         <i class="fa fa-minus-circle text-warning"></i>
                         Block Test
                     </button>
@@ -51,8 +57,14 @@
                     <td>{{ step + 1 }}</td>
                     <td>{{ testStep.action }}</td>
                     <td>
-                        <i class="fa fa-check-circle text-success"></i>
-                        <i class="fa fa-times-circle"></i>
+                        <i class="fa fa-check-circle"
+                            [ngClass]="{'text-success': testStep.resultStatus === testStepResultEnum.Success}"
+                            (click)="markTestStepStatus(testStepResultEnum.Success, testStep)"
+                        ></i>
+                        <i class="fa fa-times-circle"
+                            [ngClass]="{'text-danger': testStep.resultStatus === testStepResultEnum.Failed}"
+                            (click)="markTestStepStatus(testStepResultEnum.Failed, testStep)"
+                        ></i>
                     </td>
                 </tr>
             </tbody>
