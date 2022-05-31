@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from 'src/app/b2c-config';
-import { ITestRun, IMarkTestCasesVersion } from '../models.ts';
+import { ITestRun, IMarkTestCasesVersion, IMarkTestCaseVersionStatus, IMarkTestStepVersionStatus } from '../models.ts';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,18 @@ export class TestRunService {
       catchError(this.handleError)
     );
   }
+
+  markTestCaseStatusVersion(testCase: IMarkTestCaseVersionStatus): Observable<void> {
+    return this.http.post<void>(apiConfig.uri + `/TestRun/MarkTestCaseVersionStatus`, testCase).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+  markTestStepStatusVersion(testCaseId: number, testCase: IMarkTestStepVersionStatus): Observable<void> {
+    return this.http.post<void>(apiConfig.uri + `/TestRun/MarkTestStepVersionStatus/${testCaseId}`, testCase).pipe(
+      catchError(this.handleError)
+    );
+  } 
 
   private handleError(error: HttpErrorResponse) {
     return throwError(error);

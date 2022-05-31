@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { ITestRun, ITestRunCase, ITestRunStep, TestCaseResultEnum, TestStepResultEnum } from '../../models.ts';
+import { ToastrService } from 'ngx-toastr';
+import { IMarkTestCaseVersionStatus, IMarkTestStepVersionStatus, ITestRun, ITestRunCase, ITestRunStep, TestCaseResultEnum, TestStepResultEnum } from '../../models.ts';
+import { TestRunService } from '../../_services/test-run.service';
 
 @Component({
   selector: 'app-test-execution',
@@ -20,7 +22,8 @@ export class TestExecutionComponent {
   }
   testSuiteExecutionPointer = 0;
   testCaseExecutionPointer = 0;
-  constructor() { }
+  constructor(private testRunService: TestRunService,
+    private tostr: ToastrService) { }
 
   moveToPreviousTestCase(): boolean {
     this.testCaseExecutionPointer--;
@@ -91,10 +94,24 @@ export class TestExecutionComponent {
 
   markTestCaseStatus(status: TestCaseResultEnum, testCase: ITestRunCase): void {
     testCase.resultStatus = status;
+    let updatedTestCase: IMarkTestCaseVersionStatus = {id: testCase.id, resultStatus: testCase.resultStatus};
+    this.testRunService.markTestCaseStatusVersion(updatedTestCase).subscribe(x => {
+
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
+    });
   }
 
   markTestStepStatus(status: TestStepResultEnum, testStep: ITestRunStep): void {
     testStep.resultStatus = status;
+    let updatedTestStep: IMarkTestStepVersionStatus = {id: testStep.id, resultStatus: testStep. resultStatus};
+    let currentExecutionTestCaseId = this.testRun.testSuites[this.testSuiteExecutionPointer].testCases[this.testCaseExecutionPointer].id;
+    
+    this.testRunService.markTestStepStatusVersion(currentExecutionTestCaseId,updatedTestStep).subscribe(x => {
+
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
+    });
   }
 
   isAtleastOneTestCaseSelected(): boolean {

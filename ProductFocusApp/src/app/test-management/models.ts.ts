@@ -210,4 +210,14 @@ export interface IMarkTestCasesVersion {
     id: number,
     isSelected: boolean
 }
+
+export interface IMarkTestCaseVersionStatus {
+    id: number,
+    resultStatus: TestCaseResultEnum
+}
+
+export interface IMarkTestStepVersionStatus {
+    id: number,
+    resultStatus: TestStepResultEnum
+}
 // End of Test Suite version update model
