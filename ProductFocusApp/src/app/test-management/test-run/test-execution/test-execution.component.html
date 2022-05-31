@@ -1,73 +1,83 @@
-<div class="flex-column">
-    <div>Executing: Test suite 1 ({{testRun?.testSuites | suiteCount}})</div>
-    <div>Executed: 1 Suites</div>
-    <div>Left: 1 Suites</div>
-</div>
-<div>
-    <div class="flex-column-sb border border-secondary p-1">
-        <button class="pointer change-case" (click)="moveToPreviousTestCase()">
-            <i class="fa fa-caret-left"></i>
-            Prev
-        </button>
-        <div>
-            Test Case {{ testCaseExecutionPointer + 1 }} of {{testRun?.testSuites | caseCount}}
-        </div>
-        <button class="pointer change-case" (click)="moveToNextTestCase()">
-            Next
-            <i class="fa fa-caret-right"></i>
-        </button>
+<div *ngIf="testRun && isAtleastOneTestCaseSelected() else noTestCaseSelected"> 
+    <div class="flex-column">
+        <div>Executing: Test suite 1 ({{testRun?.testSuites | suiteCount}})</div>
+        <div>Executed: 1 Suites</div>
+        <div>Left: 1 Suites</div>
     </div>
-</div>
-<div *ngIf="testRun">
-    <div class="flex-column-sb">
-        <h3 class="heading">{{ testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].title }}</h3>
-        <div ngbDropdown>
-            <div id="dropdownBasic1" ngbDropdownToggle class="pointer">
-                <i class="fa p-1"
-                    [ngClass]="{
-                        'fa-check-circle text-success': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Success,
-                        'fa-times-circle text-danger': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Failed,
-                        'fa-minus-circle text-warning': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Pending
-                    }">
-                </i>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                    <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Success, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
-                        <i class="fa fa-check-circle text-success"></i>
-                        Passed Test
-                    </button>
-                    <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Failed, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
-                        <i class="fa fa-times-circle text-danger"></i>
-                        Failed Test
-                    </button>
-                    <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Pending, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
-                        <i class="fa fa-minus-circle text-warning"></i>
-                        Blocked Test
-                    </button>
+    <div>
+        <div class="flex-column-sb border border-secondary p-1">
+            <button class="pointer change-case" (click)="moveToPreviousTestCase()">
+                <i class="fa fa-caret-left"></i>
+                Prev
+            </button>
+            <div>
+                Test Case {{ testCaseExecutionPointer + 1 }} of {{testRun?.testSuites | caseCount}}
+            </div>
+            <button class="pointer change-case" (click)="moveToNextTestCase()">
+                Next
+                <i class="fa fa-caret-right"></i>
+            </button>
+        </div>
+    </div>
+    <div *ngIf="testRun">
+        <div class="flex-column-sb">
+            <h3 class="heading">{{ testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].title }}</h3>
+            <div ngbDropdown>
+                <div id="dropdownBasic1" ngbDropdownToggle class="pointer">
+                    <i class="fa p-1"
+                        [ngClass]="{
+                            'fa-check-circle text-success': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Success,
+                            'fa-times-circle text-danger': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Failed,
+                            'fa-minus-circle text-warning': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Pending
+                        }">
+                    </i>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Success, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
+                            <i class="fa fa-check-circle text-success"></i>
+                            Passed Test
+                        </button>
+                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Failed, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
+                            <i class="fa fa-times-circle text-danger"></i>
+                            Failed Test
+                        </button>
+                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Pending, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
+                            <i class="fa fa-minus-circle text-warning"></i>
+                            Blocked Test
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div *ngIf="testRun">
-    <h5 class="heading">Action</h5>
-    <div class="table-responsive-sm">
-        <table class="table">
-            <tbody>
-                <tr *ngFor="let testStep of testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].testSteps; let step = index;">
-                    <td>{{ step + 1 }}</td>
-                    <td>{{ testStep.action }}</td>
-                    <td>
-                        <i class="fa fa-check-circle pointer darker"
-                            [ngClass]="{'text-success': testStep.resultStatus === testStepResultEnum.Success}"
-                            (click)="markTestStepStatus(testStepResultEnum.Success, testStep)"
-                        ></i>
-                        <i class="fa fa-times-circle pointer darker"
-                            [ngClass]="{'text-danger': testStep.resultStatus === testStepResultEnum.Failed}"
-                            (click)="markTestStepStatus(testStepResultEnum.Failed, testStep)"
-                        ></i>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div *ngIf="testRun">
+        <h5 class="heading">Action</h5>
+        <div class="table-responsive-sm">
+            <table class="table">
+                <tbody>
+                    <tr *ngFor="let testStep of testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].testSteps; let step = index;">
+                        <td>{{ step + 1 }}</td>
+                        <td>{{ testStep.action }}</td>
+                        <td>
+                            <i class="fa fa-check-circle pointer darker"
+                                [ngClass]="{'text-success': testStep.resultStatus === testStepResultEnum.Success}"
+                                (click)="markTestStepStatus(testStepResultEnum.Success, testStep)"
+                            ></i>
+                            <i class="fa fa-times-circle pointer darker"
+                                [ngClass]="{'text-danger': testStep.resultStatus === testStepResultEnum.Failed}"
+                                (click)="markTestStepStatus(testStepResultEnum.Failed, testStep)"
+                            ></i>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
+
+<ng-template #noTestCaseSelected>
+    <div class="message-center">
+        <img src="../../../../assets/static_images/search.png" class="w-25 h-25" alt="search">
+        <h2>No test case selected.</h2>
+        <p class="message">Please select a test case / test suite to execute.</p>
+    </div>
+</ng-template>

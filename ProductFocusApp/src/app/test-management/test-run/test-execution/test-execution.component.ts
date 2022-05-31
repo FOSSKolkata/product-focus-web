@@ -7,10 +7,20 @@ import { ITestRun, ITestRunCase, ITestRunStep, TestCaseResultEnum, TestStepResul
   styleUrls: ['./test-execution.component.scss']
 })
 export class TestExecutionComponent {
+  private _firstTestCaseSelected = false;
   @Input('testRun') testRun!: ITestRun;
+  @Input('firstTestCaseSelected') set firstTestCaseSelected(firstTestCaseSelected: boolean) {
+    this._firstTestCaseSelected = firstTestCaseSelected;
+    if(!firstTestCaseSelected) {
+      this.testSuiteExecutionPointer = 0;
+      this.testCaseExecutionPointer = 0;
+    } else {
+      this.moveToNextTestCase();
+    }
+  }
   testSuiteExecutionPointer = 0;
   testCaseExecutionPointer = 0;
-  constructor() {}
+  constructor() { }
 
   moveToPreviousTestCase(): boolean {
     this.testCaseExecutionPointer--;
@@ -18,7 +28,7 @@ export class TestExecutionComponent {
     if(this.arePointersCrossedTheLimitFromLeftSide()) {
       this.testCaseExecutionPointer = 0;
       this.testSuiteExecutionPointer = 0;
-      console.log('Reached starting position');
+      this.moveToNextTestCase();
       return false;
     }
 
@@ -36,7 +46,7 @@ export class TestExecutionComponent {
     if(this.arePointersCrossedTheLimit()) {
       this.testCaseExecutionPointer = 0;
       this.testSuiteExecutionPointer = 0;
-      console.log('Execution completed');
+      this.moveToNextTestCase();
       return false;
     }
 
@@ -85,6 +95,16 @@ export class TestExecutionComponent {
 
   markTestStepStatus(status: TestStepResultEnum, testStep: ITestRunStep): void {
     testStep.resultStatus = status;
+  }
+
+  isAtleastOneTestCaseSelected(): boolean {
+    let atLeastOneSelected = false;
+    this.testRun.testSuites.forEach(tsuite => {
+      tsuite.testCases.forEach(tcase => {
+        atLeastOneSelected ||= tcase.isIncluded;
+      });
+    });
+    return atLeastOneSelected;
   }
 
   get testCaseResultEnum(): typeof TestCaseResultEnum {

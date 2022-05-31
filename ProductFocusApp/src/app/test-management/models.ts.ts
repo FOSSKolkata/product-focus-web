@@ -204,3 +204,10 @@ export enum TestCaseResultEnum {
 }
 
 // End of Test Plan run related model
+
+// Test Suite version update model
+export interface IMarkTestCasesVersion {
+    id: number,
+    isSelected: boolean
+}
+// End of Test Suite version update model

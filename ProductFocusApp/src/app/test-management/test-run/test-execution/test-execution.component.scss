@@ -1,3 +1,4 @@
+$highlight-message: var(--heading);
 .input-wrapper {
   display: flex;
   flex-direction: column;
@@ -25,4 +26,16 @@
 
 .darker {
   color: var(--dark-gray);
+}
+
+.message-center {
+  height: calc(100vh - var(--nav-height) - var(--breadcrumb-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.message {
+  color: $highlight-message;
 }
