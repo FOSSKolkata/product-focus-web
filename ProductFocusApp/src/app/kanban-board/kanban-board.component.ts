@@ -160,6 +160,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   async doesSprintAdded(added: boolean): Promise<void> {
     if(added) {
       this.doesSprintExistSetIt();
+      this.modalService.dismissAll();
     }
   }
 
