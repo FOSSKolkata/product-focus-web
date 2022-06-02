@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { IMarkTestCaseVersionStatus, IMarkTestStepVersionStatus, ITestRun, ITestRunCase, ITestRunStep, TestCaseResultEnum, TestStepResultEnum } from '../../models.ts';
+import { IMarkTestCaseVersionStatus, IMarkTestStepVersionStatus, ITestRun, ITestRunCase, ITestRunStep, TestCaseResultEnum, TestResultCounter, TestStepResultEnum } from '../../models.ts';
 import { TestRunService } from '../../_services/test-run.service';
 
 @Component({
@@ -20,6 +20,8 @@ export class TestExecutionComponent {
       this.moveToNextTestCase();
     }
   }
+  currentExecutingNumber = 0;
+  @Output('testResultCounter') testResultCountEmitter = new EventEmitter<TestResultCounter>();
   testSuiteExecutionPointer = 0;
   testCaseExecutionPointer = 0;
   constructor(private testRunService: TestRunService,
@@ -31,6 +33,7 @@ export class TestExecutionComponent {
     if(this.arePointersCrossedTheLimitFromLeftSide()) {
       this.testCaseExecutionPointer = 0;
       this.testSuiteExecutionPointer = 0;
+      this.currentExecutingNumber = 0;
       this.moveToNextTestCase();
       return false;
     }
@@ -38,6 +41,9 @@ export class TestExecutionComponent {
     if(this.isTestCasePointerLimitCrossedInLeftSide()) {
       this.testSuiteExecutionPointer --;
       this.testCaseExecutionPointer = this.testRun.testSuites[this.testSuiteExecutionPointer].testCases.length - 1;
+    }
+    if(this.testRun.testSuites[this.testSuiteExecutionPointer].testCases[this.testCaseExecutionPointer].isIncluded) {
+      this.currentExecutingNumber--;
     }
 
     return this.isTestCaseIncludedInCurrentPosition() || this.moveToPreviousTestCase();
@@ -49,6 +55,7 @@ export class TestExecutionComponent {
     if(this.arePointersCrossedTheLimit()) {
       this.testCaseExecutionPointer = 0;
       this.testSuiteExecutionPointer = 0;
+      this.currentExecutingNumber = 0;
       this.moveToNextTestCase();
       return false;
     }
@@ -56,6 +63,10 @@ export class TestExecutionComponent {
     if(this.isTestCasePointerLimitCrossed()) {
       this.testCaseExecutionPointer = 0;
       this.testSuiteExecutionPointer ++;
+    }
+
+    if(this.testRun.testSuites[this.testSuiteExecutionPointer].testCases[this.testCaseExecutionPointer].isIncluded) {
+      this.currentExecutingNumber++;
     }
 
     return this.isTestCaseIncludedInCurrentPosition() || this.moveToNextTestCase();
@@ -94,6 +105,7 @@ export class TestExecutionComponent {
 
   markTestCaseStatus(status: TestCaseResultEnum, testCase: ITestRunCase): void {
     testCase.resultStatus = status;
+    this.emitCounter();
     let updatedTestCase: IMarkTestCaseVersionStatus = {id: testCase.id, resultStatus: testCase.resultStatus};
     this.testRunService.markTestCaseStatusVersion(updatedTestCase).subscribe(x => {
 
@@ -122,6 +134,21 @@ export class TestExecutionComponent {
       });
     });
     return atLeastOneSelected;
+  }
+
+  emitCounter() {
+    let success = 0, failure = 0, blocked = 0, total = 0;
+    this.testRun.testSuites.forEach(testsuite => {
+      testsuite.testCases.forEach(testcase => {
+        if(testcase.isIncluded) {
+          success += testcase.resultStatus === TestCaseResultEnum.Success ? 1 : 0;
+          failure += testcase.resultStatus === TestCaseResultEnum.Failed ? 1 : 0;
+          blocked += testcase.resultStatus === TestCaseResultEnum.Blocked ? 1 : 0;
+          total ++;
+        }
+      });
+    });
+    this.testResultCountEmitter.emit({success: success, failure: failure, blocked: blocked, total: total});
   }
 
   get testCaseResultEnum(): typeof TestCaseResultEnum {

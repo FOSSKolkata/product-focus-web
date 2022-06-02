@@ -1,9 +1,4 @@
 <div *ngIf="testRun && isAtleastOneTestCaseSelected() else noTestCaseSelected"> 
-    <div class="flex-column">
-        <div>Executing: Test suite 1 ({{testRun?.testSuites | suiteCount}})</div>
-        <div>Executed: 1 Suites</div>
-        <div>Left: 1 Suites</div>
-    </div>
     <div>
         <div class="flex-column-sb border border-secondary p-1">
             <button class="pointer change-case" (click)="moveToPreviousTestCase()">
@@ -11,7 +6,7 @@
                 Prev
             </button>
             <div>
-                Test Case {{ testCaseExecutionPointer + 1 }} of {{testRun?.testSuites | caseCount}}
+                Test Case {{ currentExecutingNumber }} of {{testRun?.testSuites | caseCount}}
             </div>
             <button class="pointer change-case" (click)="moveToNextTestCase()">
                 Next
@@ -28,7 +23,7 @@
                         [ngClass]="{
                             'fa-check-circle text-success': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Success,
                             'fa-times-circle text-danger': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Failed,
-                            'fa-minus-circle text-warning': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Pending
+                            'fa-minus-circle text-warning': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Blocked
                         }">
                     </i>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -40,7 +35,7 @@
                             <i class="fa fa-times-circle text-danger"></i>
                             Failed Test
                         </button>
-                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Pending, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
+                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Blocked, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
                             <i class="fa fa-minus-circle text-warning"></i>
                             Blocked Test
                         </button>

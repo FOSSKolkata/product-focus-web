@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/internal/Observable';
-import { IMarkTestCasesVersion, ITestRun, ITestRunCase, ITestRunSuite } from '../models.ts';
+import { IMarkTestCasesVersion, ITestRun, ITestRunCase, ITestRunSuite, TestCaseResultEnum, TestResultCounter } from '../models.ts';
 import { TestRunService } from '../_services/test-run.service';
 @Component({
   selector: 'app-test-run',
@@ -10,7 +10,8 @@ import { TestRunService } from '../_services/test-run.service';
   styleUrls: ['./test-run.component.scss']
 })
 export class TestRunComponent implements OnInit {
-
+  hideSummary: boolean = false;
+  testResultCounter: TestResultCounter = {success: 1, failure: 1, blocked: 1, total: 1};
   testPlanVersionId: number;
   $testRun!: Observable<ITestRun>;
   testRun!: ITestRun;
@@ -25,11 +26,31 @@ export class TestRunComponent implements OnInit {
     this.$testRun = this.testRunService.getTestRunById(this.testPlanVersionId);
     this.$testRun.subscribe(x => {
       this.testRun = x;
+      this.updateCounter();
       this.markSuiteIfAllTestCaseSelected();
       if(this.isAtleastOneTestCaseSelected()) {
         this.firstTestCaseSelected = true;
       }
     });
+  }
+
+  updateCounter() {
+    let counter: TestResultCounter = new TestResultCounter();
+    this.testRun.testSuites.forEach(testsuite => {
+      testsuite.testCases.forEach(testcase => {
+        if(testcase.isIncluded) {
+          counter.success += testcase.resultStatus === TestCaseResultEnum.Success ? 1 : 0;
+          counter.failure += testcase.resultStatus === TestCaseResultEnum.Failed ? 1 : 0;
+          counter.blocked += testcase.resultStatus === TestCaseResultEnum.Blocked ? 1 : 0;
+          counter.total ++;
+        }
+      });
+    });
+    this.changeCounter(counter);
+  }
+
+  changeCounter(testResultCounter: TestResultCounter) {
+    this.testResultCounter = testResultCounter;
   }
 
   markSuiteIfAllTestCaseSelected(): void {
@@ -58,6 +79,7 @@ export class TestRunComponent implements OnInit {
     }
 
     this.updateTestCases(updatedTestCases);
+    this.updateCounter();
   }
 
   changeCaseChoice(suite: ITestRunSuite, testCase: ITestRunCase, isSelected: boolean): void {
@@ -77,6 +99,7 @@ export class TestRunComponent implements OnInit {
     }
 
     this.updateTestCases(updatedTestCases);
+    this.updateCounter();
   }
 
   isAtleastOneTestCaseSelected(): boolean {

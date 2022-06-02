@@ -200,7 +200,7 @@ export enum TestStepResultEnum {
 export enum TestCaseResultEnum {
     Success = 1,
     Failed = 2,
-    Pending = 3
+    Blocked = 3
 }
 
 // End of Test Plan run related model
@@ -221,3 +221,16 @@ export interface IMarkTestStepVersionStatus {
     resultStatus: TestStepResultEnum
 }
 // End of Test Suite version update model
+
+export class TestResultCounter {
+    success: number;
+    failure: number;
+    blocked: number;
+    total: number;
+    constructor(success?: number, failure?: number, blocked?: number, total?: number) {
+        this.success = success??0;
+        this.failure = failure??0;
+        this.blocked = blocked??0;
+        this.total = total??0;
+    }
+}

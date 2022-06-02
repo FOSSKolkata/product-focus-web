@@ -30,6 +30,23 @@
         </div>
     </div>
     <div class="col">
-        <app-test-execution [testRun]="testRun" [firstTestCaseSelected]="firstTestCaseSelected"></app-test-execution>
+        <div style="display: flex; flex-direction: row; justify-content: space-between; height: 2rem;">
+            <div style="display: flex; flex-direction: row; gap: 1rem;">
+                <div><b>Executing:</b> Test suite 1 ({{testRun?.testSuites | suiteCount}})</div>
+                <div>Executed: 1 Suites</div>
+                <div>Left: 1 Suites</div>
+            </div>
+            <button *ngIf="!hideSummary" class="run-summary" (click)="hideSummary = true;">Run Summary</button>
+            <i class="fa fa-times" *ngIf="hideSummary" (click)="hideSummary = false;"></i>
+        </div>
+        <div *ngIf="hideSummary">
+            <div style="display: flex; justify-content: center;">
+                <app-chart [counter]="testResultCounter"></app-chart>
+            </div>
+        </div>
+        <app-test-execution
+            [testRun]="testRun"
+            [firstTestCaseSelected]="firstTestCaseSelected"
+            (testResultCounter)="changeCounter($event)"></app-test-execution>
     </div>
 </div>
