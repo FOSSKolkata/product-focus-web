@@ -8,7 +8,6 @@ import { TestResultCounter } from '../models.ts';
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit {
-  hideSummary: boolean = false;
   title = 'dashboard';
   private _counter: TestResultCounter = {success: 1, failure: 1, blocked: 1, total: 1};
   @Input('counter') set counter(count: TestResultCounter) {
