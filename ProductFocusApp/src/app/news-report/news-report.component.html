@@ -12,7 +12,7 @@
         <div class="imaginary-line body" *ngFor="let event of eventList">
           <app-user-avatar [name]="event.createdBy"></app-user-avatar>
           <div class="title" *ngIf="event.eventTypeName == 'WorkItemBlockedDomainEvent'">"{{event.domainEventJson.Title}}" is marked as blocked.</div>
-          <div class="title" *ngIf="event.eventTypeName == 'WorkInProgressDomainEvent'">Work progress of "{{event.domainEventJson.Title}}"" is updated from {{event.domainEventJson.OldWorkProgress}}% to {{event.domainEventJson.NewWorkProgress}}%.</div>
+          <div class="title" *ngIf="event.eventTypeName == 'WorkInProgressDomainEvent'">Work progress of "{{event.domainEventJson.Title}}"" is updated from {{event.domainEventJson.OldWorkPercentage}}% to {{event.domainEventJson.NewWorkPercentage}}%.</div>
           <div class="title" *ngIf="event.eventTypeName == 'WorkItemEndDateChangedDomainEvent'">
             <div *ngIf="!!event.domainEventJson.PreviousEndDate">
               The end date of "{{event.domainEventJson.Title}}'s" has been changed from {{event.domainEventJson.PreviousEndDate | date:'shortDate'}} to {{event.domainEventJson.CurrentEndDate | date:'shortDate'}}
