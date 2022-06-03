@@ -10,7 +10,6 @@ import { TestRunService } from '../_services/test-run.service';
   styleUrls: ['./test-run.component.scss']
 })
 export class TestRunComponent implements OnInit {
-  hideSummary: boolean = false;
   testResultCounter: TestResultCounter = {success: 1, failure: 1, blocked: 1, total: 1};
   testPlanVersionId: number;
   $testRun!: Observable<ITestRun>;

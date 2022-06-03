@@ -30,16 +30,7 @@
         </div>
     </div>
     <div class="col">
-        <div style="display: flex; flex-direction: row; justify-content: space-between; height: 2rem;">
-            <div style="display: flex; flex-direction: row; gap: 1rem;">
-                <div><b>Executing:</b></div>
-                <div><b>Executed:</b> {{testResultCounter.success + testResultCounter.failure + testResultCounter.blocked}}</div>
-                <div><b>Left:</b> {{testResultCounter.total - (testResultCounter.success + testResultCounter.failure + testResultCounter.blocked)}}</div>
-            </div>
-            <button *ngIf="!hideSummary" class="run-summary" (click)="hideSummary = true;">Run Summary</button>
-            <i class="fa fa-times" *ngIf="hideSummary" (click)="hideSummary = false;"></i>
-        </div>
-        <div *ngIf="hideSummary">
+        <div>
             <div style="display: flex; justify-content: center;">
                 <app-chart [counter]="testResultCounter"></app-chart>
             </div>

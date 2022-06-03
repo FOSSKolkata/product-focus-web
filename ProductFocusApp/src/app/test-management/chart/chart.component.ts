@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { TestResultCounter } from '../models.ts';
 
@@ -8,18 +8,20 @@ import { TestResultCounter } from '../models.ts';
   styleUrls: ['./chart.component.scss']
 })
 export class ChartComponent implements OnInit {
+  hideSummary: boolean = false;
   title = 'dashboard';
   private _counter: TestResultCounter = {success: 1, failure: 1, blocked: 1, total: 1};
   @Input('counter') set counter(count: TestResultCounter) {
     this._counter = count;
     let data = [count.success, count.failure, count.blocked,
       count.total - count.success - count.blocked - count.failure];
-    // this.chart.datasets.data = [count.success, count.failure, count.blocked, count.total];
     if(this.chart.length != 0) {
-      console.log(data);
       this.chart.config.data.datasets[0].data = data;
       this.chart.update();
     }
+  }
+  get counter(): TestResultCounter {
+    return this._counter;
   }
   chart: any = [];
   constructor() {

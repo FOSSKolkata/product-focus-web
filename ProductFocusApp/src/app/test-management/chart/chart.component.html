@@ -1,3 +1,11 @@
-<div class="canvas-wrapper">
+<div>
+    <div *ngIf="counter" style="display: flex; flex-direction: row; gap: 1rem;">
+        <div><b>Completed:</b> {{counter.success + counter.failure + counter.blocked}}</div>
+        <div><b>Remaining:</b> {{counter.total - (counter.success + counter.failure + counter.blocked)}}</div>
+        <button *ngIf="!hideSummary" class="run-summary" (click)="hideSummary = true;">Run Summary</button>
+        <i class="fa fa-times" *ngIf="hideSummary" (click)="hideSummary = false;"></i>
+    </div>
+</div>
+<div [style.display]="hideSummary?'':'none'" class="canvas-wrapper">
     <canvas id="canvas"></canvas>
 </div>
