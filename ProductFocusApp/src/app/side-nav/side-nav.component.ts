@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './side-nav.component.html',
   styleUrls: ['./side-nav.component.scss'],
 })
-export class SideNavComponent implements OnInit {
+export class SideNavComponent implements OnInit, OnDestroy {
   constructor(private router: Router) {}
   isSideNavExpanded = false;
   productId: number | undefined;
@@ -31,4 +31,11 @@ export class SideNavComponent implements OnInit {
       document.documentElement.style.setProperty('--side-nav-width', expandedSideWidth);
     }
   }
+  
+  ngOnDestroy(): void {
+    if(this.isSideNavExpanded) {
+      this.invert();
+    }
+  }
+
 }
