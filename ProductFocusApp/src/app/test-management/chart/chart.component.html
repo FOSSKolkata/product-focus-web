@@ -1,3 +1,14 @@
-<div class="canvas-wrapper">
-    <canvas id="canvas"></canvas>
+<div *ngIf="counter" class="run-summary">
+    <div><b>Completed:</b> {{counter.success + counter.failure + counter.blocked}}</div>
+    <div><b>Remaining:</b> {{counter.total - (counter.success + counter.failure + counter.blocked)}}</div>
+</div>
+
+<div class="tab">
+    <input type="checkbox" id="chartcollapse">
+    <label class="tab-label" for="chartcollapse"></label>
+    <div class="tab-content">
+        <div class="canvas-wrapper">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
 </div>

@@ -1,4 +1,54 @@
+.run-summary{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    position: relative;
+}
+
 .canvas-wrapper {
     width: 300px;
     height: 300px;
+}
+
+.tab {
+  width: 100%;
+  overflow: hidden;
+  &-label {
+    cursor: pointer;
+    &::after {
+      content: "\276F";
+      width: 1.6em;
+      height: 1.6em;
+      position: absolute;
+      top: 0;
+      right: 0;
+      border: 1px solid #aaa;
+      border-radius: 50%;
+      text-align: center;
+      transition: all .35s;
+    }
+  }
+  &-content {
+    max-height: 0;
+    padding-left: 0.2em;
+    transition: all .35s;
+  }
+}
+
+input {
+    position: absolute;
+    opacity: 0;
+}
+
+// :checked
+input:checked {
+  + .tab-label {
+    &::after {
+      transform: rotate(90deg);
+    }
+  }
+  ~ .tab-content {
+    max-height: 100vh;
+  }
 }

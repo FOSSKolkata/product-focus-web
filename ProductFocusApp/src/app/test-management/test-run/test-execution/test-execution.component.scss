@@ -1,0 +1,35 @@
+$highlight-message: var(--heading);
+.input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-column-sb {
+  display: flex;
+  justify-content: space-between;
+}
+
+.change-case {
+  border: none;
+  background-color: transparent;
+}
+
+.change-case:hover {
+  background-color: var(--dark-gray);
+}
+
+.darker {
+  color: var(--dark-gray);
+}
+
+.message-center {
+  height: calc(100vh - var(--nav-height) - var(--breadcrumb-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.message {
+  color: $highlight-message;
+}
