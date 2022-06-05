@@ -54,7 +54,7 @@ export class NewsReportComponent implements OnInit {
         module.item_id = module.id;
         module.item_text = module.name;
         return module;
-      })
+      });
     })
 
     this.userService.getUserListByOrganization(this.selectedOrganization.id).subscribe((res: IMemberDetailsList)  => {
