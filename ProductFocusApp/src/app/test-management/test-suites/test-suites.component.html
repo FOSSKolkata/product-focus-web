@@ -3,41 +3,21 @@
         <div>
             <h2 class="heading">{{testPlanDetails?.testPlanTitle}}</h2>
         </div>
-        <div>
-            <div class="bg-light-gray p-1 border">
+        <div *ngIf="testPlanDetails?.testSuites?.length !== 0">
+            <button class="run-btn" (click)="createTestRun()">
                 Run
-                <i class="fa fa-play"></i>
-            </div>
+                <i class="fa fa-2x fa-play-circle"></i>
+            </button>
         </div>
     </div>
     <div class="row m-0">
-        <div class="col-sm-6 col-md-4 border-right">
+        <div *ngIf="testPlanDetails?.testSuites?.length !== 0" class="col-sm-6 col-md-4 border-right">
             <div class="m-1">
                 <div class="my-2 flex-col-sb">
                     <div class="suite-title">Test Suites</div>
                     <i class="fa fa-plus-circle pointer" (click)="addSuiteVisibilityToggle(true)"></i>
                 </div>
-                <div *ngIf="addSuiteVisible">
-                    <form #testSuiteForm="ngForm" (ngSubmit)="addTestSuite(testSuiteForm)">
-                        <div class="input-wrapper my-2">
-                            <label for="testsuitename">Title</label>
-                            <input id="testsuitename"
-                                class="custom-input p-1"
-                                type="text" name="name"
-                                placeholder="Enter suite title"
-                                [(ngModel)]="newTestSuiteInput.title"
-                                #name="ngModel"
-                                required>
-                        </div>
-                        <div *ngIf="name.invalid && (name.touched || name.dirty)">
-                            <div class="text-danger">Title is required</div>
-                        </div>
-                        <div class="flex-aic">
-                            <button [disabled]="testSuiteForm.invalid" class="btn btn-sm good-btn mr-2">Add</button>
-                            <i class="fa fa-times pointer" (click)="addSuiteVisibilityToggle(false)"></i>
-                        </div>
-                    </form>
-                </div>
+                <div *ngIf="addSuiteVisible then testSuite;"></div>
             </div>
             <div class="tab-container">
                 <div class="tabs">
@@ -55,23 +35,25 @@
                                 <i class="fa fa-plus"></i>
                                 Add a test case
                               </button>
-                              <button ngbDropdownItem>
+                              <button ngbDropdownItem (click)="reorderTestSuite(testSuiteMovementDirection.Up,testSuite)">
                                 <i class="fa fa-arrow-up"></i>
                                 Move Up
                               </button>
-                              <button ngbDropdownItem>
+                              <button ngbDropdownItem (click)="reorderTestSuite(testSuiteMovementDirection.Down,testSuite)">
                                 <i class="fa fa-arrow-down"></i>
                                 Move Down
                               </button>
-                              <button ngbDropdownItem>
+                              <button ngbDropdownItem
+                                (click)="deleteTestSuite(testSuite)">
                                 <i class="fa fa-trash"></i>
                                 Delete
                               </button>
                             </div>
-                          </div>
+                        </div>
                         <div class="tab-content">
                             <ul class="tab-list-items">
                                 <li class="tab-list-item pointer"
+                                    [ngClass]="{'active-item': testCaseInputForUpdate === testCase && testMode === testCaseMode.Update}"
                                     *ngFor="let testCase of testSuite.testCases"
                                     (click)="onTestCaseSelection(testSuite.testSuiteId,testCase.testCaseId)">
                                     <i class="far fa-file-alt"></i>
@@ -89,7 +71,10 @@
                     <div [ngSwitch]="testMode">
                         <form #newTestCase="ngForm" (ngSubmit)="addTestCase()">
                             <div *ngSwitchCase = "testCaseMode.Add">
-                                <h2 class="heading">{{selectedTestSuite?.testSuiteTitle}} > Create Test Case</h2>
+                                <h2 class="heading">{{selectedTestSuite?.testSuiteTitle}}
+                                    <i class="fa fa-angle-right"></i>
+                                    Create Test Case
+                                </h2>
                                 <div class="input-wrapper my-2">
                                     <label for="testcasename">Title</label>
                                     <input id="testcasename"
@@ -155,7 +140,9 @@
                         </form>
                     <div *ngSwitchCase = "testCaseMode.Update">
                         <form #updateTestCase="ngForm" (ngSubmit)="updateExistingTestCase()">
-                            <h2 class="heading">{{testSuiteTitleForDisplay}} > {{testCaseInputForUpdate.testCaseTitle}}</h2>
+                            <h2 class="heading">{{testSuiteTitleForDisplay}}
+                                <i class="fa fa-angle-right"></i>
+                                {{testCaseInputForUpdate.testCaseTitle}}</h2>
                             <div class="input-wrapper my-2">
                                 <label for="testcasename">Title</label>
                                 <input id="testcasename"
@@ -226,16 +213,39 @@
             </div>
             <div *ngIf="!testPlanDetails?.testSuites?.length">
                 <figure class="folder">
-                    <div class="folder-body">
+                    <div class="folder-body" *ngIf="!addSuiteVisible">
                         <img src="../../../assets/static_images/folders.png" alt="folders">
                         <figcaption>Test Suite</figcaption>
                         <p>Create a new suite to display here</p>
                         <div>
-                            <button class="btn good-btn btn-sm"(click)="addSuiteVisible=true;">Create Suite</button>
+                            <button class="btn good-btn btn-sm"(click)="addSuiteVisible=true;">Create a test Suite</button>
                         </div>
                     </div>
+                    <div *ngIf="addSuiteVisible then testSuite;"></div>
                 </figure>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #testSuite>
+    <form #testSuiteForm="ngForm" (ngSubmit)="addTestSuite(testSuiteForm)">
+    <div class="input-wrapper my-2">
+        <label for="testsuitename">Title</label>
+        <input id="testsuitename"
+            class="custom-input p-1"
+            type="text" name="name"
+            placeholder="Enter suite title"
+            [(ngModel)]="newTestSuiteInput.title"
+            #name="ngModel"
+            required>
+    </div>
+    <div *ngIf="name.invalid && (name.touched || name.dirty)">
+        <div class="text-danger">Title is required</div>
+    </div>
+    <div class="flex-aic">
+        <button [disabled]="testSuiteForm.invalid" class="btn btn-sm good-btn mr-2">Add</button>
+        <i class="fa fa-times pointer" (click)="addSuiteVisibilityToggle(false)"></i>
+    </div>
+    </form>
+</ng-template>

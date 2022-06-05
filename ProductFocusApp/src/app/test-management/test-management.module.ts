@@ -10,12 +10,15 @@ import { TestSuitesComponent } from './test-suites/test-suites.component';
 import { NgbDropdownModule, NgbModalModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { TestRunResultsComponent } from './test-run-results/test-run-results.component';
 import { ChartComponent } from './chart/chart.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FormsModule } from '@angular/forms';
 import { TestRunComponent } from './test-run/test-run.component';
 import { TestRunResultComponent } from './test-run-result/test-run-result.component';
 import { MatOptionModule } from '@angular/material/core';
 import { DhtCommonModule } from '../dht-common/dht-common.module';
+import { TestExecutionComponent } from './test-run/test-execution/test-execution.component';
+import { CaseCountPipe } from './_pipes/case-count.pipe';
+import { SuiteCountPipe } from './_pipes/suite-count.pipe';
 
 @NgModule({
   declarations: [TestPlansComponent,
@@ -25,7 +28,10 @@ import { DhtCommonModule } from '../dht-common/dht-common.module';
     TestRunResultsComponent,
     ChartComponent,
     TestRunComponent,
-    TestRunResultComponent
+    TestRunResultComponent,
+    TestExecutionComponent,
+    SuiteCountPipe,
+    CaseCountPipe
   ],
   imports: [
     CommonModule,

@@ -95,32 +95,12 @@
 }
 
 input:checked {
-    + .tab-label {
-      &::before {
-        transform: rotate(90deg);
-      }
+  + .tab-label {
+    &::before {
+      transform: rotate(90deg);
     }
-    ~ .tab-content {
-      max-height: 100vh;
-    }
-}
-
-#dropdownBasic1::after {
-  content: none;
-}
-
-.input-wrapper {
-  display: flex;
-  flex-direction: column;
-}
-
-.flex-column {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.flex-column-sb {
-  display: flex;
-  justify-content: space-between;
+  }
+  ~ .tab-content {
+    max-height: 100vh;
+  }
 }

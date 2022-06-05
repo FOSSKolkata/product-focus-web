@@ -2,13 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IProduct } from 'src/app/dht-common/models';
-import { TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput, UpdateTestStepInput } from '../models.ts';
+import { BreadcrumbService } from 'xng-breadcrumb';
+import { ITestSuiteOrder, TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput, UpdateTestStepInput } from '../models.ts';
 import { TestCaseService } from '../_services/test-case.service';
 import { TestPlanService } from '../_services/test-plan.service';
+import { TestRunService } from '../_services/test-run.service';
 import { TestSuiteService } from '../_services/test-suite.service';
 enum TestCaseMode {
   Add = 1,
   Update = 2
+}
+enum TestSuiteMovementDirection {
+  Up = 1,
+  Down = 2
 }
 @Component({
   selector: 'app-test-suites',
@@ -38,7 +44,9 @@ export class TestSuitesComponent implements OnInit {
     private router: Router,
     private testSuiteService: TestSuiteService,
     private tostr: ToastrService,
-    private testCaseService: TestCaseService) {
+    private testCaseService: TestCaseService,
+    private testRunService: TestRunService,
+    private breadcrumbService: BreadcrumbService) {
       this.testPlanId = Number(this.route.snapshot.paramMap.get('testPlanId'));
       this.newTestSuiteInput = new TestSuiteInput(this.testPlanId,'');
       this.newTestCaseInput = new TestCaseInput('','',null,null,[]);
@@ -61,6 +69,11 @@ export class TestSuitesComponent implements OnInit {
         console.log(this.testPlanDetails.testSuites)
         this.selectTestSuite(this.testPlanDetails?.testSuites[0]);
       }
+      this.breadcrumbService.set('@testPlanName', {
+        label: this.testPlanDetails.testPlanTitle,
+        routeInterceptor: (routeLink, breadcrumb) =>
+          this.testPlanId.toString()
+      });
     });
   }
 
@@ -80,6 +93,40 @@ export class TestSuitesComponent implements OnInit {
     });
   }
 
+  deleteTestSuite(suite: TestSuite) {
+    this.testSuiteService.deleteTestSuite(suite.testPlanId, suite.testSuiteId).subscribe(x => {
+      this.tostr.success('Test suite deleted', 'Success');
+      this.setTestPlanDetails();
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
+    });
+  }
+
+  reorderTestSuite(direction: TestSuiteMovementDirection, testSuite: TestSuite) {
+    for(let i = 0; i < this.testPlanDetails.testSuites.length; i++) {
+      let suite = this.testPlanDetails.testSuites[i];
+      if(suite == testSuite) {
+        if(direction == TestSuiteMovementDirection.Up) {
+          [this.testPlanDetails.testSuites[i-1], this.testPlanDetails.testSuites[i]] =
+          [this.testPlanDetails.testSuites[i], this.testPlanDetails.testSuites[i-1]];
+        } else {
+          [this.testPlanDetails.testSuites[i+1], this.testPlanDetails.testSuites[i]] =
+          [this.testPlanDetails.testSuites[i], this.testPlanDetails.testSuites[i+1]];
+        }
+        break;
+      }
+    }
+    let suiteIds: ITestSuiteOrder[] = [];
+    for(let testSuite of this.testPlanDetails.testSuites) {
+      suiteIds.push({id: testSuite.testSuiteId});
+    }
+    this.testSuiteService.updateTestSuiteOrdering(this.testPlanId, suiteIds).subscribe(x => {
+      
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
+    });
+  }
+
   addTestCase() {
     if(this.newTestStepAddMode) {
       this.newTestCaseInput.addTestStep(this.newTestStepAction, this.newTestStepExpectedResult);
@@ -92,6 +139,14 @@ export class TestSuitesComponent implements OnInit {
     }, err => {
       this.tostr.error(err.error, 'Failed');
     });
+  }
+
+  createTestRun() {
+    this.testRunService.createTestRun(this.testPlanId).subscribe(x => {
+      this.router.navigate(['../..','test-run', x], {relativeTo: this.route});
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
+    })
   }
 
   addSuiteVisibilityToggle(visibility: boolean) {
@@ -170,6 +225,10 @@ export class TestSuitesComponent implements OnInit {
 
   get testCaseMode() : typeof TestCaseMode {
     return TestCaseMode;
+  }
+
+  get testSuiteMovementDirection() : typeof TestSuiteMovementDirection {
+    return TestSuiteMovementDirection;
   }
 
 }
