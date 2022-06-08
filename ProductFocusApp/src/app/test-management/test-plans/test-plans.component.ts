@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IProduct } from 'src/app/dht-common/models';
-import { TestPlan } from '../models.ts';
+import { TestPlan } from '../models';
 import { TestPlanService } from '../_services/test-plan.service';
 
 @Component({

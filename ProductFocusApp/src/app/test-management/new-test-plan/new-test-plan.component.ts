@@ -8,7 +8,7 @@ import { FlatProductDocumentation } from 'src/app/product-documentation/model';
 import { ProductDocumentationService } from 'src/app/product-documentation/_services/product-documentation.service';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { SprintService } from 'src/app/_services/sprint.service';
-import { AddTestPlanInput, TestTypeEnum } from '../models.ts';
+import { AddTestPlanInput, TestTypeEnum } from '../models';
 import { TestPlanService } from '../_services/test-plan.service';
 
 @Component({

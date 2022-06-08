@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IProduct } from 'src/app/dht-common/models';
 import { BreadcrumbService } from 'xng-breadcrumb';
-import { ITestSuiteOrder, TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput, UpdateTestStepInput } from '../models.ts';
+import { ITestSuiteOrder, TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput, UpdateTestStepInput } from '../models';
 import { TestCaseService } from '../_services/test-case.service';
 import { TestPlanService } from '../_services/test-plan.service';
 import { TestRunService } from '../_services/test-run.service';

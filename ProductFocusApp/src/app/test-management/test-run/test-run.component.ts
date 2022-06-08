@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs/internal/Observable';
-import { IMarkTestCasesVersion, ITestRun, ITestRunCase, ITestRunSuite, TestCaseResultEnum, TestResultCounter } from '../models.ts';
+import { IMarkTestCasesVersion, ITestRun, ITestRunCase, ITestRunSuite, TestCaseResultEnum, TestResultCounter } from '../models';
 import { TestRunService } from '../_services/test-run.service';
 @Component({
   selector: 'app-test-run',
@@ -112,7 +112,8 @@ export class TestRunComponent implements OnInit {
   }
 
   updateTestCases(updatedTestCases: IMarkTestCasesVersion[]) {
-    this.testRunService.markTestCasesVersion(updatedTestCases).subscribe(x => {
+    console.log(updatedTestCases);
+    this.testRunService.markTestCasesVersion(this.testRun.id, updatedTestCases).subscribe(x => {
 
     }, err => {
       this.tostr.error(err.error, 'Failed');

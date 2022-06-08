@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { IMarkTestCaseVersionStatus, IMarkTestStepVersionStatus, ITestRun, ITestRunCase, ITestRunStep, TestCaseResultEnum, TestResultCounter, TestStepResultEnum } from '../../models.ts';
+import { IMarkTestCaseVersionStatus, IMarkTestStepVersionStatus, ITestRun, ITestRunCase, ITestRunStep, TestCaseResultEnum, TestResultCounter, TestStepResultEnum } from '../../models';
 import { TestRunService } from '../../_services/test-run.service';
 
 @Component({
@@ -33,8 +33,8 @@ export class TestExecutionComponent {
     if(this.arePointersCrossedTheLimitFromLeftSide()) {
       this.testCaseExecutionPointer = 0;
       this.testSuiteExecutionPointer = 0;
-      this.currentExecutingNumber = 0;
-      this.moveToNextTestCase();
+      this.currentExecutingNumber = 1;
+      // this.moveToNextTestCase();
       return false;
     }
 
@@ -55,8 +55,8 @@ export class TestExecutionComponent {
     if(this.arePointersCrossedTheLimit()) {
       this.testCaseExecutionPointer = 0;
       this.testSuiteExecutionPointer = 0;
-      this.currentExecutingNumber = 0;
-      this.moveToNextTestCase();
+      this.currentExecutingNumber = 1;
+      // this.moveToNextTestCase();
       return false;
     }
 
@@ -107,7 +107,7 @@ export class TestExecutionComponent {
     testCase.resultStatus = status;
     this.emitCounter();
     let updatedTestCase: IMarkTestCaseVersionStatus = {id: testCase.id, resultStatus: testCase.resultStatus};
-    this.testRunService.markTestCaseStatusVersion(updatedTestCase).subscribe(x => {
+    this.testRunService.markTestCaseStatusVersion(this.testRun.id, updatedTestCase).subscribe(x => {
 
     }, err => {
       this.tostr.error(err.error, 'Failed');
@@ -117,9 +117,7 @@ export class TestExecutionComponent {
   markTestStepStatus(status: TestStepResultEnum, testStep: ITestRunStep): void {
     testStep.resultStatus = status;
     let updatedTestStep: IMarkTestStepVersionStatus = {id: testStep.id, resultStatus: testStep. resultStatus};
-    let currentExecutionTestCaseId = this.testRun.testSuites[this.testSuiteExecutionPointer].testCases[this.testCaseExecutionPointer].id;
-    
-    this.testRunService.markTestStepStatusVersion(currentExecutionTestCaseId,updatedTestStep).subscribe(x => {
+    this.testRunService.markTestStepStatusVersion(this.testRun.id, updatedTestStep).subscribe(x => {
 
     }, err => {
       this.tostr.error(err.error, 'Failed');
