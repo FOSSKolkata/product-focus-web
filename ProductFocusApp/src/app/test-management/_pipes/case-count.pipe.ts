@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ITestRunSuite } from '../models.ts';
+import { ITestRunSuite } from '../models';
 
 @Pipe({
   name: 'caseCount',

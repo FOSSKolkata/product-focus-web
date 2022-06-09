@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { TestResultCounter } from '../models.ts';
+import { TestResultCounter } from '../models';
 
 @Component({
   selector: 'app-chart',

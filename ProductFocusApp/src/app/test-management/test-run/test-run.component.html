@@ -36,8 +36,9 @@
             </div>
         </div>
         <app-test-execution
-            [testRun]="testRun"
-            [firstTestCaseSelected]="firstTestCaseSelected"
+            [testCases]="includedTestCases"
+            (testCaseChanged)="testCaseChanged($event)"
+            (testStepChanged)="testStepChanged($event)"
             (testResultCounter)="changeCounter($event)"></app-test-execution>
     </div>
 </div>

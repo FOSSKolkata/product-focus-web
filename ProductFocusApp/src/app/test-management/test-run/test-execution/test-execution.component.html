@@ -1,4 +1,4 @@
-<div *ngIf="testRun && isAtleastOneTestCaseSelected() else noTestCaseSelected"> 
+<div *ngIf="testCases.length != 0 else noTestCaseSelected"> 
     <div>
         <div class="flex-column-sb border border-secondary p-1">
             <button class="pointer change-case" (click)="moveToPreviousTestCase()">
@@ -6,7 +6,7 @@
                 Prev
             </button>
             <div>
-                Test Case {{ currentExecutingNumber }} of {{testRun?.testSuites | caseCount}}
+                Test Case {{ currentExecutingNumber + 1 }} of {{ testCases.length }}
             </div>
             <button class="pointer change-case" (click)="moveToNextTestCase()">
                 Next
@@ -14,28 +14,28 @@
             </button>
         </div>
     </div>
-    <div *ngIf="testRun">
+    <div *ngIf="testCases.length != 0">
         <div class="flex-column-sb">
-            <h3 class="heading">{{ testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].title }}</h3>
+            <h3 class="heading">{{ testCases[currentExecutingNumber].title }}</h3>
             <div ngbDropdown>
                 <div id="dropdownBasic1" ngbDropdownToggle class="pointer">
                     <i class="fa p-1"
                         [ngClass]="{
-                            'fa-check-circle text-success': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Success,
-                            'fa-times-circle text-danger': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Failed,
-                            'fa-minus-circle text-warning': testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].resultStatus === testCaseResultEnum.Blocked
+                            'fa-check-circle text-success': testCases[currentExecutingNumber].resultStatus === testCaseResultEnum.Success,
+                            'fa-times-circle text-danger': testCases[currentExecutingNumber].resultStatus === testCaseResultEnum.Failed,
+                            'fa-minus-circle text-warning': testCases[currentExecutingNumber].resultStatus === testCaseResultEnum.Blocked
                         }">
                     </i>
                     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Success, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
+                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Success, testCases[currentExecutingNumber])">
                             <i class="fa fa-check-circle text-success"></i>
                             Passed Test
                         </button>
-                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Failed, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
+                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Failed, testCases[currentExecutingNumber])">
                             <i class="fa fa-times-circle text-danger"></i>
                             Failed Test
                         </button>
-                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Blocked, testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer])">
+                        <button ngbDropdownItem (click)="markTestCaseStatus(testCaseResultEnum.Blocked, testCases[currentExecutingNumber])">
                             <i class="fa fa-minus-circle text-warning"></i>
                             Blocked Test
                         </button>
@@ -44,12 +44,12 @@
             </div>
         </div>
     </div>
-    <div *ngIf="testRun">
+    <div *ngIf="testCases.length != 0">
         <h5 class="heading">Action</h5>
         <div class="table-responsive-sm">
             <table class="table">
                 <tbody>
-                    <tr *ngFor="let testStep of testRun.testSuites[testSuiteExecutionPointer].testCases[testCaseExecutionPointer].testSteps; let step = index;">
+                    <tr *ngFor="let testStep of testCases[currentExecutingNumber].testSteps; let step = index;">
                         <td>{{ step + 1 }}</td>
                         <td>{{ testStep.action }}</td>
                         <td>
