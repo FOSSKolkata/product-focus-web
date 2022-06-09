@@ -93,3 +93,16 @@ a:link {
   overflow: auto;
   background-color: var(--light-gray);
 }
+
+@media screen and (max-width: 576px) {
+  .vertical-nav {
+    width: auto;
+    height: auto;
+  }
+  .flex-column {
+    flex-direction: row !important;
+  }
+  .organization-container {
+    width: 100vw;
+  }
+}

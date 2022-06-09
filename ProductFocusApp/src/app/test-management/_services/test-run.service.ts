@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from 'src/app/b2c-config';
-import { ITestRun, IMarkTestCasesVersion, IMarkTestCaseVersionStatus, IMarkTestStepVersionStatus } from '../models.ts';
+import { ITestRun, IMarkTestCasesVersion, IMarkTestCaseVersionStatus, IMarkTestStepVersionStatus } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -24,20 +24,20 @@ export class TestRunService {
     );
   }
 
-  markTestCasesVersion(testCases: IMarkTestCasesVersion[]): Observable<void> {
-    return this.http.post<void>(apiConfig.uri + `/TestRun/MarkTestCasesVersion`, testCases).pipe(
+  markTestCasesVersion(testRunId: number, testCases: IMarkTestCasesVersion[]): Observable<void> {
+    return this.http.post<void>(apiConfig.uri + `/TestRun/MarkTestCasesVersion/${testRunId}`, testCases).pipe(
       catchError(this.handleError)
     );
   }
 
-  markTestCaseStatusVersion(testCase: IMarkTestCaseVersionStatus): Observable<void> {
-    return this.http.post<void>(apiConfig.uri + `/TestRun/MarkTestCaseVersionStatus`, testCase).pipe(
+  markTestCaseStatusVersion(testRunId: number, testCase: IMarkTestCaseVersionStatus): Observable<void> {
+    return this.http.post<void>(apiConfig.uri + `/TestRun/MarkTestCaseVersionStatus/${testRunId}`, testCase).pipe(
       catchError(this.handleError)
     );
   }
   
-  markTestStepStatusVersion(testCaseId: number, testCase: IMarkTestStepVersionStatus): Observable<void> {
-    return this.http.post<void>(apiConfig.uri + `/TestRun/MarkTestStepVersionStatus/${testCaseId}`, testCase).pipe(
+  markTestStepStatusVersion(testRunId: number, testCase: IMarkTestStepVersionStatus): Observable<void> {
+    return this.http.post<void>(apiConfig.uri + `/TestRun/MarkTestStepVersionStatus/${testRunId}`, testCase).pipe(
       catchError(this.handleError)
     );
   } 

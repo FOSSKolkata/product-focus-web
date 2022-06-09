@@ -1,154 +1,55 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { IMarkTestCaseVersionStatus, IMarkTestStepVersionStatus, ITestRun, ITestRunCase, ITestRunStep, TestCaseResultEnum, TestResultCounter, TestStepResultEnum } from '../../models.ts';
-import { TestRunService } from '../../_services/test-run.service';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ITestRunCase, ITestRunStep, MarkTestCaseStatusEvent, MarkTestStepStatusEvent, TestCaseResultEnum, TestResultCounter, TestStepResultEnum } from '../../models';
 
 @Component({
   selector: 'app-test-execution',
   templateUrl: './test-execution.component.html',
   styleUrls: ['./test-execution.component.scss']
 })
-export class TestExecutionComponent {
-  private _firstTestCaseSelected = false;
-  @Input('testRun') testRun!: ITestRun;
-  @Input('firstTestCaseSelected') set firstTestCaseSelected(firstTestCaseSelected: boolean) {
-    this._firstTestCaseSelected = firstTestCaseSelected;
-    if(!firstTestCaseSelected) {
-      this.testSuiteExecutionPointer = 0;
-      this.testCaseExecutionPointer = 0;
-    } else {
-      this.moveToNextTestCase();
-    }
-  }
-  currentExecutingNumber = 0;
+export class TestExecutionComponent implements OnChanges {
+  @Input('testCases') testCases: ITestRunCase[] = [];
   @Output('testResultCounter') testResultCountEmitter = new EventEmitter<TestResultCounter>();
-  testSuiteExecutionPointer = 0;
-  testCaseExecutionPointer = 0;
-  constructor(private testRunService: TestRunService,
-    private tostr: ToastrService) { }
+  @Output('testCaseChanged') testCaseStatusChanged = new EventEmitter<MarkTestCaseStatusEvent>();
+  @Output('testStepChanged') testStepStatusChanged = new EventEmitter<MarkTestStepStatusEvent>();
 
-  moveToPreviousTestCase(): boolean {
-    this.testCaseExecutionPointer--;
+  currentExecutingNumber = 0;
 
-    if(this.arePointersCrossedTheLimitFromLeftSide()) {
-      this.testCaseExecutionPointer = 0;
-      this.testSuiteExecutionPointer = 0;
-      this.currentExecutingNumber = 0;
-      this.moveToNextTestCase();
-      return false;
-    }
+  constructor() { }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    this.currentExecutingNumber = 0;
+  }
 
-    if(this.isTestCasePointerLimitCrossedInLeftSide()) {
-      this.testSuiteExecutionPointer --;
-      this.testCaseExecutionPointer = this.testRun.testSuites[this.testSuiteExecutionPointer].testCases.length - 1;
-    }
-    if(this.testRun.testSuites[this.testSuiteExecutionPointer].testCases[this.testCaseExecutionPointer].isIncluded) {
-      this.currentExecutingNumber--;
-    }
-
-    return this.isTestCaseIncludedInCurrentPosition() || this.moveToPreviousTestCase();
+  moveToPreviousTestCase() {
+    this.currentExecutingNumber+=this.testCases.length - 1;
+    this.currentExecutingNumber %= this.testCases.length;
   }
   
-  moveToNextTestCase(): boolean {
-    this.testCaseExecutionPointer++;
-
-    if(this.arePointersCrossedTheLimit()) {
-      this.testCaseExecutionPointer = 0;
-      this.testSuiteExecutionPointer = 0;
-      this.currentExecutingNumber = 0;
-      this.moveToNextTestCase();
-      return false;
-    }
-
-    if(this.isTestCasePointerLimitCrossed()) {
-      this.testCaseExecutionPointer = 0;
-      this.testSuiteExecutionPointer ++;
-    }
-
-    if(this.testRun.testSuites[this.testSuiteExecutionPointer].testCases[this.testCaseExecutionPointer].isIncluded) {
-      this.currentExecutingNumber++;
-    }
-
-    return this.isTestCaseIncludedInCurrentPosition() || this.moveToNextTestCase();
-  }
-
-  private isTestCasePointerLimitCrossed(): boolean {
-    return this.testRun.testSuites[this.testSuiteExecutionPointer].testCases.length <= this.testCaseExecutionPointer;
-  }
-
-  private isTestCasePointerLimitCrossedInLeftSide(): boolean {
-    return this.testCaseExecutionPointer <= -1;
-  }
-
-  private isTestCaseIncludedInCurrentPosition(): boolean {
-    if(this.testRun.testSuites[this.testSuiteExecutionPointer].testCases.length == this.testCaseExecutionPointer)
-      return false;
-    return this.testRun.testSuites[this.testSuiteExecutionPointer].testCases[this.testCaseExecutionPointer].isIncluded;
-  }
-  
-  private arePointersCrossedTheLimit(): boolean {
-    let totalSuite = this.testRun.testSuites.length;
-    if(this.testSuiteExecutionPointer >= totalSuite) {
-      return true;
-    }if(this.testSuiteExecutionPointer == totalSuite - 1)
-      return this.testCaseExecutionPointer >= this.testRun.testSuites[this.testSuiteExecutionPointer].testCases.length;
-    return false;
-  }
-
-  private arePointersCrossedTheLimitFromLeftSide(): boolean {
-    if(this.testSuiteExecutionPointer <= -1) {
-      return true;
-    }if(this.testSuiteExecutionPointer == 0)
-      return this.testCaseExecutionPointer <= -1;
-    return false;
+  moveToNextTestCase() {
+    this.currentExecutingNumber++;
+    this.currentExecutingNumber %= this.testCases.length;
   }
 
   markTestCaseStatus(status: TestCaseResultEnum, testCase: ITestRunCase): void {
     testCase.resultStatus = status;
+    this.testCaseStatusChanged.emit({status: status, item: testCase});
     this.emitCounter();
-    let updatedTestCase: IMarkTestCaseVersionStatus = {id: testCase.id, resultStatus: testCase.resultStatus};
-    this.testRunService.markTestCaseStatusVersion(updatedTestCase).subscribe(x => {
-
-    }, err => {
-      this.tostr.error(err.error, 'Failed');
-    });
+    
   }
 
   markTestStepStatus(status: TestStepResultEnum, testStep: ITestRunStep): void {
     testStep.resultStatus = status;
-    let updatedTestStep: IMarkTestStepVersionStatus = {id: testStep.id, resultStatus: testStep. resultStatus};
-    let currentExecutionTestCaseId = this.testRun.testSuites[this.testSuiteExecutionPointer].testCases[this.testCaseExecutionPointer].id;
-    
-    this.testRunService.markTestStepStatusVersion(currentExecutionTestCaseId,updatedTestStep).subscribe(x => {
-
-    }, err => {
-      this.tostr.error(err.error, 'Failed');
-    });
-  }
-
-  isAtleastOneTestCaseSelected(): boolean {
-    let atLeastOneSelected = false;
-    this.testRun.testSuites.forEach(tsuite => {
-      tsuite.testCases.forEach(tcase => {
-        atLeastOneSelected ||= tcase.isIncluded;
-      });
-    });
-    return atLeastOneSelected;
+    this.testStepStatusChanged.emit({status: status, item: testStep});
   }
 
   emitCounter() {
-    let success = 0, failure = 0, blocked = 0, total = 0;
-    this.testRun.testSuites.forEach(testsuite => {
-      testsuite.testCases.forEach(testcase => {
-        if(testcase.isIncluded) {
-          success += testcase.resultStatus === TestCaseResultEnum.Success ? 1 : 0;
-          failure += testcase.resultStatus === TestCaseResultEnum.Failed ? 1 : 0;
-          blocked += testcase.resultStatus === TestCaseResultEnum.Blocked ? 1 : 0;
-          total ++;
-        }
-      });
+    let success = 0, failure = 0, blocked = 0;
+    this.testCases.forEach(testcase => {
+        success += testcase.resultStatus === TestCaseResultEnum.Success ? 1 : 0;
+        failure += testcase.resultStatus === TestCaseResultEnum.Failed ? 1 : 0;
+        blocked += testcase.resultStatus === TestCaseResultEnum.Blocked ? 1 : 0;
     });
-    this.testResultCountEmitter.emit({success: success, failure: failure, blocked: blocked, total: total});
+    this.testResultCountEmitter.emit({success: success, failure: failure, blocked: blocked, total: this.testCases.length});
   }
 
   get testCaseResultEnum(): typeof TestCaseResultEnum {
