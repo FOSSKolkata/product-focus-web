@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-test-run-results',
@@ -10,6 +11,9 @@ export class TestRunResultsComponent implements OnInit {
   testTypesMock = ['Regression', 'Work Item Based'];
   testersMock = ['Vikram shaw', 'Amit shah', 'Sandeep singh'];
   selectedTesters = null;
-  ngOnInit(): void { }
+  constructor(private route: ActivatedRoute) { }
+  ngOnInit(): void {
+    console.log(this.route.snapshot.params['testPlanId']);
+  }
   
 }

@@ -38,19 +38,26 @@ const routes: Routes = [
       }
     ]
   },{
-    path: 'test-run-results',
-    data: {breadcrumb: 'Test Run Results'},
+    path: 'test-plans',
+    data: {breadcrumb: 'Test Plans'},
     children: [
       {
-        path: '',
-        component: TestRunResultsComponent,
-        data: {breadcrumb: 'Test Run Results'}
-      },{
-        path: 'test-run-result',
-        component: TestRunResultComponent,
-        data: {breadcrumb: 'Test Run Result'}
+        path: ':testPlanId/test-run-results',
+        data: {breadcrumb: 'Test Run Results'},
+        children: [
+          {
+            path: '',
+            component: TestRunResultsComponent,
+            data: {breadcrumb: 'Test Run Results'}
+          },{
+            path: 'test-run-result',
+            component: TestRunResultComponent,
+            data: {breadcrumb: 'Test Run Result'}
+          }
+        ]
       }
     ]
+    
   },{
     path: 'test-run/:testPlanVersionId',
     component: TestRunComponent,

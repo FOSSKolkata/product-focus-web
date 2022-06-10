@@ -45,7 +45,8 @@ import { SuiteCountPipe } from './_pipes/suite-count.pipe';
     NgbTypeaheadModule,
     MatOptionModule,
     MatSelectModule,
-    DhtCommonModule
+    DhtCommonModule,
+    NgbModalModule
   ]
 })
 export class TestManagementModule { }
