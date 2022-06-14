@@ -17,8 +17,6 @@ import { TestRunResultComponent } from './test-run-result/test-run-result.compon
 import { MatOptionModule } from '@angular/material/core';
 import { DhtCommonModule } from '../dht-common/dht-common.module';
 import { TestExecutionComponent } from './test-run/test-execution/test-execution.component';
-import { CaseCountPipe } from './_pipes/case-count.pipe';
-import { SuiteCountPipe } from './_pipes/suite-count.pipe';
 
 @NgModule({
   declarations: [TestPlansComponent,
@@ -29,9 +27,7 @@ import { SuiteCountPipe } from './_pipes/suite-count.pipe';
     ChartComponent,
     TestRunComponent,
     TestRunResultComponent,
-    TestExecutionComponent,
-    SuiteCountPipe,
-    CaseCountPipe
+    TestExecutionComponent
   ],
   imports: [
     CommonModule,
