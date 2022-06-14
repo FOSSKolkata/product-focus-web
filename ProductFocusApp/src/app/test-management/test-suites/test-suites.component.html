@@ -3,10 +3,15 @@
         <div>
             <h2 class="heading">{{testPlanDetails?.testPlanTitle}}</h2>
         </div>
-        <div *ngIf="testPlanDetails?.testSuites?.length !== 0">
-            <button class="run-btn" (click)="createTestRun()">
-                Run
-                <i class="fa fa-2x fa-play-circle"></i>
+        <div class="flex-row-sb m-2">
+            <button *ngIf="testPlanDetails?.testSuites?.length !== 0"
+                (click)="openConfirmationDialogForCreateRun(content)"
+                class="run-btn mx-2">
+                <i class="fa fa-plus"></i>
+                Add New Run
+            </button>
+            <button class="run-btn mx-2" [routerLink]="['test-run-results']">
+                View Runs
             </button>
         </div>
     </div>
@@ -249,3 +254,35 @@
     </div>
     </form>
 </ng-template>
+
+
+<ng-template #content let-modal>
+    <div class="modal-body">
+      <div class="mb-4" style="font-size: 18px;">
+        <b>Are you sure to create a test run?</b>
+      </div>
+      <p>The operation will create a new test run. You may click on <b><i>View Runs</i></b> to see all the runs.
+        Are you sure to add?</p>
+      <div
+        type="button"
+        class="btn btn-outline-dark float-right m-1"
+        (click)="modal.close('Save click')"
+      >
+        No
+      </div>
+      <div
+        type="button"
+        class="btn btn-outline-danger float-right m-1"
+        (click)="createTestRun(modal)"
+      >
+        <div
+          *ngIf="addingNewTestRun"
+          class="spinner-border spinner-border-sm"
+          role="status"
+        >
+          <span class="sr-only">Loading...</span>
+        </div>
+        {{ addingNewTestRun ? "Creating" : "Yes" }}
+      </div>
+    </div>
+  </ng-template>
