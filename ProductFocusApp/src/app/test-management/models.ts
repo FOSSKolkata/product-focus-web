@@ -1,5 +1,3 @@
-import { WorkItemType } from "../dht-common/models";
-
 export class AddTestPlanInput {
     productId: number;
     sprintId: number;
@@ -151,4 +149,122 @@ export class TestCaseInput {
     addTestStep(action: string, expectedResult: string): void {
         this.testSteps.push({step: this.testSteps.length + 1, action, expectedResult});
     }
+}
+
+export interface ITestSuiteOrder {
+    id: number;
+}
+
+// Test Plan run related model
+export interface ITestRun {
+    id: number,
+    title: string,
+    testTypeEnum: TestTypeEnum,
+    testSuites: ITestRunSuite[]
+}
+
+export interface ITestRunSuite {
+    id: number,
+    testPlanId: number,
+    title: string,
+    isIncluded: boolean,
+    testCases: ITestRunCase[]
+}
+
+export interface ITestRunCase {
+    id: number,
+    testSuiteId: number,
+    title: string,
+    isIncluded: boolean,
+    resultStatus: TestCaseResultEnum,
+    testSteps: ITestRunStep[]
+}
+
+export interface ITestRunStep {
+    id: number,
+    testCaseId : number,
+    stepNo: number,
+    action: string,
+    expectedResult: string,
+    resultStatus: TestStepResultEnum
+}
+
+export enum TestStepResultEnum {
+    Success = 1,
+    Failed = 2,
+    Pending = 3
+}
+
+export enum TestCaseResultEnum {
+    Success = 1,
+    Failed = 2,
+    Blocked = 3
+}
+
+// End of Test Plan run related model
+
+// Test Suite version update model
+export interface IMarkTestCasesVersion {
+    id: number,
+    isSelected: boolean
+}
+
+export interface IMarkTestCaseVersionStatus {
+    id: number,
+    resultStatus: TestCaseResultEnum
+}
+
+export interface IMarkTestStepVersionStatus {
+    id: number,
+    resultStatus: TestStepResultEnum
+}
+// End of Test Suite version update model
+
+export class TestResultCounter {
+    success: number;
+    failure: number;
+    blocked: number;
+    total: number;
+    constructor(success?: number, failure?: number, blocked?: number, total?: number) {
+        this.success = success??0;
+        this.failure = failure??0;
+        this.blocked = blocked??0;
+        this.total = total??0;
+    }
+}
+
+export class MarkTestCaseStatusEvent {
+    item: ITestRunCase;
+    status: TestCaseResultEnum;
+    constructor(item: ITestRunCase, status: TestCaseResultEnum) {
+        this.item = item;
+        this.status = status;
+    }
+}
+
+export class MarkTestStepStatusEvent {
+    item: ITestRunStep;
+    status: TestStepResultEnum;
+    constructor(item: ITestRunStep, status: TestStepResultEnum) {
+        this.item = item;
+        this.status = status;
+    }
+}
+
+export enum TestResultRunningStatusEnum {
+    completed = 1,
+    incompleted = 2
+}
+
+export interface TestResultItem {
+    testRunId: number,
+    title: string,
+    testType: TestTypeEnum,
+    testPlanVersionId: number,
+    sprintId: number,
+    runningStatus: TestResultRunningStatusEnum
+    createdOn: Date,
+    passed: number,
+    failed: number,
+    testCasesCount: number
 }
