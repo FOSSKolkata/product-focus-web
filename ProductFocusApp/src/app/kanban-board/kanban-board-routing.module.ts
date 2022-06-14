@@ -4,7 +4,7 @@ import { KanbanBoardComponent } from './kanban-board.component';
 
 const routes: Routes = [
   {
-    path: 'kanban-board',
+    path: '',
     component: KanbanBoardComponent,
     data: {breadcrumb: {alias: 'kanbanboard'}}
   }
