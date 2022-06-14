@@ -23,7 +23,7 @@ import { TestReportListComponent } from './garbage/test-management/test-report-l
 
 const layoutRoutes: Routes = [
   {
-    path: 'products/:id',
+    path: 'products/:id/kanban-board',
     loadChildren: () =>
       import('./kanban-board/kanban-board.module').then(
         (m) => m.KanbanBoardModule
@@ -36,7 +36,7 @@ const layoutRoutes: Routes = [
         (m) => m.ProductRoadmapModule
       ),
   },{
-    path: 'news-report',
+    path: 'products/:id/news-report',
     loadChildren: () =>
       import('./news-report/news-report.module').then(
         (m) => m.NewsReportModule

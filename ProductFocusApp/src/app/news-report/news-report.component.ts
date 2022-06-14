@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { EventLogService } from '../_services/event-log.service';
 import * as moment from 'moment';
@@ -35,18 +35,19 @@ export class NewsReportComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private productService: ProductService,
-    private dateService: DateFunctionService
+    private dateService: DateFunctionService,
+    private route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
-    let storedSelectedProduct = localStorage.getItem('selectedProduct');
+  async ngOnInit(): Promise<void> {
     let storedSelectedOrganization = localStorage.getItem('selectedOrganization');
-    if(storedSelectedProduct === null || storedSelectedOrganization === null) {
+    if(storedSelectedOrganization === null) {
       this.router.navigate(['/']);
       return;
     }
+    let productId = this.route.snapshot.params['id'];
     this.selectedOrganization = JSON.parse(storedSelectedOrganization?storedSelectedOrganization:'');
-    this.selectedProduct = JSON.parse(storedSelectedProduct?storedSelectedProduct:'');
+    this.selectedProduct = await this.productService.getById(productId).toPromise();
 
     this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(res => {
       this.moduleList = res;

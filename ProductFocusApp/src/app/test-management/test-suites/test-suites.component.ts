@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { IProduct } from 'src/app/dht-common/models';
 import { BreadcrumbService } from 'xng-breadcrumb';
@@ -21,7 +22,7 @@ enum TestSuiteMovementDirection {
   templateUrl: './test-suites.component.html',
   styleUrls: ['./test-suites.component.scss']
 })
-export class TestSuitesComponent implements OnInit {
+export class TestSuitesComponent implements OnInit, OnDestroy {
   addSuiteVisible = false;
   testMode = TestCaseMode.Add;
   selectedProduct!: IProduct;
@@ -38,6 +39,7 @@ export class TestSuitesComponent implements OnInit {
 
   testCaseInputForUpdate!: TestCase;
   testSuiteTitleForDisplay = '';
+  addingNewTestRun = false;
 
   constructor(private testPlanService: TestPlanService,
     private route: ActivatedRoute,
@@ -46,11 +48,15 @@ export class TestSuitesComponent implements OnInit {
     private tostr: ToastrService,
     private testCaseService: TestCaseService,
     private testRunService: TestRunService,
-    private breadcrumbService: BreadcrumbService) {
+    private breadcrumbService: BreadcrumbService,
+    private modalService: NgbModal) {
       this.testPlanId = Number(this.route.snapshot.paramMap.get('testPlanId'));
       this.newTestSuiteInput = new TestSuiteInput(this.testPlanId,'');
       this.newTestCaseInput = new TestCaseInput('','',null,null,[]);
     }
+  ngOnDestroy(): void {
+    this.modalService.dismissAll();
+  }
 
   ngOnInit(): void {
     let selectedProductString = localStorage.getItem('selectedProduct');
@@ -141,12 +147,25 @@ export class TestSuitesComponent implements OnInit {
     });
   }
 
-  createTestRun() {
+  createTestRun(modal: any) {
+    this.addingNewTestRun = true;
     this.testRunService.createTestRun(this.testPlanId).subscribe(x => {
       this.router.navigate(['../..','test-run', x], {relativeTo: this.route});
+      modal.close();
+      this.addingNewTestRun = false;
+      this.tostr.success('New test run added', 'Success');
     }, err => {
+      this.addingNewTestRun = false;
       this.tostr.error(err.error, 'Failed');
     })
+  }
+
+  openConfirmationDialogForCreateRun(content: any) {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', size: 'sm', centered: true }).result.then((result) => {
+      
+    }, (reason) => {
+
+    });
   }
 
   addSuiteVisibilityToggle(visibility: boolean) {
