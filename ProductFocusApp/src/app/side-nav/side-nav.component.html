@@ -14,19 +14,19 @@
       </a>
     </li>
     <li routerLinkActive="active-item">
-      <a [routerLink]="['/organizations',organizationName,'business-requirement']">
+      <a [routerLink]="['/organizations',organizationName,'products',productId,'business-requirement']">
         <span class="icon"><i class="fa fa-clipboard-check"></i></span>
         <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Business Requirement</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
-      <a [routerLink]="['/organizations',organizationName,'product-documentation']">
+      <a [routerLink]="['/organizations',organizationName,'products',productId,'product-documentation']">
         <span class="icon"><i class="fa fa-file-alt"></i></span>
         <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Product Documentation</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
-      <a [routerLink]="['/organizations',organizationName,'tag-management']">
+      <a [routerLink]="['/organizations',organizationName,'products',productId,'tag-management']">
         <span class="icon"><i class="fa fa-tags"></i></span>
         <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Tag Management</span>
       </a>
@@ -38,7 +38,7 @@
       </a>
     </li>
     <li routerLinkActive="active-item">
-      <a [routerLink]="['/organizations',organizationName,'test-management']">
+      <a [routerLink]="['/organizations',organizationName,'products',productId,'test-management']">
         <span class="icon"><i class="fa fa-vial"></i></span>
         <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Test Management</span>
       </a>

@@ -43,21 +43,27 @@ const layoutRoutes: Routes = [
       ),
   }
   ,{
-    path: 'tag-management',
+    path: 'products/:id/tag-management',
     loadChildren: () => 
-    import('./tag-management/tag-management.module').then((m) => m.TagManagementModule)
+      import('./tag-management/tag-management.module').then(
+        (m) => m.TagManagementModule
+      )
   },{
-    path: 'business-requirement',
+    path: 'products/:id/business-requirement',
     loadChildren: () =>
     import('./business-requirement/business-requirement.module').then(m => m.BusinessRequirementModule)
   },{
-    path: 'product-documentation',
+    path: 'products/:id/product-documentation',
     loadChildren: () =>
-    import('./product-documentation/product-documentation.module').then(m => m.ProductDocumentationModule)
+      import('./product-documentation/product-documentation.module').then(
+        (m) => m.ProductDocumentationModule
+      )
   },{
-    path: 'test-management',
+    path: 'products/:id/test-management',
     loadChildren: () =>
-    import('./test-management/test-management.module').then(m => m.TestManagementModule),
+      import('./test-management/test-management.module').then(
+        (m) => m.TestManagementModule
+      ),
     data: {breadcrumb: {skip: true}}
   },{
     path: '',
