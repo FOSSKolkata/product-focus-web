@@ -48,7 +48,6 @@ export class TreeNodeComponent implements OnInit, OnChanges {
   selectDocumentation(selected: ProductDocumentation) {
     this.selectedDocumentationId = selected.id;
     this.markParentDocumentation(this.node, this.selectedDocumentationHierarchy);
-    console.log(this.selectedDocumentationHierarchy);
   }
 
   markParentDocumentation(currDoc: ProductDocumentation, extra: ProductDocumentationExtras): boolean {

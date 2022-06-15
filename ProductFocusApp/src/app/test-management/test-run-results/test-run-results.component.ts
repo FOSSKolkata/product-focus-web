@@ -76,8 +76,7 @@ export class TestRunResultsComponent implements OnInit {
         this.totalTestCaseCount += item.testCasesCount;
         this.totalPassedTestCases += item.passed;
         this.totalFailedTestCases += item.failed;
-      })
-      console.log(x);
+      });
     });
   }
 
