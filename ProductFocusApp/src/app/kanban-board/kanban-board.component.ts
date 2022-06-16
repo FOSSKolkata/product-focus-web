@@ -51,8 +51,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     private sprintService: SprintService,
     private toastr: ToastrService,
     private userService: UserService,
-    private router: Router,
-    private breadcrumbService: BreadcrumbService
+    private router: Router
   ) {
     this.isKanbanMode = localStorage.isKanbanMode === undefined?true:localStorage.isKanbanMode == "true"?true: false;
   }
@@ -63,15 +62,9 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
       this.router.navigate(['/']);
     this.selectedProduct = JSON.parse(localStorage.selectedProduct);
     this.selectedOrganization = JSON.parse(localStorage.selectedOrganization);
-    this.breadcrumbService.set('@kanbanboard', {
-      label: this.selectedProduct.name,
-      routeInterceptor: (routeLink, breadcrumb) =>
-        this.selectedProduct.name
-    });
     await this.doesSprintExistSetIt();
     if(!this.sprintExist){
       this.kanbanBoardSpinner = false;
-      // return;
       let ngbModalOptions: NgbModalOptions = {
         backdrop : 'static',
         keyboard : false,
@@ -131,7 +124,6 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
         this.moduleAddView = false;
         this.enabledAdding = true;
         this.setModules();
-        // this.emitEventToChild();
         this.reloadChildComponents();
       },
       (err) => {

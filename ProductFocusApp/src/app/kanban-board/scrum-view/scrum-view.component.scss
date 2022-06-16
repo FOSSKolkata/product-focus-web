@@ -82,7 +82,7 @@ td>button:focus{
 
 .table-container {
   overflow-y:auto;
-  height:70vh;
+  height: calc(100vh - var(--nav-height) - var(--mid-nav-height) - var(--breadcrumb-height));
 }
 
 .trash-position {

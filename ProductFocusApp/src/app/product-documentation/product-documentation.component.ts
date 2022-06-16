@@ -14,7 +14,7 @@ export class ProductDocumentationComponent implements OnInit {
   productDocumentations!: ProductDocumentation;
   productDocumentationsDetails: ProductDocumentationDetails[] = [];
   selectedProduct!: IProduct;
-  addParentDocumentationId: number | null | undefined = null;
+  addParentDocumentationId?: number | null = null;
   addingDocumentation = false;
   previouslyTopLevelSelectedDocumentation!: ProductDocumentation;
   loadingIndex = false;

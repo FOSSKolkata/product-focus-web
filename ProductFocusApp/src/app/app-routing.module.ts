@@ -28,7 +28,6 @@ const layoutRoutes: Routes = [
       import('./kanban-board/kanban-board.module').then(
         (m) => m.KanbanBoardModule
       ),
-    data: {breadcrumb: {skip: true}}
   },{
     path: 'product-roadmap',
     loadChildren: () =>

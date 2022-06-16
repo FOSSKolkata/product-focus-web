@@ -1,7 +1,10 @@
+$backgroundColor : #292f4c;
+$fontColor: #eeeeee;
+
 .side-nav {
   position: relative;
   height: calc(100vh - var(--nav-height) - var(--breadcrumb-height));
-  background-color: #292f4c;
+  background-color: $backgroundColor;
   transition: 0.2s;
 }
 
@@ -106,6 +109,10 @@
 
 .active-item {
   border-left: 2px solid #fe9600 !important;
+  background-color: lighten($color: $backgroundColor, $amount: 20);
+  i, span {
+    color: darken($color: $fontColor, $amount: 20);
+  }
   // border-bottom: 2px solid #918d8d !important;
   // box-shadow: inset 0px 0px 20px 2px #918d8d;
 }

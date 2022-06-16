@@ -84,7 +84,6 @@ export class TreeNodeComponent implements OnInit, OnChanges {
         q.push(curr);
       }
     }
-    console.log(this.selectedDocumentationHierarchy);
   }
 
   deleteDocumentation(document: ProductDocumentation) {
