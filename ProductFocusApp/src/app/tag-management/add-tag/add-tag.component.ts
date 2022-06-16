@@ -6,6 +6,7 @@ import { IAddTag, ITagCategory } from '../models';
 import { TagCategoriesService } from '../_services/tag-categories.service';
 import { TagService } from '../_services/tag.service';
 import { TagManagementService } from '../services/tag-management.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-tag',
@@ -17,6 +18,7 @@ export class AddTagComponent implements OnInit {
   selectedCategoryId: number | null = null;
   selectedProduct!: IProduct;
   tagName = "";
+  adding = false;
   
   constructor(private tagCategoryService: TagCategoriesService,
     private tagService: TagService,
@@ -44,7 +46,12 @@ export class AddTagComponent implements OnInit {
       name: tag.name,
       tagCategoryId: this.selectedCategoryId
     };
-    this.tagService.addTag(this.selectedProduct.id, addTagInput).subscribe(x => {
+    this.adding = true;
+    this.tagService.addTag(this.selectedProduct.id, addTagInput).pipe(
+      finalize(() => {
+        this.adding = false;
+      })
+    ).subscribe(x => {
       this.tostr.success('Tag added', 'Success');
       this.tagService.getTagListByProductId(this.selectedProduct.id).subscribe(x => {
         this.tagManagementService.updateTags(x);

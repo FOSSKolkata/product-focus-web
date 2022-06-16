@@ -1,5 +1,5 @@
-<div>
-    <form #testPlanForm="ngForm" (ngSubmit)="createNewTestPlan()">
+<fieldset [disabled]="creating">
+    <form #testPlanForm="ngForm" (ngSubmit)="createNewTestPlan(testPlanForm)">
         <h2> <i class="fa fa-flask"></i> New Test Plan</h2>
         <div class="flex-column">
             <label for="name">Name</label>
@@ -69,8 +69,14 @@
             />
         </div>
         <div class="flex-row-reverse">
-            <button class="btn-sm reject-btn">Cancel</button>
-            <button class="btn-sm good-btn" type="submit" [disabled]="testPlanForm.invalid || (newTestPlanInput.productDocumentationId === null && newTestPlanInput.workItemId === null)">Create</button>
+            <div class="btn-sm reject-btn" [routerLink]="['..']">Cancel</div>
+            <button class="btn-sm good-btn" type="submit"
+                [disabled]="testPlanForm.invalid && (newTestPlanInput.productDocumentationId === null && newTestPlanInput.workItemId === null)">
+                <div *ngIf="creating" class="spinner-border spinner-border-sm" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                {{creating?'Creating':'Create'}}
+            </button>
         </div>
     </form>
-</div>
+</fieldset>

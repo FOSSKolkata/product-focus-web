@@ -58,7 +58,7 @@
                             #{{businessRequirement.id}}</strong>
                         </td>
                         <td>{{businessRequirement.title}}</td>
-                        <td>{{businessRequirement.receivedOn | date:'short'}}</td>
+                        <td>{{businessRequirement.receivedOn | date:'dd/MM/YY, hh:mm a'}}</td>
                         <td>
                             <mat-chip-list>
                                 <mat-chip *ngFor="let tag of businessRequirement.tags">

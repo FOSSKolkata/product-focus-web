@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Observable, OperatorFunction, Subject } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { Observable, OperatorFunction } from 'rxjs';
+import { debounceTime, finalize, map } from 'rxjs/operators';
 import { Feature, IProduct, ISprint } from 'src/app/dht-common/models';
 import { FlatProductDocumentation } from 'src/app/product-documentation/model';
 import { ProductDocumentationService } from 'src/app/product-documentation/_services/product-documentation.service';
@@ -27,6 +28,7 @@ export class NewTestPlanComponent implements OnInit {
   productDocumentations: FlatProductDocumentation[] = [];
   private _selectedDocumentation !: FlatProductDocumentation;
   private _selectedWorkItem!: Feature;
+  creating = false;
 
   set selectedDocumentation(documentation: FlatProductDocumentation) {
     if(typeof documentation === 'object') {
@@ -113,10 +115,16 @@ export class NewTestPlanComponent implements OnInit {
   }
   workItemFormatter = (x: Feature) => x.title;
 
-  createNewTestPlan() {
-    this.testManagement.addTestPlan(this.newTestPlanInput).subscribe(x => {
+  createNewTestPlan(form: NgForm) {
+    this.creating = true;
+    this.testManagement.addTestPlan(this.newTestPlanInput).pipe(
+      finalize(() => {
+        this.creating = false;
+      })
+    ).subscribe(x => {
       this.tostr.success('Test Plan Created','success');
-      this.newTestPlanInput = new AddTestPlanInput(this.selectedProduct.id, -1, TestTypeEnum.RegressionTest, null, null, '');
+      form.reset();
+      // this.newTestPlanInput = new AddTestPlanInput(this.selectedProduct.id, -1, TestTypeEnum.RegressionTest, null, null, '');
     }, err => {
       this.tostr.error('Failed to add test plan',err.error);
     })

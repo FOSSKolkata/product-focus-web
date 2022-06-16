@@ -2,6 +2,7 @@ import { Component, OnInit, Input, AfterContentInit, OnDestroy, Output, EventEmi
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import Quill from 'quill';
+import { finalize } from 'rxjs/operators';
 import { IProduct } from 'src/app/dht-common/models';
 import { ProductDocumentationDetails, UpdateDocumentationFieldName } from '../model';
 import { ProductDocumentationService } from '../_services/product-documentation.service';
@@ -22,6 +23,7 @@ export class ProductDocumentationDetailsComponent implements OnInit, AfterConten
   enabledAdding = true;
   selectedProduct!: IProduct;
   @Input('editable') editable = true;
+  saving = false;
 
   constructor(private modalService: NgbModal,
     private productDocumentationService: ProductDocumentationService,
@@ -83,7 +85,12 @@ export class ProductDocumentationDetailsComponent implements OnInit, AfterConten
       object.description = fieldData;
       object.fieldName = UpdateDocumentationFieldName.Description;
     }
-    this.productDocumentationService.updateProductDocumentation(object).subscribe(x => {
+    this.saving = true;
+    this.productDocumentationService.updateProductDocumentation(object).pipe(
+      finalize(() => {
+        this.saving = false;
+      })
+    ).subscribe(x => {
       this.toastr.success('Documentation Updated', 'success');
       if(fieldName === UpdateDocumentationFieldName.Title) {
         this.oldTopic = this.productDocumentationDetails.title;

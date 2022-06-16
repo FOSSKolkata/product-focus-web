@@ -1,10 +1,10 @@
 <div *ngIf="productDocumentationDetails !== undefined">
     <div class="pb-4" id = {{productDocumentationDetails.id}}>
-        <span [style.font-size]="max(30 - 4 * productDocumentationDetails.level, 10) + 'px'">{{productDocumentationDetails.index}}</span>
+        <span [style.font-size]="max(25 - 4 * productDocumentationDetails.level, 10) + 'px'">{{productDocumentationDetails.index}}</span>
         <div style="display: inline-block;">
             <app-switch-label-text
-                [label-style]="{'font-size': max(30 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
-                [input-style]="{'font-size': max(30 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
+                [label-style]="{'font-size': max(25 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
+                [input-style]="{'font-size': max(25 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
                 [(ngModel)]="productDocumentationDetails.title"
                 [editable]="editable"
                 name="documentationtitle"
@@ -28,10 +28,15 @@
                 <button class="relative-button"
                     [disabled]="oldDescription === productDocumentationDetails.description"
                     (click)="modifyDocumentation(productDocumentationDetails, productDocumentationDetails.description, updateDocumentationFieldName.Description)">
-                    Save
+                    <div *ngIf="saving" class="spinner-border spinner-border-sm" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    {{saving?'Saving':'Save'}}
                 </button>
             </div>
-            <quill-editor [(ngModel)]="productDocumentationDetails.description" (onEditorCreated)="registerEditor($event)"
+            <quill-editor [(ngModel)]="productDocumentationDetails.description"
+                [disabled]="saving"
+                (onEditorCreated)="registerEditor($event)"
                 (onBlur)="doBlur(unsaved)">
                 <div quill-editor-toolbar>
                     <span class="ql-formats">
@@ -93,10 +98,10 @@
         type="button"
         class="btn btn-outline-dark float-right m-1"
         (click)="modal.close('Save click')">
-        <div *ngIf="!'saving'" class="spinner-border spinner-border-sm" role="status">
+        <div *ngIf="saving" class="spinner-border spinner-border-sm" role="status">
             <span class="sr-only">Loading...</span>
         </div>
-        Save
+        {{saving ? "Saving": "Save"}}
       </div>
       <div type="button" class="btn btn-outline-danger float-right m-1"
         (click)="modal.close('Discard Click')">
