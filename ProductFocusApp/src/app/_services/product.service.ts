@@ -11,9 +11,9 @@ import { GroupCategory, IKanban, IKanbanBoard, IModule, IProduct } from '../dht-
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  addModule(id: Number, name: string) {
+  addModule(id: Number, name: string): Observable<void> {
     return this.http
-      .post(apiConfig.uri + `/Product/AddModule/${id}`, { name })
+      .post<void>(apiConfig.uri + `/Product/AddModule/${id}`, { name })
       .pipe(catchError(this.handleError));
   }
 

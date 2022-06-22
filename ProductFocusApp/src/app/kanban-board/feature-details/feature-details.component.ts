@@ -5,8 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
 import { FeatureService } from 'src/app/_services/feature.service';
 import { ProductService } from 'src/app/_services/product.service';
+import { ReleaseService } from 'src/app/_services/release.service';
 import { SprintService } from 'src/app/_services/sprint.service';
-import { IFeature, IFeatureDetails, IMember, IModule, ISprint, ModifyColumnIdentifier, WorkItemType } from '../../dht-common/models';
+import { IFeature, IFeatureDetails, IMember, IModule, IRelease, ISprint, ModifyColumnIdentifier, WorkItemType } from '../../dht-common/models';
 
 @Component({
   selector: 'app-feature-details',
@@ -33,6 +34,8 @@ export class FeatureDetailsComponent implements OnInit {
     id: -1,
     name: ''
   };
+  
+  releases: IRelease[] = [];
   @Input() feature: IFeature = {
     id: -1,
     moduleId: -1,
@@ -76,7 +79,12 @@ export class FeatureDetailsComponent implements OnInit {
     functionalTestability: false,
     remarks: null,
     workItemType: WorkItemType.Feature,
-    moduleId: -1
+    moduleId: -1,
+    release: {
+      id: -1,
+      name: '',
+      releaseDate: new Date()
+    }
   };
 
   loading = true;
@@ -88,7 +96,8 @@ export class FeatureDetailsComponent implements OnInit {
     private router: Router,
     private dateService: DateFunctionService,
     private toastr: ToastrService,
-    private productService: ProductService
+    private productService: ProductService,
+    private releaseService: ReleaseService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -120,6 +129,9 @@ export class FeatureDetailsComponent implements OnInit {
 
       this.sprintService.getSprintByProductId(this.selectedProduct.id).subscribe((x) => {
         this.allSprint = x;
+      }),
+      this.releaseService.getReleasesByProductId(this.selectedProduct.id).subscribe(x => {
+        this.releases = x;
       })
     ]);
     this.loading = false;
@@ -138,6 +150,14 @@ export class FeatureDetailsComponent implements OnInit {
     }else {
       let changedModule = this.modules.filter(x => x.name == event.value)[0];
       this.modifyFeature(ModifyColumnIdentifier.updateModule, changedModule.id);
+    }
+  }
+
+  moveFeatureToRelease(event: any) {
+    if(!event.value) {
+      this.modifyFeature(ModifyColumnIdentifier.Release, null);
+    } else {
+      this.modifyFeature(ModifyColumnIdentifier.Release, event.value);
     }
   }
 
@@ -181,6 +201,9 @@ export class FeatureDetailsComponent implements OnInit {
       object.includeOwnerList = [];
     } else if(key == ModifyColumnIdentifier.updateModule) {
       object.moduleId = value;
+    } else if(key == ModifyColumnIdentifier.Release) {
+      object.fieldName = ModifyColumnIdentifier.Release;
+      object.releaseId = value;
     }
     this.featureService.modifyFeatureElement(object).subscribe((x) => {
 

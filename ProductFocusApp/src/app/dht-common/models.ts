@@ -36,7 +36,8 @@ export enum ModifyColumnIdentifier {
   remarks = 15,
   functionalTestability = 16,
   updateModule = 17,
-  includeExcludeOwners = 18
+  includeExcludeOwners = 18,
+  Release = 19
 }
 
 export interface IAddOrganizationInput {
@@ -87,7 +88,8 @@ export interface IFeatureDetails {
   functionalTestability: boolean,
   remarks: string | null,
   workItemType: WorkItemType,
-  moduleId: number
+  moduleId: number,
+  release: IRelease
 }
 
 export enum WorkItemType {
@@ -295,4 +297,10 @@ export class Feature {
       this.title = title;
       this.workItemType = workItemType;
   }
+}
+
+export interface IRelease {
+  id: number,
+  name: string,
+  releaseDate: Date
 }

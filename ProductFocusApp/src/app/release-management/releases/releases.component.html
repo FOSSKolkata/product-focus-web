@@ -1,0 +1,57 @@
+<div class="m-2">
+    <div class="table-responsive-sm">
+        <table class="table">
+            <thead>
+                <tr class="table-head">
+                    <th scope="col">Version</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Progress</th>
+                    <th scope="col">Release Date</th>
+                    <th scope="col">Work Items</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>R.13.1</td>
+                    <td>Releases</td>
+                    <td>
+                        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+                    </td>
+                    <td>14/02/2023</td>
+                    <td>
+                        <div style="display: flex; flex-direction: row; gap: 10px;">
+                            <button class="btn-sm btn-primary">2 Features</button>
+                            <button class="btn-sm btn-warning">2 Epics</button>
+                        </div> 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <fieldset [disabled]="adding">
+            <form #releaseForm="ngForm" (ngSubmit)="createRelease(releaseForm)" class="form-inline">
+                <div class="form-group mb-2">
+                    <label for="releasename" class="sr-only">Release Name</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" placeholder="Enter release name" type="text" id="releasename" required
+                            [(ngModel)]="release.name" name="name">
+                    </div>
+                </div>
+                <div class="form-group mb-2">
+                    <label for="releasedate" class="sr-only">Release Date</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" placeholder="Select release date" type="date" id="releasedate" required
+                            [(ngModel)]="release.releaseDate" name="date">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2 ml-3">
+                    <div *ngIf="adding" class="spinner-border spinner-border-sm" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    {{adding?'Adding':'Add'}}
+                </button>
+            </form>
+        </fieldset>
+    </div>
+</div>

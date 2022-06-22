@@ -13,7 +13,6 @@ import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { SecureGuard } from './guard/secure.guard';
 import { TemporaryRouterComponent } from './garbage/temporary-router/temporary-router.component';
-import { ReleaseManagementComponent } from './garbage/release-management/release-management.component';
 import { ReleaseDetailsComponent } from './garbage/release-management/release-details/release-details.component';
 import { RegressionTestComponent } from './garbage/test-management/regression-test/regression-test.component';
 import { ProductivityReportComponent } from './garbage/productivity-report/productivity-report.component';
@@ -50,7 +49,9 @@ const layoutRoutes: Routes = [
   },{
     path: 'products/:id/business-requirement',
     loadChildren: () =>
-    import('./business-requirement/business-requirement.module').then(m => m.BusinessRequirementModule)
+      import('./business-requirement/business-requirement.module').then(
+        m => m.BusinessRequirementModule
+      )
   },{
     path: 'products/:id/product-documentation',
     loadChildren: () =>
@@ -62,6 +63,13 @@ const layoutRoutes: Routes = [
     loadChildren: () =>
       import('./test-management/test-management.module').then(
         (m) => m.TestManagementModule
+      ),
+    data: {breadcrumb: {skip: true}}
+  },{
+    path: 'products/:id/release-management',
+    loadChildren: () =>
+      import('./release-management/release-management.module').then(
+        m => m.ReleaseManagementModule
       ),
     data: {breadcrumb: {skip: true}}
   },{
@@ -77,12 +85,12 @@ const layoutRoutes: Routes = [
       //   path: 'work-item-based-tests',
       //   component: TestManagementComponent,
       //   data: {breadcrumb: 'Work Item Based Tests'}
+      // },{
+      //   path: 'release-management',
+      //   component: ReleaseManagementComponent,
+      //   data: {breadcrumb: 'Release Management'},
       // },
       {
-        path: 'release-management',
-        component: ReleaseManagementComponent,
-        data: {breadcrumb: 'Release Management'},
-      },{
           path: 'release-details',
           component: ReleaseDetailsComponent,
           data: {breadcrumb: 'Release Details'}

@@ -69,20 +69,16 @@ $fontColor: #eeeeee;
   text-decoration: none;
   font-weight: 500;
   color: var(--dark-gray);
+  span{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
 }
 
 .side-nav ul li:hover a {
   color: #292f4c;
 }
-
-.side-nav ul li a .title-expand {
-  display: inline-block;
-}
-
-.side-nav ul li a .title-closed {
-  display: none;
-}
-
 
 .side-nav ul li a .icon {
   position: relative;
@@ -113,6 +109,4 @@ $fontColor: #eeeeee;
   i, span {
     color: darken($color: $fontColor, $amount: 20);
   }
-  // border-bottom: 2px solid #918d8d !important;
-  // box-shadow: inset 0px 0px 20px 2px #918d8d;
 }
