@@ -8,6 +8,7 @@ import { UserService } from '../_services/user.service';
 import { ProductService } from '../_services/product.service';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { DateFunctionService } from '../dht-common/date-function.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-news-report',
@@ -31,6 +32,7 @@ export class NewsReportComponent implements OnInit {
   count = 5;
   dropdownSettings: IDropdownSettings = {};
   titleExpanded = false;
+  loading = false;
   constructor(private eventLogService: EventLogService,
     private router: Router,
     private userService: UserService,
@@ -135,7 +137,13 @@ export class NewsReportComponent implements OnInit {
 
     let eventType = this.selected == 'All'? null : this.selected;
 
-    this.eventLogService.getEventLog(this.selectedProduct.id, this.recordOffset, this.count, this.selectedModuleIds, this.selectedUserIds, fromDate, toDate, eventType).subscribe((res: any) => {
+    this.loading = true;
+    this.eventLogService.getEventLog(this.selectedProduct.id, this.recordOffset, this.count, this.selectedModuleIds,
+      this.selectedUserIds, fromDate, toDate, eventType).pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe((res: any) => {
       this.recordOffset += this.count;
       res.map((item: any) => {
         item.domainEventJson = JSON.parse(item.domainEventJson);
