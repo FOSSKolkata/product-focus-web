@@ -81,8 +81,10 @@ td>button:focus{
 // }
 
 .table-container {
-  overflow-y:auto;
-  height: calc(100vh - var(--nav-height) - var(--mid-nav-height) - var(--breadcrumb-height));
+  white-space: nowrap;
+  overflow-y: auto;
+  height: calc(100vh - var(--nav-height) - var(--mid-nav-height) - var(--bottom-nav-height) - var(--bottom-nav-height));
+  width: calc(100vw - var(--side-nav-width) - var(--left-panel-width));
 }
 
 .trash-position {

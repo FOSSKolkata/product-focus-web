@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { IRelease } from '../dht-common/models';
+import { ICreateRelease, IRelease } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { IRelease } from '../dht-common/models';
 export class ReleaseService {
   constructor(private http: HttpClient) { }
 
-  createRelease(productId: number, release: IRelease): Observable<void> {
+  createRelease(productId: number, release: ICreateRelease): Observable<void> {
     return this.http.post<void>(apiConfig.uri + `/Release/CreateRelease/${productId}`, release)
       .pipe(
         catchError(this.handleError)

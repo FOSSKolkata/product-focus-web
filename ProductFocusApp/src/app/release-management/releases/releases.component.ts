@@ -3,8 +3,10 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
+import { ICreateRelease, IRelease } from 'src/app/dht-common/models';
+import { ReleaseService } from 'src/app/_services/release.service';
 import { Release } from '../model';
-import { ReleaseService } from '../_services/release.service';
+// import { ReleaseService } from '../_services/release.service';
 
 @Component({
   selector: 'app-releases',
@@ -13,10 +15,11 @@ import { ReleaseService } from '../_services/release.service';
 })
 export class ReleasesComponent implements OnInit {
 
-  release: Release = {
+  release: ICreateRelease = {
     name: '',
     releaseDate: new Date()
   }
+  releases: IRelease[] = [];
   productId: number;
   adding = false;
 
@@ -27,6 +30,15 @@ export class ReleasesComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.getReleases();
+  }
+
+  getReleases() {
+    this.releaseService.getReleasesByProductId(this.productId).subscribe(x => {
+      this.releases = x;
+    }, err => {
+      this.tostr.error('Something went wrong', 'Failed');
+    })
   }
 
   createRelease(form: NgForm) {
@@ -37,6 +49,7 @@ export class ReleasesComponent implements OnInit {
       })
     ).subscribe(x => {
       form.reset();
+      this.getReleases();
       this.tostr.success('Release created', 'Success');
     }, err => {
       this.tostr.error(err.error, 'Failed');

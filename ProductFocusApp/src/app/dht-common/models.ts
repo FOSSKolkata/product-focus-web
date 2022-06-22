@@ -299,8 +299,17 @@ export class Feature {
   }
 }
 
+export interface ICreateRelease {
+  name: string
+  releaseDate: Date
+}
 export interface IRelease {
   id: number,
   name: string,
-  releaseDate: Date
+  releaseDate: Date,
+  createdOn: Date,
+  epicCount: number,
+  featureCount: number,
+  bugCount: number,
+  pbiCount: number
 }
