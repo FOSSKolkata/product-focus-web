@@ -1,0 +1,11 @@
+
+.add-release {
+    padding: 0.2rem;
+    margin: 0.2rem;
+    border-radius: 5%;
+    &:hover {
+        background-color: darken($color: #eee, $amount: 5);
+        transform: scale(1.02);
+        transition-duration: 200ms;
+    }
+}

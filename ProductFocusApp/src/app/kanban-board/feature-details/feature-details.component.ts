@@ -83,7 +83,12 @@ export class FeatureDetailsComponent implements OnInit {
     release: {
       id: -1,
       name: '',
-      releaseDate: new Date()
+      releaseDate: new Date(),
+      createdOn: new Date(),
+      bugCount: 0,
+      epicCount: 0,
+      featureCount: 0,
+      pbiCount: 0
     }
   };
 

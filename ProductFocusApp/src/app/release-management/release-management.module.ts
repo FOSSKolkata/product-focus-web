@@ -6,6 +6,9 @@ import { ReleasesComponent } from './releases/releases.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
 import { ReleaseDetailsComponent } from './release-details/release-details.component';
+import { NgbDatepickerModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -16,7 +19,11 @@ import { ReleaseDetailsComponent } from './release-details/release-details.compo
     CommonModule,
     ReleaseManagementRoutingModule,
     MatProgressBarModule,
-    FormsModule
+    FormsModule,
+    NgbModalModule,
+    NgbDatepickerModule,
+    MatInputModule,
+    MatDatepickerModule
   ]
 })
 export class ReleaseManagementModule { }
