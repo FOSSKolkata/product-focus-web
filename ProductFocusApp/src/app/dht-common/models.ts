@@ -299,9 +299,10 @@ export class Feature {
   }
 }
 
-export interface ICreateRelease {
+export interface ICreateOrUpdateRelease {
+  id: number | null;
   name: string
-  releaseDate: Date
+  releaseDate: Date | null
 }
 export interface IRelease {
   id: number,
