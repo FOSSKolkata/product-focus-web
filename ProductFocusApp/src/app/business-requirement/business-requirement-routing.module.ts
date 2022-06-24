@@ -14,10 +14,10 @@ const routes: Routes = [
       },{
         path: 'business-requirement-list/:pageNo',
         component: BusinessRequirementComponent,
-        data: {breadcrumb: 'Business Requirement List'},
+        data: {breadcrumb: 'Business Requirements'},
       },{
         path: 'business-requirement-list/:pageNo',
-        data: {breadcrumb: 'Business Requirement List'},
+        data: {breadcrumb: 'Business Requirements'},
         children: [
           {
             path: 'business-requirement-details',

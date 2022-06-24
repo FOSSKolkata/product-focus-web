@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class SideNavComponent implements OnInit, OnDestroy {
   constructor(private router: Router) {}
-  isSideNavExpanded = false;
+  isSideNavExpanded = true;
   productId: number | undefined;
   organizationName: string | undefined;
   ngOnInit(): void {
@@ -18,6 +18,9 @@ export class SideNavComponent implements OnInit, OnDestroy {
     else {
       this.productId = Number(localStorage.getItem('productId'));
       this.organizationName = JSON.parse(localStorage.selectedOrganization).name;
+    }
+    if(this.isSideNavExpanded) {
+      this.invert();
     }
   }
   invert() {

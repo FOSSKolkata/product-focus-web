@@ -13,7 +13,6 @@ import { CodeComponent } from './garbage/code/code.component';
 import { InvitationsComponent } from './organization/invitations/invitations.component';
 import { SecureGuard } from './guard/secure.guard';
 import { TemporaryRouterComponent } from './garbage/temporary-router/temporary-router.component';
-import { ReleaseManagementComponent } from './garbage/release-management/release-management.component';
 import { ReleaseDetailsComponent } from './garbage/release-management/release-details/release-details.component';
 import { RegressionTestComponent } from './garbage/test-management/regression-test/regression-test.component';
 import { ProductivityReportComponent } from './garbage/productivity-report/productivity-report.component';
@@ -23,12 +22,11 @@ import { TestReportListComponent } from './garbage/test-management/test-report-l
 
 const layoutRoutes: Routes = [
   {
-    path: 'products/:id',
+    path: 'products/:id/kanban-board',
     loadChildren: () =>
       import('./kanban-board/kanban-board.module').then(
         (m) => m.KanbanBoardModule
       ),
-    data: {breadcrumb: {skip: true}}
   },{
     path: 'product-roadmap',
     loadChildren: () =>
@@ -36,28 +34,43 @@ const layoutRoutes: Routes = [
         (m) => m.ProductRoadmapModule
       ),
   },{
-    path: 'news-report',
+    path: 'products/:id/news-report',
     loadChildren: () =>
       import('./news-report/news-report.module').then(
         (m) => m.NewsReportModule
       ),
   }
   ,{
-    path: 'tag-management',
+    path: 'products/:id/tag-management',
     loadChildren: () => 
-    import('./tag-management/tag-management.module').then((m) => m.TagManagementModule)
+      import('./tag-management/tag-management.module').then(
+        (m) => m.TagManagementModule
+      )
   },{
-    path: 'business-requirement',
+    path: 'products/:id/business-requirement',
     loadChildren: () =>
-    import('./business-requirement/business-requirement.module').then(m => m.BusinessRequirementModule)
+      import('./business-requirement/business-requirement.module').then(
+        m => m.BusinessRequirementModule
+      )
   },{
-    path: 'product-documentation',
+    path: 'products/:id/product-documentation',
     loadChildren: () =>
-    import('./product-documentation/product-documentation.module').then(m => m.ProductDocumentationModule)
+      import('./product-documentation/product-documentation.module').then(
+        (m) => m.ProductDocumentationModule
+      )
   },{
-    path: 'test-management',
+    path: 'products/:id/test-management',
     loadChildren: () =>
-    import('./test-management/test-management.module').then(m => m.TestManagementModule),
+      import('./test-management/test-management.module').then(
+        (m) => m.TestManagementModule
+      ),
+    data: {breadcrumb: {skip: true}}
+  },{
+    path: 'products/:id/release-management',
+    loadChildren: () =>
+      import('./release-management/release-management.module').then(
+        m => m.ReleaseManagementModule
+      ),
     data: {breadcrumb: {skip: true}}
   },{
     path: '',
@@ -72,12 +85,12 @@ const layoutRoutes: Routes = [
       //   path: 'work-item-based-tests',
       //   component: TestManagementComponent,
       //   data: {breadcrumb: 'Work Item Based Tests'}
+      // },{
+      //   path: 'release-management',
+      //   component: ReleaseManagementComponent,
+      //   data: {breadcrumb: 'Release Management'},
       // },
       {
-        path: 'release-management',
-        component: ReleaseManagementComponent,
-        data: {breadcrumb: 'Release Management'},
-      },{
           path: 'release-details',
           component: ReleaseDetailsComponent,
           data: {breadcrumb: 'Release Details'}

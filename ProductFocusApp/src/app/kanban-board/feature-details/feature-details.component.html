@@ -386,6 +386,21 @@
         </mat-form-field>
       </div>
       <div class="mt-2">
+        <mat-form-field>
+          <mat-label>Release</mat-label>
+          <mat-select [value]="featureDetails.release.id" (selectionChange)="moveFeatureToRelease($event)">
+            <mat-option [value]="null">
+              Unrelease
+            </mat-option>
+            <ng-template ngFor let-release [ngForOf]="releases">
+              <mat-option [value]="release.id">
+                {{release.name}}
+              </mat-option>
+            </ng-template>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="mt-2">
         <div for="startdate" class="label">Start date </div>
         <div *ngIf="featureDetails" class="input-group">
           <input

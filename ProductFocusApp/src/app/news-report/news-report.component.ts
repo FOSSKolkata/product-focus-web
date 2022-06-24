@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { EventLogService } from '../_services/event-log.service';
 import * as moment from 'moment';
@@ -8,6 +8,7 @@ import { UserService } from '../_services/user.service';
 import { ProductService } from '../_services/product.service';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { DateFunctionService } from '../dht-common/date-function.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-news-report',
@@ -31,22 +32,24 @@ export class NewsReportComponent implements OnInit {
   count = 5;
   dropdownSettings: IDropdownSettings = {};
   titleExpanded = false;
+  loading = false;
   constructor(private eventLogService: EventLogService,
     private router: Router,
     private userService: UserService,
     private productService: ProductService,
-    private dateService: DateFunctionService
+    private dateService: DateFunctionService,
+    private route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
-    let storedSelectedProduct = localStorage.getItem('selectedProduct');
+  async ngOnInit(): Promise<void> {
     let storedSelectedOrganization = localStorage.getItem('selectedOrganization');
-    if(storedSelectedProduct === null || storedSelectedOrganization === null) {
+    if(storedSelectedOrganization === null) {
       this.router.navigate(['/']);
       return;
     }
+    let productId = this.route.snapshot.params['id'];
     this.selectedOrganization = JSON.parse(storedSelectedOrganization?storedSelectedOrganization:'');
-    this.selectedProduct = JSON.parse(storedSelectedProduct?storedSelectedProduct:'');
+    this.selectedProduct = await this.productService.getById(productId).toPromise();
 
     this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(res => {
       this.moduleList = res;
@@ -134,7 +137,13 @@ export class NewsReportComponent implements OnInit {
 
     let eventType = this.selected == 'All'? null : this.selected;
 
-    this.eventLogService.getEventLog(this.selectedProduct.id, this.recordOffset, this.count, this.selectedModuleIds, this.selectedUserIds, fromDate, toDate, eventType).subscribe((res: any) => {
+    this.loading = true;
+    this.eventLogService.getEventLog(this.selectedProduct.id, this.recordOffset, this.count, this.selectedModuleIds,
+      this.selectedUserIds, fromDate, toDate, eventType).pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe((res: any) => {
       this.recordOffset += this.count;
       res.map((item: any) => {
         item.domainEventJson = JSON.parse(item.domainEventJson);

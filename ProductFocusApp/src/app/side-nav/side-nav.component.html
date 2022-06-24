@@ -1,70 +1,70 @@
 <div class="side-nav" style="width: var(--side-nav-width);">
-  <svg (click)="invert()" class="nav-expand" [ngClass]="{'nav-closed' : isSideNavExpanded}" width="24" height="24" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>
+  <svg (click)="invert()" class="nav-expand" [ngClass]="{'nav-closed' : !isSideNavExpanded}" width="24" height="24" viewBox="0 0 24 24"><path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z"/></svg>
   <ul>
     <li routerLinkActive="active-item">
       <a [routerLink]="['/organizations',organizationName,'products', productId, 'kanban-board']">
         <span class="icon"><i class="fa fa-list"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Kanban board</span>
+        <span>Kanban board</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
-      <a [routerLink]="['/organizations',organizationName,'news-report']">
+      <a [routerLink]="['/organizations',organizationName,'products',productId,'news-report']">
         <span class="icon"><i class="fa fa-chart-bar"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">News Report</span>
+        <span>News Report</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
-      <a [routerLink]="['/organizations',organizationName,'business-requirement']">
+      <a [routerLink]="['/organizations',organizationName,'products',productId,'business-requirement']">
         <span class="icon"><i class="fa fa-clipboard-check"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Business Requirement</span>
+        <span>Business Requirement</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
-      <a [routerLink]="['/organizations',organizationName,'product-documentation']">
+      <a [routerLink]="['/organizations',organizationName,'products',productId,'product-documentation']">
         <span class="icon"><i class="fa fa-file-alt"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Product Documentation</span>
+        <span>Product Documentation</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
-      <a [routerLink]="['/organizations',organizationName,'tag-management']">
+      <a [routerLink]="['/organizations',organizationName,'products',productId,'tag-management']">
         <span class="icon"><i class="fa fa-tags"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Tag Management</span>
+        <span>Tag Management</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
-      <a [routerLink]="['/organizations',organizationName,'release-management']">
+      <a [routerLink]="['/organizations',organizationName,'products',productId,'release-management']">
         <span class="icon"><i class="fa fa-plane-departure"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Release Management</span>
+        <span>Release Management</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
-      <a [routerLink]="['/organizations',organizationName,'test-management']">
+      <a [routerLink]="['/organizations',organizationName,'products',productId,'test-management']">
         <span class="icon"><i class="fa fa-vial"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Test Management</span>
+        <span>Test Management</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
       <a [routerLink]="['/organizations',organizationName,'productivity-report']">
         <span class="icon"><i class="fa fa-chart-pie"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Productivity Report</span>
+        <span>Productivity Report</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
       <a [routerLink]="['/organizations',organizationName,'pipeline-report']">
         <span class="icon"><i class="fa fa-road"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Pipeline Report</span>
+        <span>Pipeline Report</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
       <a [routerLink]="['/organizations',organizationName,'test-report-details']">
         <span class="icon"><i class="fa fa-file"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Test Report Details</span>
+        <span>Test Report Details</span>
       </a>
     </li>
     <li routerLinkActive="active-item">
       <a [routerLink]="['/organizations',organizationName,'test-report-list']">
         <span class="icon"><i class="fa fa-list-alt"></i></span>
-        <span class="title-expand" [ngClass]="{'title-closed' : !isSideNavExpanded}">Test Report List</span>
+        <span>Test Report List</span>
       </a>
     </li>
   </ul>

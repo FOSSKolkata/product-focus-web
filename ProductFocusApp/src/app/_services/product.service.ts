@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { GroupCategory, IKanban, IKanbanBoard, IModule } from '../dht-common/models';
+import { GroupCategory, IKanban, IKanbanBoard, IModule, IProduct } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root',
@@ -11,9 +11,14 @@ import { GroupCategory, IKanban, IKanbanBoard, IModule } from '../dht-common/mod
 export class ProductService {
   constructor(private http: HttpClient) {}
 
-  addModule(id: Number, name: string) {
+  addModule(id: Number, name: string): Observable<void> {
     return this.http
-      .post(apiConfig.uri + `/Product/AddModule/${id}`, { name })
+      .post<void>(apiConfig.uri + `/Product/AddModule/${id}`, { name })
+      .pipe(catchError(this.handleError));
+  }
+
+  getById(id: number): Observable<IProduct> {
+    return this.http.get<IProduct>(apiConfig.uri + `/Product/GetProductById/${id}`)
       .pipe(catchError(this.handleError));
   }
 
@@ -30,9 +35,7 @@ export class ProductService {
       )
       .pipe(catchError(this.handleError));
   }
-  handleError(error: HttpErrorResponse) {
-    return throwError(error);
-  }
+
   getKanbanViewByProductIdAndQuery(id: number, sprintId: number | undefined, userIds: number[], groupCategory: GroupCategory):Observable<IKanban> {
     let userParam = "";
     for(let uid of userIds){
@@ -52,5 +55,9 @@ export class ProductService {
           `/Product/GetKanbanViewByProductIdAndQuery/${id}/${groupCategory}/query`,options
       )
       .pipe(catchError(this.handleError));
+  }
+
+  handleError(error: HttpErrorResponse) {
+    return throwError(error);
   }
 }

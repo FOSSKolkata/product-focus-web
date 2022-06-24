@@ -1,5 +1,3 @@
-import { WorkItemType } from "../dht-common/models";
-
 export class AddTestPlanInput {
     productId: number;
     sprintId: number;
@@ -233,4 +231,40 @@ export class TestResultCounter {
         this.blocked = blocked??0;
         this.total = total??0;
     }
+}
+
+export class MarkTestCaseStatusEvent {
+    item: ITestRunCase;
+    status: TestCaseResultEnum;
+    constructor(item: ITestRunCase, status: TestCaseResultEnum) {
+        this.item = item;
+        this.status = status;
+    }
+}
+
+export class MarkTestStepStatusEvent {
+    item: ITestRunStep;
+    status: TestStepResultEnum;
+    constructor(item: ITestRunStep, status: TestStepResultEnum) {
+        this.item = item;
+        this.status = status;
+    }
+}
+
+export enum TestResultRunningStatusEnum {
+    completed = 1,
+    incompleted = 2
+}
+
+export interface TestResultItem {
+    testRunId: number,
+    title: string,
+    testType: TestTypeEnum,
+    testPlanVersionId: number,
+    sprintId: number,
+    runningStatus: TestResultRunningStatusEnum
+    createdOn: Date,
+    passed: number,
+    failed: number,
+    testCasesCount: number
 }

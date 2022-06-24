@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from 'src/app/b2c-config';
-import { TestCaseInput, UpdateTestCaseInput } from '../models.ts';
+import { TestCaseInput, UpdateTestCaseInput } from '../models';
 
 @Injectable({
   providedIn: 'root'
