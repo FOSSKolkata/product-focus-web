@@ -1,9 +1,10 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
 import { Feature, IFeatureDetails, OrderingInfo } from '../dht-common/models';
+import { ICurrentProgressWorkItemDetails, IWorkItem } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,34 +41,62 @@ export class FeatureService {
     orgId: number,
     id: number
   ): Observable<IFeatureDetails> {
-    return this.http.get<IFeatureDetails>(
-      apiConfig.uri + `/Feature/GetFeatureDetailsById/${orgId}/${id}`
-    ).pipe(
-      catchError(this.handleError)
-    );
+    return this.http.get<IFeatureDetails>(apiConfig.uri + `/Feature/GetFeatureDetailsById/${orgId}/${id}`)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
   
   getFeatureListByProductId(productId: number): Observable<Feature[]> {
     return this.http.get<Feature[]>(
-      apiConfig.uri + `/Feature/GetFeatureListByProductId/${productId}`
-    ).pipe(
+      apiConfig.uri + `/Feature/GetFeatureListByProductId/${productId}`)
+    .pipe(
       catchError(this.handleError)
     )
   }
 
   upsertScrumComment(data: any){
-    return this.http.post(apiConfig.uri + `/Feature/UpsertScrumComment`,data).pipe(
+    return this.http.post(apiConfig.uri + `/Feature/UpsertScrumComment`,data)
+    .pipe(
       catchError(this.handleError)
     );
   }
 
   upsertScrumWorkCompletionPercentage(data: any){
-    return this.http.post(apiConfig.uri + `/Feature/UpsertScrumWorkCompletionPercentage`,data).pipe(
+    return this.http.post(apiConfig.uri + `/Feature/UpsertScrumWorkCompletionPercentage`,data)
+    .pipe(
       catchError(this.handleError)
     );
   }
 
-  handleError(error: HttpErrorResponse){
+  getMyWorkItemsInProduct(productId: number): Observable<IWorkItem[]> {
+    return this.http.get<IWorkItem[]>(apiConfig.uri + `/Feature/GetMyWorkItemsByProductId/${productId}`)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  markWorkItemAsCurrentlyProgress(productId: number, workItemId: number,
+    previouslyProgressWorkItemId?: number): Observable<ICurrentProgressWorkItemDetails> {
+    let options;
+    if(previouslyProgressWorkItemId) {
+      options = { params: new HttpParams({fromString: `previouslyProgressWorkItemId=${previouslyProgressWorkItemId}`}) };
+    }
+    return this.http.post<ICurrentProgressWorkItemDetails>(
+      apiConfig.uri + `/Feature/MarkWorkItemAsCurrentlyProgress/${productId}/${workItemId}/query`,{},options)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  getCurrentProgressWorkItemId(productId: number): Observable<ICurrentProgressWorkItemDetails> {
+    return this.http.get<ICurrentProgressWorkItemDetails>(apiConfig.uri + `/Feature/GetCurrentProgressWorkItemId/${productId}`)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
+
+  private handleError(error: HttpErrorResponse){
     return throwError(error);
   }
 }

@@ -100,17 +100,26 @@
           <i
             class="fa fa-ellipsis-h ellipsis"
           ></i>
-          <a routerLink="./news-report"
-            (click)="setLastProductId(product)">
-            <i
-              class="fas fa-chart-bar fa-2x news-report"
-            ></i>
-          </a>
           <div class="product-name pointer"
             [routerLink]="['./products', product.id, 'kanban-board']"
             (click)="setLastProductId(product)"
             >{{ product.name }}</div
           >
+          <ul style="list-style: none; display: flex; gap: 5px;">
+            <li>
+              <a [routerLink]="['./products', product.id, 'news-report']"
+                (click)="setLastProductId(product)">
+                <i
+                  class="fas fa-chart-bar fa-2x"
+                ></i>
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['./products', product.id, 'kanban-board', 'focus']">
+                <i class="fa fa-2x fa-bullseye"></i>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
       <div
