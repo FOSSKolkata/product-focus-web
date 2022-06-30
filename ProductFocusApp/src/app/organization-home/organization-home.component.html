@@ -96,12 +96,11 @@
         *ngFor="let product of productList"
         class="col-lg-4 col-md-6 mt-3 mb-3"
       >
-        <div class="column-control">
+        <div class="column-control pointer" [routerLink]="['./products', product.id, 'kanban-board']">
           <i
             class="fa fa-ellipsis-h ellipsis"
           ></i>
           <div class="product-name pointer"
-            [routerLink]="['./products', product.id, 'kanban-board']"
             >{{ product.name }}</div
           >
           <ul class="product-card">
@@ -113,7 +112,7 @@
               </a>
             </li>
             <li>
-              <a [routerLink]="['./products', product.id, 'kanban-board', 'focus']">
+              <a [routerLink]="['./products', product.id, 'kanban-board', 'myworkingarea']">
                 <i class="fa fa-2x fa-bullseye"></i>
               </a>
             </li>

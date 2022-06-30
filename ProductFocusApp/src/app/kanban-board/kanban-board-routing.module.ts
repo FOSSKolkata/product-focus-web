@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FocusComponent } from './focus/focus.component';
+import { MyWorkingArea } from './my-working-area/my-working-area.component';
 import { KanbanBoardComponent } from './kanban-board.component';
 
 const routes: Routes = [
@@ -9,9 +9,9 @@ const routes: Routes = [
     component: KanbanBoardComponent,
     data: {breadcrumb: 'Kanban Board'}
   },{
-    path: 'focus',
-    component: FocusComponent,
-    data: {breadcrumb: 'Focus'}
+    path: 'myworkingarea',
+    component: MyWorkingArea,
+    data: {breadcrumb: 'My Working Area'}
   }
 ];
 

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FocusComponent } from './focus.component';
+import { MyWorkingArea } from './my-working-area.component';
 
 describe('FocusComponent', () => {
-  let component: FocusComponent;
-  let fixture: ComponentFixture<FocusComponent>;
+  let component: MyWorkingArea;
+  let fixture: ComponentFixture<MyWorkingArea>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FocusComponent ]
+      declarations: [ MyWorkingArea ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FocusComponent);
+    fixture = TestBed.createComponent(MyWorkingArea);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
