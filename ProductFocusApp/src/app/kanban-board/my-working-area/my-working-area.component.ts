@@ -8,11 +8,11 @@ import { ModifyColumnIdentifier, WorkItemType } from 'src/app/dht-common/models'
 import { ToastrService } from 'ngx-toastr';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 @Component({
-  selector: 'app-focus',
-  templateUrl: './focus.component.html',
-  styleUrls: ['./focus.component.scss']
+  selector: 'app-my-working-area',
+  templateUrl: './my-working-area.component.html',
+  styleUrls: ['./my-working-area.component.scss']
 })
-export class FocusComponent implements OnInit {
+export class MyWorkingArea implements OnInit {
 
   productId: number;
   workItems: IWorkItem[] = [];
