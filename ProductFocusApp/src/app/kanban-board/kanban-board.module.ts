@@ -24,6 +24,7 @@ import { SwitchTextAutocompleteComponent } from './switch-text-autocomplete/swit
 import { PopoverModule } from 'ngx-smart-popover';
 import { AddSprintComponent } from './add-sprint/add-sprint.component';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { FocusComponent } from './focus/focus.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
     ScrumViewComponent,
     ProgressCommentComponent,
     SwitchTextAutocompleteComponent,
-    AddSprintComponent
+    AddSprintComponent,
+    FocusComponent
   ],
   providers: [
     DatePipe

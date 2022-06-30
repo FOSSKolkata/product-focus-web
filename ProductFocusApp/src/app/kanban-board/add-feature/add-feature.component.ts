@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ModuleService } from 'src/app/_services/module.service';
+import { ProductService } from 'src/app/_services/product.service';
 import { IFeatureInput, ISprint } from '../../dht-common/models';
 
 @Component({
@@ -32,14 +33,11 @@ export class AddFeatureComponent implements OnInit {
   selectedProduct!: {id: number, name: string};
   constructor(private moduleService: ModuleService,
               private toastr: ToastrService,
-              private router: Router) {}
-  ngOnInit(): void {
-    let selectedProductString = localStorage.getItem("selectedProduct");
-    if(selectedProductString === null || selectedProductString === undefined) {
-      this.router.navigate(['/']);
-      return;
-    }
-    this.selectedProduct = JSON.parse(selectedProductString);
+              private route: ActivatedRoute,
+              private productService: ProductService) {}
+  async ngOnInit(): Promise<void> {
+    let productId = this.route.snapshot.params['id'];
+    this.selectedProduct = await this.productService.getById(productId).toPromise();
   }
   addType(workItemType: string) {
     this.workItemType = workItemType;

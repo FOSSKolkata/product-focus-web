@@ -78,7 +78,7 @@
       </div>
       <div class="col-auto">
         <div *ngIf="!!this.selectedOrganization">
-          <a routerLink="/organization" class="text-dark">
+          <a [routerLink]="['/',selectedOrganization.name]" class="text-dark">
             <i class="fa fa-cog"></i>
             Settings
           </a>
@@ -100,17 +100,24 @@
           <i
             class="fa fa-ellipsis-h ellipsis"
           ></i>
-          <a routerLink="./news-report"
-            (click)="setLastProductId(product)">
-            <i
-              class="fas fa-chart-bar fa-2x news-report"
-            ></i>
-          </a>
           <div class="product-name pointer"
             [routerLink]="['./products', product.id, 'kanban-board']"
-            (click)="setLastProductId(product)"
             >{{ product.name }}</div
           >
+          <ul class="product-card">
+            <li>
+              <a [routerLink]="['./products', product.id, 'news-report']">
+                <i
+                  class="fas fa-chart-bar fa-2x"
+                ></i>
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['./products', product.id, 'kanban-board', 'focus']">
+                <i class="fa fa-2x fa-bullseye"></i>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
       <div
@@ -123,7 +130,7 @@
           class="column-control"
           [style.display]="!productAddView?'block':'none'"
         >
-          <div><i class="fa fa-plus">Add</i></div>
+          <div><i class="fa fa-plus"></i> Add Product</div>
         </div>
         <div *ngIf="productAddView" class="add-product add">
           <form #productForm="ngForm" (ngSubmit)="addProduct()">

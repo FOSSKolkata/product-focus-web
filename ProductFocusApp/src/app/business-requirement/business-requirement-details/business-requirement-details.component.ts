@@ -3,10 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ITag } from 'src/app/tag-management/models';
-import { IProduct } from 'src/app/dht-common/models';
 import { BusinessRequirementSourceEnum, IBusinessRequirementDetails, IBusinessRequirementInput } from '../models';
 import { BusinessRequirementService } from '../_services/business-requirement.service';
 import { TagService } from 'src/app/tag-management/_services/tag.service';
@@ -41,7 +40,7 @@ export class BusinessRequirementDetailsComponent implements OnInit {
   imgArr: any[] = [];
   files!: FileList;
   fileObj: any[] = [];
-  selectedProduct!: IProduct;
+  productId: number;
   msg: string = '';
   progress: number = 0;
   private form: FormGroup; // Will be removed later
@@ -52,7 +51,6 @@ export class BusinessRequirementDetailsComponent implements OnInit {
     public fb: FormBuilder,
     private sanitizer: DomSanitizer,
     private tagService: TagService,
-    private router: Router,
     private busReqService: BusinessRequirementService,
     private tostr: ToastrService,
     private route: ActivatedRoute) {
@@ -61,16 +59,11 @@ export class BusinessRequirementDetailsComponent implements OnInit {
       this.form = this.fb.group({
         avatar: [null]
       });
+      this.productId = this.route.snapshot.params['id'];
     }
   
   ngOnInit(): void {
-    const selectedProductString = localStorage.getItem('selectedProduct');
-    if(selectedProductString === null) {
-      this.router.navigate(['/']);
-      return;
-    }
-    this.selectedProduct = JSON.parse(selectedProductString);
-    this.tagService.getTagListByProductId(this.selectedProduct.id).subscribe(x => {
+    this.tagService.getTagListByProductId(this.productId).subscribe(x => {
       this.tags = x; 
       if(this.businessRequirementDetails.id) {
         this.busReqService.getBusinessRequirementDetails(this.businessRequirementDetails.id).subscribe(x => {
@@ -226,7 +219,7 @@ export class BusinessRequirementDetailsComponent implements OnInit {
     }
     const input: IBusinessRequirementInput = {
       id: this.businessRequirementDetails.id,
-      productId: this.selectedProduct.id,
+      productId: this.productId,
       title: this.businessRequirementDetails.title,
       receivedOn: this.businessRequirementDetails.receivedOn,
       tagIds: tagIds,

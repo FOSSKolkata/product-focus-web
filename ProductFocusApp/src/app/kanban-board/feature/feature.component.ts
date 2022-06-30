@@ -5,7 +5,6 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IFeature } from '../../dht-common/models';
 
@@ -35,14 +34,9 @@ export class FeatureComponent implements OnInit {
   detailsChanged: boolean = false;
   closeResult = '';
 
-  constructor(private modalService: NgbModal, private router: Router) {}
+  constructor(private modalService: NgbModal) {}
 
-  ngOnInit(): void {
-    var lastSelectedOrgId = localStorage.lastSelctedOrganizationId;
-    if (lastSelectedOrgId == null || lastSelectedOrgId == undefined)
-      this.router.navigate(['/']);
-  }
-  content: any;
+  ngOnInit(): void { }
 
   openFeatureDetailsModal(content: any) {
     this.modalService

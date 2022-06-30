@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
-import { IProduct } from '../dht-common/models';
 import { ITag } from './models';
 import { TagService } from './_services/tag.service';
 import { TagManagementService } from './services/tag-management.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tag-management',
@@ -13,14 +12,14 @@ import { TagManagementService } from './services/tag-management.service';
   styleUrls: ['./tag-management.component.scss']
 })
 export class TagManagementComponent implements OnInit, OnDestroy {
-
+  productId: number;
   tags: ITag[] = [] ;
-  selectedProduct!: IProduct;
   tagManagementServiceSubstription: Subscription;
   constructor(private tagService: TagService,
-    private router: Router,
     private tostr: ToastrService,
-    private tagManagementService: TagManagementService) { 
+    private tagManagementService: TagManagementService,
+    private route: ActivatedRoute) {
+      this.productId = this.route.snapshot.params['id']; 
       this.tagManagementServiceSubstription = this.tagManagementService.tagSubject.subscribe(x => {
         this.tags = x;
       });
@@ -30,17 +29,11 @@ export class TagManagementComponent implements OnInit, OnDestroy {
   }
   
   ngOnInit(): void {
-    let selectedProductString = localStorage.getItem('selectedProduct');
-    if(selectedProductString === null) {
-      this.router.navigate(['/']);
-      return;
-    }
-    this.selectedProduct = JSON.parse(selectedProductString);
     this.setTagList();
   }
 
   setTagList() {
-    this.tagService.getTagListByProductId(this.selectedProduct.id).subscribe(x => {
+    this.tagService.getTagListByProductId(this.productId).subscribe(x => {
       this.tags = x;
     });
   }

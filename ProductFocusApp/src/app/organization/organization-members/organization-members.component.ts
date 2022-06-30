@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, OperatorFunction } from 'rxjs';
@@ -10,8 +10,9 @@ import {
   filter,
   map,
 } from 'rxjs/operators';
-import { IMemberDetailsList, ISendInvitationInput, IUser } from 'src/app/dht-common/models';
+import { IMemberDetailsList, IOrganization, ISendInvitationInput, IUser } from 'src/app/dht-common/models';
 import { InvitationService } from 'src/app/_services/invitation.service';
+import { OrganizationService } from 'src/app/_services/organization.service';
 import { UserService } from 'src/app/_services/user.service';
 
 @Component({
@@ -20,11 +21,12 @@ import { UserService } from 'src/app/_services/user.service';
   styleUrls: ['./organization-members.component.scss'],
 })
 export class OrganizationMembersComponent implements OnInit {
+  private organization!: IOrganization;
+  private organizationName: string;
   usersMail: string[] = [];
   closeResult = '';
   sendingInvitationActive = false;
   selectedMail!: string;
-  lastSelctedOrganizationId!: number;
   gettingUserList = false;
   organizationMemberList: IMemberDetailsList = {
     recordCount : 0,
@@ -34,22 +36,22 @@ export class OrganizationMembersComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private invitationService: InvitationService,
-    private router: Router,
     private userService: UserService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private route: ActivatedRoute,
+    private organizationService: OrganizationService
+  ) {
+    this.organizationName = this.route.snapshot.parent?.params['organizationName'];
+  }
 
-  ngOnInit(): void {
-    if (!localStorage.lastSelctedOrganizationId) {
-      this.router.navigate(['/']);
-    }
-    this.lastSelctedOrganizationId = localStorage.lastSelctedOrganizationId;
-    this.userService.getUserListByOrganization(this.lastSelctedOrganizationId).subscribe(x => {
+  async ngOnInit(): Promise<void> {
+    this.organization = await this.organizationService.getOrganizationByName(this.organizationName).toPromise();
+    this.userService.getUserListByOrganization(this.organization.id).subscribe(x => {
       this.organizationMemberList = x;
     });
 
     this.gettingUserList = true;
-    this.invitationService.getUserListNotPartOfOrganization(this.lastSelctedOrganizationId).subscribe(x => {
+    this.invitationService.getUserListNotPartOfOrganization(this.organization.id).subscribe(x => {
       this.usersMail = this.getEmails(x);
       this.gettingUserList = false;
     });
@@ -95,7 +97,7 @@ export class OrganizationMembersComponent implements OnInit {
     this.sendingInvitationActive = true;
     const invitationInput: ISendInvitationInput = {
       email: this.selectedMail,
-      orgId: this.lastSelctedOrganizationId
+      orgId: this.organization.id
     };
     this.invitationService.sendInvitation(invitationInput).subscribe(
       (res) => {
