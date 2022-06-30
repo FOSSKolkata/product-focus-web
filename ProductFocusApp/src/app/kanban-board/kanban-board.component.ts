@@ -1,16 +1,16 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProductService } from '../_services/product.service';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SprintService } from '../_services/sprint.service';
-import { FeatureStatus, GroupCategory, IKanbanBoard, IMemberDetail, IModule, ISprint } from '../dht-common/models';
+import { FeatureStatus, GroupCategory, IKanbanBoard, IMemberDetail, IModule, IOrganization, ISprint } from '../dht-common/models';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../_services/user.service';
-import { BreadcrumbService } from 'xng-breadcrumb';
 import { Subject } from 'rxjs';
 import { MatSelectChange } from '@angular/material/select';
 import { BoardViewComponent } from './board-view/board-view.component';
 import { ScrumViewComponent } from './scrum-view/scrum-view.component';
+import { OrganizationService } from '../_services/organization.service';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -26,8 +26,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   sprintAddView: boolean = false;
   moduleName: string | undefined;
   productId!: number;
-  selectedProduct!: any;
-  selectedOrganization!: any;
+  selectedOrganization!: IOrganization;
   enabledAdding: boolean = true;
   allSprint: ISprint[] = [];
   organizationUser: IMemberDetail[] = [];
@@ -51,17 +50,15 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
     private sprintService: SprintService,
     private toastr: ToastrService,
     private userService: UserService,
-    private router: Router
+    private organizationService: OrganizationService
   ) {
     this.isKanbanMode = localStorage.isKanbanMode === undefined?true:localStorage.isKanbanMode == "true"?true: false;
   }
 
   async ngOnInit(): Promise<void> {
     this.productId = this.activatedRoute.snapshot.params.id;
-    if(localStorage.selectedOrganization === undefined || localStorage.selectedProduct === undefined)
-      this.router.navigate(['/']);
-    this.selectedProduct = JSON.parse(localStorage.selectedProduct);
-    this.selectedOrganization = JSON.parse(localStorage.selectedOrganization);
+    let organizationName = this.activatedRoute.snapshot.parent?.parent?.params['organizationName'];
+    this.selectedOrganization = await this.organizationService.getOrganizationByName(organizationName).toPromise();
     await this.doesSprintExistSetIt();
     if(!this.sprintExist){
       this.kanbanBoardSpinner = false;

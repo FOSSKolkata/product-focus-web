@@ -36,7 +36,7 @@
         <div class="side-panel">
             <div class="work-items-container">
                 <h5 class="bold">Your work items</h5>
-                <div *ngIf="workItems.length == 0" class="message">You are not assigned to any task.</div>
+                <div *ngIf="workItems.length == 0" class="message">You are not assigned to any task in the current sprint.</div>
                 <ul class="work-items" cdkDropList cdkDropListSortingDisabled>
                     <li class="work-item pointer" *ngFor="let workItem of workItems"
                         [ngClass]="{'text-success': !workItem.isInProgress && workItem.workCompletionPercentage == 100,

@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
-import { IProduct } from 'src/app/dht-common/models';
 import { BreadcrumbService } from 'xng-breadcrumb';
 import { ITestSuiteOrder, TestCase, TestCaseInput, TestPlanDetails, TestStep, TestStepInput, TestSuite, TestSuiteInput, UpdateTestCaseInput, UpdateTestStepInput } from '../models';
 import { TestCaseService } from '../_services/test-case.service';
@@ -24,9 +23,9 @@ enum TestSuiteMovementDirection {
   styleUrls: ['./test-suites.component.scss']
 })
 export class TestSuitesComponent implements OnInit, OnDestroy {
+  productId: number;
   addSuiteVisible = false;
   testMode = TestCaseMode.Add;
-  selectedProduct!: IProduct;
   testPlanDetails!: TestPlanDetails;
   newTestSuiteInput: TestSuiteInput;
   private testPlanId: number;
@@ -56,26 +55,21 @@ export class TestSuitesComponent implements OnInit, OnDestroy {
     private testRunService: TestRunService,
     private breadcrumbService: BreadcrumbService,
     private modalService: NgbModal) {
-    this.testPlanId = Number(this.route.snapshot.paramMap.get('testPlanId'));
-    this.newTestSuiteInput = new TestSuiteInput(this.testPlanId, '');
-    this.newTestCaseInput = new TestCaseInput('', '', null, null, []);
+      this.productId = this.route.snapshot.params['id'];
+      this.testPlanId = Number(this.route.snapshot.paramMap.get('testPlanId'));
+      this.newTestSuiteInput = new TestSuiteInput(this.testPlanId, '');
+      this.newTestCaseInput = new TestCaseInput('', '', null, null, []);
   }
   ngOnDestroy(): void {
     this.modalService.dismissAll();
   }
 
   ngOnInit(): void {
-    let selectedProductString = localStorage.getItem('selectedProduct');
-    if (!selectedProductString) {
-      this.router.navigate(['..']);
-      return;
-    }
-    this.selectedProduct = JSON.parse(selectedProductString);
     this.setTestPlanDetails();
   }
 
   setTestPlanDetails(): void {
-    this.testPlanService.getTestPlanDetails(this.testPlanId, this.selectedProduct.id).subscribe(x => {
+    this.testPlanService.getTestPlanDetails(this.testPlanId, this.productId).subscribe(x => {
       this.testPlanDetails = x;
       if (this.testPlanDetails.testSuites.length > 0) {
         this.selectTestSuite(this.testPlanDetails?.testSuites[0]);

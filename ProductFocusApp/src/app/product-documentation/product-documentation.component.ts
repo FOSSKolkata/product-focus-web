@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { IProduct } from '../dht-common/models';
 import { AddProductDocumentation, ProductDocumentation, ProductDocumentationDetails, TreeContainer } from './model';
 import { ProductDocumentationService } from './_services/product-documentation.service';
 
@@ -11,9 +10,9 @@ import { ProductDocumentationService } from './_services/product-documentation.s
   styleUrls: ['./product-documentation.component.scss']
 })
 export class ProductDocumentationComponent implements OnInit {
+  productId: number;
   productDocumentations!: ProductDocumentation;
   productDocumentationsDetails: ProductDocumentationDetails[] = [];
-  selectedProduct!: IProduct;
   addParentDocumentationId?: number | null = null;
   addingDocumentation = false;
   previouslyTopLevelSelectedDocumentation!: ProductDocumentation;
@@ -25,16 +24,11 @@ export class ProductDocumentationComponent implements OnInit {
   productDocumentation: AddProductDocumentation = new AddProductDocumentation(null, -1, '','');
   constructor(private productDocumentationService: ProductDocumentationService,
     private toastr: ToastrService,
-    private router: Router) { }
+    private route: ActivatedRoute) {
+      this.productId = this.route.snapshot.params['id'];
+    }
 
   ngOnInit(): void {
-    let selectedProductString = localStorage.getItem('selectedProduct');
-    if(!selectedProductString) {
-      this.router.navigate(['/']);
-      return;
-    }
-    this.selectedProduct = JSON.parse(selectedProductString);
-    this.productDocumentation.productId = this.selectedProduct.id;
     this.loadProductDocumentation(null);
   }
 
@@ -44,7 +38,7 @@ export class ProductDocumentationComponent implements OnInit {
 
   loadProductDocumentation(documentationId: number | null) {
     this.loadingIndex = true;
-    this.productDocumentationService.getProductDocumentations(this.selectedProduct.id).subscribe(x => {
+    this.productDocumentationService.getProductDocumentations(this.productId).subscribe(x => {
       this.loadingIndex = false;
       this.productDocumentations = {title: 'root', childDocumentations: x} as ProductDocumentation;
       if(x.length !== 0) {
@@ -113,7 +107,7 @@ export class ProductDocumentationComponent implements OnInit {
   }
 
   cancelAdding() {
-    this.productDocumentation = new AddProductDocumentation(null, this.selectedProduct.id, '', '');
+    this.productDocumentation = new AddProductDocumentation(null, this.productId, '', '');
     this.addParentDocumentationId = null;
   }
 

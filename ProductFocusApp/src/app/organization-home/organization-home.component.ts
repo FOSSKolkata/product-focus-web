@@ -121,8 +121,6 @@ export class OrganizationHomeComponent implements OnInit {
 
   selectOrganization(organization: IOrganization) {
     this.selectedOrganization = organization;
-    localStorage.lastSelctedOrganizationId = this.selectedOrganization.id;
-    localStorage.selectedOrganization = JSON.stringify(this.selectedOrganization);
     this.breadcrumbService.set('organizations/:organization-name', organization.name);
     this.router.navigate(['organizations', organization.name]);
     if(this.selectedOrganization !== undefined){
@@ -172,11 +170,6 @@ export class OrganizationHomeComponent implements OnInit {
           this.enabledAdding = true;
         }
       );
-  }
-  
-  setLastProductId(product: any) {
-    localStorage.setItem('productId', product.id.toString());
-    localStorage.selectedProduct = JSON.stringify(product);
   }
   
   isValidOrganization(paramOrganization: string, organizationList: IOrganization[]): boolean {

@@ -1,11 +1,12 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
-import { FeatureOrdering, GroupCategory, IFeatureDetails, IKanban, IMemberDetail, IModule, IScrumDay, ISprint, ModifyColumnIdentifier, OrderingInfo } from 'src/app/dht-common/models';
+import { FeatureOrdering, GroupCategory, IFeatureDetails, IKanban, IMemberDetail, IModule, IOrganization, IScrumDay, ISprint, ModifyColumnIdentifier, OrderingInfo } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
+import { OrganizationService } from 'src/app/_services/organization.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { UserService } from 'src/app/_services/user.service';
 
@@ -22,25 +23,28 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
 
   kanban!: IKanban;
   kanbanWithoutFilter!: IKanban;
-  // kanbanBoard: IKanbanBoard[] = [];
-  // kanbanBoardWithoutFilter: IKanbanBoard[] = [];
   sprintDates: Date[] = [];
   board:any[] = [];
   boardWithoutFilter: any[] = [];
   organizationUser: IMemberDetail[] = [];
-  organization: any | null = null;
-  selectedProduct!: {id: number, name: string};
   featureOrder = new Map<number,number>();
   eventsSubscription!: Subscription;
   error!: HttpErrorResponse;
   modules: IModule[] = [];
+  productId: number;
+  organizationName: string;
+  organization!: IOrganization;
   @Input('selected-group') selectedGroupCategory = GroupCategory.Module;
   
   constructor(private featureService: FeatureService,
     private toastr: ToastrService,
     private userService: UserService,
-    private router: Router,
-    private productService: ProductService) { }
+    private productService: ProductService,
+    private route: ActivatedRoute,
+    private organizationService: OrganizationService) {
+      this.productId = this.route.snapshot.params['id'];
+      this.organizationName = this.route.snapshot.parent?.parent?.params['organizationName'];
+    }
 
   sortByDateAndAddExtra(scrumDays: IScrumDay[]) {
     let scrumDaysMap = new Map<number,IScrumDay>();
@@ -66,20 +70,12 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    let selectedProductJSONString = localStorage.getItem('selectedProduct');
-    if(!selectedProductJSONString) {
-      this.router.navigate(["/"]);
-    }
-    this.selectedProduct = JSON.parse(selectedProductJSONString?selectedProductJSONString:'');
-    this.organization = JSON.parse(localStorage.selectedOrganization);
-    if(this.organization === undefined || this.organization === null){
-      this.router.navigate(['/']);
-    }
+    this.organization = await this.organizationService.getOrganizationByName(this.organizationName).toPromise();
     this.userService.getUserListByOrganization(this.organization.id).subscribe(x=>{
       this.organizationUser = x.members;
     });
 
-    this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(x => {
+    this.productService.getModulesByProductId(this.productId).subscribe(x => {
       this.modules = x;
     });
     
@@ -90,33 +86,16 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
         },0);
       });
     }
-    
-    // while(!this.currentSprint) {
-    //   await new Promise(resolve => setTimeout(resolve,100));
-    // }
     this.setKanbanBoard();
   }
   setKanbanBoard() {
-    if (this.selectedProduct === undefined) {
-      this.router.navigate(['/']);
-    }
     if(!this.currentSprint)
       return
     this.kanbanBoardSpinner = true;
     this.productService
-      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, this.currentSprint.id, this.selectedUserIds, this.selectedGroupCategory)
+      .getKanbanViewByProductIdAndQuery(this.productId, this.currentSprint.id, this.selectedUserIds, this.selectedGroupCategory)
       .subscribe((x) => {
         this.kanban = x;
-        // this.kanbanBoard = x.kanbanList;
-        // for(let module of this.kanbanBoard) {
-        //   module.featureDetails.sort((item1: IFeatureDetails, item2: IFeatureDetails) => {
-        //     if(item1.orderNumber < item2.orderNumber)
-        //       return -1;
-        //     if(item1.orderNumber > item2.orderNumber)
-        //       return 1;
-        //     return 0;
-        //   });
-        // }
         for(let module of this.kanban.kanbanList) {
           module.featureDetails.sort((item1: IFeatureDetails, item2: IFeatureDetails) => {
             if(item1.orderNumber < item2.orderNumber)
@@ -134,7 +113,7 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       });
 
     this.productService
-      .getKanbanViewByProductIdAndQuery(this.selectedProduct.id, this.currentSprint.id, [], this.selectedGroupCategory)
+      .getKanbanViewByProductIdAndQuery(this.productId, this.currentSprint.id, [], this.selectedGroupCategory)
       .subscribe((x) => {
         this.kanbanWithoutFilter = x;
         // this.kanbanBoardWithoutFilter = x.kanbanList;

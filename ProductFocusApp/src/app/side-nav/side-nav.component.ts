@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-side-nav',
@@ -7,18 +7,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./side-nav.component.scss'],
 })
 export class SideNavComponent implements OnInit, OnDestroy {
-  constructor(private router: Router) {}
+  constructor(private route: ActivatedRoute) {}
   isSideNavExpanded = true;
   productId: number | undefined;
   organizationName: string | undefined;
   ngOnInit(): void {
-    if (localStorage.getItem('productId') === undefined || localStorage.getItem('selectedOrganization') === undefined) {
-      this.router.navigate(['/organization-home']);
-    }
-    else {
-      this.productId = Number(localStorage.getItem('productId'));
-      this.organizationName = JSON.parse(localStorage.selectedOrganization).name;
-    }
+      this.productId = this.route.snapshot.children[0].params['id']; // taking 0th index since the route has only one child route
+      this.organizationName = this.route.snapshot.params['organizationName'];
     if(this.isSideNavExpanded) {
       this.invert();
     }

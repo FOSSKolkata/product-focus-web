@@ -8,6 +8,7 @@ import { ITag } from '../tag-management/models';
 import { BusinessRequirementService } from './_services/business-requirement.service';
 import { TagService } from 'src/app/tag-management/_services/tag.service';
 import { ToastrService } from 'ngx-toastr';
+import { ProductService } from '../_services/product.service';
 
 enum DateType {
   startDate = 1,
@@ -25,28 +26,24 @@ export class BusinessRequirementComponent implements OnInit {
   endDate!: Date;
   tags: ITag[] = [];
   selectedTags: ITag[] = [];
-  private selectedProduct!: IProduct;
   businessRequirementList!: IBusinessRequirements;
   businessRequirementSortedList!: IBusinessRequirements;
   private offset = 0;
   count = 5;
+  productId: number;
   pageNo = 1;
 
   constructor(private businessReqService: BusinessRequirementService,
     private tagService: TagService,
     private router: Router,
     private route: ActivatedRoute,
-    private tostr: ToastrService) { }
+    private tostr: ToastrService) {
+      this.productId = this.route.snapshot.params['id'];
+    }
 
   ngOnInit(): void {
-    const selectedProductString = localStorage.selectedProduct;
-    if(!selectedProductString) {
-      this.router.navigate(['/']);
-      return;
-    }
-    this.selectedProduct = JSON.parse(selectedProductString);
 
-    this.tagService.getTagListByProductId(this.selectedProduct.id).subscribe(x => {
+    this.tagService.getTagListByProductId(this.productId).subscribe(x => {
       this.tags = x;
     });
     this.route.paramMap.subscribe(x => {
@@ -63,7 +60,7 @@ export class BusinessRequirementComponent implements OnInit {
       selectedTagIds.push(tag.id);
     }
     this.businessReqService.getBusinessRequirementListByProductId(
-      this.selectedProduct.id,
+      this.productId,
       selectedTagIds,
       this.startDate,
       this.endDate,this.offset,this.count).subscribe(x => {

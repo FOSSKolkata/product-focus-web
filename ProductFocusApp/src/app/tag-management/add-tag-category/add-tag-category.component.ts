@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IAddTagCategory } from '../models';
 import { TagCategoriesService } from '../_services/tag-categories.service';
-import { IProduct } from 'src/app/dht-common/models';
 import { finalize } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-add-tag-category',
@@ -13,24 +12,19 @@ import { finalize } from 'rxjs/operators';
 })
 export class AddTagCategoryComponent implements OnInit {
   tagCategoryName = "";
-  selectedProduct!: IProduct;
+  productId: number;
   adding = false;
   constructor(private tagCategoryService: TagCategoriesService,
-    private router: Router,
-    private tostr: ToastrService) { }
-  
-  ngOnInit(): void {
-    let selectedProductString = localStorage.getItem('selectedProduct');
-    if(selectedProductString === null) {
-      this.router.navigate(['/']);
-      return;
+    private tostr: ToastrService,
+    private route: ActivatedRoute) {
+      this.productId = this.route.snapshot.parent?.params['id'];
     }
-    this.selectedProduct = JSON.parse(selectedProductString);
-  }
+  
+  ngOnInit(): void { }
 
   addTagCategory(tagCategory: IAddTagCategory) {
     this.adding = true;
-    this.tagCategoryService.addTagCategories(this.selectedProduct.id,tagCategory).pipe(
+    this.tagCategoryService.addTagCategories(this.productId,tagCategory).pipe(
       finalize(() => {
         this.adding = false;
       })

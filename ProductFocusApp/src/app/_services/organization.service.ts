@@ -49,6 +49,14 @@ export class OrganizationService {
     );
   }
 
+  getOrganizationByName(name: string): Observable<IOrganization> {
+    return this.http.get<IOrganization>(
+      apiConfig.uri + `/Organization/GetOrganizationByName/${name}`
+    ).pipe(
+      catchError(this.handleError)
+    )
+  }
+
 
   addProductInOrganization(
     id: number,

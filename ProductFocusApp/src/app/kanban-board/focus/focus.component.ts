@@ -57,8 +57,9 @@ export class FocusComponent implements OnInit {
   }
 
   switchWorkingItem(event: CdkDragDrop<any, any>) {
-    console.log(event.container.data[event.previousIndex]);
-    let previousWorkItem: IWorkItem = JSON.parse(JSON.stringify(this.progressWorkItem)); // structuredClone is not working
+    let previousWorkItem: IWorkItem | null = null;
+    if(!!this.progressWorkItem)
+      previousWorkItem = JSON.parse(JSON.stringify(this.progressWorkItem)); // structuredClone is not working
     for(let workItem of this.workItems) {
       if(workItem.isInProgress) {
         workItem.isInProgress = false;
@@ -67,11 +68,10 @@ export class FocusComponent implements OnInit {
     }
     this.progressWorkItem = event.container.data[event.previousIndex];
     this.progressWorkItem.isInProgress = true;
-    console.log(previousWorkItem?.currentProgressWorkItem.id)
     this.featureService.markWorkItemAsCurrentlyProgress(this.productId,this.progressWorkItem.id,
       previousWorkItem?.currentProgressWorkItem.id).subscribe(x => {
         this.progressWorkItem.currentProgressWorkItem = x;
-    })
+    });
   }
 
   get workItemType(): typeof WorkItemType {

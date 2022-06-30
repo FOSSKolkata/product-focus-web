@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
-import { Router } from '@angular/router';
-import { IClosedInvitation, IGetClosedInvitation, IGetPendingInvitation, InvitationStatus, IPendingInvitation } from 'src/app/dht-common/models';
+import { ActivatedRoute } from '@angular/router';
+import { IClosedInvitation, IGetClosedInvitation, IGetPendingInvitation, InvitationStatus, IOrganization, IPendingInvitation } from 'src/app/dht-common/models';
 import { InvitationService } from 'src/app/_services/invitation.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
+import { OrganizationService } from 'src/app/_services/organization.service';
 
 @Component({
   selector: 'app-invitations',
@@ -13,7 +14,8 @@ import * as moment from 'moment';
   styleUrls: ['./invitations.component.scss'],
 })
 export class InvitationsComponent implements OnInit {
-  lastSelctedOrganizationId!: number;
+  organization!: IOrganization;
+  organizationName: string;
   pendingInvitationList: IGetPendingInvitation = {
     pendingInvitations: [],
     recordCount: 0
@@ -35,16 +37,16 @@ export class InvitationsComponent implements OnInit {
   
   constructor(
     private invitationService: InvitationService,
-    private router: Router,
+    private route: ActivatedRoute,
     private modalService: NgbModal,
-    private toastr: ToastrService
-  ) { }
+    private toastr: ToastrService,
+    private organizationService: OrganizationService
+  ) {
+    this.organizationName = this.route.snapshot.parent?.params['organizationName'];
+  }
 
-  ngOnInit(): void {
-    this.lastSelctedOrganizationId = localStorage.lastSelctedOrganizationId;
-    if (!this.lastSelctedOrganizationId) {
-      this.router.navigate(['/']);
-    }
+  async ngOnInit(): Promise<void> {
+    this.organization = await this.organizationService.getOrganizationByName(this.organizationName).toPromise();
     this.initializePendingInvitation();
     this.initializeClosedInvitation();
   }
@@ -75,7 +77,7 @@ export class InvitationsComponent implements OnInit {
   initializeClosedInvitation() {
     this.loadingClosed = true;
     this.invitationService.getClosedInvitationList(
-      this.lastSelctedOrganizationId,
+      this.organization.id,
       this.offset,
       this.count
     ).subscribe(x => {
@@ -107,7 +109,7 @@ export class InvitationsComponent implements OnInit {
     // If doesn't contain then call the api else add old data in pendinglist from container
     if(this.closedInvitationContainer[start].length == 0){
       this.loadingClosed = true;
-      this.invitationService.getClosedInvitationList(this.lastSelctedOrganizationId,start,event.pageSize).subscribe(x => {
+      this.invitationService.getClosedInvitationList(this.organization.id,start,event.pageSize).subscribe(x => {
         x.closedInvitations.map(invitation => {
           invitation.invitedOn = moment.utc(invitation.invitedOn).local().toDate();
         });
@@ -136,7 +138,7 @@ export class InvitationsComponent implements OnInit {
     this.loadingPending = true;
     this.invitationService
       .getPendingInvitationList(
-        this.lastSelctedOrganizationId,
+        this.organization.id,
         this.offset,
         this.count
       )
@@ -170,7 +172,7 @@ export class InvitationsComponent implements OnInit {
     // If doesn't contain then call the api else add old data in pendinglist from container
     if(this.pendingInvitationContainer[start].length == 0){
       this.loadingPending = true;
-      this.invitationService.getPendingInvitationList(this.lastSelctedOrganizationId,start,event.pageSize).subscribe(x => {
+      this.invitationService.getPendingInvitationList(this.organization.id,start,event.pageSize).subscribe(x => {
         this.loadingPending = false;
 
         x.pendingInvitations.map(invitation => {

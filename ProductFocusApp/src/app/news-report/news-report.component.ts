@@ -3,12 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { EventLogService } from '../_services/event-log.service';
 import * as moment from 'moment';
-import { EventLog, IMemberDetailsList } from '../dht-common/models';
+import { EventLog, IMemberDetailsList, IOrganization } from '../dht-common/models';
 import { UserService } from '../_services/user.service';
 import { ProductService } from '../_services/product.service';
 import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { DateFunctionService } from '../dht-common/date-function.service';
 import { finalize } from 'rxjs/operators';
+import { OrganizationService } from '../_services/organization.service';
 
 @Component({
   selector: 'app-news-report',
@@ -18,7 +19,7 @@ import { finalize } from 'rxjs/operators';
 export class NewsReportComponent implements OnInit {
   selected = 'All';
   selectedProduct!: { id: number; name: string; };
-  selectedOrganization! : {id: number; isOwner: boolean, name: string};
+  selectedOrganization! : IOrganization;
   eventList: EventLog[] = [];
   userList: any[] = [];
   selectedUsers: any[] = [];
@@ -38,17 +39,14 @@ export class NewsReportComponent implements OnInit {
     private userService: UserService,
     private productService: ProductService,
     private dateService: DateFunctionService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private organizationService: OrganizationService
   ) { }
 
   async ngOnInit(): Promise<void> {
-    let storedSelectedOrganization = localStorage.getItem('selectedOrganization');
-    if(storedSelectedOrganization === null) {
-      this.router.navigate(['/']);
-      return;
-    }
+    let organizationName = this.route.snapshot.parent?.parent?.params["organizationName"];
     let productId = this.route.snapshot.params['id'];
-    this.selectedOrganization = JSON.parse(storedSelectedOrganization?storedSelectedOrganization:'');
+    this.selectedOrganization = await this.organizationService.getOrganizationByName(organizationName).toPromise();
     this.selectedProduct = await this.productService.getById(productId).toPromise();
 
     this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(res => {

@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
 import { FeatureOrdering, FeatureStatus, GroupCategory, IKanban, IModule, ISprint, ModifyColumnIdentifier, OrderingInfo } from 'src/app/dht-common/models';
@@ -23,7 +23,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
   kanbanWithoutFilter!: IKanban;
   board: any = [];
   boardWithoutFilter: any = [];
-  selectedProduct!: {id: number, name: string};
+  productId: number;
   error!: HttpErrorResponse;
   eventsSubscription!: Subscription;
   @Input('selected-group') selectedGroup = GroupCategory.Module;
@@ -32,15 +32,12 @@ export class BoardViewComponent implements OnInit, OnDestroy {
   constructor(private featureService: FeatureService,
     private router: Router,
     private productService: ProductService,
-    private toStr: ToastrService) { }
+    private toStr: ToastrService,
+    private route: ActivatedRoute) {
+      this.productId = this.route.snapshot.params['id'];
+    }
   
   async ngOnInit(): Promise<void> {
-    let selectedProductJSONString = localStorage.getItem('selectedProduct');
-    if(!selectedProductJSONString) {
-      this.router.navigate(["/"]);
-    }
-    this.selectedProduct = JSON.parse(selectedProductJSONString?selectedProductJSONString:'');
-    
     this.setModules();
     
     if(this.events) {
@@ -54,37 +51,32 @@ export class BoardViewComponent implements OnInit, OnDestroy {
   }
 
   setModules() {
-    this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(x => {
+    this.productService.getModulesByProductId(this.productId).subscribe(x => {
       this.modules = x;
     });
   }
 
   setKanbanBoard() {
-    if (this.selectedProduct === undefined) {
-      this.router.navigate(['/']);
-    }
-    else {
-      this.setModules();
-      this.productService
-        .getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
-          this.selectedSprint?.id,
-          this.selectedUserIds,
-          this.selectedGroup)
-        .subscribe((x) => {
-          this.kanban = x;
-          this.kanbanBoardSpinner = false;
-          this.board = this.setBoard(this.kanban);
-        },(err)=>{
-          this.kanbanBoardSpinner = false;
-          this.error = err;
-        });
-      this.productService.getKanbanViewByProductIdAndQuery(this.selectedProduct.id,
-        this.selectedSprint?.id, [],
-        GroupCategory.Module).subscribe(x => {
-          this.kanbanWithoutFilter = x;
-          this.boardWithoutFilter = this.setBoard(this.kanbanWithoutFilter);
-        })
-    }
+    this.setModules();
+    this.productService
+      .getKanbanViewByProductIdAndQuery(this.productId,
+        this.selectedSprint?.id,
+        this.selectedUserIds,
+        this.selectedGroup)
+      .subscribe((x) => {
+        this.kanban = x;
+        this.kanbanBoardSpinner = false;
+        this.board = this.setBoard(this.kanban);
+      },(err)=>{
+        this.kanbanBoardSpinner = false;
+        this.error = err;
+      });
+    this.productService.getKanbanViewByProductIdAndQuery(this.productId,
+      this.selectedSprint?.id, [],
+      GroupCategory.Module).subscribe(x => {
+        this.kanbanWithoutFilter = x;
+        this.boardWithoutFilter = this.setBoard(this.kanbanWithoutFilter);
+      })
   }
 
   setBoard(kBoard: IKanban): any[] {

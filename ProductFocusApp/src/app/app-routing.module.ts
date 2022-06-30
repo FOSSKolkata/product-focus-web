@@ -160,7 +160,7 @@ const routes: Routes = [
       }
     ],
   },{
-    path: 'organization',
+    path: ':organizationName',
     component: OrganizationComponent,
     canActivate: [MsalGuard,SecureGuard],
     data: {breadcrumb: 'Organization'},

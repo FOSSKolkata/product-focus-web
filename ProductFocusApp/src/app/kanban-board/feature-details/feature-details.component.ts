@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
 import { FeatureService } from 'src/app/_services/feature.service';
+import { OrganizationService } from 'src/app/_services/organization.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { ReleaseService } from 'src/app/_services/release.service';
 import { SprintService } from 'src/app/_services/sprint.service';
-import { IFeature, IFeatureDetails, IMember, IModule, IRelease, ISprint, ModifyColumnIdentifier, WorkItemType } from '../../dht-common/models';
+import { IFeature, IFeatureDetails, IMember, IModule, IOrganization, IRelease, ISprint, ModifyColumnIdentifier, WorkItemType } from '../../dht-common/models';
 
 @Component({
   selector: 'app-feature-details',
@@ -23,7 +24,9 @@ export class FeatureDetailsComponent implements OnInit {
   }
   
   @Output('any-changes') anyChanges = new EventEmitter<boolean>();
-  selectedProduct! : {id: number, name: string};
+  private organization!: IOrganization;
+  private organizationName: string;
+  prouctId: number;
   allSprint!: ISprint[];
   isBlocked = false;
   startDate!: NgbDateStruct;
@@ -102,21 +105,21 @@ export class FeatureDetailsComponent implements OnInit {
     private dateService: DateFunctionService,
     private toastr: ToastrService,
     private productService: ProductService,
-    private releaseService: ReleaseService
-  ) {}
+    private releaseService: ReleaseService,
+    private route: ActivatedRoute,
+    private organizationService: OrganizationService
+  ) {
+    this.prouctId = this.route.snapshot.params['id'];
+    this.organizationName = this.route.snapshot.parent?.parent?.params['organizationName'];
+  }
 
   async ngOnInit(): Promise<void> {
+    this.organization = await this.organizationService.getOrganizationByName(this.organizationName).toPromise();
     this.generateStoryPoints();
     var date = this.featureDetails.actualStartDate;
-    let selectedProductString = localStorage.getItem('selectedProduct');
-    this.selectedProduct = JSON.parse(selectedProductString?selectedProductString:'');
-    var lastSelectedOrgId = localStorage.lastSelctedOrganizationId;
-    if (!lastSelectedOrgId || !selectedProductString) {
-      this.router.navigate(['/']);
-    }
 
     await Promise.all([this.featureService
-      .getFeatureDetailsById(parseInt(lastSelectedOrgId), this.feature.id)
+      .getFeatureDetailsById(this.organization.id, this.feature.id)
       .subscribe((x) => {
         this.featureDetails = x;
         this.startDate = this.dateService.dateToNgbDate(
@@ -127,15 +130,15 @@ export class FeatureDetailsComponent implements OnInit {
         );
       }),
         
-      this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(x => {
+      this.productService.getModulesByProductId(this.prouctId).subscribe(x => {
         this.modules = x;
         this.selectModuleOfFeature();
       }),
 
-      this.sprintService.getSprintByProductId(this.selectedProduct.id).subscribe((x) => {
+      this.sprintService.getSprintByProductId(this.prouctId).subscribe((x) => {
         this.allSprint = x;
       }),
-      this.releaseService.getReleasesByProductId(this.selectedProduct.id).subscribe(x => {
+      this.releaseService.getReleasesByProductId(this.prouctId).subscribe(x => {
         this.releases = x;
       })
     ]);

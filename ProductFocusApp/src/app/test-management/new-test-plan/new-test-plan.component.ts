@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, finalize, map } from 'rxjs/operators';
-import { Feature, IProduct, ISprint } from 'src/app/dht-common/models';
+import { Feature, ISprint } from 'src/app/dht-common/models';
 import { FlatProductDocumentation } from 'src/app/product-documentation/model';
 import { ProductDocumentationService } from 'src/app/product-documentation/_services/product-documentation.service';
 import { FeatureService } from 'src/app/_services/feature.service';
@@ -18,12 +18,11 @@ import { TestPlanService } from '../_services/test-plan.service';
   styleUrls: ['./new-test-plan.component.scss']
 })
 export class NewTestPlanComponent implements OnInit {
-
+  productId: number;
   sprints: ISprint[] = [];
   testTypes: {name: string, position: number}[] = [];
   selectedType : {name: string, position: number};
   newTestPlanInput!: AddTestPlanInput;
-  selectedProduct!: IProduct;
   features: Feature[] = [];
   productDocumentations: FlatProductDocumentation[] = [];
   private _selectedDocumentation !: FlatProductDocumentation;
@@ -48,38 +47,33 @@ export class NewTestPlanComponent implements OnInit {
 
   constructor(private testManagement: TestPlanService,
     private sprintService: SprintService,
-    private router: Router,
     private productDocumentationService: ProductDocumentationService,
     private featureService: FeatureService,
-    private tostr: ToastrService) {
-
+    private tostr: ToastrService,
+    private route: ActivatedRoute) {
+      this.productId = this.route.snapshot.parent?.params['id'];
       this.selectedType = { name: TestTypeEnum.RegressionTest.toString(), position: Number(TestTypeEnum.RegressionTest) };
       for(const testType in TestTypeEnum) {
         if(isNaN(Number(testType))) {
           this.testTypes.push({name: testType, position: Number(TestTypeEnum[testType])})
         }
       }
-      let selectedProductString = localStorage.getItem('selectedProduct');
-      if(!selectedProductString) {
-        this.router.navigate(['/']);
-        return;
-      }
-      this.selectedProduct = JSON.parse(selectedProductString);
-      this.newTestPlanInput = new AddTestPlanInput(this.selectedProduct.id, -1, TestTypeEnum.RegressionTest, null, null, '');
+
+      this.newTestPlanInput = new AddTestPlanInput(this.productId, -1, TestTypeEnum.RegressionTest, null, null, '');
     }
 
   ngOnInit(): void {
     
-    this.sprintService.getSprintByProductId(this.selectedProduct.id).subscribe(x => {
+    this.sprintService.getSprintByProductId(this.productId).subscribe(x => {
       this.sprints = x;
       this.newTestPlanInput.sprintId = x[0].id;
     });
 
-    this.featureService.getFeatureListByProductId(this.selectedProduct.id).subscribe(x => {
+    this.featureService.getFeatureListByProductId(this.productId).subscribe(x => {
       this.features = x;
     });
 
-    this.productDocumentationService.getFlatProductDocumentationsByProductId(this.selectedProduct.id).subscribe(x => {
+    this.productDocumentationService.getFlatProductDocumentationsByProductId(this.productId).subscribe(x => {
       this.productDocumentations = x;
     });
   }

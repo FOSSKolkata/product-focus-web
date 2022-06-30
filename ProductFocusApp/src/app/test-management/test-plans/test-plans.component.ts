@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { IProduct } from 'src/app/dht-common/models';
+import { ActivatedRoute } from '@angular/router';
 import { TestPlan } from '../models';
 import { TestPlanService } from '../_services/test-plan.service';
 
@@ -10,20 +9,16 @@ import { TestPlanService } from '../_services/test-plan.service';
   styleUrls: ['./test-plans.component.scss']
 })
 export class TestPlansComponent implements OnInit {
-
-  selectedProduct!: IProduct;
+  productId: number;
   testPlans: TestPlan[] = [];
 
   constructor(private testManagement: TestPlanService,
-    private router: Router) { }
+    private route: ActivatedRoute) {
+      this.productId = this.route.snapshot.parent?.params['id'];
+    }
 
   ngOnInit(): void {
-    let selectedProductString = localStorage.getItem("selectedProduct");
-    if(!selectedProductString) {
-      this.router.navigate(['/']);
-    }
-    this.selectedProduct = JSON.parse(selectedProductString??'');
-    this.testManagement.getTestPlansByProductId(this.selectedProduct.id).subscribe(x => {
+    this.testManagement.getTestPlansByProductId(this.productId).subscribe(x => {
       this.testPlans = x;
     })
   }

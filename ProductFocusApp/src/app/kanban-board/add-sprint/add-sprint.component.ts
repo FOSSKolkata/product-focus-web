@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
-import { IProduct, ISprintInput } from 'src/app/dht-common/models';
+import { ISprintInput } from 'src/app/dht-common/models';
 import { SprintService } from 'src/app/_services/sprint.service';
 
 @Component({
@@ -16,7 +16,7 @@ export class AddSprintComponent {
   hoveredDate: NgbDate | null = null;
   toDate: NgbDate | null = null;
   fromDate: NgbDate | null = null;
-  selectedProduct: IProduct;
+  productId: number;
   @Input('detailsView')sprintAddView: boolean = false;
   @Output('added') added = new EventEmitter<boolean>();
   sprintName: string = "";
@@ -32,12 +32,9 @@ export class AddSprintComponent {
     private dateService: DateFunctionService,
     private toastr: ToastrService,
     private sprintService: SprintService,
-    private calendar: NgbCalendar) {
-    const selectedProductString = localStorage.selectedProduct;
-    if(!selectedProductString) {
-      this.router.navigate(['/']);
-    }
-    this.selectedProduct = JSON.parse(selectedProductString);
+    private calendar: NgbCalendar,
+    private route: ActivatedRoute) {
+    this.productId = this.route.snapshot.params['id'];
     this.fromDate = this.calendar.getToday();
     this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 14);
   }
@@ -48,7 +45,7 @@ export class AddSprintComponent {
       return;
     }
     var input: ISprintInput = {
-      productId: this.selectedProduct.id,
+      productId: this.productId,
       name: this.sprintName,
       startDate: this.dateService.ngbDateToDate(this.fromDate),
       endDate: this.dateService.ngbDateToDate(this.toDate),
