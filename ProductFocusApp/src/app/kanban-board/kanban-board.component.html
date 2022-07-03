@@ -155,7 +155,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <app-add-sprint></app-add-sprint>
+    <app-add-sprint [updateSprint]="selectedSprintForUpdate"></app-add-sprint>
     <div class="mb-2">
       <div class="table-responsive-sm">
         <table class="table">
@@ -163,6 +163,8 @@
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Sprint Dates</th>
+              <th scope="col">Edit</th>
+              <th scope="col">Delete</th>
             </tr>
           </thead>
           <tbody>
@@ -172,9 +174,15 @@
               </td>
               <td>
                 <span
-                  >{{ sprint.startDate | date: "shortDate" }} -
-                  {{ sprint.endDate | date: "shortDate" }}</span
+                  >{{ sprint.startDate | date: 'dd/MM/YYYY' }} -
+                  {{ sprint.endDate | date: 'dd/MM/YYYY' }}</span
                 >
+              </td>
+              <td>
+                <i class="fa fa-edit pointer" (click)="selectSprintForUpdate(sprint)"></i>
+              </td>
+              <td>
+                <i class="fa fa-trash pointer" *ngIf="deletingId !== sprint.id else deleting" (click)="deleteSprint(sprint)"></i>
               </td>
             </tr>
           </tbody>
@@ -192,6 +200,10 @@
     <ngb-alert [type]="'info'" [dismissible]="false" class="text-center">
       Start with the Kanban board, by creating a sprint
     </ngb-alert>
-    <app-add-sprint [detailsView]="true" (added)="doesSprintAdded($event)"></app-add-sprint>
+    <app-add-sprint [detailsView]="true" [updateSprint]="selectedSprintForUpdate" (added)="doesSprintAdded($event)"></app-add-sprint>
   </div>
+</ng-template>
+
+<ng-template #deleting>
+  <mat-spinner [diameter]="15"></mat-spinner>
 </ng-template>

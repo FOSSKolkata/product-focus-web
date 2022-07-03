@@ -14,3 +14,9 @@ export interface ICurrentProgressWorkItemDetails {
     id: number,
     workItemId: number
 }
+
+export interface ISprintUpdate {
+    name: string,
+    startDate: Date,
+    endDate: Date
+}

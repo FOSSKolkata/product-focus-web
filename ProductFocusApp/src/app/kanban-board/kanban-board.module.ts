@@ -25,6 +25,7 @@ import { PopoverModule } from 'ngx-smart-popover';
 import { AddSprintComponent } from './add-sprint/add-sprint.component';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { MyWorkingArea } from './my-working-area/my-working-area.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { MyWorkingArea } from './my-working-area/my-working-area.component';
     MdePopoverModule,
     MatCardModule,
     PopoverModule,
-    NgbAlertModule
+    NgbAlertModule,
+    MatProgressSpinnerModule
   ],
   declarations: [
     KanbanBoardComponent,

@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
 import { ISprint, ISprintInput } from '../dht-common/models';
+import { ISprintUpdate } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +27,23 @@ export class SprintService {
       catchError(this.handleError)
     );
   }
+
+  updateSprint(id: number, productId: number, updateSprint: ISprintUpdate): Observable<void> {
+    return this.http.put<void>(
+      apiConfig.uri + `/Sprint/UpdateSprint/${id}/${productId}`, updateSprint
+    ).pipe(
+      catchError(this.handleError)
+    )
+  }
+
+  deleteSprint(id: number): Observable<void> {
+    return this.http.delete<void>(
+      apiConfig.uri + `/Sprint/DeleteSprint/${id}`
+    ).pipe(
+      catchError(this.handleError)
+    )
+  }
+
   handleError(error:HttpErrorResponse){
     return throwError(error);
   }

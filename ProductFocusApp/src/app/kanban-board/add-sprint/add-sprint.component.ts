@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { ActivatedRoute } from '@angular/router';
+import { NgbCalendar, NgbDate, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs/operators';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
-import { ISprintInput } from 'src/app/dht-common/models';
+import { ISprint, ISprintInput } from 'src/app/dht-common/models';
+import { ISprintUpdate } from 'src/app/model';
 import { SprintService } from 'src/app/_services/sprint.service';
 
 @Component({
@@ -12,24 +14,33 @@ import { SprintService } from 'src/app/_services/sprint.service';
   templateUrl: './add-sprint.component.html',
   styleUrls: ['./add-sprint.component.scss']
 })
-export class AddSprintComponent {
+export class AddSprintComponent implements OnChanges {
   hoveredDate: NgbDate | null = null;
   toDate: NgbDate | null = null;
   fromDate: NgbDate | null = null;
+  @Input('updateSprint') updateSprint? : ISprint | null = null;
+
   productId: number;
   @Input('detailsView')sprintAddView: boolean = false;
   @Output('added') added = new EventEmitter<boolean>();
-  sprintName: string = "";
+  updateMode = false;
   isSprintAdding = false;
   isDisabled = (date: NgbDate, current?: {year: number, month: number}) => this.isSprintAdding;
+  
+  @ViewChild('dp') private _dp!: NgbDatepicker;
+  set dp(d: NgbDatepicker) {
+    this._dp = d;
+  }
+  get dp(): NgbDatepicker {
+    return this._dp;
+  }
   
   sprintForm = new FormGroup({
     name: new FormControl(''),
     dates: new FormControl('',this.DateValidate())
   });
   
-  constructor(private router: Router,
-    private dateService: DateFunctionService,
+  constructor(private dateService: DateFunctionService,
     private toastr: ToastrService,
     private sprintService: SprintService,
     private calendar: NgbCalendar,
@@ -38,42 +49,85 @@ export class AddSprintComponent {
     this.fromDate = this.calendar.getToday();
     this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 14);
   }
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!!changes?.updateSprint && !!changes.updateSprint?.currentValue?.id) {
+      this.sprintAddView = true;
+      this.updateMode = true;
+      setTimeout(() => {
+        this.sprintname = changes.updateSprint.currentValue.name;
+        this.fromDate = this.dateService.dateToNgbDate(changes.updateSprint.currentValue.startDate);
+        this.toDate = this.dateService.dateToNgbDate(changes.updateSprint.currentValue.endDate);
+        this.dp.navigateTo(this.dateService.dateToNgbDate(changes.updateSprint.currentValue.startDate));
+      })
+    }
+  }
 
   addSprint(): void {
     if (this.toDate == null || this.fromDate == null) {
       alert('Please select proper date');
       return;
     }
-    var input: ISprintInput = {
+    const input: ISprintInput = {
       productId: this.productId,
-      name: this.sprintName,
+      name: this.sprintname,
       startDate: this.dateService.ngbDateToDate(this.fromDate),
       endDate: this.dateService.ngbDateToDate(this.toDate),
     };
     this.isSprintAdding = true;
-    this.sprintService.addSprint(input).subscribe(
-      async (x) => {
-        this.sprintName = '';
-        this.toastr.success('Sprint added','Success');
-        this.isSprintAdding = false;
+    if(!!this.updateSprint) {
+      console.log(this.sprintname);
+      const updatedSprint: ISprintUpdate = input;
+      this.sprintService.updateSprint(this.updateSprint.id, this.productId, updatedSprint).pipe(
+        finalize(() => {
+          this.isSprintAdding = false;
+        })
+      ).subscribe(x => {
+        this.sprintname = '';
+        this.toastr.success('Sprint Updated', 'Success');
         this.added.emit(true);
-        // await this.doesSprintExistSetIt();
-        // this.reloadChildComponents();
-      },
-      (err) => {
-        this.sprintName = '';
-        this.toastr.error(err.error,'Failed');
-        this.isSprintAdding = false;
+      }, err => {
+        this.toastr.error(err.error, 'Failed');
         this.added.emit(false);
-      }
-    );
+      })
+    }
+    else {
+      this.sprintService.addSprint(input).subscribe(
+        async (x) => {
+          this.sprintname = '';
+          this.toastr.success('Sprint added','Success');
+          this.isSprintAdding = false;
+          this.added.emit(true);
+        },
+        (err) => {
+          this.toastr.error(err.error,'Failed');
+          this.isSprintAdding = false;
+          this.added.emit(false);
+        }
+      );
+    }
   }
 
-  public get sprintname() {
+  onAddSprintClicked() {
+    this.sprintAddView = true;
+    this.updateMode = false;
+    this.updateSprint = null;
+    this.fromDate = this.calendar.getToday();
+    this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 14);
+    this.sprintname = '';
+  }
+
+  get sprintname() {
     return this.sprintForm.value['name'];
   }
 
-  public get sprintValidate(){
+  set sprintname(name: string) {
+    this.sprintForm.setValue({
+      name: name,
+      dates: new FormControl('',this.DateValidate())
+    });
+  }
+
+  get sprintValidate(){
     return this.sprintForm;
   }
 

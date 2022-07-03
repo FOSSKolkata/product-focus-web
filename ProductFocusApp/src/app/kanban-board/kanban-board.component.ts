@@ -11,6 +11,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { BoardViewComponent } from './board-view/board-view.component';
 import { ScrumViewComponent } from './scrum-view/scrum-view.component';
 import { OrganizationService } from '../_services/organization.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -39,6 +40,8 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   sprintExist = true;
   kanbanBoardSpinner = true;
   selectedGroup = GroupCategory.Module;
+  selectedSprintForUpdate?: ISprint | null = null;
+  deletingId: number | null = null;
   @ViewChild(BoardViewComponent, { static: false }) boardViewViewChild: BoardViewComponent | undefined;
   @ViewChild(ScrumViewComponent, {static: false }) scrumViewViewChild: ScrumViewComponent | undefined;
   @ViewChild('manageSprintContent1', {static: true}) manageSprintContent1!: TemplateRef<any>;
@@ -128,6 +131,24 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
         this.toastr.error('Module not added','Failed');
       }
     );
+  }
+
+  deleteSprint(sprint: ISprint) {
+    this.deletingId = sprint.id;
+    this.sprintService.deleteSprint(sprint.id).pipe(
+      finalize(() => {
+        this.deletingId = null;
+      })
+    ).subscribe(x => {
+      this.toastr.success('Sprint deleted', 'Success');
+      this.doesSprintExistSetIt();
+    }, err => {
+      this.toastr.error(err.error, 'Failed');
+    })
+  }
+
+  selectSprintForUpdate(sprint: ISprint) {
+    this.selectedSprintForUpdate = sprint;
   }
 
   openPopup(content: any, size: string = 'md'): void {

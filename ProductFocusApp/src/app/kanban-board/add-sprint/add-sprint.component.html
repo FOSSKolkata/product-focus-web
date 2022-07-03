@@ -1,12 +1,11 @@
 <form [formGroup]="sprintForm" (ngSubmit)="addSprint()">
     <div class="add-sprint">
-      <i
+      <div
         *ngIf="!sprintAddView"
-        (click)="sprintAddView = true"
-        class="fa fa-plus pointer"
-      >
-        Add Sprint</i
-      >
+        (click)="onAddSprintClicked()" class="pointer">
+        <i class="fa fa-plus"></i>
+        Add Sprint
+      </div>
       <div class="add-sprint-container">
         <div *ngIf="sprintAddView">
           <div class="add-sprint-heading">
@@ -79,7 +78,7 @@
               <path d="m543.34 332.07c0-115.26-93.777-209.03-209.03-209.03-65.074 0-123.28 29.91-161.62 76.68-7.293-2.0508-13.867-5.7148-19.258-10.742-9.2031-8.5625-15.055-20.672-15.055-34.203 0-25.855 21.027-46.883 46.883-46.883 4.0039 0 7.8789 0.59766 11.652 1.5547l-18.062 36.598 39.789-13.504 55.141-18.703-1.3711-4.0039-30.801-90.93-18.633 37.723c-11.996-4.6289-24.617-7.0781-37.723-7.0781-58.031 0-105.23 47.211-105.23 105.23 0 34.703 16.957 65.441 42.945 84.617 5.8711 4.332 12.18 8.0781 18.895 11.125-10.668 25.07-16.582 52.637-16.582 81.555 0 25.586 4.8125 50.398 13.789 74.051l-38.898 16.836 93.223 36.871 36.898-93.191-37.664 16.297c-5.8594-16.254-9.0039-33.289-9.0039-50.859 0-83.094 67.605-150.68 150.68-150.68s150.68 67.594 150.68 150.68c0 83.082-67.605 150.67-150.68 150.67l-264.3-0.003906v58.355h264.31c115.26 0 209.03-93.766 209.03-209.03z"/>
             </g>
             </svg>
-            New Sprint
+            {{updateMode ? "Update Sprint" : "New Sprint"}}
           </div>
           <div class="name">
             Name<span>*</span>
@@ -87,7 +86,6 @@
           <input
             [attr.disabled]="isSprintAdding?'':null"
             type="text"
-            [(ngModel)]="sprintName"
             name="sprintname"
             class="form-control input"
             placeholder="Enter Sprint Name"
@@ -165,11 +163,12 @@
             <div *ngIf="isSprintAdding" class="spinner-border spinner-border-sm" role="status">
               <span class="sr-only">Loading...</span>
             </div>
-              {{isSprintAdding?"Adding":"Add"}}
+              {{updateMode ? (isSprintAdding ? "Updating": "Update") : (isSprintAdding?"Adding":"Add")}}
             </button>
             <button
               class="btn reject-btn"
-              (click)="sprintAddView = false"
+              type="button"
+              (click)="sprintAddView = false;"
               id="cancel-task"
               [disabled]="isSprintAdding"
             >
