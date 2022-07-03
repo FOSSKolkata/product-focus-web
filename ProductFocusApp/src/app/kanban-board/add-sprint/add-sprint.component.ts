@@ -75,14 +75,14 @@ export class AddSprintComponent implements OnChanges {
     };
     this.isSprintAdding = true;
     if(!!this.updateSprint) {
-      console.log(this.sprintname);
       const updatedSprint: ISprintUpdate = input;
       this.sprintService.updateSprint(this.updateSprint.id, this.productId, updatedSprint).pipe(
         finalize(() => {
           this.isSprintAdding = false;
         })
       ).subscribe(x => {
-        this.sprintname = '';
+        this.sprintForm.reset();
+        this.sprintAddView = false;
         this.toastr.success('Sprint Updated', 'Success');
         this.added.emit(true);
       }, err => {
@@ -93,7 +93,8 @@ export class AddSprintComponent implements OnChanges {
     else {
       this.sprintService.addSprint(input).subscribe(
         async (x) => {
-          this.sprintname = '';
+          this.sprintForm.reset();
+          this.sprintAddView = false;
           this.toastr.success('Sprint added','Success');
           this.isSprintAdding = false;
           this.added.emit(true);
@@ -113,7 +114,7 @@ export class AddSprintComponent implements OnChanges {
     this.updateSprint = null;
     this.fromDate = this.calendar.getToday();
     this.toDate = this.calendar.getNext(this.calendar.getToday(), 'd', 14);
-    this.sprintname = '';
+    this.sprintForm.reset();
   }
 
   get sprintname() {
