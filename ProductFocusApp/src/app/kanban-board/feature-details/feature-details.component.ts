@@ -8,7 +8,7 @@ import { OrganizationService } from 'src/app/_services/organization.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { ReleaseService } from 'src/app/_services/release.service';
 import { SprintService } from 'src/app/_services/sprint.service';
-import { IFeature, IFeatureDetails, IMember, IModule, IOrganization, IRelease, ISprint, ModifyColumnIdentifier, WorkItemType } from '../../dht-common/models';
+import { IFeature, IFeatureDetails, IMember, IModule, IOrganization, IRelease, ISprint, ModifyColumnIdentifier, ReleaseStatusEnum, WorkItemType } from '../../dht-common/models';
 
 @Component({
   selector: 'app-feature-details',
@@ -91,7 +91,8 @@ export class FeatureDetailsComponent implements OnInit {
       bugCount: 0,
       epicCount: 0,
       featureCount: 0,
-      pbiCount: 0
+      pbiCount: 0,
+      status: ReleaseStatusEnum.NotStarted
     }
   };
 

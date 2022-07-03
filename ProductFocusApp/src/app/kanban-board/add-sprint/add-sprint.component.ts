@@ -5,8 +5,7 @@ import { NgbCalendar, NgbDate, NgbDatepicker } from '@ng-bootstrap/ng-bootstrap'
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
-import { ISprint, ISprintInput } from 'src/app/dht-common/models';
-import { ISprintUpdate } from 'src/app/model';
+import { ISprint, ISprintInput, ISprintUpdate } from 'src/app/dht-common/models';
 import { SprintService } from 'src/app/_services/sprint.service';
 
 @Component({

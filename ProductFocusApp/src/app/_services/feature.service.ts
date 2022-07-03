@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { Feature, IFeatureDetails, OrderingInfo } from '../dht-common/models';
-import { ICurrentProgressWorkItemDetails, IWorkItem } from '../model';
+import { Feature, ICurrentProgressWorkItemDetails, IFeatureDetails, OrderingInfo } from '../dht-common/models';
+import { IWorkItem } from '../model';
 
 @Injectable({
   providedIn: 'root',
