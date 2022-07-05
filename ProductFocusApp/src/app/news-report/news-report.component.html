@@ -1,5 +1,4 @@
 <div
-  *ngIf="!loading"
   class="search-results"
   infiniteScroll
   [fromRoot]="true"
@@ -34,7 +33,7 @@
           <div class="title" *ngIf="event.eventTypeName == 'AddWorkItemToSprintDomainEvent'">"{{event.domainEventJson.Title}}" moved from {{event.domainEventJson.PreviousSprint}} to {{event.domainEventJson.CurrentSprint}}.</div>
           <div class="title" *ngIf="event.eventTypeName == 'WorkItemTitleChangedDomainEvent'">Title changed from "{{event.domainEventJson.PreviousTitle}}" to "{{event.domainEventJson.CurrentTitle}}".</div>
           <div class="title" *ngIf="event.eventTypeName == 'WorkItemDescriptionChangedDomainEvent'">Description of "{{event.domainEventJson.Title}}" changed from "{{event.domainEventJson.PreviousDescription}}" to "{{event.domainEventJson.CurrentDescription}}".</div>
-          <div class="title" *ngIf="event.eventTypeName == 'AddOwnerToWorkItemDomainEvent'">{{event.domainEventJson.OwnerName}}({{event.domainEventJson.OwnerEmail}}) is added to "{{event.domainEventJson.Title}}".</div>
+          <div class="title" *ngIf="event.eventTypeName == 'AddOwnerToWorkItemDomainEvent'">"{{event.domainEventJson.Title}}" is assigned to {{event.domainEventJson.OwnerName}}({{event.domainEventJson.OwnerEmail}}).</div>
           <div class="title" *ngIf="event.eventTypeName == 'RemoveOwnerFromWorkItemDomainEvent'">{{event.domainEventJson.OwnerName}}({{event.domainEventJson.OwnerEmail}}) is removed from "{{event.domainEventJson.Title}}".</div>
           <div class="title" *ngIf="event.eventTypeName == 'AddWorkItemDomainEvent'">'{{event.domainEventJson.Title}}' Feature / Bug added.</div>
           <div class="created-by">by {{event.createdBy}}</div>
@@ -45,6 +44,9 @@
               <app-user-avatar [name]="owner.name"></app-user-avatar>
             </span>
           </div>
+        </div>
+        <div class="spinner-container">
+          <app-spinner [active]="loading"></app-spinner>
         </div>
       </div>
     </div>
@@ -105,7 +107,4 @@
       </mat-form-field>
     </div>
   </div>
-</div>
-<div class="spinner-container">
-  <app-spinner [active]="loading"></app-spinner>
 </div>
