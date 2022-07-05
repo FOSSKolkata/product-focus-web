@@ -9,41 +9,46 @@
     <div class="col-8 side-border">
       <div class="news-report-content">
         <div class="heading">News report</div>
-        <div class="imaginary-line body" *ngFor="let event of eventList">
-          <app-user-avatar [name]="event.createdBy"></app-user-avatar>
-          <div class="title" *ngIf="event.eventTypeName == 'WorkItemBlockedDomainEvent'">"{{event.domainEventJson.Title}}" is marked as blocked.</div>
-          <div class="title" *ngIf="event.eventTypeName == 'WorkInProgressDomainEvent'">Work progress of "{{event.domainEventJson.Title}}"" is updated from {{event.domainEventJson.OldWorkPercentage}}% to {{event.domainEventJson.NewWorkPercentage}}%.</div>
-          <div class="title" *ngIf="event.eventTypeName == 'WorkItemEndDateChangedDomainEvent'">
-            <div *ngIf="!!event.domainEventJson.PreviousEndDate">
-              The end date of "{{event.domainEventJson.Title}}'s" has been changed from {{event.domainEventJson.PreviousEndDate | date:'shortDate'}} to {{event.domainEventJson.CurrentEndDate | date:'shortDate'}}
+        <div style="border-left: 1px solid #D2DCE4; height: 100%; position: absolute; margin-left: 17px; z-index: -1;"></div>
+        <div class="mb-3" *ngFor="let event of eventList">
+          <div class="body mb-1">
+            <app-user-avatar [name]="event.createdBy"></app-user-avatar>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemBlockedDomainEvent'">"{{event.domainEventJson.Title}}" is marked as blocked.</div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkInProgressDomainEvent'">Work progress of "{{event.domainEventJson.Title}}"" is updated from {{event.domainEventJson.OldWorkPercentage}}% to {{event.domainEventJson.NewWorkPercentage}}%.</div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemEndDateChangedDomainEvent'">
+              <div *ngIf="!!event.domainEventJson.PreviousEndDate">
+                The end date of "{{event.domainEventJson.Title}}'s" has been changed from {{event.domainEventJson.PreviousEndDate | date:'shortDate'}} to {{event.domainEventJson.CurrentEndDate | date:'shortDate'}}
+              </div>
+              <div *ngIf="!event.domainEventJson.PreviousEndDate">
+                The end date of "{{event.domainEventJson.Title}}" is set to {{event.domainEventJson.CurrentEndDate | date:'shortDate'}}.
+              </div>
             </div>
-            <div *ngIf="!event.domainEventJson.PreviousEndDate">
-              The end date of "{{event.domainEventJson.Title}}" is set to {{event.domainEventJson.CurrentEndDate | date:'shortDate'}}.
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemStartDateChangedDomainEvent'">
+              <div *ngIf="!!event.domainEventJson.PreviousStartDate">
+                The start date of "{{event.domainEventJson.Title}}'s" has been changed from {{event.domainEventJson.PreviousStartDate | date:'shortDate'}} to {{event.domainEventJson.CurrentStartDate | date:'shortDate'}}
+              </div>
+              <div *ngIf="!event.domainEventJson.PreviousStartDate">
+                The start date of "{{event.domainEventJson.Title}}" is set to {{event.domainEventJson.CurrentStartDate | date:'shortDate'}}.
+              </div>
+            </div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemStoryPointChangedDomainEvent'">Story point of "{{event.domainEventJson.Title}}" has been changed form {{event.domainEventJson.PreviousStoryPoint}} to {{event.domainEventJson.CurrentStoryPoint}}.</div>
+            <div class="title" *ngIf="event.eventTypeName == 'AddWorkItemToSprintDomainEvent'">"{{event.domainEventJson.Title}}" moved from {{event.domainEventJson.PreviousSprint}} to {{event.domainEventJson.CurrentSprint}}.</div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemTitleChangedDomainEvent'">Title changed from "{{event.domainEventJson.PreviousTitle}}" to "{{event.domainEventJson.CurrentTitle}}".</div>
+            <div class="title" *ngIf="event.eventTypeName == 'WorkItemDescriptionChangedDomainEvent'">Description of "{{event.domainEventJson.Title}}" changed from "{{event.domainEventJson.PreviousDescription}}" to "{{event.domainEventJson.CurrentDescription}}".</div>
+            <div class="title" *ngIf="event.eventTypeName == 'AddOwnerToWorkItemDomainEvent'">"{{event.domainEventJson.Title}}" is assigned to {{event.domainEventJson.OwnerName}}({{event.domainEventJson.OwnerEmail}}).</div>
+            <div class="title" *ngIf="event.eventTypeName == 'RemoveOwnerFromWorkItemDomainEvent'">{{event.domainEventJson.OwnerName}}({{event.domainEventJson.OwnerEmail}}) is removed from "{{event.domainEventJson.Title}}".</div>
+            <div class="title" *ngIf="event.eventTypeName == 'AddWorkItemDomainEvent'">'{{event.domainEventJson.Title}}' Feature / Bug added.</div>
+            <div class="module"> <span>Module :</span> {{event.moduleName??'Anonymous'}}</div>
+            <div class="date"><span>Date :</span> {{event.createdOn | date:'dd/MM/yy, h:mm a'}}</div>
+          </div>
+          <div class="owners mb-1">
+            <div>
+              <span class="partial-avatar" *ngFor="let owner of event.owners">
+                <app-user-avatar [name]="owner.name"></app-user-avatar>
+              </span>
             </div>
           </div>
-          <div class="title" *ngIf="event.eventTypeName == 'WorkItemStartDateChangedDomainEvent'">
-            <div *ngIf="!!event.domainEventJson.PreviousStartDate">
-              The start date of "{{event.domainEventJson.Title}}'s" has been changed from {{event.domainEventJson.PreviousStartDate | date:'shortDate'}} to {{event.domainEventJson.CurrentStartDate | date:'shortDate'}}
-            </div>
-            <div *ngIf="!event.domainEventJson.PreviousStartDate">
-              The start date of "{{event.domainEventJson.Title}}" is set to {{event.domainEventJson.CurrentStartDate | date:'shortDate'}}.
-            </div>
-          </div>
-          <div class="title" *ngIf="event.eventTypeName == 'WorkItemStoryPointChangedDomainEvent'">Story point of "{{event.domainEventJson.Title}}" has been changed form {{event.domainEventJson.PreviousStoryPoint}} to {{event.domainEventJson.CurrentStoryPoint}}.</div>
-          <div class="title" *ngIf="event.eventTypeName == 'AddWorkItemToSprintDomainEvent'">"{{event.domainEventJson.Title}}" moved from {{event.domainEventJson.PreviousSprint}} to {{event.domainEventJson.CurrentSprint}}.</div>
-          <div class="title" *ngIf="event.eventTypeName == 'WorkItemTitleChangedDomainEvent'">Title changed from "{{event.domainEventJson.PreviousTitle}}" to "{{event.domainEventJson.CurrentTitle}}".</div>
-          <div class="title" *ngIf="event.eventTypeName == 'WorkItemDescriptionChangedDomainEvent'">Description of "{{event.domainEventJson.Title}}" changed from "{{event.domainEventJson.PreviousDescription}}" to "{{event.domainEventJson.CurrentDescription}}".</div>
-          <div class="title" *ngIf="event.eventTypeName == 'AddOwnerToWorkItemDomainEvent'">"{{event.domainEventJson.Title}}" is assigned to {{event.domainEventJson.OwnerName}}({{event.domainEventJson.OwnerEmail}}).</div>
-          <div class="title" *ngIf="event.eventTypeName == 'RemoveOwnerFromWorkItemDomainEvent'">{{event.domainEventJson.OwnerName}}({{event.domainEventJson.OwnerEmail}}) is removed from "{{event.domainEventJson.Title}}".</div>
-          <div class="title" *ngIf="event.eventTypeName == 'AddWorkItemDomainEvent'">'{{event.domainEventJson.Title}}' Feature / Bug added.</div>
           <div class="created-by">by {{event.createdBy}}</div>
-          <div class="module"> <span>Module :</span> {{event.moduleName}}</div>
-          <div class="date"><span>Date :</span> {{event.createdOn | date:'dd/MM/yy, h:mm a'}}</div>
-          <div class="owners">
-            <span class="partial-avatar" *ngFor="let owner of event.owners">
-              <app-user-avatar [name]="owner.name"></app-user-avatar>
-            </span>
-          </div>
         </div>
         <div class="spinner-container">
           <app-spinner [active]="loading"></app-spinner>
