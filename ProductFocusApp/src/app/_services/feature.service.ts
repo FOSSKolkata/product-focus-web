@@ -76,14 +76,9 @@ export class FeatureService {
       )
   }
 
-  markWorkItemAsCurrentlyProgress(productId: number, workItemId: number,
-    previouslyProgressWorkItemId?: number): Observable<ICurrentProgressWorkItemDetails> {
-    let options;
-    if(previouslyProgressWorkItemId) {
-      options = { params: new HttpParams({fromString: `previouslyProgressWorkItemId=${previouslyProgressWorkItemId}`}) };
-    }
+  markWorkItemAsCurrentlyProgress(productId: number, workItemId: number): Observable<ICurrentProgressWorkItemDetails> {
     return this.http.post<ICurrentProgressWorkItemDetails>(
-      apiConfig.uri + `/Feature/MarkWorkItemAsCurrentlyProgress/${productId}/${workItemId}/query`,{},options)
+      apiConfig.uri + `/Feature/MarkWorkItemAsCurrentlyProgress/${productId}/${workItemId}/query`,{})
       .pipe(
         catchError(this.handleError)
       )

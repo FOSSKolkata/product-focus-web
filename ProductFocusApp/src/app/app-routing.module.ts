@@ -190,7 +190,8 @@ const routes: Routes = [
     data: {breadcrumb: {skip: true}}
   },{
     path: 'state',
-    component: RediectComponent,
+    // component: RediectComponent,
+    redirectTo: 'organizations',
     data: {breadcrumb: {skip: true}}
   },{
     path: 'code',

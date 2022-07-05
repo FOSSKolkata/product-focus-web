@@ -1,4 +1,4 @@
-<div class="focus-container" cdkDropListGroup>
+<div class="focus-container" *ngIf="!loading else loader" cdkDropListGroup>
     <div class="focus-area">
         <h3 class="bold">Working Area</h3>
         <div class="focus" cdkDropList
@@ -62,4 +62,8 @@
         <h2>No work item found</h2>
         <p class="message">Please drop any work item to your current working area.</p>
     </div>
+</ng-template>
+
+<ng-template #loader>
+    <app-spinner [active]="loading"></app-spinner>
 </ng-template>

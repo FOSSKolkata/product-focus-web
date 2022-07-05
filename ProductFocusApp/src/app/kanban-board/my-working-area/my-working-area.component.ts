@@ -7,6 +7,7 @@ import { MatSliderChange } from '@angular/material/slider';
 import { ModifyColumnIdentifier, WorkItemType } from 'src/app/dht-common/models';
 import { ToastrService } from 'ngx-toastr';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { finalize } from 'rxjs/operators';
 @Component({
   selector: 'app-my-working-area',
   templateUrl: './my-working-area.component.html',
@@ -17,6 +18,7 @@ export class MyWorkingArea implements OnInit {
   productId: number;
   workItems: IWorkItem[] = [];
   progressWorkItem !: IWorkItem;
+  loading = false;
   constructor(private route: ActivatedRoute,
     private featureService: FeatureService,
     private tostr: ToastrService) {
@@ -24,11 +26,16 @@ export class MyWorkingArea implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     forkJoin(
       [
         this.featureService.getMyWorkItemsInProduct(this.productId),
         this.featureService.getCurrentProgressWorkItemId(this.productId)
       ]
+    ).pipe(
+      finalize(()=> {
+        this.loading = false;
+      })
     ).subscribe(x => {
       this.workItems = x[0].map(item => {
         if(item.id == x[1]?.workItemId) {
@@ -57,9 +64,6 @@ export class MyWorkingArea implements OnInit {
   }
 
   switchWorkingItem(event: CdkDragDrop<any, any>) {
-    let previousWorkItem: IWorkItem | null = null;
-    if(!!this.progressWorkItem)
-      previousWorkItem = JSON.parse(JSON.stringify(this.progressWorkItem)); // structuredClone is not working
     for(let workItem of this.workItems) {
       if(workItem.isInProgress) {
         workItem.isInProgress = false;
@@ -68,9 +72,10 @@ export class MyWorkingArea implements OnInit {
     }
     this.progressWorkItem = event.container.data[event.previousIndex];
     this.progressWorkItem.isInProgress = true;
-    this.featureService.markWorkItemAsCurrentlyProgress(this.productId,this.progressWorkItem.id,
-      previousWorkItem?.currentProgressWorkItem.id).subscribe(x => {
+    this.featureService.markWorkItemAsCurrentlyProgress(this.productId,this.progressWorkItem.id).subscribe(x => {
         this.progressWorkItem.currentProgressWorkItem = x;
+    }, err => {
+      this.tostr.error(err.error, 'Failed');
     });
   }
 
