@@ -78,7 +78,7 @@ export class FeatureService {
 
   markWorkItemAsCurrentlyProgress(productId: number, workItemId: number): Observable<ICurrentProgressWorkItemDetails> {
     return this.http.post<ICurrentProgressWorkItemDetails>(
-      apiConfig.uri + `/Feature/MarkWorkItemAsCurrentlyProgress/${productId}/${workItemId}/query`,{})
+      apiConfig.uri + `/Feature/MarkWorkItemAsCurrentlyProgress/${productId}/${workItemId}`,{})
       .pipe(
         catchError(this.handleError)
       )

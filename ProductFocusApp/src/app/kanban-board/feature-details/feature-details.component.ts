@@ -203,7 +203,7 @@ export class FeatureDetailsComponent implements OnInit {
       object.storyPoint = value.target.value;
       this.featureDetails.storyPoint = value.target.value;
     } else if (key == ModifyColumnIdentifier.sprint) {
-      object.sprintName = value;
+      object.sprintId = value;
     } else if(key == ModifyColumnIdentifier.excludeAssignee){
       object.fieldName = ModifyColumnIdentifier.includeExcludeOwners;
       object.excludeOwnerList = [value.id];

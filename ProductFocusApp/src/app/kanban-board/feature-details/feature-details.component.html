@@ -363,7 +363,7 @@
           <mat-label>Sprint</mat-label>
           <mat-select [value]="featureDetails.sprint.name" (selectionChange)="modifyFeature(modifyColumnIdentifier.sprint, $event.value)">
             <ng-template ngFor let-sprint [ngForOf]="allSprint">
-              <mat-option [value]="sprint.name">
+              <mat-option [value]="sprint.id">
                 {{sprint.name}}
               </mat-option>
             </ng-template>
