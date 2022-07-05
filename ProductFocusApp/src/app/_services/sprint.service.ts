@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { ISprint, ISprintInput } from '../dht-common/models';
-import { ISprintUpdate } from '../model';
+import { ISprint, ISprintInput, ISprintUpdate } from '../dht-common/models';
 
 @Injectable({
   providedIn: 'root',

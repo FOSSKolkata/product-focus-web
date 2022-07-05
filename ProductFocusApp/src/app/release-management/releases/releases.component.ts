@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
-import { ICreateOrUpdateRelease, IRelease } from 'src/app/dht-common/models';
+import { ICreateOrUpdateRelease, IRelease, ReleaseStatusEnum } from 'src/app/dht-common/models';
 import { ReleaseService } from 'src/app/_services/release.service';
 
 @Component({
@@ -17,11 +17,20 @@ export class ReleasesComponent implements OnInit, OnDestroy {
   release: ICreateOrUpdateRelease = {
     id: null,
     name: '',
-    releaseDate: null
+    releaseDate: null,
+    status: ReleaseStatusEnum.NotStarted
   }
   releases: IRelease[] = [];
   productId: number;
   adding = false;
+  releaseStatus = Object.keys(ReleaseStatusEnum)
+  .filter((v) => isNaN(Number(v)))
+  .map((name) => {
+    return {
+      id: ReleaseStatusEnum[name as keyof typeof ReleaseStatusEnum],
+      name,
+    };
+  });
 
   constructor(private releaseService: ReleaseService,
     private route: ActivatedRoute,
@@ -52,7 +61,7 @@ export class ReleasesComponent implements OnInit, OnDestroy {
   }
 
   updateRelease(form: NgForm) {
-    this.releaseService.updateRelease(this.release)
+    this.releaseService.updateRelease({id: this.release.id, ...form.value})
       .pipe(
         finalize(() => {
           this.adding = false;
@@ -89,12 +98,16 @@ export class ReleasesComponent implements OnInit, OnDestroy {
       this.release = {
         id: null,
         name: '',
-        releaseDate: null
+        releaseDate: null,
+        status: ReleaseStatusEnum.NotStarted
       }
     }
     this.modalService.open(content, {ariaLabelledBy: 'Release', centered: true}).result.then(() => {}, () => {});
   }
 
+  get releaseStatusEnum(): typeof ReleaseStatusEnum {
+    return ReleaseStatusEnum;
+  }
   
   ngOnDestroy(): void {
     this.modalService.dismissAll();

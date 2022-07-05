@@ -109,3 +109,8 @@ body{
 .text-red {
   color: red;
 }
+
+// Used for appearing mat-select dropdown on modal
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+  z-index: 10000 !important;
+}

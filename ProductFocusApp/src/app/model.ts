@@ -1,4 +1,4 @@
-import { WorkItemType } from "./dht-common/models";
+import { ICurrentProgressWorkItemDetails, WorkItemType } from "./dht-common/models";
 
 export interface IWorkItem {
     id: number,
@@ -8,15 +8,4 @@ export interface IWorkItem {
     isInProgress: boolean,
     workCompletionPercentage: number
     currentProgressWorkItem: ICurrentProgressWorkItemDetails
-}
-
-export interface ICurrentProgressWorkItemDetails {
-    id: number,
-    workItemId: number
-}
-
-export interface ISprintUpdate {
-    name: string,
-    startDate: Date,
-    endDate: Date
 }

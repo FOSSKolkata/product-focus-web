@@ -10,7 +10,6 @@
                 <tr class="table-head">
                     <th scope="col">Version</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Progress</th>
                     <th scope="col">Release Date</th>
                     <th scope="col">Work Items</th>
                     <th scope="col">Edit</th>
@@ -19,9 +18,22 @@
             <tbody>
                 <tr *ngFor="let release of releases">
                     <td>{{release.name}}</td>
-                    <td>$status</td>
                     <td>
-                        <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+                        <span [ngSwitch]="release.status">
+                            <span *ngSwitchCase="releaseStatusEnum.NotStarted">
+                                Not Started
+                            </span>
+                            <span *ngSwitchCase="releaseStatusEnum.Progress">
+                                Progress
+                            </span>
+                            <span *ngSwitchCase="releaseStatusEnum.Completed">
+                                Completed
+                            </span>
+                            <span *ngSwitchDefault>
+                                Not Started
+                            </span>
+                        </span>
+
                     </td>
                     <td>{{release.releaseDate | date:'dd/MM/YYYY'}}</td>
                     <td>
@@ -57,7 +69,15 @@
                 <div class="form-group">
                     <label for="releasedate">Release Date</label>
                     <input class="form-control" placeholder="Select release date" type="date" id="releasedate" required
-                    [ngModel]="release.releaseDate | date:'yyyy-MM-dd'" (ngModelChange)="release.releaseDate = $event" name="date">
+                    [ngModel]="release.releaseDate | date:'yyyy-MM-dd'" (ngModelChange)="release.releaseDate = $event" name="releaseDate">
+                </div>
+                <div class="form-group">
+                    <label for="releasestatus">Status</label>
+                    <mat-select class="form-control" [ngModel]="release.status" name="status">
+                        <mat-option *ngFor="let status of releaseStatus" [value]="status.id">
+                            {{status.name}}
+                        </mat-option>
+                    </mat-select>
                 </div>
                 <button type="submit" [disabled]="releaseForm.invalid" class="btn btn-outline-primary mr-2">
                     <div *ngIf="adding" class="spinner-border spinner-border-sm" role="status">

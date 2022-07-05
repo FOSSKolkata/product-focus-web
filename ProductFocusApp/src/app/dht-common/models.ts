@@ -302,7 +302,14 @@ export class Feature {
 export interface ICreateOrUpdateRelease {
   id: number | null;
   name: string
-  releaseDate: Date | null
+  releaseDate: Date | null,
+  status: ReleaseStatusEnum
+}
+
+export enum ReleaseStatusEnum {
+  NotStarted = 1,
+  Progress = 2,
+  Completed = 3
 }
 export interface IRelease {
   id: number,
@@ -312,5 +319,17 @@ export interface IRelease {
   epicCount: number,
   featureCount: number,
   bugCount: number,
-  pbiCount: number
+  pbiCount: number,
+  status: ReleaseStatusEnum
+}
+
+export interface ICurrentProgressWorkItemDetails {
+  id: number,
+  workItemId: number
+}
+
+export interface ISprintUpdate {
+  name: string,
+  startDate: Date,
+  endDate: Date
 }
