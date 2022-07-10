@@ -87,13 +87,12 @@
       </li>
       <li class="list-group-item">
         <div class="add-module">
-          <i
+          <div
             *ngIf="!moduleAddView"
-            (click)="moduleAddView = true"
-            class="fa fa-plus"
-          >
-            Add Module</i
-          >
+            (click)="moduleAddView = true">
+            <i class="fa fa-plus"></i>
+            Add Module
+          </div>
           <div *ngIf="moduleAddView">
             <form #addModuleForm="ngForm" (ngSubmit)="addModule()">
               <input

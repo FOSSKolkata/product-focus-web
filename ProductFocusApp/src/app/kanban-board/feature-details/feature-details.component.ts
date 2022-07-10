@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
@@ -98,11 +98,13 @@ export class FeatureDetailsComponent implements OnInit {
 
   loading = true;
   isAddTaskButtonActive: boolean = true;
+  businessRequirement = '';
+
+  addBrMode = false;
 
   constructor(
     private featureService: FeatureService,
     private sprintService: SprintService,
-    private router: Router,
     private dateService: DateFunctionService,
     private toastr: ToastrService,
     private productService: ProductService,

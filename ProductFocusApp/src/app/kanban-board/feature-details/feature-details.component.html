@@ -4,13 +4,11 @@
 <div *ngIf="!loading">
   <div class="row">
     <div class="col-1">
-      <i
-        *ngIf="feature.workItemType == 1"
-        class="fa fa-life-ring fa-2x feature-color"
-      ></i>
-      <i
-        *ngIf="feature.workItemType == 2"
-        class="fa fa-bug fa-2x bug-color"
+      <i class="fa fa-2x"
+        [ngClass]="{'fa-trophy': feature.workItemType == 1,
+                    'fa-bug': feature.workItemType == 2,
+                    'fa-crown': feature.workItemType == 3,
+                    'fa-briefcase': feature.workItemType == 4}"
       ></i>
     </div>
     <div class="col">
@@ -473,14 +471,14 @@
       </div>
       <div
         *ngIf="!featureDetails.isBlocked"
-        class="lists"
+        class="lists rounded"
         (click)="modifyFeature(modifyColumnIdentifier.isBlocked, true)"
       >
         <i class="fa fa-ban"></i>
         Mark as blocked
       </div>
       <div *ngIf="featureDetails.isBlocked"
-        class="lists"
+        class="lists rounded"
         (click)="modifyFeature(7, false)">
         <i class="fa fa-ban"></i>
         Unblock
@@ -504,6 +502,42 @@
           (is-removed)="modifyFeature(modifyColumnIdentifier.excludeAssignee, $event)"
         ></app-add-user>
       </div>
+      <div class="mt-2">
+        <div class="pointer p-1 my-1 rounded"
+          (click)="addBrMode = true;"
+          *ngIf="!addBrMode else addBr"
+          style="background-color: var(--light-gray);">
+          <i class="fa fa-plus"></i>
+          Add BR Link
+        </div>
+      </div>
+      <h4 class="font-weight-bold">Business Requirements</h4>
+      <ul class="br-list">
+        <li [routerLink]="['..','business-requirement','business-requirement-list','1','business-requirement-details','51']">
+          Test Management
+        </li>
+      </ul>
     </div>
   </div>  
 </div>
+
+<ng-template #addBr>
+  <div class="my-1">
+    <input
+      type="text"
+      name="businessrequirement"
+      [(ngModel)]="businessRequirement"
+      class="form-control"
+      placeholder="Business Requirement"
+    />
+    <div class="my-1">
+      <button type="submit" class="btn good-btn">
+        <!-- <div class="spinner-border spinner-border-sm" role="status">
+          <span class="sr-only">Loading...</span>
+        </div> -->
+          Add
+      </button>
+      <i class="fa fa-times ml-2 pointer" (click)="addBrMode = false;" id="cancel-task"></i>
+    </div>
+  </div>
+</ng-template>

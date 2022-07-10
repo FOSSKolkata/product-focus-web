@@ -1,6 +1,6 @@
 <div #addFeatureRef class="pointer">
   <div (click)="addFeatureOrBugStep = 1" [popover]="myPopover" [popoverCloseOnMouseOutside]="true" [popoverOnHover]="false">
-  <i class="fa fa-plus" ></i> Add Feature / Bug
+  <i class="fa fa-plus" ></i> Add WorkItem
   </div>
   <popover-content #myPopover [style.display]="addFeatureOrBugStep !== 0?'block':'none'"
     placement="bottom-left"
@@ -8,6 +8,12 @@
     [closeOnClickOutside]="true">
     <div>
       <div class="add feature-margin-btn" [style.display]="addFeatureOrBugStep === 1?'block':'none'">
+        <div
+          class="btn good-btn"
+          (click)="addType('Epic'); addFeatureOrBugStep = 2"
+        >
+          Epic
+        </div>
         <div
           class="btn good-btn"
           (click)="addType('Feature'); addFeatureOrBugStep = 2"
@@ -19,6 +25,12 @@
           (click)="addType('Bug'); addFeatureOrBugStep = 2"
         >
           Bug
+        </div>
+        <div
+          class="btn good-btn"
+          (click)="addType('Pbi'); addFeatureOrBugStep = 2"
+        >
+          Pbi
         </div>
         <div>
           <span>Choose type</span>
@@ -33,8 +45,9 @@
         <i
           class="fa"
           [class.fa-bug]="workItemType === 'Bug'"
-          [class.fa-life-ring]="workItemType === 'Feature'"
-          [style.color]="workItemType === 'Bug' ? 'red' : 'blue'"
+          [class.fa-trophy]="workItemType === 'Feature'"
+          [class.fa-crown]="workItemType === 'Epic'"
+          [class.fa-briefcase]="workItemType === 'Pbi'"
         ></i>
         <form #addFeatureForm="ngForm" (ngSubmit)="addFeature()">
           <textarea

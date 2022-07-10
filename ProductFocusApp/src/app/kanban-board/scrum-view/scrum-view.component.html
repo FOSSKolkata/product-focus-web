@@ -36,8 +36,10 @@
           <th *ngIf="i == 0" [attr.rowspan]="module.length">
             <b>{{ feature.name }}</b>
           </th>
-          <th [class.feature]="feature.workItemType == 1"
-            [class.bug]="feature.workItemType == 2"
+          <th [ngClass]="{'feature-border' : feature.workItemType == 1,
+                          'bug-border'     : feature.workItemType == 2,
+                          'epic-border'    : feature.workItemType == 3,
+                          'pbi-border'     : feature.workItemType == 4}"
          cdkDragHandle style="vertical-align: top; text-align: center">
             <div class="whole-space">
               <ng-container [ngTemplateOutlet]="dragHandleTmpl"> </ng-container>

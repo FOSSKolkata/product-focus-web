@@ -1,3 +1,5 @@
+@import "/src/app/global-variable";
+
 td,
 th {
   border: 1px solid #dddddd;
@@ -16,12 +18,20 @@ td{
   white-space: normal;
 }
 
-.bug {
-  border-left: 2px solid red;
+.bug-border {
+  border-left: 2px solid $bug-color;
 }
 
-.feature {
-  border-left: 2px solid blue;
+.feature-border {
+  border-left: 2px solid $feature-color;
+}
+
+.epic-border {
+  border-left: 2px solid $epic-color;
+}
+
+.pbi-border {
+  border-left: 2px solid $pbi-color;
 }
 
 // td:hover{

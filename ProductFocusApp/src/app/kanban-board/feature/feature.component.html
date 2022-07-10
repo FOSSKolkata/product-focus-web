@@ -2,6 +2,12 @@
   class="card"
   [class.feature]="feature.workItemType === 1"
   [class.bug]="feature.workItemType === 2"
+  [ngClass]="{
+    'feature' : feature.workItemType === 1,
+    'bug'     : feature.workItemType === 2,
+    'epic'    : feature.workItemType === 3,
+    'pbi'     : feature.workItemType === 4
+  }"
   (click)="openFeatureDetailsModal(content)"
 >
   <div class="card-body">
@@ -20,13 +26,11 @@
         Blocked
       </span>
       <div>
-        <i
-          *ngIf="feature.workItemType === 1"
-          class="fa fa-life-ring feature-theme"
-        ></i>
-        <i
-          *ngIf="feature.workItemType === 2"
-          class="fa fa-bug bug-theme"
+        <i class="fa"
+          [ngClass]="{'fa-trophy': feature.workItemType == 1,
+                      'fa-bug': feature.workItemType == 2,
+                      'fa-crown': feature.workItemType == 3,
+                      'fa-briefcase': feature.workItemType == 4}"
         ></i>
         <div class="feature-id-color">#{{ feature.id }}</div>
       </div>

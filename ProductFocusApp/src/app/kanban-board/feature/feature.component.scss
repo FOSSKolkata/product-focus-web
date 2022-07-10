@@ -1,3 +1,5 @@
+@import "/src/app/global-variable";
+
 .completed {
   background-color: #61bd4f;
   color: var(--white);
@@ -27,11 +29,19 @@
 }
 
 .bug {
-  border-left: 5px solid red;
+  border-left: 5px solid $bug-color;
 }
 
 .feature {
-  border-left: 5px solid blue;
+  border-left: 5px solid $feature-color;
+}
+
+.epic {
+  border-left: 5px solid $epic-color;
+}
+
+.pbi {
+  border-left: 5px solid $pbi-color;
 }
 
 .progress-container {
@@ -47,18 +57,6 @@
     background-color:#78C000;
   }
 }
-
-
-.feature-theme {
-  color: blue;
-  padding-right: 5px;
-}
-
-.bug-theme {
-  color: red;
-  padding-right: 5px;
-}
-
 
 .feature-card {
   .title {
