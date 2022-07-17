@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ModuleService } from 'src/app/_services/module.service';
+import { FeatureService } from 'src/app/_services/feature.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { IFeatureInput, ISprint } from '../../dht-common/models';
 
@@ -31,7 +31,7 @@ export class AddFeatureComponent implements OnInit {
   title!: string;
   addingFeature = false;
   selectedProduct!: {id: number, name: string};
-  constructor(private moduleService: ModuleService,
+  constructor(private featureService: FeatureService,
               private toastr: ToastrService,
               private route: ActivatedRoute,
               private productService: ProductService) {}
@@ -50,7 +50,7 @@ export class AddFeatureComponent implements OnInit {
       sprintId: this.selectedSprint?.id
     };
     this.addingFeature = true;
-    this.moduleService
+    this.featureService
       .addFeatureInModule(this.selectedProduct.id, featureInput)
       .subscribe(
         (x) => {

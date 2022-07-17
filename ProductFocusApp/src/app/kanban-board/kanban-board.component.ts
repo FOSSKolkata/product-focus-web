@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ProductService } from '../_services/product.service';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { SprintService } from '../_services/sprint.service';
 import { FeatureStatus, GroupCategory, IKanbanBoard, IMemberDetail, IModule, IOrganization, ISprint } from '../dht-common/models';
@@ -12,6 +11,7 @@ import { BoardViewComponent } from './board-view/board-view.component';
 import { ScrumViewComponent } from './scrum-view/scrum-view.component';
 import { OrganizationService } from '../_services/organization.service';
 import { finalize } from 'rxjs/operators';
+import { ModuleService } from '../_services/module.service';
 
 @Component({
   selector: 'app-kanban-board-component',
@@ -47,13 +47,13 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   @ViewChild('manageSprintContent1', {static: true}) manageSprintContent1!: TemplateRef<any>;
 
   constructor(
-    private productService: ProductService,
     private activatedRoute: ActivatedRoute,
     private modalService: NgbModal,
     private sprintService: SprintService,
     private toastr: ToastrService,
     private userService: UserService,
-    private organizationService: OrganizationService
+    private organizationService: OrganizationService,
+    private moduleService: ModuleService
   ) {
     this.isKanbanMode = localStorage.isKanbanMode === undefined?true:localStorage.isKanbanMode == "true"?true: false;
   }
@@ -109,7 +109,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
 
   setModules(): void {
     if (this.productId === undefined) return;
-    this.productService.getModulesByProductId(this.productId).subscribe((x) => {
+    this.moduleService.getModulesByProductId(this.productId).subscribe((x) => {
       this.modules = x;
     });
   }
@@ -117,7 +117,7 @@ export class KanbanBoardComponent implements OnInit, OnDestroy {
   addModule(): void {
     if (this.productId == undefined || this.moduleName == undefined) return;
     this.enabledAdding = false;
-    this.productService.addModule(this.productId, this.moduleName).subscribe(
+    this.moduleService.addModule(this.productId, this.moduleName).subscribe(
       (x) => {
         this.toastr.success('Module added','Success');
         this.moduleName = '';

@@ -4,7 +4,7 @@
             <i class="fa fa-plus" ></i> Add Release
         </div>
     </div>
-    <div class="table-responsive-sm">
+    <div class="table-responsive-sm" *ngIf="releases.length else noreleasefound">
         <table class="table">
             <thead>
                 <tr class="table-head">
@@ -50,6 +50,14 @@
         </table>
     </div>
 </div>
+
+<ng-template #noreleasefound>
+    <div class="message-center">
+        <img src="../../../assets/static_images/search.png" class="w-25 h-25" alt="search">
+        <h2>No test case selected.</h2>
+        <p class="message">Please select a test case / test suite to execute.</p>
+    </div>
+</ng-template>
 
 <ng-template #content let-modal>
     <div class="modal-header">

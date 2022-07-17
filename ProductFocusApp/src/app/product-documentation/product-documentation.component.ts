@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AddProductDocumentation, ProductDocumentation, ProductDocumentationDetails, TreeContainer } from './model';
@@ -21,11 +22,12 @@ export class ProductDocumentationComponent implements OnInit {
   noDocumentationStep = 0;
   editable = false;
 
-  productDocumentation: AddProductDocumentation = new AddProductDocumentation(null, -1, '','');
+  productDocumentation: AddProductDocumentation;
   constructor(private productDocumentationService: ProductDocumentationService,
     private toastr: ToastrService,
     private route: ActivatedRoute) {
       this.productId = this.route.snapshot.params['id'];
+      this.productDocumentation = new AddProductDocumentation(null, this.productId, '','');
     }
 
   ngOnInit(): void {
@@ -96,8 +98,9 @@ export class ProductDocumentationComponent implements OnInit {
     });
   }
 
-  addProductDocumentation() {
+  addProductDocumentation(form: NgForm) {
     this.productDocumentationService.addProductDocumentation(this.productDocumentation).subscribe(x => {
+      form.reset();
       this.toastr.success('Documentation added.', 'Success');
       this.loadProductDocumentation(this.previouslyTopLevelSelectedDocumentation?.id??null);
       this.cancelAdding();

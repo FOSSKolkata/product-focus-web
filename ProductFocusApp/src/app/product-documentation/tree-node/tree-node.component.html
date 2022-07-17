@@ -1,5 +1,5 @@
 <div class="tab-container">
-  <div class="add-wrapper"><strong>Index</strong>
+  <!-- <div class="add-wrapper"><strong>Index</strong>
     <div class="tab-add" container="body" ngbDropdown>
       <i class="fa fa-ellipsis-v mt-2" id="dropdownBasic1" ngbDropdownToggle></i>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -9,7 +9,7 @@
         </button>
       </div>
     </div>
-  </div>
+  </div> -->
   <div *ngIf="node">
     <ng-container *ngTemplateOutlet="acc;context:{node:node, extra:selectedDocumentationHierarchy}">
     </ng-container>

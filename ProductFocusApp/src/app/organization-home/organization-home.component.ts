@@ -7,6 +7,7 @@ import {
   IAddOrganizationInput, IAddProductInOrganizationInput, IOrganization, IProduct,
 } from '../dht-common/models';
 import { OrganizationService } from '../_services/organization.service';
+import { ProductService } from '../_services/product.service';
 
 @Component({
   selector: 'app-organization-home',
@@ -45,7 +46,8 @@ export class OrganizationHomeComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute,
-    private breadcrumbService: BreadcrumbService
+    private breadcrumbService: BreadcrumbService,
+    private productService: ProductService
   ) { }
 
   organizationAddView: boolean = false;
@@ -131,7 +133,7 @@ export class OrganizationHomeComponent implements OnInit {
   setProductList(id: number) {
     this.productSpinner = true;
     this.productList = [];
-    this.organizationService.getProductsByOrganizationId(id).subscribe(
+    this.productService.getProductsByOrganizationId(id).subscribe(
       (res) => {
         this.productSpinner = false;
         this.productList = res;
@@ -151,7 +153,7 @@ export class OrganizationHomeComponent implements OnInit {
     var addProductInOrganizationInput: IAddProductInOrganizationInput = {
       name: this.productName.trim(),
     };
-    this.organizationService
+    this.productService
       .addProductInOrganization(
         this.selectedOrganization.id,
         addProductInOrganizationInput

@@ -1,11 +1,12 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
 import { FeatureOrdering, FeatureStatus, GroupCategory, IKanban, IModule, ISprint, ModifyColumnIdentifier, OrderingInfo } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
+import { ModuleService } from 'src/app/_services/module.service';
 import { ProductService } from 'src/app/_services/product.service';
 
 @Component({
@@ -30,10 +31,10 @@ export class BoardViewComponent implements OnInit, OnDestroy {
   modules: IModule[] = [];
 
   constructor(private featureService: FeatureService,
-    private router: Router,
     private productService: ProductService,
     private toStr: ToastrService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private moduleService: ModuleService) {
       this.productId = this.route.snapshot.params['id'];
     }
   
@@ -51,7 +52,7 @@ export class BoardViewComponent implements OnInit, OnDestroy {
   }
 
   setModules() {
-    this.productService.getModulesByProductId(this.productId).subscribe(x => {
+    this.moduleService.getModulesByProductId(this.productId).subscribe(x => {
       this.modules = x;
     });
   }

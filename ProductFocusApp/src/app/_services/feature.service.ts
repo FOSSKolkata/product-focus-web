@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
-import { Feature, ICurrentProgressWorkItemDetails, IFeatureDetails, OrderingInfo } from '../dht-common/models';
+import { Feature, ICurrentProgressWorkItemDetails, IFeatureDetails, IFeatureInput, OrderingInfo } from '../dht-common/models';
 import { IWorkItem } from '../model';
 
 @Injectable({
@@ -19,6 +19,16 @@ export class FeatureService {
   //     catchError(this.handleError)
   //   );
   // }
+
+  
+  addFeatureInModule(id: number, featureInput: IFeatureInput) {
+    return this.http.post(
+      apiConfig.uri + `/Feature/AddFeature/${id}`,
+      featureInput
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
 
   modifyFeatureOrder(orderInput: OrderingInfo) {
     return this.http.post(

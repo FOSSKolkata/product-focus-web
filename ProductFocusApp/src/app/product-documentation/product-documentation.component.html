@@ -4,7 +4,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-3">
+    <div class="col-3" *ngIf="productDocumentations?.childDocumentations?.length">
         <app-tree-node [node]="productDocumentations"
             (topParent)="onDocumentationSelect($event)"
             (onAddClick)="addDocumentationBelow($event)"
@@ -36,7 +36,7 @@
 
 <ng-template #addDocumentation>
     <div>
-        <form #productDocumentationForm="ngForm" (ngSubmit)="addProductDocumentation()">
+        <form #productDocumentationForm="ngForm" (ngSubmit)="addProductDocumentation(productDocumentationForm)">
             <div class="m-2">
                 <input
                     type="text"
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div class="m-2">
-                <quill-editor [(ngModel)]="productDocumentation.description">
+                <quill-editor [(ngModel)]="productDocumentation.description" name="productdocumentationdescription">
                     <div quill-editor-toolbar>
                         <span class="ql-formats">
                             <select class="ql-font">

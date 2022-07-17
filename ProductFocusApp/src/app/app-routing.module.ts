@@ -160,6 +160,20 @@ const routes: Routes = [
       }
     ],
   },{
+    path: 'invitation',
+    component: InvitationComponent,
+    canActivate: [MsalGuard,SecureGuard],
+    data: {breadcrumb: {skip: true}}
+  },{
+    path: 'error',
+    component: ErrorComponent,
+    data: {breadcrumb: {skip: true}}
+  },{
+    path: 'state',
+    // component: RediectComponent,
+    redirectTo: 'organizations',
+    data: {breadcrumb: {skip: true}}
+  },{
     path: ':organizationName',
     component: OrganizationComponent,
     canActivate: [MsalGuard,SecureGuard],
@@ -179,20 +193,6 @@ const routes: Routes = [
         data: {breadcrumb: 'Invitations'}
       },
     ],
-  },{
-    path: 'invitation',
-    component: InvitationComponent,
-    canActivate: [MsalGuard,SecureGuard],
-    data: {breadcrumb: {skip: true}}
-  },{
-    path: 'error',
-    component: ErrorComponent,
-    data: {breadcrumb: {skip: true}}
-  },{
-    path: 'state',
-    // component: RediectComponent,
-    redirectTo: 'organizations',
-    data: {breadcrumb: {skip: true}}
   },{
     path: 'code',
     component: CodeComponent,

@@ -66,19 +66,21 @@ input{
     }
     .body {
         display: flex;
+        gap: 1rem;
         .title {
-            margin-left: 15px;
             font-size: 16px;
             max-width: 300px;
+            width: 60%;
         }
         .module {
+            width: 20%;
             span {
                 color: #B1B1B1;
             }
         }
         .date {
-            right: 10px;
-            position: absolute;
+            width: 20%;
+            margin-left: auto;
             span {
                 color: #B1B1B1;
             }
@@ -114,4 +116,10 @@ input{
     justify-content: center;
     height: 100%;
     align-items: center;
+}
+
+.sticky {
+    position: sticky;
+    top: 0;
+    height: 100%;
 }

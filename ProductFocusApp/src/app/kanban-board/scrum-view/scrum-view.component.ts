@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
 import { FeatureOrdering, GroupCategory, IFeatureDetails, IKanban, IMemberDetail, IModule, IOrganization, IScrumDay, ISprint, ModifyColumnIdentifier, OrderingInfo } from 'src/app/dht-common/models';
 import { FeatureService } from 'src/app/_services/feature.service';
+import { ModuleService } from 'src/app/_services/module.service';
 import { OrganizationService } from 'src/app/_services/organization.service';
 import { ProductService } from 'src/app/_services/product.service';
 import { UserService } from 'src/app/_services/user.service';
@@ -41,7 +42,8 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private productService: ProductService,
     private route: ActivatedRoute,
-    private organizationService: OrganizationService) {
+    private organizationService: OrganizationService,
+    private moduleService: ModuleService) {
       this.productId = this.route.snapshot.params['id'];
       this.organizationName = this.route.snapshot.parent?.parent?.params['organizationName'];
     }
@@ -75,7 +77,7 @@ export class ScrumViewComponent implements OnInit, OnDestroy {
       this.organizationUser = x.members;
     });
 
-    this.productService.getModulesByProductId(this.productId).subscribe(x => {
+    this.moduleService.getModulesByProductId(this.productId).subscribe(x => {
       this.modules = x;
     });
     

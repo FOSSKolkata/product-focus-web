@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { EventLogService } from '../_services/event-log.service';
 import * as moment from 'moment';
@@ -10,6 +10,7 @@ import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { DateFunctionService } from '../dht-common/date-function.service';
 import { finalize } from 'rxjs/operators';
 import { OrganizationService } from '../_services/organization.service';
+import { ModuleService } from '../_services/module.service';
 
 @Component({
   selector: 'app-news-report',
@@ -35,12 +36,12 @@ export class NewsReportComponent implements OnInit {
   titleExpanded = false;
   loading = false;
   constructor(private eventLogService: EventLogService,
-    private router: Router,
     private userService: UserService,
     private productService: ProductService,
     private dateService: DateFunctionService,
     private route: ActivatedRoute,
-    private organizationService: OrganizationService
+    private organizationService: OrganizationService,
+    private moduleService: ModuleService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -49,7 +50,7 @@ export class NewsReportComponent implements OnInit {
     this.selectedOrganization = await this.organizationService.getOrganizationByName(organizationName).toPromise();
     this.selectedProduct = await this.productService.getById(productId).toPromise();
 
-    this.productService.getModulesByProductId(this.selectedProduct.id).subscribe(res => {
+    this.moduleService.getModulesByProductId(this.selectedProduct.id).subscribe(res => {
       this.moduleList = res;
       this.moduleList.map((module) => {
         module.item_id = module.id;

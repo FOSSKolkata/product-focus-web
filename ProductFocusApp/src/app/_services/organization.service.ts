@@ -5,9 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { apiConfig } from '../b2c-config';
 import {
   IAddOrganizationInput,
-  IAddProductInOrganizationInput,
   IOrganization,
-  IProduct,
 } from '../dht-common/models';
 
 @Injectable({
@@ -33,14 +31,6 @@ export class OrganizationService {
     );
   }
 
-  getProductsByOrganizationId(id: number): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(
-      apiConfig.uri + `/Organization/GetProductsById/${id}`
-    ).pipe(
-      catchError(this.handleError)
-    );
-  }
-
   getOrganizationListByUser(): Observable<IOrganization[]> {
     return this.http.get<IOrganization[]>(
       apiConfig.uri + '/Organization/GetOrganizationListByUser'
@@ -57,19 +47,6 @@ export class OrganizationService {
     )
   }
 
-
-  addProductInOrganization(
-    id: number,
-    addProductInOrganizationInput: IAddProductInOrganizationInput
-  ) {
-    return this.http.post(
-      apiConfig.uri + `/Organization/AddProduct/${id}`,
-      addProductInOrganizationInput
-    ).pipe(
-      catchError(this.handleError)
-    );
-  }
-  
   handleError(error: any) {
     return throwError(error);
   }

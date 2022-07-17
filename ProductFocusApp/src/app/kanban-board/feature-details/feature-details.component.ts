@@ -4,8 +4,8 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { DateFunctionService } from 'src/app/dht-common/date-function.service';
 import { FeatureService } from 'src/app/_services/feature.service';
+import { ModuleService } from 'src/app/_services/module.service';
 import { OrganizationService } from 'src/app/_services/organization.service';
-import { ProductService } from 'src/app/_services/product.service';
 import { ReleaseService } from 'src/app/_services/release.service';
 import { SprintService } from 'src/app/_services/sprint.service';
 import { IFeature, IFeatureDetails, IMember, IModule, IOrganization, IRelease, ISprint, ModifyColumnIdentifier, ReleaseStatusEnum, WorkItemType } from '../../dht-common/models';
@@ -107,7 +107,7 @@ export class FeatureDetailsComponent implements OnInit {
     private sprintService: SprintService,
     private dateService: DateFunctionService,
     private toastr: ToastrService,
-    private productService: ProductService,
+    private moduleService: ModuleService,
     private releaseService: ReleaseService,
     private route: ActivatedRoute,
     private organizationService: OrganizationService
@@ -133,7 +133,7 @@ export class FeatureDetailsComponent implements OnInit {
         );
       }),
         
-      this.productService.getModulesByProductId(this.prouctId).subscribe(x => {
+      this.moduleService.getModulesByProductId(this.prouctId).subscribe(x => {
         this.modules = x;
         this.selectModuleOfFeature();
       }),
