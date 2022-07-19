@@ -49,8 +49,8 @@ export class SwitchLabelTextComponent implements ControlValueAccessor {
     }
   }
   isTextVisible: boolean = true;
-  @Input('input-style') inputStyle = {};
-  @Input('label-style') labelStyle = {};
+  @Input('inputstyle') inputStyle = {};
+  @Input('labelstyle') labelStyle = {};
 
   onFocusOut(event: any) {
     this.isTextVisible = true;

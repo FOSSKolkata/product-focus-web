@@ -1,5 +1,6 @@
 <div>
     <select
+        [ngStyle]="dhstyle"
         (change)="selectOption($event)">
         <option>Choose an option</option>
         <option *ngFor="let option of options"

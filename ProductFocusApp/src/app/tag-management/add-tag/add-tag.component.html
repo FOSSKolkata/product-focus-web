@@ -13,9 +13,9 @@
                     placeholder="Tag Name"
                     required>
             </div>
-            <div style="flex-grow: 1; width: 200px;">
+            <div>
                 <label style="display: block;" for="category">Tag Category</label>
-                <mat-select placeholder="None" [(value)]="selectedCategoryId" class="form-control" name="category">
+                <mat-select placeholder="None" [(value)]="selectedCategoryId" class="form-control" style="min-width: 200px;" name="category">
                     <mat-option [value]="'None'">None</mat-option>
                     <mat-option *ngFor="let tagCategory of tagCategories" [value]="tagCategory.id">
                     {{tagCategory.name}}

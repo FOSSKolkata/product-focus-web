@@ -10,6 +10,7 @@ export class TextDropdownComponent implements OnInit {
   constructor() { }
   @Input('selected') selected: any = {};
   @Input('options') options: any[] = [];
+  @Input('dhstyle') dhstyle: object = {};
   @Output('selectionChanged') selectionChange = new EventEmitter();
 
   ngOnInit(): void {

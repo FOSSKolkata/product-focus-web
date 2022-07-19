@@ -22,8 +22,8 @@ export class SwitchTextTextareaComponent {
   // }
   // isTextVisible: boolean = true;
   // oldText!: string;
-  // @Input('input-style') inputStyle = {};
-  // @Input('label-style') labelStyle = {};
+  // @Input('inputstyle') inputStyle = {};
+  // @Input('labelstyle') labelStyle = {};
 
   // onFocusOut(event: any) {
   //   this.isTextVisible = true;

@@ -7,6 +7,7 @@
                     <div>
                         <label class="dht-title">Title</label>
                         <app-switch-label-text
+                            [labelstyle]="{'border': '1px solid lightgray'}"
                             [(ngModel)]="businessRequirementDetails.title"
                             name="businesstitle"
                             required
@@ -20,7 +21,7 @@
                 <div style="display: flex; gap: 20px;">
                     <div>
                         <label class="dht-title">Received date</label>
-                        <app-switch-text-datepick [style]="{'width': '180px'}"
+                        <app-switch-text-datepick [style]="{'width': '180px', 'border': '1px solid lightgray'}"
                             [date]="businessRequirementDetails.receivedOn"
                             [placeholder]="'Received On'"
                             (changed)="dateChange($event)">
@@ -53,6 +54,7 @@
                     <div>
                         <label class="dht-title">Source</label>
                         <app-text-dropdown
+                            [dhstyle]="{'border':'1px solid lightgray'}"
                             [selected]="selectedSource"
                             [options]="sources"
                             (selectionChanged)="sourceChange($event)">
@@ -61,6 +63,7 @@
                     <div>
                         <label class="dht-title">Additional Information</label>
                         <app-switch-label-text
+                            [labelstyle]="{'border':'1px solid lightgray'}"
                             [(ngModel)]="businessRequirementDetails.sourceInformation"
                             name="additionalInfo"
                             #additionalInfo="ngModel">

@@ -3,8 +3,8 @@
         <span [style.font-size]="max(25 - 4 * productDocumentationDetails.level, 10) + 'px'">{{productDocumentationDetails.index}}</span>
         <div style="display: inline-block;">
             <app-switch-label-text
-                [label-style]="{'font-size': max(25 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
-                [input-style]="{'font-size': max(25 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
+                [labelstyle]="{'font-size': max(25 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
+                [inputstyle]="{'font-size': max(25 - 4 * productDocumentationDetails.level, 10) + 'px', 'font-weight': 'bold'}"
                 [(ngModel)]="productDocumentationDetails.title"
                 [editable]="editable"
                 name="documentationtitle"
